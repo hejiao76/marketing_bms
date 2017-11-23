@@ -1,0 +1,178 @@
+<template>
+    <div class="con_list">
+      <!--<h5>待处理事项</h5>-->
+      <el-form :model="filterForm" ref="filterForm" label-width="100px">
+      <el-row class="el-row-m">
+        <el-col :span="4">
+          <el-form-item label="类型" prop="companyContent">
+          <!--<label>类型 </label>-->
+          <el-select v-model="filterForm.companyContent" placeholder="请选择">
+            <el-option v-for="item in companyContents" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <!--<label>公司名称 </label>-->
+          <el-form-item label="公司名称" prop="companyName">
+            <el-input style="width:auto;" v-model="filterForm.companyName" placeholder="请输入公司名称"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <!--<label>提交时间 </label>-->
+          <el-form-item label="提交时间" prop="sendDate">
+            <el-date-picker v-model="filterForm.sendDate" type="date" placeholder="选择日期" ></el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <button v-on:click="searchFn" type="button" class="btn_b btn_bass mr10">查 询</button>
+          <button type="button" @click="resetForm('filterForm')" class="btn_y btn_bass">重 置</button>
+        </el-col>
+      </el-row>
+      </el-form>
+      <!--<ul class="t_form">-->
+        <!--<li>-->
+          <!--<label>类型 </label>-->
+          <!--<el-select v-model="type" placeholder="请选择">-->
+            <!--<el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+          <!--</el-select>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<label>公司名称 </label>-->
+          <!--<el-input v-model="companyName" placeholder="请输入公司名称"></el-input>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<label>提交时间 </label>-->
+          <!--<el-date-picker v-model="commitDate" type="date" placeholder="选择日期" ></el-date-picker>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<button class="btn_b btn_bass mr10">查 询</button>-->
+          <!--<button class="btn_y btn_bass">重 置</button>-->
+        <!--</li>-->
+      <!--</ul>-->
+      <el-table :data="resData"  ref="singleTable" border highlight-current-row style="width: 100%">
+        <el-table-column align="center" type="index" label="" width="60"></el-table-column>
+        <el-table-column prop="companyName" label="公司名称" align="center" width="180" style="display:none;"></el-table-column>
+        <el-table-column prop="adminName" label="管理员" align="center" width="180"></el-table-column>
+        <el-table-column prop="companyContentName" align="center" label="入驻模块" width="180"></el-table-column>
+        <el-table-column prop="createTime" align="center" label="提交时间"></el-table-column>
+        <el-table-column prop="statusName" align="center" label="状态"></el-table-column>
+        <el-table-column  label="操作" align="center">
+          <template  scope="scope">
+          <el-button type="text" size="small">查看</el-button>
+          <el-button type="text" size="small">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+        <!--<span class="demonstration">完整功能</span>-->
+        <el-pagination class="mt10" style="text-align:center;"  @current-change="handleCurrentChange" :current-page="currentPage"  :page-size="10" layout="total, prev, pager, next, jumper" :total="totalRow"></el-pagination>
+
+      <table>
+
+      </table>
+    </div>
+</template>
+<script>
+//  import api from "./../fetch/api"
+  import VHeader from "./../../components/header";
+  import VLeft from "./../../components/left";
+  import VConNav from "./../../components/con_nav";
+  import Final from "./../../util/Final";
+  import Api from "./../../fetch/api";
+  export default {
+      data() {
+          return {
+              filterForm:{
+                companyContent:'',
+                companyName:'',
+                sendDate:''
+              },
+              companyContents:null,
+              resData:[],
+              currentPage:1,
+              totalRow:0,
+              pageRecorders:10,
+              checkStatus:1 //审核状态
+          }
+      },
+      components :{
+        VHeader,
+        VLeft,
+        VConNav
+      },
+      created (){
+        this.companyContents= Final.CHECK_TYPES;
+        this.requestData();
+      },
+      watch:{
+        "$route":function(to,from) {
+
+        }
+      },
+      methods : {
+          a : function (data){
+              //alert(data);
+          },
+        handleCurrentChange(cpage) {
+             this.currentPage=cpage;
+              this.requestData();
+        },
+        /**
+         * 获取过滤器参数
+         * @returns {{token: (string|null)}}
+         */
+        getFilterParam () {
+            var param={token:localStorage.getItem("token"),type:this.checkStatus}
+          if(this.filterForm.companyContent){
+              param.companyContent=this.filterForm.companyContent
+          }
+          if(this.filterForm.companyName){
+              param.companyName=this.filterForm.companyName
+          }
+          if(this.filterForm.sendDate){
+              param.sendDate=this.filterForm.sendDate;
+          }
+          return param;
+        },
+        searchFn () {
+            this.currentPage=1;
+            this.requestData();
+        },
+        /**
+         * 请求列表数据
+         */
+        requestData (data) {
+            var p=this.getFilterParam();
+            let param= {jsonData:JSON.stringify(p),pageNum:this.currentPage,pageRecorders:this.pageRecorders};
+            Api.lc_company_check_list(param)
+            .then(res => {
+                if(res.status==1){
+                    this.resData=res.result;
+                    this.totalRow=res.totalRow;
+                }
+                console.log(res);
+            }).catch(err =>{
+
+            });
+        },
+        resetForm(formName) {
+            console.log('reset');
+          this.$refs[formName].resetFields();
+        }
+      }
+  }
+
+//  api.Login({a:1,b:2})
+//    .then(res => {
+//        alert("请求成功..");
+//    }).catch(error => {
+//      alert("fail");
+//    })
+
+</script>
+<style>
+  .el-row-m {
+    margin-bottom: 20px !important;
+  }
+  /*@import "./../../assets/css/common.css";*/
+  /*@import "./../../assets/css/style.css";*/
+</style>

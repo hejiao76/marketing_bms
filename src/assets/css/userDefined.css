@@ -1,0 +1,10 @@
+.common-input-style{
+  width: 165px;
+  height: 35px;
+  line-height: 35px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  color: #666;
+  padding-left: 15px;
+}
+.c-mr{margin-right: 10px;}
