@@ -3,13 +3,9 @@ import Router from 'vue-router'
 
 
 import RouterConfigBase from "./router_config_base"
-import RouterConfigDataSearch from "./router_config_dataSearch"
-import RouterConfigLgtCheck from "./router_config_lgtCheck"
-import RouterConfigLgtsSetting from "./router_config_lgtsSetting"
-import RouterConfigLogSearch from "./router_config_logSearch"
-import RouterConfigSetting from "./router_config_setting"
-import RouterConfigStartWork from "./router_config_startWork"
-import RouterConfigApproval from "./router_config_approval"
+import RouterConfigCoupon from "./router_config_coupon"
+import RouterConfigPrizeDraw from "./router_config_prizeDraw"
+import RouterConfigSedKill from "./router_config_sedKill"
 
 Vue.use(Router)
 //require.ensure()，同时将模块添加到一个分开的 chunk 当中。这个新的 chunk 会被 webpack 通过 jsonp 来按需加载。
@@ -17,7 +13,7 @@ Vue.use(Router)
 // const login = r => require.ensure([], () => r(require('../page/login')), 'login')
 
 var routerConfig = [];
-routerConfig = routerConfig.concat(RouterConfigBase,RouterConfigDataSearch,RouterConfigLgtCheck,RouterConfigLgtsSetting,RouterConfigLogSearch,RouterConfigSetting,RouterConfigStartWork,RouterConfigApproval)
+routerConfig = routerConfig.concat(RouterConfigBase,RouterConfigCoupon,RouterConfigPrizeDraw,RouterConfigSedKill)
 console.log(routerConfig)
 // debugger;
 export default new Router ({

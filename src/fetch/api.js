@@ -1,12 +1,8 @@
 import * as fetch from "./fetch"
 
-import  apiDataSearch from './api_data_search'
-import  apiLgtCheck from './api_lgt_check'
-import  apiLgtsSetting from './api_lgts_setting'
-import  apiLogSearch from './api_log_search'
-import  apiSetting from './api_setting'
-import  apiStartWork from './api_start_work'
-import  apiApproval from './api_approval'
+import  apiMarketingCoupon from './api_marketing_coupon'
+import  apiMarketingPrizeDra from './api_marketing_prize_draw'
+import  apiMarketingSedKill from './api_marketing_sedkill'
 
 const base = {
     /**
@@ -33,4 +29,4 @@ const base = {
     }
 }
 
-export  default  Object.assign(base,apiDataSearch,apiLgtCheck,apiLgtsSetting,apiLogSearch,apiSetting,apiStartWork,apiApproval);
+export  default  Object.assign(base,apiMarketingCoupon,apiMarketingPrizeDra,apiMarketingSedKill);

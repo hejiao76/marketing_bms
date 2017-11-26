@@ -90,30 +90,30 @@ header ul li  .name_e{
   flex-flow:row;/*伸缩项目单行排列*/
   overflow: hidden\0; /* ie9 */;
  }
-aside{
+/*aside{*/
 
-  width:210px;
-  box-shadow: 0 6px 17px 6px rgba(197, 195, 195, 0.5);
-  min-width:210px;
-  min-height:-moz-calc(100vh - 60px);
-  min-height:-webkit-calc(100vh - 60px);
-  min-height: calc(100vh - 60px);
-  background: #fff;
-  z-index: 2;
-  float: left\0;/* ie9 */ ;
+  /*width:210px;*/
+  /*box-shadow: 0 6px 17px 6px rgba(197, 195, 195, 0.5);*/
+  /*!*min-width:210px;*!*/
+  /*!*min-height:-moz-calc(100vh - 60px);*!*/
+  /*!*min-height:-webkit-calc(100vh - 60px);*!*/
+  /*!*min-height: calc(100vh - 60px);*!*/
+  /*background: #fff;*/
+  /*z-index: 2;*/
+  /*float: left\0;!* ie9 *! ;*/
 
-}
-aside .a_tit{
-  width:210px;
-  height:80px;
-  line-height: 80px;
-  font-size:16px;
-  color: #333;
-  box-shadow: 0 3px 17px 0px rgba(197, 195, 195, 0.5);
-}
-aside .a_tit span{
-  margin-left:35px;
-}
+/*}*/
+/*aside .a_tit{*/
+  /*width:210px;*/
+  /*height:80px;*/
+  /*line-height: 80px;*/
+  /*font-size:16px;*/
+  /*color: #333;*/
+  /*box-shadow: 0 3px 17px 0px rgba(197, 195, 195, 0.5);*/
+/*}*/
+/*aside .a_tit span{*/
+  /*margin-left:35px;*/
+/*}*/
 .con_main_r{
   flex:1;/*这里设置为占比1，填充满剩余空间*/
   margin-left: 210px\0;/* ie9 */ ;
