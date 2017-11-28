@@ -28,7 +28,6 @@
 
 <script>
   export default {
-    name: 'treeview',
     data () {
       return{
         tableData: [],

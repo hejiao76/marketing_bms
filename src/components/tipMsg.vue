@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title=" " class="changeWidth" :visible.sync="dialogVisible" :close-on-click-modal="false" :show-close="false" size="tiny">
+  <el-dialog title=" " width="30%" class="changeWidth" :visible.sync="dialogVisible" :close-on-click-modal="false" :show-close="false" size="tiny">
     <div class="tc">
 
       <i v-if="this.iconType=='success'" class=" el-tipMsg-icon el-icon-circle-check el-tipMsg-icon-success"></i>
@@ -63,9 +63,9 @@
   }
 </script>
 <style>
-  .changeWidth .el-dialog--tiny {
+  .changeWidth .el-dialog {
     width: 30%;
-    max-width:420px;
+    max-width:420px ;
     border-radius:8px;
   }
   .changeWidth .el-dialog__header {

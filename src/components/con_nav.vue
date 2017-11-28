@@ -37,11 +37,13 @@ export default {
   },
   watch:{
     "$route": function(to,from) {
+        return;
       this.navList=[];
       this.initNav(to.path);
     }
   },
   created () {
+      return;
     let currentPath=this.$route.path;
     this.navList=[];
     this.initNav(currentPath)

@@ -156,6 +156,7 @@
     },
     watch:{
       "$route": function(to,from) {
+          return;
         let currentPath=to.path;
         currentPath=this.getCurrentPath(to.path,from);
         this.$store.commit('updateTmpFromPath', currentPath);
@@ -168,6 +169,7 @@
       }
     },
     created () {
+        return;
       console.log("left---created")
       let currentPath=this.$route.path;
       currentPath=this.getCurrentPath(currentPath);

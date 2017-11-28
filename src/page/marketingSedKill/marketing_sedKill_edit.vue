@@ -1,7 +1,6 @@
 <template>
-
     <div class="con_list">
-      <v-treeview></v-treeview>
+      <v-tree-view></v-tree-view>
       <el-popover v-model="popover1" ref="check_fail_reason_popover_1" placement="left" width="400" trigger="click">
         <div class="popover-header">
           <span>请填写理由</span>
@@ -252,7 +251,7 @@
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import VTreeview from "./../../components/treeview";
+  import VTreeView from "./../../components/treeview.vue";
 
 //  import ElCol from "element-ui/packages/col/src/col";
   export default {
@@ -296,7 +295,8 @@
       VHeader,
       VLeft,
       VConNav,
-      VTipMsg
+      VTipMsg,
+      VTreeView
     },
     created (){
       this.Final=Final;

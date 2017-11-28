@@ -99,19 +99,19 @@ header .logo span{
   flex-flow:row;/*伸缩项目单行排列*/
   overflow: hidden\0; /* ie9 */;
  }
-/*aside{*/
+aside{
 
   /*width:210px;*/
   /*box-shadow: 0 6px 17px 6px rgba(197, 195, 195, 0.5);*/
-  /*!*min-width:210px;*!*/
-  /*!*min-height:-moz-calc(100vh - 60px);*!*/
-  /*!*min-height:-webkit-calc(100vh - 60px);*!*/
-  /*!*min-height: calc(100vh - 60px);*!*/
+  /*min-width:210px;*/
+  min-height:-moz-calc(100vh - 60px);
+  min-height:-webkit-calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
   /*background: #fff;*/
-  /*z-index: 2;*/
-  /*float: left\0;!* ie9 *! ;*/
+  z-index: 2;
+  float: left\0;/* ie9 */ ;
 
-/*}*/
+}
 /*aside .a_tit{*/
   /*width:210px;*/
   /*height:80px;*/
@@ -407,9 +407,9 @@ table{
   color: #bfcbd9;
   text-align: center;
 }
-.el-table__body-wrapper{
-  min-height:440px;
-}
+/*.el-table__body-wrapper{*/
+  /*min-height:440px;*/
+/*}*/
 .selfTable {
 
 }

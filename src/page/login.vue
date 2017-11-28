@@ -1,9 +1,9 @@
 <template>
   <section class="login_bg">
     <div class="pos_center">
-      <h1><img src="./../assets/img/logo.png">蜘点物流审核系统</h1>
+      <h1>营销活动管理系统</h1>
       <div class="login_con">
-        <h3>欢迎登录蜘点物流审核系统</h3>
+        <h3>欢迎登录营销活动管理系统</h3>
         <hr   noshade="noshade">
         <!--<form>  </form>-->
           <p class="form_warning">{{errorMsg}} </p>
@@ -15,10 +15,10 @@
             <span class="img_loack"></span>
             <input @keyup.enter="keyLogin" v-model="password" type="password" id="PassWord"   placeholder="请输入密码"  errormsg="密码长度为6-16位" autocomplete="off" required/>
           </div>
-          <div>
-            <input type="checkbox"  class="" checked="checked"/>
-            <label>保持我的登录状态</label>
-          </div>
+          <!--<div>-->
+            <!--<input type="checkbox"  class="" checked="checked"/>-->
+            <!--<label>保持我的登录状态</label>-->
+          <!--</div>-->
 
           <div>
             <button v-on:click="login">登  录</button>
