@@ -70,12 +70,12 @@
       <div><span class="totalTip">共找到以下10条数据</span></div>
       <el-table class="table_min_height mt10" :data="resData" ref="singleTable" border highlight-current-row style="width: 100%;">
         <el-table-column align="center" type="index" label="" width="55"></el-table-column>
-        <el-table-column prop="activityName" label="活动名称" align="center" min-width="180" ></el-table-column>
+        <el-table-column prop="activityName" label="活动名称" align="center" min-width="90" ></el-table-column>
         <el-table-column prop="activityStartDate" label="活动时间" align="center" min-width="80"></el-table-column>
         <el-table-column prop="createDate" align="center" label="创建时间" min-width="100"></el-table-column>
         <el-table-column prop="activity_getNum" align="center" label="领取数量"></el-table-column>
         <el-table-column prop="activity_pv" align="center" label="活动pv"></el-table-column>
-        <el-table-column prop="activity_url" align="center" label="活动链接"></el-table-column>
+        <el-table-column prop="activity_url" align="center" min-width="140" label="活动链接"></el-table-column>
         <el-table-column label="操作" align="center" width="140">
           <template scope="scope">
             <div v-if="activityType==0">
