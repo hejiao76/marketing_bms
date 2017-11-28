@@ -1,6 +1,6 @@
 <template>
 
-  <aside>
+  <aside class="left_bgColor">
     <!--<el-row class="tac left_bgColor">-->
       <!--<el-col :span="24">-->
         <!--<el-menu v-if="childNodes.length>0" :default-active="currentNode.menucode" :unique-opened="true" :router=true class="el-menu-vertical-demo" style="text-align:center;background-color:#ffffff">-->
@@ -44,37 +44,57 @@
         <!--</el-menu>-->
       <!--</el-col>-->
     <!--</el-row>-->
-    <el-menu default-active="1-4-1" class="el-menu-vertical-demo" :background-color="bcolor" :text-color="tcolor" :collapse="isCollapse">
-      <el-menu-item index="2" @click="colClick">
+    <div style="width:100%;text-align: right;line-height: 36px;color:#878d99;border-bottom: solid 1px #676C81;"><i class="el-icon-menu el-icon-tickets pr20 mr5 cur" style="color:#878d99" @click="colClick"></i></div>
+    <el-menu default-active="1-4-1" class="el-menu-vertical-demo" background-color="#555A6E" text-color="#FFFFFF" :collapse="isCollapse" style="border:0">
+      <!--<el-menu-item index="2" @click="colClick">-->
+        <!--<i class="el-icon-menu"></i>-->
+
+      <!--</el-menu-item>-->
+      <el-menu-item index="1">
         <i class="el-icon-menu"></i>
-        <span slot="title">收齐</span>
+        <span slot="title">秒杀活动</span>
       </el-menu-item>
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-menu"></i>
-          <span slot="title">导航一</span>
-        </template>
-        <el-menu-item-group>
-          <span slot="title">分组一</span>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <span slot="title">选项4</span>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
       <el-menu-item index="2">
         <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
+        <span slot="title">秒杀券管理</span>
       </el-menu-item>
       <el-menu-item index="3">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航三</span>
+        <i class="el-icon-menu"></i>
+        <span slot="title">订单管理</span>
       </el-menu-item>
+      <el-menu-item index="4">
+        <i class="el-icon-menu"></i>
+        <span slot="title">审核管理</span>
+      </el-menu-item>
+
+      <!--<el-submenu index="1">-->
+        <!--<template slot="title">-->
+          <!--<i class="el-icon-menu"></i>-->
+          <!--<span slot="title">秒杀券</span>-->
+        <!--</template>-->
+        <!--<el-menu-item index="1-1">新建活动</el-menu-item>-->
+        <!--<el-menu-item index="1-2">选项2</el-menu-item>-->
+        <!--&lt;!&ndash;<el-menu-item-group>&ndash;&gt;-->
+          <!--&lt;!&ndash;<span slot="title">分组一</span>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-menu-item index="1-1">选项1</el-menu-item>&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-menu-item index="1-2">选项2</el-menu-item>&ndash;&gt;-->
+        <!--&lt;!&ndash;</el-menu-item-group>&ndash;&gt;-->
+        <!--&lt;!&ndash;<el-menu-item-group title="分组2">&ndash;&gt;-->
+          <!--&lt;!&ndash;<el-menu-item index="1-3">选项3</el-menu-item>&ndash;&gt;-->
+        <!--&lt;!&ndash;</el-menu-item-group>&ndash;&gt;-->
+        <!--<el-submenu index="1-4">-->
+          <!--<span slot="title">选项4</span>-->
+          <!--<el-menu-item index="1-4-1">选项1</el-menu-item>-->
+        <!--</el-submenu>-->
+      <!--</el-submenu>-->
+      <!--<el-menu-item index="2">-->
+        <!--<i class="el-icon-menu"></i>-->
+        <!--<span slot="title">导航二</span>-->
+      <!--</el-menu-item>-->
+      <!--<el-menu-item index="3">-->
+        <!--<i class="el-icon-setting"></i>-->
+        <!--<span slot="title">导航三</span>-->
+      <!--</el-menu-item>-->
     </el-menu>
         <!--<el-menu default-active="2" :collapse="isCollapse"  class="el-menu-vertical-demo" style="text-align:center;background-color:#ffffff;min-height:300px;">-->
             <!--<el-menu-item index="1" @click="colClick"><i class="h_icon aside_icon01 vm  mr10 ml025"></i><span class="f-n-style">收齐</span></el-menu-item>-->
@@ -261,7 +281,7 @@
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .left_bgColor {
-    background-color:#f1f1f1;
+    background-color:#555A6E;
   }
   /*.f-n-style{*/
     /*font-size:16px;*/

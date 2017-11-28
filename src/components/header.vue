@@ -1,52 +1,62 @@
 <template>
   <header>
     <div class="logo">
-      <img class="vm" src="./../assets/img/small_logo.png"/>
-      <span class="vm">物流审核系统</span>
+      <!--<img class="vm" src="./../assets/img/small_logo.png"/>-->
+      <span class="vm">吉利经销商系统</span>
     </div>
-    <ul class="fr">
-      <router-link v-for="item in mainMenus" @click.native="saveMainMenuCode(item.menucode)" :to="{path:item.path}" tag="li">
-        <span :class="['h_icon' ,item.icon]"></span>
-        <p>{{item.name}}</p>
-      </router-link>
-      <!--<router-link to="/startwork" tag="li">-->
-        <!--<span class="h_icon h_icon01"></span>-->
-        <!--<p>开始工作</p>-->
+    <el-menu style="border:none;" class="el-menu-demo" mode="horizontal" text-color="#404C73" hover-text-color="#55ACEE" active-text-color="#55ACEE">
+      <el-menu-item index="1">首页</el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">应用</template>
+        <el-menu-item index="2-1">抵扣券活动</el-menu-item>
+        <el-menu-item index="2-2">秒杀活动</el-menu-item>
+        <el-menu-item index="2-3">大转盘活动</el-menu-item>
+      </el-submenu>
+      <!--<el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
+    </el-menu>
+    <!--<ul class="fl">-->
+      <!--<router-link v-for="item in mainMenus" @click.native="saveMainMenuCode(item.menucode)" :to="{path:item.path}" tag="li">-->
+        <!--<span :class="['h_icon' ,item.icon]"></span>-->
+        <!--<p>{{item.name}}</p>-->
       <!--</router-link>-->
-      <!--<router-link to="/lgtcheck" tag="li">-->
-        <!--<span class="h_icon h_icon02"></span>-->
-        <!--<p>物流审核</p>-->
-      <!--</router-link>-->
-      <!--<router-link to="/datasearch" tag="li">-->
-        <!--<span class="h_icon h_icon03"></span>-->
-        <!--<p>数据查询</p>-->
-      <!--</router-link>-->
-      <!--<router-link to="/logsearch" tag="li">-->
-        <!--<span class="h_icon h_icon04"></span>-->
-        <!--<p>日志查询</p>-->
-      <!--</router-link>-->
-      <!--<router-link to="/lgtssetting" tag="li">-->
-        <!--<span class="h_icon h_icon05"></span>-->
-        <!--<p>物流商配置</p>-->
-      <!--</router-link>-->
-      <!--<router-link to="/approval" tag="li">-->
-        <!--<span class="h_icon h_icon09"></span>-->
-        <!--<p>审批</p>-->
-      <!--</router-link>-->
-      <!--<router-link to="/setting" tag="li">-->
-        <!--<span class="h_icon h_icon06"></span>-->
-        <!--<p>设置</p>-->
-      <!--</router-link>-->
+      <!--&lt;!&ndash;<router-link to="/startwork" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon01"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>开始工作</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+      <!--&lt;!&ndash;<router-link to="/lgtcheck" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon02"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>物流审核</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+      <!--&lt;!&ndash;<router-link to="/datasearch" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon03"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>数据查询</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+      <!--&lt;!&ndash;<router-link to="/logsearch" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon04"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>日志查询</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+      <!--&lt;!&ndash;<router-link to="/lgtssetting" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon05"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>物流商配置</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+      <!--&lt;!&ndash;<router-link to="/approval" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon09"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>审批</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+      <!--&lt;!&ndash;<router-link to="/setting" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon06"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p>设置</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
 
-      <!--<router-link to="/setting" tag="li">-->
-        <!--<span class="h_icon h_icon07"></span>-->
-        <!--<p class="name_e">总部客服：张三</p>-->
-      <!--</router-link>-->
-      <li v-on:click="loginout">
-        <span class="h_icon h_icon08"></span>
-        <p>退出</p>
-      </li>
-    </ul>
+      <!--&lt;!&ndash;<router-link to="/setting" tag="li">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="h_icon h_icon07"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p class="name_e">总部客服：张三</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
+      <!--<li v-on:click="loginout">-->
+        <!--<span class="h_icon h_icon08"></span>-->
+        <!--<p>退出</p>-->
+      <!--</li>-->
+    <!--</ul>-->
   </header>
 </template>
 
