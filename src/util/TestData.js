@@ -30,5 +30,41 @@ const OBJ ={
     activity_pv:19000,
     activity_url:"http://www.baidu.com"
   }],
+  sedKill_ticket_list_data: [{
+    ticketName:'5000元购车优惠券',
+    isvalid:'有效',
+    activityEndDate:"2017-12-28",
+    applyCar:'迈腾',
+    sedkillMoney:'2000',
+
+  },{
+    ticketName:'5000元购车优惠券',
+    isvalid:'有效',
+    activityEndDate:"2017-12-28",
+    applyCar:'迈腾',
+    sedkillMoney:'2000',
+
+  },{
+    ticketName:'5000元购车优惠券',
+    isvalid:'有效',
+    activityEndDate:"2017-12-28",
+    applyCar:'迈腾',
+    sedkillMoney:'2000',
+
+  },{
+    ticketName:'5000元购车优惠券',
+    isvalid:'有效',
+    activityEndDate:"2017-12-28",
+    applyCar:'迈腾',
+    sedkillMoney:'2000',
+
+  },{
+    ticketName:'5000元购车优惠券',
+    isvalid:'有效',
+    activityEndDate:"2017-12-28",
+    applyCar:'迈腾',
+    sedkillMoney:'2000',
+
+  }]
 }
 export  default OBJ;
