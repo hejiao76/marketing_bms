@@ -197,6 +197,7 @@
          },
          "status": 1
        }
+      this.userData = res.result;
       this.initTreeData(res.result.optionalMenus);
       this.initCheckedMenuCodeArray(res.result.optionalMenus);
       this.initAllMenuCodeArray(res.result.optionalMenus);
@@ -204,7 +205,7 @@
     },
     methods:{
       allChecked(event){
-        let checked=event.target.checked;
+        let checked=event;
         let checkedMenuCodeArraySet = new Set (this.checkedMenuCodeArray);
         if(checked){
           for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
@@ -232,14 +233,12 @@
           this.isAllChild = false;
         }
         this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
-        console.log('3333',this.checkedMenuCodeArray)
       },
       handleCheckAllChange(event,menucode,item) {
         if(menucode){
-          let checked=event.target.checked;
+          let checked=event;
           let checkedMenuCodeArraySet = new Set (this.checkedMenuCodeArray);
           checked==true ? checkedMenuCodeArraySet.add(menucode) : checkedMenuCodeArraySet.delete(menucode);
-          console.log('2222',this.userData)
           for(let i = 0 ; i<this.userData.optionalMenus.length;i++){
             let item=this.userData.optionalMenus[i];
             if(item.parentMenuCode==menucode){
@@ -254,7 +253,6 @@
           }
           this.thismenucode = menucode
           this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
-          console.log('2222',this.checkedMenuCodeArray)
           this.childItems = item;
 
         }
@@ -264,17 +262,16 @@
         this.thismenucode = menucode;
       },
       allChildrenChecked(event){
-        let checked=event.target.checked;
+        let checked=event;
         for(let i = 0 ; i< this.userData.optionalMenus.length;i++){
           let item=this.userData.optionalMenus[i];
           if(checked){
             if(this.thismenucode == item.menucode){
-              this.handleCheckAllChange(event,this.thismenucode,item.children)
+              this.handleCheckAllChange(checked,this.thismenucode,item.children)
             }
-
           }else{
             if(this.thismenucode == item.menucode){
-              this.handleCheckAllChange(event,this.thismenucode,item.children)
+              this.handleCheckAllChange(checked,this.thismenucode,item.children)
             }
           }
         }
@@ -329,7 +326,6 @@
           for( let i = 0 ;i < menuArray.length; i++){
             this.allMenuCodeArray.push(menuArray[i].menucode) ;
           }
-          console.log("initAllMenuCodeArray",this.allMenuCodeArray.toString());
         }
       },
       initTreeData (optionalMenusArray) {
