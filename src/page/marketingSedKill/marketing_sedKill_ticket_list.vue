@@ -2,10 +2,10 @@
   <div class="con_list">
     <!--<h5>待处理事项</h5>-->
     <div class="filter_div mb20">
-      <el-form :model="filterForm"  ref="filterForm" label-width="80px" size="small">
+      <el-form :model="filterForm"  ref="filterForm" label-width="100px" size="small">
         <el-row>
           <el-col :span="14">
-            <el-form-item label="活动名称:" prop="activityName">
+            <el-form-item label="秒杀券名称:" prop="activityName">
               <el-input   v-model="filterForm.activityName" placeholder="请输入商品名称"></el-input>
             </el-form-item>
           </el-col>
@@ -13,7 +13,7 @@
           </el-col>
         </el-row>
         <div style="width:550px;">
-          <el-form-item label="活动时间:">
+          <el-form-item label="秒杀券有效期:">
             <el-col :span="11">
               <el-date-picker v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
             </el-col>
@@ -106,29 +106,10 @@
             }
           }
         },
-        optionsCreateStart : {
-          disabledDate:(time) => {
-            if(this.filterForm.createEndDate){
-              let d = new Date (this.filterForm.createEndDate)
-              return time.getTime() >d.getTime();
-            }
-          }
-        },
-        optionsCreateEnd : {
-          disabledDate:(time) => {
-            if(this.filterForm.createStartDate){
-              let d = new Date (this.filterForm.createStartDate)
-              return time.getTime() <d.getTime();
-            }
-          }
-        },
         filterForm: {
-          activityName:'',//活动名称
-          activityArea:'',//活动区域
+          ticketName:'',//秒杀券名称
           activityStartDate:'',//活动开始时间
           activityEndDate:'', //活动结束时间
-          createStartDate:'',//活动创建开始时间
-          createEndDate:''//活动创建结束时间
         },
         activityType : 0,
         resData : [],
@@ -217,23 +198,14 @@
        */
       getFilterParam () {
         var param = {token: localStorage.getItem("token"), type: this.checkStatus}
-        if (this.filterForm.activityName) {
+        if (this.filterForm.ticketName) {
           param.activityName = this.filterForm.activityName
-        }
-        if (this.filterForm.activityArea) {
-          param.activityArea = this.filterForm.activityArea
         }
         if (this.filterForm.activityStartDate) {
           param.activityStartDate = Util.toDateString(this.filterForm.activityStartDate.getTime());
         }
         if (this.filterForm.activityEndDate) {
           param.activityEndDate = Util.toDateString(this.filterForm.activityEndDate.getTime());
-        }
-        if (this.filterForm.createStartDate) {
-          param.createStartDate = Util.toDateString(this.filterForm.createStartDate.getTime());
-        }
-        if (this.filterForm.createEndDate) {
-          param.createEndDate = Util.toDateString(this.filterForm.createEndDate.getTime());
         }
         console.log("查询提交参数:",param);
         return param;
