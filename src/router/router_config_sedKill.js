@@ -13,22 +13,22 @@ const routerConfig = [{
   children: [//二级路由  path不加 '/'  path 不加 '/'  path 不加 '/'  重要的事情说三遍  加了 '/' 代表根级
     {
       path:'list',//公司管理员查询
-      name:"list",
+      name:"marketing_sedKill_list",
       component:marketing_sedKill_list
     },
     {
-      path:'edit',//公司管理员查询
-      name:"edit/:sedKillId",
+      path:'edit/:sedKillId',//公司管理员查询
+      name:"marketing_sedKill_edit",
       component:marketing_sedKill_edit
     },
     {
       path:'ticket_list',//公司管理员查询
-      name:"ticket_list",
+      name:"marketing_sedKill_ticket_list",
       component:marketing_sedKill_ticket_list
     },
     {
-      path:'ticket_edit',//公司管理员查询
-      name:"ticket_edit/:ticketId",
+      path:'ticket_edit/:ticketId',//公司管理员查询
+      name:"marketing_sedKill_ticket_edit",
       component:marketing_sedKill_ticket_edit
     },
   ]

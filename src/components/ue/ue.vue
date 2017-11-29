@@ -1,9 +1,13 @@
+
 <template>
-  <div>
+  <div class="ue_container">
     <script :id=id type="text/plain"></script>
   </div>
 </template>
 <script>
+  import '../../../static/ueditor-1.4.3.3/ueditor.config'
+  import '../../../static/ueditor-1.4.3.3/ueditor.all'
+  import '../../../static/ueditor-1.4.3.3/lang/zh-cn/zh-cn'
   export default {
     name: 'UE',
     data () {
@@ -39,3 +43,8 @@
     }
   }
 </script>
+<style>
+  .ue_container .el-form-item__content {
+      line-height:10px !important;
+  }
+</style>

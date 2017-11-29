@@ -24,6 +24,12 @@
 .el-form-item__label {
   color:#8C94AC;
 }
+.el-form-item__content {
+  line-height:21px;
+}
+.el-form-item--small .el-form-item__content, .el-form-item--small .el-form-item__label {
+  line-height:21px;
+}
 /*******----------------tab选项卡---------------******/
 .el-tabs__item {
   color:#404C73

@@ -45,16 +45,16 @@
       <!--</el-col>-->
     <!--</el-row>-->
     <div style="width:100%;text-align: right;line-height: 36px;color:#878d99;border-bottom: solid 1px #676C81;"><i class="el-icon-menu el-icon-tickets pr20 mr5 cur" style="color:#878d99" @click="colClick"></i></div>
-    <el-menu default-active="1-4-1" class="el-menu-vertical-demo" background-color="#555A6E" text-color="#FFFFFF" :collapse="isCollapse" style="border:0">
+    <el-menu default-active="1-4-1" :router=true class="el-menu-vertical-demo" background-color="#555A6E" text-color="#FFFFFF" :collapse="isCollapse" style="border:0">
       <!--<el-menu-item index="2" @click="colClick">-->
         <!--<i class="el-icon-menu"></i>-->
 
       <!--</el-menu-item>-->
-      <el-menu-item index="1">
+      <el-menu-item index="1" :route="{path:'/sedkill/list'}">
         <i class="el-icon-menu"></i>
         <span slot="title">秒杀活动</span>
       </el-menu-item>
-      <el-menu-item index="2">
+      <el-menu-item index="2" :route="{path:'/sedkill/ticket_list'}">
         <i class="el-icon-menu"></i>
         <span slot="title">秒杀券管理</span>
       </el-menu-item>

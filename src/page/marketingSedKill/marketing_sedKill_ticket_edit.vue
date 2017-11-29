@@ -2,7 +2,7 @@
 
     <div class="con_list">
       <div class="filter_div mb20">
-        <el-form :model="filterForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+        <el-form :model="filterForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
           <el-row :gutter="20">
             <el-col :span="12">
                <el-form-item label="活动名称" prop="ticketName">
