@@ -860,7 +860,8 @@ input.ulNormalRInput[type=text]:disabled {
 }
 
 .choose-hd .choose-footer {
-  height: 120px;
+ text-align: center;
+  padding:20px 0px;
   background: #F6F7FB
 }
 

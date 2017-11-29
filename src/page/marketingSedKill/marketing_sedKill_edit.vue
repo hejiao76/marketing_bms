@@ -13,13 +13,14 @@
                 <el-form-item label="创建时间：" required>
                   <el-col :span="11">
                     <el-form-item prop="activityStartDate">
-                      <el-date-picker type="activityStartDate" placeholder="请输入开始日期" v-model="filterForm.activityStartDate" style="width: 100%;"></el-date-picker>
+                      <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+
                     </el-form-item>
                   </el-col>
-                  <el-col class="line" :span="2">-</el-col>
+                  <el-col class="line" :span="2" style="text-align: center">-</el-col>
                   <el-col :span="11">
                     <el-form-item prop="activityEndDate">
-                      <el-date-picker type="activityEndDate" placeholder="请输入借宿日期" v-model="filterForm.activityEndDate" style="width: 100%;"></el-date-picker>
+                      <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
                     </el-form-item>
                   </el-col>
                 </el-form-item>
@@ -228,6 +229,22 @@
   export default {
     data() {
       return {
+        optionsActivityStart :{
+          disabledDate:(time) => {
+            if(this.filterForm.activityEndDate){
+              let d = new Date (this.filterForm.activityEndDate)
+              return time.getTime() >d.getTime();
+            }
+          }
+        },
+        optionsActivityEnd :{
+          disabledDate:(time) => {
+            if(this.filterForm.activityStartDate){
+              let d = new Date (this.filterForm.activityStartDate)
+              return time.getTime() <d.getTime();
+            }
+          }
+        },
         labelPosition:'left',
         filterForm: {
           sedkillName: '',
