@@ -117,8 +117,83 @@
                      :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
 
+      <!-- 中奖用户弹出层 -->
+      <div class="mask" style="z-index: 12000;"></div>
+      <div class="prize-pop">
+        <!-- 关闭按钮 -->
+        <div class="pop-close" @click="hidePrizeUser">
+          <img src="./../../assets/images/pop-close.png" alt="">
+        </div>
+        <!-- 具体内容 -->
+        <div class="prize-tit">中奖用户</div>
+        <div class="pricontent">
+          <div class="pricontent-txt fl">
+            <div class="pricontent-body">
+              <ul class="namepeople">
+                <li>
+                  <p><em>用户姓名:</em><span>马晓光</span></p>
+                </li>
+                <li><p><em>手机号:</em><span>18614086655</span></p></li>
+              </ul>
+              <ul class="prizetxt">
+                <li>
+                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
+                </li>
+                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
+                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
+                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
+                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
+              </ul>
+            </div>
+          </div>
+          <div class="pricontent-txt fl">
+            <div class="pricontent-body">
+              <ul class="namepeople">
+                <li>
+                  <p><em>用户姓名:</em><span>马晓光</span></p>
+                </li>
+                <li><p><em>手机号:</em><span>18614086655</span></p></li>
+              </ul>
+              <ul class="prizetxt">
+                <li>
+                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
+                </li>
+                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
+                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
+                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
+                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
+              </ul>
+            </div>
+          </div>
+          <div class="pricontent-txt fl">
+            <div class="pricontent-body">
+              <ul class="namepeople">
+                <li>
+                  <p><em>用户姓名:</em><span>马晓光</span></p>
+                </li>
+                <li><p><em>手机号:</em><span>18614086655</span></p></li>
+              </ul>
+              <ul class="prizetxt">
+                <li>
+                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
+                </li>
+                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
+                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
+                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
+                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
+
+
+
+
+
   </div>
 </template>
 <script>
@@ -131,6 +206,7 @@
   import * as Util from "./../../util/util";
   import VTipMsg from "./../../components/tipMsg.vue";
   import TestData from "./../../util/TestData"
+  import $ from "jquery"
   export default {
     data() {
       return {
@@ -211,7 +287,7 @@
         });
       },
       /**
-       * 新建活动点击
+       * 已上架
        * @returns {}
        */
       upActivity () {
@@ -221,7 +297,7 @@
         });
       },
       /**
-       * 新建活动点击
+       * 已下架
        * @returns {}
        */
       downActivity () {
@@ -231,14 +307,24 @@
         });
       },
       /**
-       * 新建活动点击
+       * 显示中奖纪录
        * @returns {}
        */
       showPrizeUser () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        $('.prize-pop,.mask').show();
+        return;
+//        this.$refs.tipMsgRef.showTipMsg({
+//          msg:"还在开发! 急什么! 急什么!",
+//          type:"error"
+//        });
+      },
+      /**
+       * 关闭中奖纪录
+       * @returns {}
+       */
+      hidePrizeUser () {
+        $('.prize-pop,.mask').hide();
+        return;
       },
       /**
        * 新建活动点击
@@ -346,5 +432,98 @@
     font-size: 14px;
     color: #8C94AC;
     letter-spacing: 0;
+  }
+</style>
+
+<style scoped="scope">
+  .mask {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: none;
+    z-index: 9000;
+    background-color: rgba(0,0,0,.6)
+  }
+  .prize-pop {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 13000;
+    margin-top: -320px;
+    margin-left: -490px;
+    width: 980px;
+    height: 640px;
+    background: url(./../../assets/images/zjyh_bg.png) no-repeat
+  }
+  .prize-pop .pop-close {
+    top: 130px;
+    right: 95px;
+    width: 23px;
+    height: 24px;
+    cursor: pointer
+  }
+  .prize-pop .prize-tit {
+    width: 100%;
+    height: auto;
+    margin-top: 130px;
+    font-size: 36px;
+    color: #e63834;
+    font-weight: 600;
+    line-height: 40px;
+    text-align: center
+  }
+  .prize-pop .pricontent {
+    width: 100%;
+    margin: 10px 0 0 30px;
+    height: 310px;
+    overflow-x: hidden;
+    overflow-y: auto
+  }
+  .prize-pop .pricontent .pricontent-txt {
+    width: 400px;
+    border: 1px solid #f5efd7;
+    background: #fffcee;
+    margin: 0 20px 20px 0
+  }
+  .prize-pop .pricontent .pricontent-txt.fl {
+    float: left;
+    display: inline-block
+  }
+  .prize-pop .pricontent .pricontent-txt.fr {
+    float: right;
+    display: inline-block
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body {
+    padding: 20px 20px 0
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body ul {
+    width: 100%;
+    overflow: hidden
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body ul.namepeople {
+    border-bottom: 1px solid #f5efd7
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body ul.prizetxt {
+    margin-top: 20px
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li {
+    font-size: 14px;
+    color: #ba8305;
+    margin-bottom: 10px
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p {
+    width: 100%;
+    overflow: hidden
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p em {
+    width: 100px;
+    float: left
+  }
+  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p span {
+    float: right;
+    margin-left: 10px
   }
 </style>
