@@ -50,7 +50,7 @@
         <el-row>
             <el-col :span="24">
               <el-form-item label="秒杀券详情：" prop="remarks">
-                <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE>
+
               </el-form-item>
             </el-col>
         </el-row>
@@ -78,7 +78,7 @@
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import UE from './../../components/ue/ue.vue';
+
 
 
   //  import ElCol from "element-ui/packages/col/src/col";
@@ -86,13 +86,6 @@
     data() {
       return {
         labelPosition:'left',
-        defaultMsg: '这里是UE测试',
-        config: {
-          initialFrameWidth: null,
-          initialFrameHeight: 350
-        },
-        ue1: "ue1", // 不同编辑器必须不同的id
-        ue2: "ue2",
         filterForm: {
           ticketName: '',
           activityStartDate:'',//活动开始时间
@@ -132,7 +125,7 @@
       VLeft,
       VConNav,
       VTipMsg,
-      UE,
+
 
     },
     created (){
@@ -140,15 +133,6 @@
     },
 
     methods : {
-      getUEContent() {
-        let content = this.$refs.ue.getUEContent(); // 调用子组件方法
-        this.$notify({
-          title: '获取成功，可在控制台查看！',
-          message: content,
-          type: 'success'
-        });
-        console.log(content)
-      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
