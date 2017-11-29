@@ -38,6 +38,8 @@ export default {
 
 <style>
   @import "assets/css/element-variables.css";
+  @import "assets/css/common.css";
+  @import "assets/css/style.css";
 /*#app {*/
   /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
   /*-webkit-font-smoothing: antialiased;*/

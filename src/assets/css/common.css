@@ -1,3 +1,200 @@
+/*****************young css*********************************/
+.relative {
+  position: relative
+}
+
+.body-layout,.choose-hd .choose-hd_close,.header-right .header-right_icon,.header-right .header-right_icon span.message .prompt,.header-right .header-right_icon:first-child .prompt,.newhds-list .newhd-content ul li span,.newhds-list .newhd-footer .newhd-btn .icon-left,.newhds-list .newhd-footer .newhd-btn .icon-right,.newhds-list.new-list .newhd-header .icon-left,.newhds-list.new-list .newhd-header .icon-right,.prize-pop .pop-close,a.header-left {
+  position: absolute
+}
+
+.vertical-middle,a.header-left.arrow-white:before,a.header-left:before {
+  display: inline-block
+}
+
+.center-block {
+  margin-left: auto;
+  margin-right: auto
+}
+
+abbr,article,aside,blockquote,body,code,dd,details,div,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,iframe,input,legend,li,main,menu,nav,ol,p,pre,section,select,span,summary,td,textarea,th,ul {
+  margin: 0;
+  padding: 0
+}
+
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent
+}
+
+ol,ul {
+  list-style: none
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0
+}
+
+a,a:hover {
+  text-decoration: none
+}
+
+img {
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  -webkit-tap-highlight-color: transparent
+}
+
+button,input,select,textarea {
+  font-size: 100%;
+  vertical-align: middle;
+  outline: 0
+}
+
+textarea {
+  resize: none
+}
+
+input:focus:-moz-placeholder,input:focus::-webkit-input-placeholder {
+  color: transparent
+}
+
+a,input[type=button] {
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent
+}
+
+address,caption,cite,code,dfn,em,th,var {
+  font-style: normal;
+  font-weight: 500
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0
+}
+
+::-webkit-scrollbar {
+  width: 0
+}
+
+.clearfix:after {
+  visibility: hidden;
+  font-size: 0;
+  height: 0
+}
+
+button,input[type=button],input[type=reset],input[type=submit] {
+  cursor: pointer;
+  -webkit-appearance: button;
+  -moz-appearance: button
+}
+
+* {
+  -webkit-tap-highlight-color: transparent
+}
+
+button::-moz-focus-inner,input::-moz-focus-inner {
+  padding: 0;
+  border: 0
+}
+
+.clearfix:after,.clearfix:before {
+  content: " ";
+  display: table
+}
+
+.clearfix:after {
+  clear: both
+}
+
+.right {
+  float: right!important
+}
+
+.left {
+  float: left!important
+}
+
+.hide {
+  display: none!important
+}
+
+.show {
+  display: block!important
+}
+
+.invisible {
+  visibility: hidden
+}
+
+/*.mr0 {*/
+  /*margin-right: 0!important*/
+/*}*/
+
+/*.ml10 {*/
+  /*margin-left: .13333rem*/
+/*}*/
+
+/*.ml20 {*/
+  /*margin-left: .26667rem*/
+/*}*/
+
+/*.mt0 {*/
+  /*margin-top: 0!important*/
+/*}*/
+
+/*.mt10 {*/
+  /*margin-top: .13333rem!important*/
+/*}*/
+
+/*.mt20 {*/
+  /*margin-top: .26667rem!important*/
+/*}*/
+
+/*.mt60 {*/
+  /*margin-top: .8rem!important*/
+/*}*/
+
+/*.mb20 {*/
+  /*margin-bottom: .26667rem!important*/
+/*}*/
+
+.plr30 {
+  padding-left: .4rem;
+  padding-right: .4rem
+}
+
+.bg-white {
+  background-color: #fff!important
+}
+
+.text-left {
+  text-align: left!important
+}
+
+.justify-align {
+  text-align: justify
+}
+
+.vertical-middle {
+  vertical-align: middle
+}
+
+body,html {
+  height: 100%
+}
+.body-layout {
+  width: 100%;
+  background-color: #F6F6F7
+}
+/************************************************************************/
+
+
+
+
 body, div, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption{
   padding: 0;
   margin: 0;
