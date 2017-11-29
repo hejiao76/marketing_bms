@@ -436,94 +436,94 @@
 </style>
 
 <style scoped="scope">
-  .mask {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: none;
-    z-index: 9000;
-    background-color: rgba(0,0,0,.6)
-  }
-  .prize-pop {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 13000;
-    margin-top: -320px;
-    margin-left: -490px;
-    width: 980px;
-    height: 640px;
-    background: url(./../../assets/images/zjyh_bg.png) no-repeat
-  }
-  .prize-pop .pop-close {
-    top: 130px;
-    right: 95px;
-    width: 23px;
-    height: 24px;
-    cursor: pointer
-  }
-  .prize-pop .prize-tit {
-    width: 100%;
-    height: auto;
-    margin-top: 130px;
-    font-size: 36px;
-    color: #e63834;
-    font-weight: 600;
-    line-height: 40px;
-    text-align: center
-  }
-  .prize-pop .pricontent {
-    width: 100%;
-    margin: 10px 0 0 30px;
-    height: 310px;
-    overflow-x: hidden;
-    overflow-y: auto
-  }
-  .prize-pop .pricontent .pricontent-txt {
-    width: 400px;
-    border: 1px solid #f5efd7;
-    background: #fffcee;
-    margin: 0 20px 20px 0
-  }
-  .prize-pop .pricontent .pricontent-txt.fl {
-    float: left;
-    display: inline-block
-  }
-  .prize-pop .pricontent .pricontent-txt.fr {
-    float: right;
-    display: inline-block
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body {
-    padding: 20px 20px 0
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul {
-    width: 100%;
-    overflow: hidden
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul.namepeople {
-    border-bottom: 1px solid #f5efd7
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul.prizetxt {
-    margin-top: 20px
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li {
-    font-size: 14px;
-    color: #ba8305;
-    margin-bottom: 10px
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p {
-    width: 100%;
-    overflow: hidden
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p em {
-    width: 100px;
-    float: left
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p span {
-    float: right;
-    margin-left: 10px
-  }
+  /*.mask {*/
+    /*position: fixed;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*bottom: 0;*/
+    /*display: none;*/
+    /*z-index: 9000;*/
+    /*background-color: rgba(0,0,0,.6)*/
+  /*}*/
+  /*.prize-pop {*/
+    /*display: none;*/
+    /*position: fixed;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*z-index: 13000;*/
+    /*margin-top: -320px;*/
+    /*margin-left: -490px;*/
+    /*width: 980px;*/
+    /*height: 640px;*/
+    /*background: url(./../../assets/images/zjyh_bg.png) no-repeat*/
+  /*}*/
+  /*.prize-pop .pop-close {*/
+    /*top: 130px;*/
+    /*right: 95px;*/
+    /*width: 23px;*/
+    /*height: 24px;*/
+    /*cursor: pointer*/
+  /*}*/
+  /*.prize-pop .prize-tit {*/
+    /*width: 100%;*/
+    /*height: auto;*/
+    /*margin-top: 130px;*/
+    /*font-size: 36px;*/
+    /*color: #e63834;*/
+    /*font-weight: 600;*/
+    /*line-height: 40px;*/
+    /*text-align: center*/
+  /*}*/
+  /*.prize-pop .pricontent {*/
+    /*width: 100%;*/
+    /*margin: 10px 0 0 30px;*/
+    /*height: 310px;*/
+    /*overflow-x: hidden;*/
+    /*overflow-y: auto*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt {*/
+    /*width: 400px;*/
+    /*border: 1px solid #f5efd7;*/
+    /*background: #fffcee;*/
+    /*margin: 0 20px 20px 0*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt.fl {*/
+    /*float: left;*/
+    /*display: inline-block*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt.fr {*/
+    /*float: right;*/
+    /*display: inline-block*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body {*/
+    /*padding: 20px 20px 0*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul {*/
+    /*width: 100%;*/
+    /*overflow: hidden*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul.namepeople {*/
+    /*border-bottom: 1px solid #f5efd7*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul.prizetxt {*/
+    /*margin-top: 20px*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li {*/
+    /*font-size: 14px;*/
+    /*color: #ba8305;*/
+    /*margin-bottom: 10px*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p {*/
+    /*width: 100%;*/
+    /*overflow: hidden*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p em {*/
+    /*width: 100px;*/
+    /*float: left*/
+  /*}*/
+  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p span {*/
+    /*float: right;*/
+    /*margin-left: 10px*/
+  /*}*/
 </style>

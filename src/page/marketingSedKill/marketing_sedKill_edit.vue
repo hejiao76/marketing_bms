@@ -1,7 +1,7 @@
 <template>
     <div class="con_list">
       <div class="filter_div mb20">
-        <el-form :model="filterForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+        <el-form :model="filterForm" :rules="rules" size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
           <el-row :gutter="20">
             <el-col :span="16">
               <el-row>
@@ -309,6 +309,9 @@
   }
 </script>
 <style>
+  /*.filter_div .el-form-item .el-form-item ,.filter_div .el-form-item--small .el-form-item{*/
+    /*line-height:0px;*/
+  /*}*/
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

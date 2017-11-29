@@ -10,19 +10,34 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="秒杀券有效期" required>
-              <el-col :span="11">
-                <el-form-item prop="activityStartDate">
+            <el-row>
+            <!--<el-form-item label="秒杀券有效期" required>-->
+              <el-col :span="14">
+                <el-form-item prop="activityStartDate" label="秒杀券有效期" required>
                   <el-date-picker type="activityStartDate" placeholder="选择日期" v-model="filterForm.activityStartDate" style="width: 100%;"></el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="11">
-                <el-form-item prop="activityEndDate">
+              <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
+              <el-col :span="8">
+                <el-form-item prop="activityEndDate" label="" labelWidth="0">
                   <el-date-picker type="activityEndDate" placeholder="选择日期" v-model="filterForm.activityEndDate" style="width: 100%;"></el-date-picker>
                 </el-form-item>
               </el-col>
-            </el-form-item>
+
+            </el-row>
+            <!--<el-form-item label="秒杀券有效期" required>-->
+              <!--<el-col :span="11">-->
+                <!--<el-form-item prop="activityStartDate">-->
+                  <!--<el-date-picker type="activityStartDate" placeholder="选择日期" v-model="filterForm.activityStartDate" style="width: 100%;"></el-date-picker>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+              <!--<el-col class="line" :span="2">-</el-col>-->
+              <!--<el-col :span="11">-->
+                <!--<el-form-item prop="activityEndDate">-->
+                  <!--<el-date-picker type="activityEndDate" placeholder="选择日期" v-model="filterForm.activityEndDate" style="width: 100%;"></el-date-picker>-->
+                <!--</el-form-item>-->
+              <!--</el-col>-->
+            <!--</el-form-item>-->
           </el-col>
         </el-row>
         <el-row :gutter="20">
@@ -167,9 +182,9 @@
   }
 </script>
 <style scoped="scope">
-  .el-form-item{
-    margin-bottom: 20px;
-  }
+  /*.el-form-item{*/
+    /*margin-bottom: 20px;*/
+  /*}*/
 
   /*@import "./../../assets/css/common.css";*/
   /*@import "./../../assets/css/style.css";*/
