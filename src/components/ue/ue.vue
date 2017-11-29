@@ -44,7 +44,7 @@
   }
 </script>
 <style>
-  .ue_container .el-form-item__content {
-      line-height:10px !important;
+  .ue_container{
+      line-height:21px;
   }
 </style>
