@@ -64,9 +64,6 @@
             <el-tab-pane name="5" label="退款完成"></el-tab-pane>
           </el-tabs>
         </el-col>
-        <el-col :span="4">
-          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建活动</el-button>
-        </el-col>
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
        <div>
@@ -211,66 +208,8 @@
       }
     },
     methods: {
-      /**
-       * 新建活动点击
-       * @returns {}
-       */
-      addActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
-      },
-      /**
-       * 已上架
-       * @returns {}
-       */
-      upActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
-      },
-      /**
-       * 已下架
-       * @returns {}
-       */
-      downActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
-      },
-      /**
-       * 显示中奖纪录
-       * @returns {}
-       */
-      showPrizeUser () {
-        $('.prize-pop,.mask').show();
-        return;
-//        this.$refs.tipMsgRef.showTipMsg({
-//          msg:"还在开发! 急什么! 急什么!",
-//          type:"error"
-//        });
-      },
-      /**
-       * 关闭中奖纪录
-       * @returns {}
-       */
-      hidePrizeUser () {
-        $('.prize-pop,.mask').hide();
-        return;
-      },
-      /**
-       * 新建活动点击
-       * @returns {}
-       */
-      deleteActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
-      },
+
+
 
       /**
        * 选项卡点击事件触发
