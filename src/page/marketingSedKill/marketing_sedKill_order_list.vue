@@ -42,7 +42,7 @@
           <el-col :span="11">
             <div>
               <el-form-item label="客户手机:" prop="activityName">
-                <el-input   v-model="filterForm.phoneNum" placeholder="请输入活动名称" style="width: 250px"></el-input>
+                <el-input   v-model="filterForm.phoneNum" placeholder="请输入活动名称"></el-input>
               </el-form-item>
             </div>
           </el-col>
