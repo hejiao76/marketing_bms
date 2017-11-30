@@ -244,20 +244,35 @@ nav span .f_blue{
 }
 /*按钮样式*/
 .btn_bass{
-  font-size:14px;
+  font-size:12px;
   color:#fff;
-  min-width: 70px;
-  height:35px;
-  line-height:35px;
-  letter-spacing: 2px;
+  min-width: 64px;
+  height:30px;
+  line-height:30px;
+  /*letter-spacing: 2px;*/
   padding: 0px 10px;
   text-align: center;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 2px;
+
+}
+.btn_b_line {
+  font-size:12px;
+  border: 1px solid #9384e3;
+  color: #9384e3;
+  min-width: 64px;
+  height:30px;
+  line-height:30px;
+  /*letter-spacing: 2px;*/
+  padding: 0px 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 2px;
+  background: none;
 }
 .btn_b{
-  background: #579fe9;
+  background: #9384e3;
 }
 .btn_y{
   background:#ffb752;
@@ -265,8 +280,12 @@ nav span .f_blue{
 .btn_g{
   background:#7ec75f;
 }
+.btn_b_line:hover,.btn_b_line:active,.btn_b_line:focus {
+  opacity: 0.9;
+  outline: none;
+}
 .btn_bass:hover,.btn_bass:active,.btn_bass:focus{
-  opacity: .8;
+  opacity: 0.9;
   outline: none;
 }
 table{

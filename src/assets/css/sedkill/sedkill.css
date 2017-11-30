@@ -479,11 +479,11 @@ input.ulNormalRInput[type=text]:disabled {
 
 .newhds-list.new-list .newhd-content {
   width: 100%;
-  height: 240px
+  height: 225px;
 }
 
 .newhds-list.new-list .newhd-content p {
-  line-height: 240px;
+  line-height: 225px;
   position: relative;
   font-size: 20px;
   color: #9384e3;
@@ -518,7 +518,8 @@ input.ulNormalRInput[type=text]:disabled {
   /*margin-top: 10px;*/
   margin-top:5px;
   overflow: hidden;
-  font-size: 12px;
+  /*font-size: 12px;*/
+  font-size:10px;
 
 }
 
@@ -530,7 +531,9 @@ input.ulNormalRInput[type=text]:disabled {
 
 .newhds-list .newhd-content {
   width: 100%;
-  height: 240px
+  /*height: 240px;*/
+  height:225px;
+  font-size:12px;
 }
 
 .newhds-list .newhd-content ul {
@@ -541,7 +544,8 @@ input.ulNormalRInput[type=text]:disabled {
 
 .newhds-list .newhd-content ul li {
   width: 100%;
-  font-size: 14px;
+  /*font-size: 14px;*/
+  font-size:12px;
   color: #7d71c5;
   line-height: 24px;
   margin-bottom: 10px
@@ -556,12 +560,14 @@ input.ulNormalRInput[type=text]:disabled {
   clear: both
 }
 
-.newhds-list .newhd-content ul li span {
-  width: 100px
+.newhds-list .newhd-content ul li>span {
+  /*width: 100px*/
+  width:90px;
 }
 
 .newhds-list .newhd-content ul li .newhd-inf {
-  padding-left: 110px;
+  /*padding-left: 110px;*/
+  padding-left:100px;
   color: #7d71c5;
 }
 
@@ -585,7 +591,8 @@ input.ulNormalRInput[type=text]:disabled {
 .newhds-list .newhd-content ul li .edit-txt input {
   float: left;
   width: 80%;
-  font-size: 14px;
+  /*font-size: 14px;*/
+  font-size:12px;
   padding: 2px 0;
   color: #7d71c5;
   background: 0 0;
@@ -648,7 +655,8 @@ input.ulNormalRInput[type=text]:disabled {
 
 .newhds-list .newhd-footer .newhd-btn table tr td a {
   display: inline-block;
-  font-size: 14px;
+  /*font-size: 14px;*/
+
   width: 80px;
   height: 40px;
   line-height: 40px;
