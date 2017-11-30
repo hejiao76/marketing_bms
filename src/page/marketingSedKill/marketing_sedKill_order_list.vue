@@ -67,6 +67,7 @@
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
        <div>
+
          <el-table
            ref="multipleTable"
            :data="tableData3"
@@ -123,12 +124,13 @@
 
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
+    <V-OrderDetail></V-OrderDetail>
 
 
 
-
-
+    <div class="more-txt" @click="chekcOder()">查看详情</div>
   </div>
+
 </template>
 <script>
   //  import api from "./../fetch/api"
@@ -139,6 +141,7 @@
   import Api from "./../../fetch/api";
   import * as Util from "./../../util/util";
   import VTipMsg from "./../../components/tipMsg.vue";
+  import VOrderDetail from "./../../components/order_detail.vue";
   import TestData from "./../../util/TestData"
   import $ from "jquery"
   import ElRow from "element-ui/packages/row/src/row";
@@ -194,7 +197,8 @@
       VHeader,
       VLeft,
       VConNav,
-      VTipMsg
+      VTipMsg,
+      VOrderDetail
     },
     created (){
       this.requestData();
@@ -304,7 +308,9 @@
        * 查看订单详情
        */
       chekcOder(){
-        console.log('开发中！');
+        $('.more-txt').click(function(){
+          $('.mask,.olderdetail').show();
+        })
       }
     }
   }
