@@ -4,12 +4,12 @@
     <div class="filter_div mb20">
       <el-form :model="filterForm"  ref="filterForm" label-width="80px" size="small" >
         <el-row>
-          <el-col :span=10>
+          <el-col :span=11>
           <el-form-item label="订单编号:" prop="activityName" >
-            <el-input   v-model="filterForm.orderNum" placeholder="请输入订单编号" style="width: 250px"></el-input>
+            <el-input   v-model="filterForm.orderNum" placeholder="请输入订单编号" ></el-input>
           </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="11">
             <el-form-item label="活动名称:" prop="activityName">
               <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
             </el-form-item>
@@ -17,23 +17,25 @@
         </el-row>
 
         <el-row>
-          <el-col :span="10">
+          <el-col :span="11">
             <el-form-item label="活动名称:" prop="activityName">
-              <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" style="width:250px"></el-input>
+              <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-              <el-row>
+          <el-col :span="11">
+
                 <el-form-item label="创建时间:">
-                  <el-col :span="10">
-                    <el-date-picker v-model="filterForm.createStartDate" :picker-options="optionsCreateStart" type="date" placeholder="请输入开始时间" style="width: 170px;margin-right: 10px;"></el-date-picker>
-                  </el-col>
-                  <el-col style="text-align: center;width:20px;margin-left: 16px;">-</el-col>
-                  <el-col :span="10">
-                    <el-date-picker v-model="filterForm.createEndDate" :picker-options="optionsCreateEnd" type="date" placeholder="请输入结束日期" style="width: 170px"></el-date-picker>
-                  </el-col>
+                    <div style="width: 45%; float:left;">
+                      <el-date-picker v-model="filterForm.createStartDate" :picker-options="optionsCreateStart" type="date" style="width: 100%;" placeholder="请输入开始时间"></el-date-picker>
+                    </div>
+
+
+                  <div style="text-align: center;width:10%; float:left;">-</div>
+                  <div style="width: 45%; float:left;">
+                    <el-date-picker v-model="filterForm.createEndDate" :picker-options="optionsCreateEnd" type="date" style="width: 100%;" placeholder="请输入结束日期" ></el-date-picker>
+                  </div>
                 </el-form-item>
-              </el-row>
+
           </el-col>
         </el-row>
         <el-row>

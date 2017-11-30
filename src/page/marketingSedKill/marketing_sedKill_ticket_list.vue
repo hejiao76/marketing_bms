@@ -28,7 +28,6 @@
 
     <div class="list_div">
       <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建秒杀券</el-button>
-      <div><span class="totalTip">共找到以下10条数据</span></div>
       <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
         <div class="control-label col-md-12 row margin-bottom-10">
           共找到以下
