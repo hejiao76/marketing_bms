@@ -55,19 +55,19 @@
     <div>
       <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
         <el-tab-pane label="全部订单" name="first">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.allorder"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="待支付" name="second">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.unpaid"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="已取消" name="third">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.cancel"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="退款中" name="fourth">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.refundIng"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="退款完成" name="five">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.refundEnd"></V-OrderList></div>
         </el-tab-pane>
       </el-tabs>
 
@@ -99,6 +99,7 @@
   export default {
     data() {
       return {
+        orderList:TestData.orderList,
         optionsCreateStart : {
           disabledDate:(time) => {
             if(this.filterForm.createEndDate){
@@ -129,17 +130,6 @@
         pageRecorders: 10,
         Final: Final,
         activeName:'first',
-        /////列表测试数据
-        tableData3: [{
-            oderNum:'1234556',
-            orderCreatTime:'2017-10-01',
-            oderName:'500元购车优惠券500元购车优惠券',
-            oderStatus:'已支付',
-            userName:'阿娇',
-            userPhone:'010101001',
-            payAmount:'23123'
-        }, ],
-        multipleSelection: []
       }
     },
     components: {
@@ -153,6 +143,7 @@
     },
     created (){
       this.requestData();
+      console.log('121212',this.orderList);
     },
     mounted () {
       //      this.requestData();

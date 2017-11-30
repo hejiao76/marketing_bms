@@ -18,55 +18,32 @@
             <th class="col-md-2">操作</th>
           </tr>
           </thead>
-          <tbody>
+          <tbody  v-for="item in message">
           <tr class="tr-th">
             <td colspan="10">
               <span class="inp-check"><input type="checkbox"/></span>
-              <span class="number">订单编号：001</span>
-              <span class="datatime">订单创建时间：2017-10-10 11：28</span>
+              <span class="number">订单编号:{{item.orderNum}}</span>
+              <span class="datatime">订单创建时间：{{item.createTime}}</span>
             </td>
           </tr>
           <tr class="tr-td">
             <td>
               <div class="car-list">
                 <div class="car-list-txt">
-                  <a tabindex="_blank">500元购车优惠券500元购车优惠券</a>
+                  <a tabindex="_blank">{{item.orderName}}</a>
                 </div>
               </div>
               <div class="clear"></div>
             </td>
-            <td>待支付</td>
-            <td>马晓光</td>
-            <td>13888922290</td>
-            <td class="price">1.00</td>
+            <td>{{item.sedkillStatus}}</td>
+            <td>{{item.userName}}</td>
+            <td>{{item.phoneNum}}</td>
+            <td class="price">1{{item.sedkillMoney}}</td>
             <td>
               <a class="more-txt " href="javascript:;">查看详情</a>
             </td>
           </tr>
-          <tr class="tr-th">
-            <td colspan="10">
-              <span class="inp-check"><input type="checkbox"/></span>
-              <span class="number">订单编号：001</span>
-              <span class="datatime">订单创建时间：2017-10-10 11：28</span>
-            </td>
-          </tr>
-          <tr class="tr-td">
-            <td>
-              <div class="car-list">
-                <div class="car-list-txt">
-                  <a tabindex="_blank">500元购车优惠券500元购车优惠券</a>
-                </div>
-              </div>
-              <div class="clear"></div>
-            </td>
-            <td>待支付</td>
-            <td>马晓光</td>
-            <td>13888922290</td>
-            <td class="price">1.00</td>
-            <td>
-              <a class="more-txt green"  href="javascript:;">查看详情</a>
-            </td>
-          </tr>
+
           </tbody>
         </table>
         <!-- 订单表格 end -->
@@ -80,17 +57,9 @@
   import Final from "./../util/Final"
 export default {
   name: 'header',
+  props: ['message'],
   data () {
     return {
-      tableData3: [{
-        oderNum:'1234556',
-        orderCreatTime:'2017-10-01',
-        oderName:'500元购车优惠券500元购车优惠券',
-        oderStatus:'已支付',
-        userName:'阿娇',
-        userPhone:'010101001',
-        payAmount:'23123'
-      }, ],
       currentPage: 1,
       totalRow: 100,
     }
@@ -99,26 +68,7 @@ export default {
 
   },
   methods:{
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    }, 
-    /**
-     * 查看订单详情
-     */
-    chekcOder(){
-      console.log('开发中！');
-    },
-    /**
-     * 翻页控件触发事件
-     * @returns {}
-     */
-    handleCurrentChange(cpage) {
-      this.currentPage = cpage;
-      this.requestData();
-    },
-    toDetail (companyInfoId){
-      this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
-    },
+
   }
 }
 </script>

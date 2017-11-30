@@ -107,6 +107,93 @@ const OBJ ={
     applyCar:'迈腾',
     sedkillMoney:'2000',
 
-  }]
+  }],
+  orderList:{
+    allorder:[ //全部订单
+      {
+        orderNum:'001',
+        userName:'合脚',
+        phoneNum:'1234567',
+        orderName:'全部订单列表',
+        createTime:'2013-10-10',
+        sedkillMoney:'1.00',
+        sedkillStatus:'已支付',
+
+      },
+      {
+        orderNum:'002',
+        userName:'合脚',
+        phoneNum:'1234567',
+        orderName:'全部订单列表',
+        createTime:'2013-10-10',
+        sedkillMoney:'1.00',
+        sedkillStatus:'已支付',
+
+      },
+      {
+        orderNum:'003',
+        userName:'合脚',
+        phoneNum:'1234567',
+        orderName:'全部订单列表',
+        createTime:'2013-10-10',
+        sedkillMoney:'1.00',
+        sedkillStatus:'已支付',
+
+      }
+    ],
+    // 待支付
+    unpaid:[
+      {
+        orderNum:'001',
+        userName:'合脚',
+        phoneNum:'1234567',
+        orderName:'待支付列表',
+        createTime:'2013-10-10',
+        sedkillMoney:'1.00',
+        sedkillStatus:'已支付'
+
+      }
+    ],
+    //取消
+    cancel:[
+      {
+        orderNum:'001',
+        userName:'合脚',
+        phoneNum:'1234567',
+        orderName:'取消列表',
+        createTime:'2013-10-10',
+        sedkillMoney:'1.00',
+        sedkillStatus:'已支付'
+
+      }
+    ],
+    //退款中
+    refundIng:[
+      {
+        orderNum:'001',
+        userName:'合脚',
+        phoneNum:'1234567',
+        orderName:'退款中列表',
+        createTime:'2013-10-10',
+        sedkillMoney:'1.00',
+        sedkillStatus:'已支付'
+
+      }
+    ],
+    // 退款完成
+    refundEnd:[
+      {
+        orderNum:'001',
+        userName:'合脚',
+        phoneNum:'1234567',
+        orderName:'退款完成列表',
+        createTime:'2013-10-10',
+        sedkillMoney:'1.00',
+        sedkillStatus:'已支付'
+
+      }
+    ]
+
+  },
 }
 export  default OBJ;
