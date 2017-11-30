@@ -72,7 +72,7 @@ export function toFullDateString(l_date) {
   hour = hour < 10 ? "0" + hour : hour;
   minute = minute < 10 ? "0" + minute : minute;
   second = second < 10 ? "0" + second : second;
-  return ( year+"-"+month + "-" + day + " " + hour + ":" + minute);
+  return ( year+"-"+month + "-" + day + " " + hour + ":" + minute+":"+second);
 }
 export function checkMobile(phone){
   if(!(/^1[34578]\d{9}$/.test(phone))){

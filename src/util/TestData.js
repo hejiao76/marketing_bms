@@ -15,7 +15,7 @@ const OBJ ={
       shareImg:"http://www.baidu.com",
       checked_ticket:[{
         ticketId:1,
-        ticketName:'5000元购车优惠券',
+        ticketName:'秒杀活动测试数据1',
         isvalid:'有效',
         activityStartDate:"2017-12-28",
         activityEndDate:"2017-12-28",
@@ -25,11 +25,11 @@ const OBJ ={
         sedKillStartDate:'2017-12-29 12:00:00',
         ticketCount:'100',
         maxPayCount:'10',
-        signUpStartTime:'2017-12-10',
-        singUpStartTime:'2017-12-28',
+        // signUpStartTime:'2017-12-10',
+        // signUpEndTime:'2017-12-28',
       },{
         ticketId:2,
-        ticketName:'5000元购车优惠券',
+        ticketName:'秒杀活动测试数据2',
         isvalid:'有效',
         activityStartDate:"2017-12-29",
         activityEndDate:"2017-12-29",
@@ -40,7 +40,7 @@ const OBJ ={
         ticketCount:'100',
         maxPayCount:'10',
         signUpStartTime:'2017-12-10',
-        singUpStartTime:'2017-12-29',
+        signUpEndTime:'2017-12-29',
       }]
     }
   },
