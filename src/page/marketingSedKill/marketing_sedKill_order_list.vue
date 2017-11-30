@@ -52,77 +52,27 @@
       </el-form>
     </div>
     <!--------------搜索结果------------>
-    <div class="list_div">
-      <el-row>
-        <el-col :span="30">
-          <el-tabs type="card" @tab-click="changeActivityType">
-            <el-tab-pane name="0" label="全部订单"></el-tab-pane>
-            <el-tab-pane name="1" label="待支付"></el-tab-pane>
-            <el-tab-pane name="2" label="支付完成"></el-tab-pane>
-            <el-tab-pane name="3" label="已取消"></el-tab-pane>
-            <el-tab-pane name="4" label="退款中"></el-tab-pane>
-            <el-tab-pane name="5" label="退款完成"></el-tab-pane>
-          </el-tabs>
-        </el-col>
-      </el-row>
-      <div><span class="totalTip">共找到以下10条数据</span></div>
-       <div>
-
-         <el-table
-           ref="multipleTable"
-           :data="tableData3"
-           tooltip-effect="dark"
-           style="width: 100%"
-           @selection-change="handleSelectionChange">
-           <el-table-column
-             type="selection"
-             width="55">
-           </el-table-column>
-           <el-table-column
-             label="活动名称"
-             width="350">
-             <template slot-scope="scope">{{ scope.row.oderName }}</template>
-           </el-table-column>
-           <el-table-column
-             label="订单状态"
-             prop="oderStatus"
-             width="150">
-           </el-table-column>
-           <el-table-column
-             label="客户姓名"
-             prop="userName"
-             width="150">
-           </el-table-column>
-           <el-table-column
-             label="客户手机号"
-             prop="userPhone"
-             width="150">
-           </el-table-column>
-           <el-table-column
-             prop="payAmount"
-             label="秒杀支付金额"
-             width="150">
-           </el-table-column>
-           <el-table-column
-             label="操作"
-             show-overflow-tooltip>
-             <template slot-scope="scope"><el-button
-               size="mini"
-               @click="chekcOder()">查看详情</el-button>
-             </template>
-           </el-table-column>
-         </el-table>
-       </div>
-      <!--<span class="demonstration">完整功能</span>-->
-      <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
-                     :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
-                     :total="totalRow"></el-pagination>
-
-      <!-- 中奖用户弹出层 -->
-      <div class="mask" style="z-index: 12000;"></div>
-
+    <div>
+      <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
+        <el-tab-pane label="全部订单" name="first">
+          <div><V-OrderList></V-OrderList></div>
+        </el-tab-pane>
+        <el-tab-pane label="待支付" name="second">
+          <div><V-OrderList></V-OrderList></div>
+        </el-tab-pane>
+        <el-tab-pane label="已取消" name="third">
+          <div><V-OrderList></V-OrderList></div>
+        </el-tab-pane>
+        <el-tab-pane label="退款中" name="fourth">
+          <div><V-OrderList></V-OrderList></div>
+        </el-tab-pane>
+        <el-tab-pane label="退款完成" name="five">
+          <div><V-OrderList></V-OrderList></div>
+        </el-tab-pane>
+      </el-tabs>
 
     </div>
+    <div class="mask" style="z-index: 12000;"></div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
     <V-OrderDetail></V-OrderDetail>
 
@@ -142,6 +92,7 @@
   import * as Util from "./../../util/util";
   import VTipMsg from "./../../components/tipMsg.vue";
   import VOrderDetail from "./../../components/order_detail.vue";
+  import VOrderList from "./../../components/order_list.vue";
   import TestData from "./../../util/TestData"
   import $ from "jquery"
   import ElRow from "element-ui/packages/row/src/row";
@@ -175,10 +126,9 @@
         },
         activityType : 0,
         resData : [],
-        currentPage: 1,
-        totalRow: 0,
         pageRecorders: 10,
         Final: Final,
+        activeName:'first',
         /////列表测试数据
         tableData3: [{
             oderNum:'1234556',
@@ -198,7 +148,8 @@
       VLeft,
       VConNav,
       VTipMsg,
-      VOrderDetail
+      VOrderDetail,
+      VOrderList
     },
     created (){
       this.requestData();
@@ -222,17 +173,7 @@
       changeActivityType (tab, event){
         this.activityType = tab.name;
       },
-      /**
-       * 翻页控件触发事件
-       * @returns {}
-       */
-      handleCurrentChange(cpage) {
-        this.currentPage = cpage;
-        this.requestData();
-      },
-      toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
-      },
+
       /**
        * 获取过滤器参数
        * @returns {{token: (string|null)}}
