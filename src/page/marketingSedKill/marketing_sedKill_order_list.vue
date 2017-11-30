@@ -2,33 +2,35 @@
   <div class="con_list">
     <!--过滤条件-->
     <div class="filter_div mb20">
-      <el-form :model="filterForm"  ref="filterForm" label-width="120px" >
+      <el-form :model="filterForm"  ref="filterForm" label-width="80px" size="small" >
         <el-row>
-          <el-col :span="11">
-          <el-form-item label="活动名称:" prop="activityName" >
-            <el-input   v-model="filterForm.orderNum" placeholder="请输入订单编号"></el-input>
+          <el-col :span=10>
+          <el-form-item label="订单编号:" prop="activityName" >
+            <el-input   v-model="filterForm.orderNum" placeholder="请输入订单编号" style="width: 250px"></el-input>
           </el-form-item>
           </el-col>
-          <el-col :span="11">
+          <el-col :span="12">
             <el-form-item label="活动名称:" prop="activityName">
-              <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称"></el-input>
+              <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
-          <el-col :span="11">
-
+          <el-col :span="10">
+            <el-form-item label="活动名称:" prop="activityName">
+              <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" style="width:250px"></el-input>
+            </el-form-item>
           </el-col>
-          <el-col :span="11">
+          <el-col :span="12">
               <el-row>
                 <el-form-item label="创建时间:">
-                  <el-col :span="11">
-                    <el-date-picker v-model="filterForm.createStartDate" :picker-options="optionsCreateStart" type="date" placeholder="选择创建开始日期"></el-date-picker>
+                  <el-col :span="10">
+                    <el-date-picker v-model="filterForm.createStartDate" :picker-options="optionsCreateStart" type="date" placeholder="请输入开始时间" style="width: 170px;margin-right: 10px;"></el-date-picker>
                   </el-col>
-                  <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
-                  <el-col :span="11">
-                    <el-date-picker v-model="filterForm.createEndDate" :picker-options="optionsCreateEnd" type="date" placeholder="选择创建结束日期"></el-date-picker>
+                  <el-col style="text-align: center;width:20px;margin-left: 16px;">-</el-col>
+                  <el-col :span="10">
+                    <el-date-picker v-model="filterForm.createEndDate" :picker-options="optionsCreateEnd" type="date" placeholder="请输入结束日期" style="width: 170px"></el-date-picker>
                   </el-col>
                 </el-form-item>
               </el-row>
@@ -38,7 +40,7 @@
           <el-col :span="11">
             <div>
               <el-form-item label="客户手机:" prop="activityName">
-                <el-input   v-model="filterForm.phoneNum" placeholder="请输入活动名称"></el-input>
+                <el-input   v-model="filterForm.phoneNum" placeholder="请输入活动名称" style="width: 250px"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -55,30 +57,26 @@
     <div>
       <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
         <el-tab-pane label="全部订单" name="first">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.allorder" :callback="callback"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="待支付" name="second">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.unpaid" :callback="callback"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="已取消" name="third">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.cancel"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="退款中" name="fourth">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.refundIng"></V-OrderList></div>
         </el-tab-pane>
         <el-tab-pane label="退款完成" name="five">
-          <div><V-OrderList></V-OrderList></div>
+          <div><V-OrderList :message="orderList.refundEnd"></V-OrderList></div>
         </el-tab-pane>
       </el-tabs>
 
     </div>
     <div class="mask" style="z-index: 12000;"></div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
-    <V-OrderDetail></V-OrderDetail>
-
-
-
-    <div class="more-txt" @click="chekcOder()">查看详情</div>
+    <V-OrderDetail :ordername="ordername"></V-OrderDetail>
   </div>
 
 </template>
@@ -99,6 +97,15 @@
   export default {
     data() {
       return {
+        callback:function (name) {
+          console.log('888888',name);
+          this.ordername = name;
+          $('.more-txt').click(function(){
+            $('.mask,.olderdetail').show();
+          })
+        },
+        orderList:TestData.orderList,
+        activeName:'',
         optionsCreateStart : {
           disabledDate:(time) => {
             if(this.filterForm.createEndDate){
@@ -129,17 +136,7 @@
         pageRecorders: 10,
         Final: Final,
         activeName:'first',
-        /////列表测试数据
-        tableData3: [{
-            oderNum:'1234556',
-            orderCreatTime:'2017-10-01',
-            oderName:'500元购车优惠券500元购车优惠券',
-            oderStatus:'已支付',
-            userName:'阿娇',
-            userPhone:'010101001',
-            payAmount:'23123'
-        }, ],
-        multipleSelection: []
+        ordername:"cecececece"
       }
     },
     components: {
@@ -153,6 +150,7 @@
     },
     created (){
       this.requestData();
+      console.log('121212',this.orderList);
     },
     mounted () {
       //      this.requestData();
@@ -163,7 +161,6 @@
       }
     },
     methods: {
-
 
 
       /**
@@ -245,14 +242,7 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      /**
-       * 查看订单详情
-       */
-      chekcOder(){
-        $('.more-txt').click(function(){
-          $('.mask,.olderdetail').show();
-        })
-      }
+
     }
   }
 </script>

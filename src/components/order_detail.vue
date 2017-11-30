@@ -12,7 +12,8 @@
         </div>
         <div class="verify-txt">
           <ul>
-            <li>用户姓名：石头不是我</li>
+            <li style="color: red">用户姓名：{{ordername}}</li>
+            <div @click="aaaaa()">ceeececece</div>
             <li>用户手机号：18614086655</li>
           </ul>
         </div>
@@ -22,7 +23,7 @@
         <div class="verify-txt">
           <ul>
             <li>订单编号：M000000000001</li>
-            <li>活动名称：500元购车优惠券500元购车优惠券</li>
+            <li >活动名称：</li>
             <li>订单创建时间：2017-11-11 15:00:00</li>
             <li>订单状态：已支付</li>
             <li>活动支付金额：1.11元</li>
@@ -34,6 +35,7 @@
             <li>支付完成时间：2018-05-18 14:00</li>
             <li>取消时间：2018-05-18 15:00</li>
             <li>退款完成时间：2018-05-18 16:00</li>
+
           </ul>
         </div>
       </div>
@@ -46,6 +48,7 @@
   import Final from "./../util/Final"
 export default {
   name: 'header',
+  props:['ordername'],
   data () {
     return {
 
@@ -57,6 +60,9 @@ export default {
   methods:{
     closeDetail(){
         $('.mask,.olderdetail').hide();
+    },
+    aaaaa(){
+
     }
   }
 }
