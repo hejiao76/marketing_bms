@@ -40,7 +40,7 @@
             <td>{{item.phoneNum}}</td>
             <td class="price">1{{item.sedkillMoney}}</td>
             <td>
-              <a class="more-txt " href="javascript:;">查看详情</a>
+              <a class="more-txt "  @click="chekcOder(item.orderName)" href="javascript:;">查看详情</a>
             </td>
           </tr>
 
@@ -57,7 +57,7 @@
   import Final from "./../util/Final"
 export default {
   name: 'header',
-  props: ['message'],
+  props: ['message','callback'],
   data () {
     return {
       currentPage: 1,
@@ -68,7 +68,13 @@ export default {
 
   },
   methods:{
+    /**
+     * 查看订单详情
+     */
+    chekcOder(name){
+      this.callback(name)
 
+    }
   }
 }
 </script>
