@@ -192,7 +192,8 @@ const OBJ ={
         sedkillStatus:'已支付'
 
       }
-    ]
+    ],
+
 
   },
 }
