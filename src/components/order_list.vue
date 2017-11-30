@@ -1,54 +1,77 @@
 <template>
-  <div>
-    <div><span class="totalTip">共找到以下10条数据</span></div>
-    <el-table
-      ref="multipleTable"
-      :data="tableData3"
-      tooltip-effect="dark"
-      style="width: 100%"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55">
-      </el-table-column>
-      <el-table-column
-        label="活动名称"
-        width="350">
-        <template slot-scope="scope">{{ scope.row.oderName }}</template>
-      </el-table-column>
-      <el-table-column
-        label="订单状态"
-        prop="oderStatus"
-        width="100">
-      </el-table-column>
-      <el-table-column
-        label="客户姓名"
-        prop="userName"
-        width="100">
-      </el-table-column>
-      <el-table-column
-        label="客户手机号"
-        prop="userPhone"
-        width="100">
-      </el-table-column>
-      <el-table-column
-        prop="payAmount"
-        label="秒杀支付金额"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        width="100"
-        show-overflow-tooltip>
-        <template slot-scope="scope"><el-button
-          size="mini"
-          @click="chekcOder()">查看详情</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
-                   :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
-                   :total="totalRow"></el-pagination>
+  <div class="tab-content">
+    <div class="tab-pane active">
+      <div class="margin-bottom-10">
+        共找到以下
+        <span>10</span>条消息
+      </div>
+      <div style="border: 1px solid #EFF0F5;">
+        <!-- 订单表格 beigin -->
+        <table class="table-order" cellspacing="0" aria-describedby="example_info">
+          <thead>
+          <tr>
+            <th class="col-md-2"><input style="float:left;margin: 14px 8px 0px 5px" type="checkbox"><span style="float: left;">全选</span>活动名称</th>
+            <th class="col-md-2">订单状态</th>
+            <th class="col-md-2">客户姓名</th>
+            <th class="col-md-2">客户手机号</th>
+            <th class="col-md-2">秒杀支付金额</th>
+            <th class="col-md-2">操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="tr-th">
+            <td colspan="10">
+              <span class="inp-check"><input type="checkbox"/></span>
+              <span class="number">订单编号：001</span>
+              <span class="datatime">订单创建时间：2017-10-10 11：28</span>
+            </td>
+          </tr>
+          <tr class="tr-td">
+            <td>
+              <div class="car-list">
+                <div class="car-list-txt">
+                  <a tabindex="_blank">500元购车优惠券500元购车优惠券</a>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </td>
+            <td>待支付</td>
+            <td>马晓光</td>
+            <td>13888922290</td>
+            <td class="price">1.00</td>
+            <td>
+              <a class="more-txt " href="javascript:;">查看详情</a>
+            </td>
+          </tr>
+          <tr class="tr-th">
+            <td colspan="10">
+              <span class="inp-check"><input type="checkbox"/></span>
+              <span class="number">订单编号：001</span>
+              <span class="datatime">订单创建时间：2017-10-10 11：28</span>
+            </td>
+          </tr>
+          <tr class="tr-td">
+            <td>
+              <div class="car-list">
+                <div class="car-list-txt">
+                  <a tabindex="_blank">500元购车优惠券500元购车优惠券</a>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </td>
+            <td>待支付</td>
+            <td>马晓光</td>
+            <td>13888922290</td>
+            <td class="price">1.00</td>
+            <td>
+              <a class="more-txt green"  href="javascript:;">查看详情</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <!-- 订单表格 end -->
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,6 +124,22 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style>
+  .el-tabs--card>.el-tabs__header .el-tabs__nav{
+    border:none;
+  }
+  .el-tabs__item{
+    background: #EFF0F6;
+  }
+  .el-tabs--card>.el-tabs__header .el-tabs__item{
+    float: left;
+    border-left:none;
+    margin-right:10px;
+    border-bottom: 1px solid #dfe4ed;
+  }
+  .el-tabs--card>.el-tabs__header .el-tabs__item.is-active{
+    border-left: 1px solid #dfe4ed;
+    border-right: 1px solid #dfe4ed;
+    border-top: 3px solid #527EFE;
+  }
 </style>

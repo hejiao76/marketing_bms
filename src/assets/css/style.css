@@ -441,3 +441,112 @@ table{
   transform: translate(-50%,-50%);
   color: #5e7382;
 }
+html,body{
+  background: #fff;
+}
+.table-order{
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.table-order th{
+  height: 40px;
+  line-height: 40px;
+  color: #404C73;
+  font-size: 14px;
+  font-weight: 400;
+  background: #F6F7FB;
+}
+.order-row-none{
+  height: 20px;
+}
+.order-row-none td{
+  border: 0 !important;
+}
+.tr-th{
+  background: #fff;
+  height: 40px;
+  line-height: 40px;
+  color: #8C94AC;
+  overflow: hidden;
+}
+.table-order tbody td{
+  font-size: 14px;
+}
+.tr-th span{
+  float: left;
+  height: 20px;
+  line-height: 20px;
+  padding: 2px 0 0;
+  font-size: 14px;
+  font-weight: normal;
+  _displan:inline;
+}
+.tr-th .inp-check{
+  width: 14px;
+  margin:0 5px;
+}
+.tr-th .number{
+  width: 160px;
+}
+.tr-th .datatime,.payfor{
+  width: 250px;
+  margin-right: 30px;
+  _margin-right: 15px;
+}
+.tr-td{
+  text-align: center;
+  vertical-align: top;
+  border-bottom: 1px solid #EFF0F5;
+  height: 90px;
+
+}
+.tr-td td{
+  padding: 21px 0;
+  vertical-align: top !important;
+}
+.car-list{
+  display: block;
+  width: 340px;
+  float: left;
+}
+.car-list-img{
+  float: left;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #EFF0F5;
+  margin: 0 14px;
+  overflow: hidden;
+  _display:inline;
+}
+.car-list-txt{
+  float: left;
+  font-size: 14px;
+  line-height: 20px;
+  overflow: hidden;
+  color: #404C73;
+  padding-left: 26px;
+}
+.car-list-txt a{
+  color:#404C73;
+  /*text-decoration: none;*/
+}
+.clear{
+  display: block;
+  overflow: hidden;
+  clear: both;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+}
+a.tr-td-a{
+  display: block;
+  color: #404C73;
+  text-decoration: none !important;
+}
+.table-order .price{
+  color: #F16767;
+}
+/*a.tr-td-a:hover{
+	color: #f33;
+}*/
