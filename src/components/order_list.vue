@@ -101,7 +101,7 @@ export default {
   methods:{
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    },
+    }, 
     /**
      * 查看订单详情
      */
@@ -141,5 +141,6 @@ export default {
     border-left: 1px solid #dfe4ed;
     border-right: 1px solid #dfe4ed;
     border-top: 3px solid #527EFE;
+    background: #fff;
   }
 </style>
