@@ -47,214 +47,82 @@
 
             </el-form-item>
           </el-row>
-          <el-row>
-                <div class="newhd">
-                    <div v-for="checkedTicketItem in activityInfo.checked_ticket">
-                      <!--编辑模块--->
-                      <div v-if="checkedTicketItem.editStatus==1" class="newhds-list">
-                        <div class="newhd-header">
-                          <p class="newhd-tit">500元迈腾购车秒杀券</p>
-                          <div class="newhd-time">
-                            <p>有效时间：2017-11至20128-09-20</p>
-                            <p>创建时间：2017-11 10:52</p>
-                          </div>
-                        </div>
-                        <div class="newhd-content">
-                          <ul>
-                            <li>
-                              <span class="newhd-txt">秒杀券个数：</span>
-                              <div class="edit-txt">
-                                <input type="text" value="">
-                                <em class="edit-unit">个</em>
-                              </div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">最大支付数：</span>
-                              <div class="edit-txt">
-                                <input type="text" value="">
-                                <em class="edit-unit">个</em>
-                              </div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">秒杀支付金额：</span>
-                              <div class="edit-txt mlq0">
-                                <input type="text" value="">
-                                <em class="edit-unit">元</em>
-                              </div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">报名开始时间：</span>
-                              <div class="edit-txt">
-                                <el-date-picker v-model="testData" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
-                              </div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">报名结束时间：</span>
-                              <!-- <div class="newhd-inf">2017-11-15</div> -->
-                              <div class="edit-txt">
-                                <el-date-picker v-model="testData" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
-                                <!--<em class="index-icon icon-hdtime"></em>-->
-                              </div>
-                              <!--<div class="error-txt">时间错误时间误时间错误时错误</div>-->
-                            </li>
-                            <li>
-                              <span class="newhd-txt">秒杀开始时间：</span>
-                              <!-- <div class="newhd-inf">2017-11-15</div> -->
-                              <div class="edit-txt">
-                                <el-date-picker v-model="testData" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
-                                <!--<em class="index-icon icon-hdtime"></em>-->
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="newhd-footer">
-                          <div class="newhd-btn">
-                            <table class="mt20">
-                              <tbody>
-                              <tr>
-                                <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
-                                <!--<td id="cancleedit" style="display: block;"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
-                                <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
-                                <td><button @click="editTickItem(checkedTicketItem.ticketId,0)" type="button" class=" btn_bass btn_b">保存</button></td>
-                                <td><button @click="editTickItem(checkedTicketItem.ticketId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>
-                              </tr>
-                              </tbody>
-                            </table>
-                            <div class="icon-left">
-                              <img src="../../assets/images/zsks_o_l.png" alt="">
-                            </div>
-                            <div class="icon-right">
-                              <img src="../../assets/images/zsks_o_r.png" alt="">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!---列表状态--->
-                      <div v-else class="newhds-list">
-                        <div class="newhd-header">
-                          <p class="newhd-tit">{{checkedTicketItem.ticketName}}</p>
-                          <div class="newhd-time">
-                            <p>有效时间：{{checkedTicketItem.activityStartDate}}至{{checkedTicketItem.activityEndDate}}</p>
-                            <p>创建时间：{{checkedTicketItem.createDate}}</p>
-                          </div>
-                        </div>
-                        <div class="newhd-content">
-                          <ul>
-                            <li>
-                              <span class="newhd-txt">秒杀券个数：</span>
-                              <div class="newhd-inf">{{checkedTicketItem.ticketCount}}个</div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">最大支付数：</span>
-                              <div class="newhd-inf">{{checkedTicketItem.maxPayCount}}个</div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">秒杀支付金额：</span>
-                              <div class="newhd-inf">{{checkedTicketItem.sedkillMoney}}元</div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">报名开始时间：</span>
-                              <div class="newhd-inf">{{checkedTicketItem.signUpStartTime}}</div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">报名结束时间：</span>
-                              <div class="newhd-inf">{{checkedTicketItem.singUpStartTime}}</div>
-                            </li>
-                            <li>
-                              <span class="newhd-txt">秒杀开始时间：</span>
-                              <div class="newhd-inf">{{checkedTicketItem.sedKillStartDate}}</div>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="newhd-footer">
-                          <div class="newhd-btn">
-                            <table class="mt20">
-                              <tbody>
-                              <tr>
-                                <td><button @click="editTickItem(checkedTicketItem.ticketId,1)" type="button" class=" btn_bass btn_b">编辑</button></td>
-                                <td><button @click="removeTicketItem(checkedTicketItem.ticketId)" type="button" class=" btn_b_line">取消绑定</button></td>
-                                <!--<td><button class="btn_b_line">取消绑定</button></td>-->
-                                <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
-                                <!--<td id="cancleedit"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
-                                <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
-                              </tr>
-                              </tbody>
-                            </table>
-                            <div class="icon-left">
-                              <img src="../../assets/images/zsks_o_l.png" alt="">
-                            </div>
-                            <div class="icon-right">
-                              <img src="../../assets/images/zsks_o_r.png" alt="">
-                            </div>
-                            <div class="icon-right">
-                              <img src="../../assets/images/zsks_o_r.png" alt="">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  <!--<div class="newhds-list">-->
-                    <!--<div class="newhd-header">-->
-                      <!--<p class="newhd-tit">500元迈腾购车秒杀券</p>-->
-                      <!--<div class="newhd-time">-->
-                        <!--<p>有效时间：2017-11至20128-09-20</p>-->
-                        <!--<p>创建时间：2017-11 10:52</p>-->
-                      <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="newhd-content">-->
-                      <!--<ul>-->
-                        <!--<li>-->
-                          <!--<span class="newhd-txt">秒杀券个数：</span>-->
-                          <!--<div class="newhd-inf">100个</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                          <!--<span class="newhd-txt">最大支付数：</span>-->
-                          <!--<div class="newhd-inf">100个</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                          <!--<span class="newhd-txt">秒杀支付金额：</span>-->
-                          <!--<div class="newhd-inf">1.00元</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                          <!--<span class="newhd-txt">报名开始时间：</span>-->
-                          <!--<div class="newhd-inf">2017-11-15</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                          <!--<span class="newhd-txt">报名结束时间：</span>-->
-                          <!--<div class="newhd-inf">2017-11-15</div>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                          <!--<span class="newhd-txt">秒杀开始时间：</span>-->
-                          <!--<div class="newhd-inf">2017-11-15</div>-->
-                        <!--</li>-->
-                      <!--</ul>-->
-                    <!--</div>-->
-                    <!--<div class="newhd-footer">-->
-                      <!--<div class="newhd-btn">-->
-                        <!--<table>-->
-                          <!--<tbody>-->
-                          <!--<tr>-->
-                            <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
-                            <!--<td id="cancleedit"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
-                            <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
-                          <!--</tr>-->
-                          <!--</tbody>-->
-                        <!--</table>-->
-                        <!--<div class="icon-left">-->
-                          <!--<img src="../../assets/images/zsks_o_l.png" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="icon-right">-->
-                          <!--<img src="../../assets/images/zsks_o_r.png" alt="">-->
-                        <!--</div>-->
-                        <!--<div class="icon-right">-->
-                          <!--<img src="../../assets/images/zsks_o_r.png" alt="">-->
-                        <!--</div>-->
-                      <!--</div>-->
-                    <!--</div>-->
-                  <!--</div>-->
 
-                  <div class="newhds-list new-list" @click="openAddList">
-                    <div class="newhd-header">
+        </el-form>
+        <el-row>
+          <div class="newhd">
+            <div v-for="(checkedTicketItem,index) in activityInfo.checked_ticket">
+              <el-form :rules="rules" size="small" :ref="'ticketItemForm'+index" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+                <!--编辑模块--->
+                <div v-if="checkedTicketItem.editStatus==1" class="newhds-list">
+                  <div class="newhd-header">
+                    <p class="newhd-tit">{{checkedTicketItem.ticketName}}</p>
+                    <div class="newhd-time">
+                      <p>有效时间：{{checkedTicketItem.activityStartDate}}至{{checkedTicketItem.activityEndDate}}</p>
+                      <p>创建时间：{{checkedTicketItem.createDate}}</p>
+                    </div>
+                  </div>
+                  <div class="newhd-content">
+                    <ul>
+                      <li>
+                        <span class="newhd-txt">秒杀券个数：</span>
+                        <div class="edit-txt">
+                          <input v-model="checkedTicketItem.ticketCount" type="text">
+                          <em class="edit-unit">个</em>
+                        </div>
+                      </li>
+                      <li>
+                        <span class="newhd-txt">最大支付数：</span>
+                        <div class="edit-txt">
+                          <input v-model="checkedTicketItem.maxPayCount" type="text">
+                          <em class="edit-unit">个</em>
+                        </div>
+                      </li>
+                      <li>
+                        <span class="newhd-txt">秒杀支付金额：</span>
+                        <div class="edit-txt mlq0">
+                          <input v-model="checkedTicketItem.sedkillMoney" type="text">
+                          <em class="edit-unit">元</em>
+                        </div>
+                      </li>
+                      <li>
+                        <span class="newhd-txt">报名开始时间：</span>
+                        <div class="edit-txt">
+                          <el-date-picker v-model="checkedTicketItem.signUpStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                        </div>
+                      </li>
+                      <li>
+                        <span class="newhd-txt">报名结束时间：</span>
+                        <!-- <div class="newhd-inf">2017-11-15</div> -->
+                        <div class="edit-txt">
+                          <el-date-picker v-model="checkedTicketItem.signUpEndTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                          <!--<em class="index-icon icon-hdtime"></em>-->
+                        </div>
+                        <!--<div class="error-txt">时间错误时间误时间错误时错误</div>-->
+                      </li>
+                      <li>
+                        <span class="newhd-txt">秒杀开始时间：</span>
+                        <!-- <div class="newhd-inf">2017-11-15</div> -->
+                        <div class="edit-txt">
+                          <el-date-picker v-model="checkedTicketItem.sedKillStartDate" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                          <!--<em class="index-icon icon-hdtime"></em>-->
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="newhd-footer">
+                    <div class="newhd-btn">
+                      <table class="mt20">
+                        <tbody>
+                        <tr>
+                          <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
+                          <!--<td id="cancleedit" style="display: block;"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
+                          <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
+                          <td><button @click="editTickItem(checkedTicketItem.ticketId,0)" type="button" class=" btn_bass btn_b">保存</button></td>
+                          <td><button @click="editTickItem(checkedTicketItem.ticketId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>
+                        </tr>
+                        </tbody>
+                      </table>
                       <div class="icon-left">
                         <img src="../../assets/images/zsks_o_l.png" alt="">
                       </div>
@@ -262,24 +130,99 @@
                         <img src="../../assets/images/zsks_o_r.png" alt="">
                       </div>
                     </div>
-                    <div class="newhd-content">
-                      <p><img src="../../assets/images/jia.png" alt="">添加秒杀券</p>
+                  </div>
+                </div>
+                <!---列表状态--->
+                <div v-else class="newhds-list">
+                <div class="newhd-header">
+                  <p class="newhd-tit">{{checkedTicketItem.ticketName}}</p>
+                  <div class="newhd-time">
+                    <p>有效时间：{{checkedTicketItem.activityStartDate}}至{{checkedTicketItem.activityEndDate}}</p>
+                    <p>创建时间：{{checkedTicketItem.createDate}}</p>
+                  </div>
+                </div>
+                <div class="newhd-content">
+                  <ul>
+                    <li>
+                      <span class="newhd-txt">秒杀券个数：</span>
+                      <div class="newhd-inf">{{checkedTicketItem.ticketCount}}个</div>
+                    </li>
+                    <li>
+                      <span class="newhd-txt">最大支付数：</span>
+                      <div class="newhd-inf">{{checkedTicketItem.maxPayCount}}个</div>
+                    </li>
+                    <li>
+                      <span class="newhd-txt">秒杀支付金额：</span>
+                      <div class="newhd-inf">{{checkedTicketItem.sedkillMoney}}元</div>
+                    </li>
+                    <li>
+                      <span class="newhd-txt">报名开始时间：</span>
+                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.signUpStartTime)}}</div>
+                    </li>
+                    <li>
+                      <span class="newhd-txt">报名结束时间：</span>
+                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.signUpEndTime)}}</div>
+                    </li>
+                    <li>
+                      <span class="newhd-txt">秒杀开始时间：</span>
+                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.sedKillStartDate)}}</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="newhd-footer">
+                  <div class="newhd-btn">
+                    <table class="mt20">
+                      <tbody>
+                      <tr>
+                        <td><button @click="editTickItem(checkedTicketItem.ticketId,1)" type="button" class=" btn_bass btn_b">编辑</button></td>
+                        <td><button @click="removeTicketItem(checkedTicketItem.ticketId)" type="button" class=" btn_b_line">取消绑定</button></td>
+                        <!--<td><button class="btn_b_line">取消绑定</button></td>-->
+                        <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
+                        <!--<td id="cancleedit"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
+                        <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
+                      </tr>
+                      </tbody>
+                    </table>
+                    <div class="icon-left">
+                      <img src="../../assets/images/zsks_o_l.png" alt="">
                     </div>
-                    <div class="newhd-footer">
-                      <div class="newhd-btn">
-                        <div class="icon-left">
-                          <img src="../../assets/images/zsks_o_l.png" alt="">
-                        </div>
-                        <div class="icon-right">
-                          <img src="../../assets/images/zsks_o_r.png" alt="">
-                        </div>
-                      </div>
+                    <div class="icon-right">
+                      <img src="../../assets/images/zsks_o_r.png" alt="">
+                    </div>
+                    <div class="icon-right">
+                      <img src="../../assets/images/zsks_o_r.png" alt="">
                     </div>
                   </div>
                 </div>
+              </div>
+              </el-form>
+            </div>
+            <div class="newhds-list new-list" @click="openAddList">
+              <div class="newhd-header">
+                <div class="icon-left">
+                  <img src="../../assets/images/zsks_o_l.png" alt="">
+                </div>
+                <div class="icon-right">
+                  <img src="../../assets/images/zsks_o_r.png" alt="">
+                </div>
+              </div>
+              <div class="newhd-content">
+                <p><img src="../../assets/images/jia.png" alt="">添加秒杀券</p>
+              </div>
+              <div class="newhd-footer">
+                <div class="newhd-btn">
+                  <div class="icon-left">
+                    <img src="../../assets/images/zsks_o_l.png" alt="">
+                  </div>
+                  <div class="icon-right">
+                    <img src="../../assets/images/zsks_o_r.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          </el-row>
-        </el-form>
+        </el-row>
       </div>
       <V-Addedkilllist></V-Addedkilllist>
     </div>
@@ -316,12 +259,12 @@
           }
         },
         labelPosition:'left',
-        activityInfo: {
-          activityName: '',
-          activityStartDate:'',//活动开始时间
-          activityEndDate:'', //活动结束时间
-          imageUrl: ''
-        },
+//        activityInfo: {
+//          activityName: '',
+//          activityStartDate:'',//活动开始时间
+//          activityEndDate:'', //活动结束时间
+//          imageUrl: ''
+//        },
         tempBindTicketItemKey : ["ticketId", "ticketName", "isvalid", "activityStartDate", "activityEndDate", "createDate", "applyCar", "sedkillMoney", "sedKillStartDate", "ticketCount", "maxPayCount", "signUpStartTime", "singUpStartTime"],
         rules: {
           activityName: [
@@ -336,7 +279,16 @@
           ],
           imageUrl:[
             { required: true, message: '请上传图片', trigger: 'change' }
-          ]
+          ],
+          signUpStartTime:[
+            { required: true, message: '请选择日期', trigger: 'blur' }
+          ],
+          signUpEndTime:[
+            { required: true, message: '请选择日期', trigger: 'blur' }
+          ],
+          sedKillStartDate:[
+            { required: true, message: '请选择日期1', trigger: 'blur' }
+          ],
         },
         activityId:'', //秒杀活动ID
         activityInfo:{},
@@ -397,6 +349,17 @@
 
       },
       /**
+       * 日期转字符串
+       * @param date
+       */
+      formatDateToString (date){
+          if(typeof date == 'object'){
+              return util.toFullDateString(date.getTime());
+          }else{
+              return date;
+          }
+      },
+      /**
        * 编辑/取消编辑 秒杀券基本信息按钮事件触发
        * @param ticketId
        * @param status
@@ -406,6 +369,15 @@
           for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
             if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
               let item = this.activityInfo.checked_ticket[i];
+              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
+                  item.siginUpStartTime=new Date(item.siginUpStartTime);
+              }
+              if(item.signUpEndTime && typeof item.signUpEndTime !='object') {
+                item.signUpEndTime=new Date(item.signUpEndTime);
+              }
+              if(item.sedKillStartDate && typeof item.sedKillStartDate !='object') {
+                item.sedKillStartDate=new Date(item.sedKillStartDate);
+              }
               item.editStatus=status;
               this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
               break;

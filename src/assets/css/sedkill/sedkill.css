@@ -543,6 +543,7 @@ input.ulNormalRInput[type=text]:disabled {
 }
 
 .newhds-list .newhd-content ul li {
+  height:24px;
   width: 100%;
   /*font-size: 14px;*/
   font-size:12px;
