@@ -282,21 +282,22 @@
 
 .active-content a {
   position: relative;
-  left: 20px
+  left: 20px;
+  color: #527EFE;
 }
 
-.active-content a:before {
-  content: '';
-  display: inline-block;
-  top: 50%;
-  right: -10px;
-  margin-top: -3px;
-  height: 6px;
-  width: 6px;
-  border-left: 1px solid #527EFE;
-  border-bottom: 1px solid #527EFE;
-  transform: rotate(-135deg)
-}
+/*.active-content a:before {*/
+  /*content: '';*/
+  /*display: inline-block;*/
+  /*top: 50%;*/
+  /*right: -10px;*/
+  /*margin-top: -3px;*/
+  /*height: 6px;*/
+  /*width: 6px;*/
+  /*border-left: 1px solid #527EFE;*/
+  /*border-bottom: 1px solid #527EFE;*/
+  /*transform: rotate(-135deg)*/
+/*}*/
 
 .active-footer {
   background: #fff;

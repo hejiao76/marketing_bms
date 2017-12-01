@@ -196,5 +196,53 @@ const OBJ ={
 
 
   },
+  ////抽奖列表
+  prize_list:[
+    {
+      isStart:1,
+      createDate:'2015-10-10',
+      buyNum:100,
+      allBuyNum:1000,
+      startDate:'2013-10-10',
+      endDate:'2013-10-21',
+
+    },
+    {
+      isStart:1,
+      createDate:'2015-10-10',
+      buyNum:100,
+      allBuyNum:1000,
+      startDate:'2013-10-10',
+      endDate:'2013-10-21',
+
+    },
+    {
+      isStart:2,
+      createDate:'2015-10-10',
+      buyNum:100,
+      allBuyNum:1000,
+      startDate:'2013-10-10',
+      endDate:'2013-10-21',
+
+    },
+    {
+      isStart:2,
+      createDate:'2015-10-10',
+      buyNum:100,
+      allBuyNum:1000,
+      startDate:'2013-10-10',
+      endDate:'2013-10-21',
+
+    },
+    {
+      isStart:3,
+      createDate:'2015-10-10',
+      buyNum:100,
+      allBuyNum:1000,
+      startDate:'2013-10-10',
+      endDate:'2013-10-21',
+
+    }
+  ]
 }
 export  default OBJ;
