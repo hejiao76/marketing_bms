@@ -1,33 +1,113 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="12"><el-dropdown>
-        <el-button type="primary" style="padding:10px 50px">
-          省份选择<i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown" placement="bottom" style="width: 180px;height: 300px;overflow-y: auto">
-          <el-dropdown-item><el-checkbox @change="allChecked($event)" class="fw">全选</el-checkbox></el-dropdown-item>
-          <el-dropdown-item v-for="item in userData.optionalMenusTree">
-            <el-checkbox v-model="checkedMenuCodeArray"  @change="handleCheckAllChange($event,item.menucode,item.children)" :label="item.menucode" :key="item.menucode" class="fw">{{item.menuName}}</el-checkbox>
-            <span @click="linkchild(item.children,item.menucode)"><i class="el-icon-caret-right"></i></span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      </el-col>
-      <el-col :span="12">
-        <ul style="width: 180px;height: 300px;overflow-y: auto;" v-if="childItems.length>0">
-          <li><el-checkbox v-model="isAllChild" @change="allChildrenChecked($event)" class="fw">全选</el-checkbox></li>
-          <li  v-for="childItem in childItems" >
-            <el-checkbox  v-model="checkedMenuCodeArray" @change="handleCheckedChildChange($event,thismenucode)" :label="childItem.menucode" :key="childItem.menucode">{{childItem.menuName}}</el-checkbox>
-          </li>
-        </ul>
+      <el-col :span="24">
+
+        <div class="form-group">
+          <div class="">
+            <div class="" style="position: relative;">
+              <div class="select-box form-control">
+                全部
+              </div>
+              <div class="city-box">
+                <div class="city">
+                  <div class="city-title">
+                    城市列表
+                  </div>
+                  <div class="city-body">
+                    <div class="city-body-right" v-for="item in userData.optionalMenusTree">
+                      <div class="city-body-title" >
+                        <el-checkbox v-model="checkedMenuCodeArray"  @change="handleCheckAllChange($event,item.menucode,item.children)" :label="item.menucode" :key="item.menucode" class="fw">{{item.menuName}}</el-checkbox>
+                      </div>
+                      <div class="city-body-content">
+                        <el-col :span="6" v-for="childItem in item.children">
+                            <el-checkbox  v-model="checkedMenuCodeArray" @change="handleCheckedChildChange($event,thismenucode)" :label="childItem.menucode" :key="childItem.menucode">{{childItem.menuName}}</el-checkbox>
+                        </el-col>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="city-sidebar">
+                  <div class="col-md-12 city-title">
+                    已选城市
+                  </div>
+                  <div class="city-body">
+                    <label class="col-md-12">
+                      <el-checkbox >合肥</el-checkbox>
+                    </label>
+                    <label class="col-md-12">
+                      <el-checkbox >合肥</el-checkbox>
+                    </label>
+                    <label class="col-md-12">
+                      <el-checkbox >合肥</el-checkbox>
+                    </label>
+                    <label class="col-md-12">
+                      <el-checkbox>合肥</el-checkbox>
+                    </label>
+                  </div>
+                </div>
+                <el-row style="width: 100%;" class="city-footer">
+                    <el-col :span="12"> <el-checkbox @change="allChecked($event)" class="fw">全选</el-checkbox></el-col>
+                  <el-col :span="12" class="col-md-8 text-right">
+                    <el-button size="small" class="fr mr20 " style="margin-top:3px;">取消</el-button>
+                    <el-button type="primary" size="small" class="fr mr20 " style="margin-right:20px;margin-top:3px;">确认</el-button>
+                  </el-col>
+                </el-row>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!--<el-dropdown size="small">-->
+        <!--<el-button type="primary" style="padding:10px 50px;background:none;">-->
+          <!--省份选择<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+        <!--</el-button>-->
+        <!--<el-dropdown-menu slot="dropdown" placement="bottom" style="width: 180px;height: 300px;overflow-y: auto">-->
+          <!--<el-dropdown-item><el-checkbox @change="allChecked($event)" class="fw">全选</el-checkbox></el-dropdown-item>-->
+          <!--<el-dropdown-item v-for="item in userData.optionalMenusTree">-->
+            <!--<el-checkbox v-model="checkedMenuCodeArray"  @change="handleCheckAllChange($event,item.menucode,item.children)" :label="item.menucode" :key="item.menucode" class="fw">{{item.menuName}}</el-checkbox>-->
+            <!--<span @click="linkchild(item.children,item.menucode)"><i class="el-icon-caret-right"></i></span>-->
+          <!--</el-dropdown-item>-->
+        <!--</el-dropdown-menu>-->
+      <!--</el-dropdown>-->
+      <!--</el-col>-->
+      <!--<el-col :span="12">-->
+        <!--<ul style="width: 180px;height: 300px;overflow-y: auto;" v-if="childItems.length>0">-->
+          <!--<li><el-checkbox v-model="isAllChild" @change="allChildrenChecked($event)" class="fw">全选</el-checkbox></li>-->
+          <!--<li  v-for="childItem in childItems" >-->
+            <!--<el-checkbox  v-model="checkedMenuCodeArray" @change="handleCheckedChildChange($event,thismenucode)" :label="childItem.menucode" :key="childItem.menucode">{{childItem.menuName}}</el-checkbox>-->
+          <!--</li>-->
+        <!--</ul>-->
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+  import ElRow from "element-ui/packages/row/src/row";
+  import ElCol from "element-ui/packages/col/src/col";
+
   export default {
+    components: {
+      ElCol,
+      ElRow},
     data () {
       return{
         tableData: [],
@@ -332,6 +412,7 @@
         let pnode = {id:0};
         this.buildRolesMenuTree(pnode,optionalMenusArray);
         this.userData.optionalMenusTree=pnode.children;
+        console.log('mmpmmp',this.userData.optionalMenusTree);
       },
       buildRolesMenuTree  (pnode,roleMenus) {
         if(pnode && roleMenus.length>0){

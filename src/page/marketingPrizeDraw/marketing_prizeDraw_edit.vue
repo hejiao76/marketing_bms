@@ -1,230 +1,150 @@
 <template>
     <div class="con_list">
-      <div class="filter_div mb20">
-        <el-form :model="activityInfo" :rules="rules" size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
-          <el-row :gutter="20">
-            <el-col :span="16">
-              <el-row>
-                <el-form-item label="活动名称：" prop="activityName">
-                  <el-input v-model="activityInfo.activityName"></el-input>
-                </el-form-item>
-              </el-row>
-              <el-row>
-                <el-form-item label="创建时间：" required>
-                  <el-col :span="11">
-                    <el-form-item prop="activityStartDate">
-                      <el-date-picker style="width: 100%;" v-model="activityInfo.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+      <el-row>
+        <el-col :span="4">
+          <img src="../../assets/images/mod.png" style="width: 100%"/>
+        </el-col>
+        <el-col :span="20">
+          <el-form :model="filterForm"  :rules="rules" ref="filterForm" label-width="120px" size="small" :label-position="labelPosition">
+              <el-tabs type="card"  v-model="thisName" @tab-click="changeActivityType">
+                <el-tab-pane label="基础设置" name="first">
+                  <el-row>
+                    <el-col :span="24">
+                      <el-form-item label="活动名称:" prop="activityName">
+                        <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
+                      </el-form-item>
+                      <el-form-item label="秒杀券有效期" required>
+                        <el-col :span="11">
+                          <el-form-item prop="activityStartDate">
+                            <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                          </el-form-item>
+                        </el-col>
+                        <el-col class="line" :span="2" style="text-align: center">-</el-col>
+                        <el-col :span="11">
+                          <el-form-item prop="activityEndDate">
+                            <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                          </el-form-item>
+                        </el-col>
+                      </el-form-item>
+                      <el-form-item label="参与人数:">
+                        <el-col :span="24">
+                        <el-radio v-model="filterForm.radio" label="1">显示</el-radio>
+                        <el-radio v-model="filterForm.radio" label="2">隐藏</el-radio>
+                          <span style="margin-left: 100px">在实际人数上增加&nbsp;&nbsp;<el-input  placeholder="请输入内容" style="width: 100px;display: inline-block"></el-input>&nbsp;&nbsp;人</span>
+                        </el-col>
+                      </el-form-item>
+                      <el-form-item label="获奖信息:">
+                        <el-col :span="24">
+                          <el-radio v-model="filterForm.radio" label="1">显示</el-radio>
+                          <el-radio v-model="filterForm.radio" label="2">隐藏</el-radio>
+                        </el-col>
+                      </el-form-item>
 
-                    </el-form-item>
-                  </el-col>
-                  <el-col class="line" :span="2" style="text-align: center">-</el-col>
-                  <el-col :span="11">
-                    <el-form-item prop="activityEndDate">
-                      <el-date-picker style="width: 100%;" v-model="activityInfo.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                </el-form-item>
-              </el-row>
+                    </el-col>
+                  </el-row>
+                  <el-row>
+                    <el-col :span="8">
+                      <el-col :span="14">
+                         <span >背景图片：</span>
+                        <el-upload
+                          class="upload-demo"
+                          drag
+                          action="https://jsonplaceholder.typicode.com/posts/"
+                          multiple
+                        >
+                          <i class="el-icon-upload" ></i>
+                          <div class="el-upload__text">拖动或<em>点击上传</em></div>
+                          <div class="el-upload__tip" slot="tip"></div>
+                        </el-upload>
+                      </el-col>
+                      <el-col :span="8">
+                        <div style="font-size: 12px;padding-top:125px;">大小200kb内<br/>
+                          尺寸：50px*50px</div>
+                        <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
+                      </el-col>
 
-            </el-col>
-
-            <el-col :span="8">
-              <el-form-item label="分享图片：" prop="imageUrl">
-              <el-upload
-                class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
-                <img v-if="activityInfo.imageUrl" :src="activityInfo.imageUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-form-item label="秒杀券绑定">
-
-            </el-form-item>
-          </el-row>
-
-        </el-form>
-        <el-row>
-          <div class="newhd">
-            <div v-for="(checkedTicketItem,index) in activityInfo.checked_ticket">
-              <el-form :rules="rules" size="small" :ref="'ticketItemForm'+index" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
-                <!--编辑模块--->
-                <div v-if="checkedTicketItem.editStatus==1" class="newhds-list">
-                  <div class="newhd-header">
-                    <p class="newhd-tit">{{checkedTicketItem.ticketName}}</p>
-                    <div class="newhd-time">
-                      <p>有效时间：{{checkedTicketItem.activityStartDate}}至{{checkedTicketItem.activityEndDate}}</p>
-                      <p>创建时间：{{checkedTicketItem.createDate}}</p>
-                    </div>
-                  </div>
-                  <div class="newhd-content">
-                    <ul>
-                      <li>
-                        <span class="newhd-txt">秒杀券个数：</span>
-                        <div class="edit-txt">
-                          <input v-model="checkedTicketItem.ticketCount" type="text">
-                          <em class="edit-unit">个</em>
-                        </div>
-                      </li>
-                      <li>
-                        <span class="newhd-txt">最大支付数：</span>
-                        <div class="edit-txt">
-                          <input v-model="checkedTicketItem.maxPayCount" type="text">
-                          <em class="edit-unit">个</em>
-                        </div>
-                      </li>
-                      <li>
-                        <span class="newhd-txt">秒杀支付金额：</span>
-                        <div class="edit-txt mlq0">
-                          <input v-model="checkedTicketItem.sedkillMoney" type="text">
-                          <em class="edit-unit">元</em>
-                        </div>
-                      </li>
-                      <li>
-                        <span class="newhd-txt">报名开始时间：</span>
-                        <div class="edit-txt">
-                          <el-date-picker v-model="checkedTicketItem.signUpStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
-                        </div>
-                      </li>
-                      <li>
-                        <span class="newhd-txt">报名结束时间：</span>
-                        <!-- <div class="newhd-inf">2017-11-15</div> -->
-                        <div class="edit-txt">
-                          <el-date-picker v-model="checkedTicketItem.signUpEndTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
-                          <!--<em class="index-icon icon-hdtime"></em>-->
-                        </div>
-                        <!--<div class="error-txt">时间错误时间误时间错误时错误</div>-->
-                      </li>
-                      <li>
-                        <span class="newhd-txt">秒杀开始时间：</span>
-                        <!-- <div class="newhd-inf">2017-11-15</div> -->
-                        <div class="edit-txt">
-                          <el-date-picker v-model="checkedTicketItem.sedKillStartDate" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
-                          <!--<em class="index-icon icon-hdtime"></em>-->
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="newhd-footer">
-                    <div class="newhd-btn">
-                      <table class="mt20">
-                        <tbody>
-                        <tr>
-                          <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
-                          <!--<td id="cancleedit" style="display: block;"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
-                          <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
-                          <td><button @click="editTickItem(checkedTicketItem.ticketId,0)" type="button" class=" btn_bass btn_b">保存</button></td>
-                          <td><button @click="editTickItem(checkedTicketItem.ticketId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>
-                        </tr>
-                        </tbody>
-                      </table>
-                      <div class="icon-left">
-                        <img src="../../assets/images/zsks_o_l.png" alt="">
-                      </div>
-                      <div class="icon-right">
-                        <img src="../../assets/images/zsks_o_r.png" alt="">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!---列表状态--->
-                <div v-else class="newhds-list">
-                <div class="newhd-header">
-                  <p class="newhd-tit">{{checkedTicketItem.ticketName}}</p>
-                  <div class="newhd-time">
-                    <p>有效时间：{{checkedTicketItem.activityStartDate}}至{{checkedTicketItem.activityEndDate}}</p>
-                    <p>创建时间：{{checkedTicketItem.createDate}}</p>
-                  </div>
-                </div>
-                <div class="newhd-content">
-                  <ul>
-                    <li>
-                      <span class="newhd-txt">秒杀券个数：</span>
-                      <div class="newhd-inf">{{checkedTicketItem.ticketCount}}个</div>
-                    </li>
-                    <li>
-                      <span class="newhd-txt">最大支付数：</span>
-                      <div class="newhd-inf">{{checkedTicketItem.maxPayCount}}个</div>
-                    </li>
-                    <li>
-                      <span class="newhd-txt">秒杀支付金额：</span>
-                      <div class="newhd-inf">{{checkedTicketItem.sedkillMoney}}元</div>
-                    </li>
-                    <li>
-                      <span class="newhd-txt">报名开始时间：</span>
-                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.signUpStartTime)}}</div>
-                    </li>
-                    <li>
-                      <span class="newhd-txt">报名结束时间：</span>
-                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.signUpEndTime)}}</div>
-                    </li>
-                    <li>
-                      <span class="newhd-txt">秒杀开始时间：</span>
-                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.sedKillStartDate)}}</div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="newhd-footer">
-                  <div class="newhd-btn">
-                    <table class="mt20">
-                      <tbody>
-                      <tr>
-                        <td><button @click="editTickItem(checkedTicketItem.ticketId,1)" type="button" class=" btn_bass btn_b">编辑</button></td>
-                        <td><button @click="removeTicketItem(checkedTicketItem.ticketId)" type="button" class=" btn_b_line">取消绑定</button></td>
-                        <!--<td><button class="btn_b_line">取消绑定</button></td>-->
-                        <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
-                        <!--<td id="cancleedit"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
-                        <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
-                      </tr>
-                      </tbody>
-                    </table>
-                    <div class="icon-left">
-                      <img src="../../assets/images/zsks_o_l.png" alt="">
-                    </div>
-                    <div class="icon-right">
-                      <img src="../../assets/images/zsks_o_r.png" alt="">
-                    </div>
-                    <div class="icon-right">
-                      <img src="../../assets/images/zsks_o_r.png" alt="">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </el-form>
-            </div>
-            <div class="newhds-list new-list" @click="openAddList">
-              <div class="newhd-header">
-                <div class="icon-left">
-                  <img src="../../assets/images/zsks_o_l.png" alt="">
-                </div>
-                <div class="icon-right">
-                  <img src="../../assets/images/zsks_o_r.png" alt="">
-                </div>
-              </div>
-              <div class="newhd-content">
-                <p><img src="../../assets/images/jia.png" alt="">添加秒杀券</p>
-              </div>
-              <div class="newhd-footer">
-                <div class="newhd-btn">
-                  <div class="icon-left">
-                    <img src="../../assets/images/zsks_o_l.png" alt="">
-                  </div>
-                  <div class="icon-right">
-                    <img src="../../assets/images/zsks_o_r.png" alt="">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </el-row>
-      </div>
-      <V-Addedkilllist></V-Addedkilllist>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-col :span="14">
+                        <span >标题图片：</span>
+                        <el-upload
+                          class="upload-demo"
+                          drag
+                          action="https://jsonplaceholder.typicode.com/posts/"
+                          multiple
+                        >
+                          <i class="el-icon-upload" ></i>
+                          <div class="el-upload__text">拖动或<em>点击上传</em></div>
+                          <div class="el-upload__tip" slot="tip"></div>
+                        </el-upload>
+                      </el-col>
+                      <el-col :span="8">
+                        <div style="font-size: 12px;padding-top:125px;">大小200kb内<br/>
+                          尺寸：50px*50px</div>
+                        <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
+                      </el-col>
+                    </el-col>
+                    <el-col :span="8">
+                      <el-col :span="14">
+                        <span >活动图片：</span>
+                        <el-upload
+                          class="upload-demo"
+                          drag
+                          action="https://jsonplaceholder.typicode.com/posts/"
+                          multiple
+                        >
+                          <i class="el-icon-upload" ></i>
+                          <div class="el-upload__text">拖动或<em>点击上传</em></div>
+                          <div class="el-upload__tip" slot="tip"></div>
+                        </el-upload>
+                      </el-col>
+                      <el-col :span="8">
+                        <div style="font-size: 12px;padding-top:125px;">大小200kb内<br/>
+                          尺寸：50px*50px</div>
+                        <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
+                      </el-col>
+                    </el-col>
+                  </el-row>
+                  <el-row class="margin-bottom-20">
+                    <el-col :span="4"  style="margin-top:10px;">
+                      活动地区：
+                    </el-col>
+                    <el-col :span="20">
+                      <V-Treeview></V-Treeview>
+                    </el-col>
+                  </el-row>
+                  <el-row class="margin-bottom-20">
+                    <span class="span-120">车系／车型：</span>
+                    <el-select v-model="filterForm.activityName" placeholder="全部"size="small">
+                    <el-option
+                      v-for="item in filterForm.activityArea"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  </el-row>
+                  <el-row>
+                      <el-col :span="24">
+                        <el-form-item label="活动说明:" prop="activityName">
+                          <el-input type="textarea" placeholder="填写商家自定义的活动说明" v-model="filterForm.activityName"></el-input>
+                        </el-form-item>
+                      </el-col>
+                  </el-row>
+                </el-tab-pane>
+                <el-tab-pane label="抽奖设置" name="second">
+                  2
+                </el-tab-pane>
+                <el-tab-pane label="奖品设置" name="third">
+                  3
+                </el-tab-pane>
+                <el-tab-pane label="模板选择" name="fourth">
+                  4
+                </el-tab-pane>
+              </el-tabs>
+          </el-form>
+        </el-col>
+      </el-row>
     </div>
 
 </template>
@@ -236,12 +156,15 @@
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import VAddedkilllist from "./../../components/add_sedkill_list.vue";
+  import VTreeview from "./../../components/treeview.vue";
   import TestData from "./../../util/TestData"
+  import ElCol from "element-ui/packages/col/src/col";
+  import ElRow from "element-ui/packages/row/src/row";
   export default {
     data() {
       return {
-        testData:'',
+        thisName:'first',
+        labelPosition:'left',
         optionsActivityStart :{
           disabledDate:(time) => {
             if(this.activityInfo.activityEndDate){
@@ -259,13 +182,15 @@
           }
         },
         labelPosition:'left',
-//        activityInfo: {
-//          activityName: '',
-//          activityStartDate:'',//活动开始时间
-//          activityEndDate:'', //活动结束时间
-//          imageUrl: ''
-//        },
-        tempBindTicketItemKey : ["ticketId", "ticketName", "isvalid", "activityStartDate", "activityEndDate", "createDate", "applyCar", "sedkillMoney", "sedKillStartDate", "ticketCount", "maxPayCount", "signUpStartTime", "singUpStartTime"],
+        filterForm: {
+          activityName: '',
+          activityStartDate:'',//活动开始时间
+          activityEndDate:'', //活动结束时间
+          imageUrl: '',
+          activityArea:'',
+          radio:1,
+        },
+
         rules: {
           activityName: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -277,35 +202,25 @@
           activityEndDate: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          imageUrl:[
-            { required: true, message: '请上传图片', trigger: 'change' }
-          ],
-          signUpStartTime:[
-            { required: true, message: '请选择日期', trigger: 'blur' }
-          ],
-          signUpEndTime:[
-            { required: true, message: '请选择日期', trigger: 'blur' }
-          ],
-          sedKillStartDate:[
-            { required: true, message: '请选择日期1', trigger: 'blur' }
-          ],
         },
         activityId:'', //秒杀活动ID
         activityInfo:{},
       }
     },
     components :{
+      ElRow,
+      ElCol,
       VHeader,
       VLeft,
       VConNav,
       VTipMsg,
-      VAddedkilllist
+      VTreeview,
     },
     created (){
 
     },
     mounted (){
-      this.initPage();
+
     },
     watch : {
       "$route": function (to, from) {
@@ -313,155 +228,29 @@
       }
     },
     methods : {
-      initPage () {
-          this.activityId = this.$route.params.sedKillId;
+      changeActivityType(){
 
-          if(this.activityId){
-              this.requestData()
-          }
-      },
-      /**
-       * 请求秒杀活动详情
-       */
-      requestData () {
-        if(this.activityId){
-          let param = {activityId:this.activityId};
-          this.activityInfo=TestData.sedKill_checked_ticket_data.result;
-          console.log(this.activityInfo);
-          return;
-          Api.sk_activity_list(param)
-            .then(res => {
-              if (res.status == 1) {
-                this.activityInfo = res.result;
-                this.totalRow = res.totalRow;
-              }else {
-                this.$refs.tipMsgRef.showTipMsg({
-                  msg:res.message,
-                  type:"error"
-                });
-              }
-            }).catch(err => {
-
-          });
-        }
-      },
-      getTicketItemByTicketId (ticketId) {
-
-      },
-      /**
-       * 日期转字符串
-       * @param date
-       */
-      formatDateToString (date){
-          if(typeof date == 'object'){
-              return util.toFullDateString(date.getTime());
-          }else{
-              return date;
-          }
-      },
-      /**
-       * 编辑/取消编辑 秒杀券基本信息按钮事件触发
-       * @param ticketId
-       * @param status
-       */
-      editTickItem (ticketId,status) {
-        if(ticketId){
-          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
-              let item = this.activityInfo.checked_ticket[i];
-              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
-                  item.siginUpStartTime=new Date(item.siginUpStartTime);
-              }
-              if(item.signUpEndTime && typeof item.signUpEndTime !='object') {
-                item.signUpEndTime=new Date(item.signUpEndTime);
-              }
-              if(item.sedKillStartDate && typeof item.sedKillStartDate !='object') {
-                item.sedKillStartDate=new Date(item.sedKillStartDate);
-              }
-              item.editStatus=status;
-              this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
-              break;
-            }
-          }
-        }
-      },
-      /**
-       * 删除已选择秒杀券
-       * @param ticketId
-       */
-      removeTicketItem (ticketId){
-        if(ticketId){
-          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
-              this.activityInfo.checked_ticket.splice(i, 1); //使用splice 触发数据更新
-              break;
-            }
-          }
-        }
-      },
-      openAddList() {
-        $('.choose-hd,.mask').show();
-//        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
-//          dangerouslyUseHTMLString: true
-//        });
-      },
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
       }
+
+
     }
   }
 </script>
 <style>
-  /*.filter_div .el-form-item .el-form-item ,.filter_div .el-form-item--small .el-form-item{*/
-    /*line-height:0px;*/
-  /*}*/
-   .edit-txt .el-date-editor{
-     width:170px;
+  .el-upload-dragger{
+    width: 150px;
+    height: 150px;
   }
-  .edit-txt .el-input__prefix {
-    left:auto;
-    right:30px;
+  .upload-demo{
+    margin-top:10px;
   }
-  .edit-txt .el-input__prefix i {
-    color:#9384e3;
+  .span-120{
+    width: 120px;
+    display: inline-block;
   }
-
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+  .margin-bottom-20{
+    margin-bottom:20px;
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-  }
-  .avatar {
-    width: 100px;
-    height: 100px;
-    display: block;
-  }
-
   /*@import "./../../assets/css/common.css";*/
   /*@import "./../../assets/css/style.css";*/
 </style>
