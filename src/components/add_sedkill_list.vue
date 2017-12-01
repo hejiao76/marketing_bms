@@ -5,7 +5,7 @@
       <div class="choose-copntent">
         <div class="choose-copntent_body">
           <ul>
-            <li v-for="item in listobj">
+            <li v-for="item in listObj">
               <div class="newhd-header">
                 <p class="newhd-tit">{{item.name}}</p>
                 <div class="newhd-time">
@@ -14,15 +14,16 @@
                 </div>
               </div>
               <div class="newhd-content">
-                <a href="javascript:;">选择绑定</a>
+                <a v-if="!item.tmpChecked" @click="checkTicket(item.ticketId,true)" href="javascript:;">选择绑定</a>
+                <a v-if="item.tmpChecked" @click="checkTicket(item.ticketId,false)" href="javascript:;">已选择</a>
               </div>
             </li>
           </ul>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogTableVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+        <el-button @click="sureSelect" type="primary">确 定</el-button>
+        <el-button @click="cancelSelect">取 消</el-button>
       </div>
     </el-dialog>
     <!--<div class="mask" style="z-index: 12000;"></div>-->
@@ -59,67 +60,133 @@
             <!--</div>-->
           <!--</div>-->
       <!--</div>-->
+    <v-tip-msg ref="tipMsgRef"></v-tip-msg>
   </div>
 </template>
 
 <script>
-  import Api from "./../fetch/api"
-  import Final from "./../util/Final"
+import Api from "./../fetch/api"
+import Final from "./../util/Final"
+import VTipMsg from "./tipMsg.vue";
+import TestData from "./../util/TestData"
 export default {
-  name: 'header',
   data () {
     return {
         dialogTableVisible:false,
-        listobj:[
-          {
-            name:'500元迈腾购车秒杀券',
-            starTime:'2017-11',
-            endTime:'2017-11',
-            creatTime:'2017-11 10:52'
-          },
-          {
-            name:'500元迈腾购车秒杀券',
-            starTime:'2017-11',
-            endTime:'2017-11',
-            creatTime:'2017-11 10:52'
-          },
-          {
-            name:'500元迈腾购车秒杀券',
-            starTime:'2017-11',
-            endTime:'2017-11',
-            creatTime:'2017-11 10:52'
-          },
-          {
-            name:'500元迈腾购车秒杀券',
-            starTime:'2017-11',
-            endTime:'2017-11',
-            creatTime:'2017-11 10:52'
-          },
-          {
-            name:'500元迈腾购车秒杀券',
-            starTime:'2017-11',
-            endTime:'2017-11',
-            creatTime:'2017-11 10:52'
-          },
-          {
-            name:'500元迈腾购车秒杀券',
-            starTime:'2017-11',
-            endTime:'2017-11',
-            creatTime:'2017-11 10:52'
-          },
-        ]
+        exceptIdArray:[],
+        listObj:[]
     }
+  },
+  components :{
+    VTipMsg
   },
   created () {
 
   },
   methods:{
-    showDialog () {
+    /**
+     * 显示新增秒杀券模态框
+     * @param exceptIdArray
+     */
+    showDialog (exceptIdArray) {
+        this.exceptIdArray=exceptIdArray;
+        this.requestAddTicketList();
         this.dialogTableVisible=true;
     },
-    closeAddList(){
-      $('.choose-hd,.mask').hide();
-    }
+    /**
+     * 选择秒杀券
+     * @param ticketId
+     */
+    checkTicket (ticketId,checked){
+        if(ticketId){
+          for(let i=0;i<this.listObj.length;i++){
+            if(this.listObj[i].ticketId==ticketId){
+                this.listObj[i].tmpChecked = checked;
+                this.listObj.splice(i,1,this.listObj[i]);
+                console.log("find--->", this.listObj[i].tmpChecked)
+                break;
+            }
+          }
+        }
+    },
+    /**
+     * 过滤已选择秒杀券1
+     * @param listObj
+     * @returns {Array}
+     */
+    filterExceptId (listObj) {
+        let newListObjArray = [] ;
+        for(let i=0;i<listObj.length;i++){
+            if(!this.exceptIdArray.includes(listObj[i].ticketId)){
+                newListObjArray.push(listObj[i]);
+            }
+        }
+        return newListObjArray;
+    },
+    /**
+     * 请求可选秒杀券列表
+     */
+    requestAddTicketList () {
+//      let param = {activityId:this.activityId};
+//      this.activityInfo=TestData.sedKill_checked_ticket_data.result;
+        let resData = TestData.sedKill_newTicket_data;
+        this.listObj = this.filterExceptId(resData);
+      console.log(this.listObj);
+      return;
+      Api.sk_activity_list(param)
+        .then(res => {
+          if (res.status == 1) {
+            this.activityInfo = res.result;
+            this.totalRow = res.totalRow;
+          }else {
+            this.$refs.tipMsgRef.showTipMsg({
+              msg:res.message,
+              type:"error"
+            });
+          }
+        }).catch(err => {
+
+      });
+    },
+    /**
+     * 获取已选择的秒杀券列表
+     */
+    getCheckedTicket(){
+      let checkedTicketArray = [];
+      for(let i=0;i<this.listObj.length;i++){
+        if(this.listObj[i].tmpChecked){
+          checkedTicketArray.push(this.listObj[i]);
+        }
+      }
+      return checkedTicketArray;
+    },
+    /**
+     * 确认选择
+     */
+    sureSelect () {
+      console.log("save");
+      let checkedTicketArray=this.getCheckedTicket();
+      if(checkedTicketArray.length+this.exceptIdArray.length<=3){
+            this.$emit("call",checkedTicketArray)
+            this.dialogTableVisible=false;
+            this.listObj=[];
+      }else{
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:"活动绑定的秒杀券数量已经超过101个",
+          type:"error"
+        });
+      }
+    },
+    /**
+     * 取消选择
+     */
+    cancelSelect(){
+      this.dialogTableVisible=false;
+      this.listObj=[];
+    },
+    clearTmpStatus(){
+
+    },
   }
 }
 </script>

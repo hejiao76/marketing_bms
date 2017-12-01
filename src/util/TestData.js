@@ -3,6 +3,51 @@
  */
 const OBJ ={
   /**
+   * 秒杀活动选择秒杀券列表数据
+   */
+  sedKill_newTicket_data : [{
+    ticketId:1,
+    name:'500元迈腾购车秒杀券1',
+    starTime:'2017-11',
+    endTime:'2017-11',
+    creatTime:'2017-11 10:52'
+  },
+    {
+      ticketId:2,
+      name:'500元迈腾购车秒杀券2',
+      starTime:'2017-11',
+      endTime:'2017-11',
+      creatTime:'2017-11 10:52'
+    },
+    {
+      ticketId:3,
+      name:'500元迈腾购车秒杀券3',
+      starTime:'2017-11',
+      endTime:'2017-11',
+      creatTime:'2017-11 10:52'
+    },
+    {
+      ticketId:4,
+      name:'500元迈腾购车秒杀券4',
+      starTime:'2017-11',
+      endTime:'2017-11',
+      creatTime:'2017-11 10:52'
+    },
+    {
+      ticketId:5,
+      name:'500元迈腾购车秒杀券5',
+      starTime:'2017-11',
+      endTime:'2017-11',
+      creatTime:'2017-11 10:52'
+    },
+    {
+      ticketId:6,
+      name:'500元迈腾购车秒杀券6',
+      starTime:'2017-11',
+      endTime:'2017-11',
+      creatTime:'2017-11 10:52'
+    }],
+  /**
    * 秒杀活动绑定秒杀券列表数据
    */
   sedKill_checked_ticket_data : {
