@@ -25,6 +25,7 @@ const OBJ ={
         sedKillStartDate:'2017-12-29 12:00:00',
         ticketCount:'100',
         maxPayCount:'10',
+        tmp:{}
         // signUpStartTime:'2017-12-10',
         // signUpEndTime:'2017-12-28',
       },{
@@ -41,6 +42,7 @@ const OBJ ={
         maxPayCount:'10',
         signUpStartTime:'2017-12-10',
         signUpEndTime:'2017-12-29',
+        tmp:{}
       }]
     }
   },

@@ -67,35 +67,35 @@
                       <li>
                         <span class="newhd-txt">秒杀券个数：</span>
                         <div class="edit-txt">
-                          <input v-model="checkedTicketItem.ticketCount" type="text">
+                          <input v-model="checkedTicketItem.tmp.ticketCount" type="text">
                           <em class="edit-unit">个</em>
                         </div>
                       </li>
                       <li>
                         <span class="newhd-txt">最大支付数：</span>
                         <div class="edit-txt">
-                          <input v-model="checkedTicketItem.maxPayCount" type="text">
+                          <input v-model="checkedTicketItem.tmp.maxPayCount" type="text">
                           <em class="edit-unit">个</em>
                         </div>
                       </li>
                       <li>
                         <span class="newhd-txt">秒杀支付金额：</span>
                         <div class="edit-txt mlq0">
-                          <input v-model="checkedTicketItem.sedkillMoney" type="text">
+                          <input v-model="checkedTicketItem.tmp.sedkillMoney" type="text">
                           <em class="edit-unit">元</em>
                         </div>
                       </li>
                       <li>
                         <span class="newhd-txt">报名开始时间：</span>
                         <div class="edit-txt">
-                          <el-date-picker v-model="checkedTicketItem.signUpStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                          <el-date-picker v-model="checkedTicketItem.tmp.signUpStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                         </div>
                       </li>
                       <li>
                         <span class="newhd-txt">报名结束时间：</span>
                         <!-- <div class="newhd-inf">2017-11-15</div> -->
                         <div class="edit-txt">
-                          <el-date-picker v-model="checkedTicketItem.signUpEndTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                          <el-date-picker v-model="checkedTicketItem.tmp.signUpEndTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                           <!--<em class="index-icon icon-hdtime"></em>-->
                         </div>
                         <!--<div class="error-txt">时间错误时间误时间错误时错误</div>-->
@@ -104,7 +104,7 @@
                         <span class="newhd-txt">秒杀开始时间：</span>
                         <!-- <div class="newhd-inf">2017-11-15</div> -->
                         <div class="edit-txt">
-                          <el-date-picker v-model="checkedTicketItem.sedKillStartDate" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                          <el-date-picker v-model="checkedTicketItem.tmp.sedKillStartDate" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                           <!--<em class="index-icon icon-hdtime"></em>-->
                         </div>
                       </li>
@@ -118,7 +118,7 @@
                           <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
                           <!--<td id="cancleedit" style="display: block;"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
                           <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
-                          <td><button @click="editTickItem(checkedTicketItem.ticketId,0)" type="button" class=" btn_bass btn_b">保存</button></td>
+                          <td><button @click="saveTickItem(checkedTicketItem.ticketId)" type="button" class=" btn_bass btn_b">保存</button></td>
                           <td><button @click="editTickItem(checkedTicketItem.ticketId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>
                         </tr>
                         </tbody>
@@ -157,15 +157,15 @@
                     </li>
                     <li>
                       <span class="newhd-txt">报名开始时间：</span>
-                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.signUpStartTime)}}</div>
+                      <div class="newhd-inf">{{checkedTicketItem.signUpStartTime}}</div>
                     </li>
                     <li>
                       <span class="newhd-txt">报名结束时间：</span>
-                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.signUpEndTime)}}</div>
+                      <div class="newhd-inf">{{checkedTicketItem.signUpEndTime}}</div>
                     </li>
                     <li>
                       <span class="newhd-txt">秒杀开始时间：</span>
-                      <div class="newhd-inf">{{formatDateToString(checkedTicketItem.sedKillStartDate)}}</div>
+                      <div class="newhd-inf">{{checkedTicketItem.sedKillStartDate}}</div>
                     </li>
                   </ul>
                 </div>
@@ -224,7 +224,7 @@
 
         </el-row>
       </div>
-      <V-Addedkilllist></V-Addedkilllist>
+      <V-Addedkilllist ref="ticketDialog"></V-Addedkilllist>
     </div>
 
 </template>
@@ -265,7 +265,7 @@
 //          activityEndDate:'', //活动结束时间
 //          imageUrl: ''
 //        },
-        tempBindTicketItemKey : ["ticketId", "ticketName", "isvalid", "activityStartDate", "activityEndDate", "createDate", "applyCar", "sedkillMoney", "sedKillStartDate", "ticketCount", "maxPayCount", "signUpStartTime", "singUpStartTime"],
+        tmpBindTicketItemKey : ["ticketId", "ticketName", "isvalid", "activityStartDate", "activityEndDate", "createDate", "applyCar", "sedkillMoney", "sedKillStartDate", "ticketCount", "maxPayCount", "signUpStartTime", "singUpStartTime"],
         rules: {
           activityName: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -349,7 +349,7 @@
 
       },
       /**
-       * 日期转字符串
+       * 日期转1字符串
        * @param date
        */
       formatDateToString (date){
@@ -359,8 +359,44 @@
               return date;
           }
       },
+      createTmpTicketItem(item){
+        let tmpTickItem = {};
+        if(item){
+          tmpTickItem.ticketCount=item.ticketCount || 1;
+          tmpTickItem.maxPayCount=item.maxPayCount || '';
+          tmpTickItem.sedkillMoney=item.sedkillMoney || 1;
+          tmpTickItem.signUpStartTime=item.signUpStartTime ? new Date(item.signUpStartTime) : '';
+          tmpTickItem.signUpEndTime=item.signUpEndTime ? new Date(item.signUpEndTime) : '';
+          tmpTickItem.sedKillStartDate=item.sedKillStartDate ? new Date(item.sedKillStartDate) : '';
+        }
+        return tmpTickItem;
+      },
+      syncTicketItemByTmp (item){
+          console.log("syncItem",item)
+          if(item && item.tmp){
+              if(item.tmp.ticketCount){
+                  item.ticketCount=item.tmp.ticketCount;
+              }
+              if(item.tmp.maxPayCount){
+                item.maxPayCount=item.tmp.maxPayCount;
+              }
+              if(item.tmp.sedkillMoney){
+                item.sedkillMoney=item.tmp.sedkillMoney;
+              }
+              if(item.tmp.signUpStartTime){
+                item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTime).getTime())
+              }
+              if(item.tmp.signUpEndTime){
+                item.signUpEndTime=util.toFullDateString(new Date(item.tmp.signUpEndTime).getTime())
+              }
+              if(item.tmp.sedKillStartDate){
+                item.sedKillStartDate=util.toFullDateString(new Date(item.tmp.sedKillStartDate).getTime())
+              }
+          }
+          return item;
+      },
       /**
-       * 编辑/取消编辑 秒杀券基本信息按钮事件触发
+       * 编辑/取消1编1辑 秒杀券基本信息按钮事件触发
        * @param ticketId
        * @param status
        */
@@ -369,16 +405,45 @@
           for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
             if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
               let item = this.activityInfo.checked_ticket[i];
-              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
-                  item.siginUpStartTime=new Date(item.siginUpStartTime);
-              }
-              if(item.signUpEndTime && typeof item.signUpEndTime !='object') {
-                item.signUpEndTime=new Date(item.signUpEndTime);
-              }
-              if(item.sedKillStartDate && typeof item.sedKillStartDate !='object') {
-                item.sedKillStartDate=new Date(item.sedKillStartDate);
-              }
+              item.tmp=this.createTmpTicketItem(item);
+              console.log("editItem----------->",item);
+//              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
+//                  item.signUpStartTimeObj=new Date(item.siginUpStartTime);
+//              }
+//              if(item.signUpEndTime && typeof item.signUpEndTime !='object') {
+//                item.signUpEndTimeObj=new Date(item.signUpEndTime);
+//              }
+//              if(item.sedKillStartDate && typeof item.sedKillStartDate !='object') {
+//                item.sedKillStartDateObj=new Date(item.sedKillStartDate);
+//              }
               item.editStatus=status;
+              this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
+              break;
+            }
+          }
+        }
+      },
+      /**
+       *  保存 秒杀券基本1信息按钮事件触发
+       * @param ticketId
+       */
+      saveTickItem(ticketId){
+        if(ticketId){
+          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
+            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
+              let item = this.activityInfo.checked_ticket[i];
+              this.syncTicketItemByTmp(item);
+//              delete item.tmp;
+//              if(item.tmp.signUpStartTime) {
+//                item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTimeObj).getTime())
+//              }
+//              if(item.signUpEndTimeObj) {
+//                item.signUpEndTime=util.toFullDateString(new Date(item.signUpEndTimeObj).getTime())
+//              }
+//              if(item.sedKillStartDateObj) {
+//                item.sedKillStartDate=util.toFullDateString(new Date(item.sedKillStartDateObj).getTime())
+//              }
+              item.editStatus=0;
               this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
               break;
             }
@@ -400,6 +465,7 @@
         }
       },
       openAddList() {
+          this.$refs.ticketDialog.showDialog();
         $('.choose-hd,.mask').show();
 //        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
 //          dangerouslyUseHTMLString: true
