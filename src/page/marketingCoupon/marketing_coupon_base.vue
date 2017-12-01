@@ -78,7 +78,8 @@
   }
 
 </script>
-<style>
-  @import "./../../assets/css/common.css";
-  @import "./../../assets/css/style.css";
+<style scoped="scope">
+  /*@import "./../../assets/css/common.css";*/
+  /*@import "./../../assets/css/style.css";*/
+  @import "./../../assets/css/prizeDraw/prizeDraw.css";
 </style>
