@@ -2,32 +2,33 @@
   <div class="con_list">
     <!--<h5>待处理事项</h5>-->
     <div class="filter_div mb20">
-      <el-form :model="filterForm"  ref="filterForm" label-width="100px" size="small">
+      <el-form :model="filterForm"  ref="filterForm" label-width="120px" size="small" :label-position="labelPosition">
         <el-row>
-          <el-col :span="14">
+          <el-col :span="13">
             <el-form-item label="秒杀券名称:" prop="activityName">
-              <el-input   v-model="filterForm.activityName" placeholder="请输入商品名称"></el-input>
+              <el-input   v-model="filterForm.activityName" placeholder="请输入商品名称" style="width: 92%;"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-          </el-col>
         </el-row>
-        <div style="width:550px;">
+        <el-row>
           <el-form-item label="秒杀券有效期:">
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+            <el-col :span="5">
+              <el-date-picker v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" style="width: 100%;" placeholder="选择开始日期"></el-date-picker>
             </el-col>
-            <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期"></el-date-picker>
+            <el-col  :span="1" style="text-align: center;">-</el-col>
+            <el-col :span="5">
+              <el-date-picker v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期" style="width: 100%;"></el-date-picker>
+            </el-col>
+            <el-col :span="13" style="text-align: right">
+              <el-button type="primary" size="small" @click="addTicket" class="fr mr20 " style="margin:0">查询</el-button>
             </el-col>
           </el-form-item>
-        </div>
+        </el-row>
       </el-form>
     </div>
 
     <div class="list_div">
-      <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建秒杀券</el-button>
+      <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建</el-button>
       <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
         <div class="control-label col-md-12 row margin-bottom-10">
           共找到以下
@@ -64,10 +65,64 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="有效" name="second">
-          <div></div>
+          <div>
+            <table  class="text-center table table-striped table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>秒杀券名称</th>
+                <th>秒杀券状态</th>
+                <th>秒杀券有效期</th>
+                <th>秒杀券适用车系</th>
+                <th>单个秒杀券金额</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="item in STicketList">
+                <td>{{item.ticketName}}</td>
+                <td>{{item.isvalid}}</td>
+                <td>{{item.activityEndDate}}</td>
+                <td>{{item.applyCar}}</td>
+                <td>{{item.sedkillMoney}}</td>
+                <td>
+                  <a href="javascript:void(0)" class="st_list-btn" @click="updateTicket()">编辑</a>
+                  <a href="javascript:void(0)" class="st_list-btn" @click="invalidTicket()">无效</a>
+                  <a href="javascript:void(0)" class="st_list-btn" @click="copyTicket()">复制</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="无效" name="third">
-          <div></div>
+          <div>
+            <table  class="text-center table table-striped table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>秒杀券名称</th>
+                <th>秒杀券状态</th>
+                <th>秒杀券有效期</th>
+                <th>秒杀券适用车系</th>
+                <th>单个秒杀券金额</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="item in STicketList">
+                <td>{{item.ticketName}}</td>
+                <td>{{item.isvalid}}</td>
+                <td>{{item.activityEndDate}}</td>
+                <td>{{item.applyCar}}</td>
+                <td>{{item.sedkillMoney}}</td>
+                <td>
+                  <a href="javascript:void(0)" class="st_list-btn" @click="updateTicket()">编辑</a>
+                  <a href="javascript:void(0)" class="st_list-btn" @click="invalidTicket()">无效</a>
+                  <a href="javascript:void(0)" class="st_list-btn" @click="copyTicket()">复制</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </el-tab-pane>
 
       </el-tabs>
@@ -92,6 +147,7 @@
   export default {
     data() {
       return {
+        labelPosition:'left',
         STicketList:TestData.sedKill_ticket_list_data,
         activeName:'first',
         optionsActivityStart :{
@@ -272,7 +328,7 @@
   .table.table-bordered thead > tr > th {
     border-bottom: 0;
     background-color: #F6F7FB;
-    color: #404C73;
+    color: #333;
     font-style: normal;
   }
   .table-striped > thead > tr > th:first-child {
@@ -280,19 +336,16 @@
   }
   .table thead tr th {
     font-size: 14px;
-    font-weight: 600;
   }
   .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td{
-    padding: 9px;
+    padding: 20px 9px;
   }
   tbody {
     display: table-row-group;
     vertical-align: middle;
     border-color: inherit;
   }
-  .table-striped > tbody > tr:nth-of-type(odd) {
-    background: #f8f8f8;
-  }
+
   .table-striped > tbody > tr > td:first-child {
     padding-left: 15px;
   }
