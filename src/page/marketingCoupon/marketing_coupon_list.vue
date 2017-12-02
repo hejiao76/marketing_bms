@@ -2,54 +2,59 @@
   <div class="con_list">
     <!--过滤条件-->
     <div class="filter_div mb20">
-      <el-form :model="filterForm"  ref="filterForm" label-width="80px" size="small">
-        <el-row>
-          <el-col :span="14">
-          <el-form-item label="活动名称:" prop="activityName">
-            <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称"></el-input>
-          </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="活动区域:" class="ml10" prop="activityArea" label-width="80px">
-              <el-select v-model="filterForm.activityArea" placeholder="请选择">
-                <!--<el-option v-for="item in companyContents" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <div style="width:550px;">
-          <el-form-item label="活动时间:">
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择活动开始日期"></el-date-picker>
-            </el-col>
-            <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="选择活动结束日期"></el-date-picker>
-            </el-col>
-          </el-form-item>
-        </div>
-        <el-row>
-          <el-col :span="16">
-            <div style="width:550px;">
-              <el-form-item label="创建时间:">
-                <el-col :span="11">
-                  <el-date-picker v-model="filterForm.createStartDate" :picker-options="optionsCreateStart" type="date" placeholder="选择创建开始日期"></el-date-picker>
+        <el-form :model="filterForm"   size="small" label-width="80px" class="demo-ruleForm" :label-position="labelPosition">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="活动名称">
+                  <el-input v-model="filterForm.activityName"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="活动日期:">
+                    <el-col :span="11">
+                      <el-form-item >
+                        <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                    <el-col class="line" :span="2" style="text-align: center">-</el-col>
+                    <el-col :span="11">
+                      <el-form-item>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                  </el-form-item>
                 </el-col>
-                <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
-                <el-col :span="11">
-                  <el-date-picker v-model="filterForm.createEndDate" :picker-options="optionsCreateEnd" type="date" placeholder="选择创建结束日期"></el-date-picker>
+                <el-col :span="12">
+                  <el-form-item label="创建日期:">
+                    <el-col :span="11">
+                      <el-form-item>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                    <el-col class="line" :span="2" style="text-align: center">-</el-col>
+                    <el-col :span="11">
+                      <el-form-item>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                      </el-form-item>
+                    </el-col>
+                  </el-form-item>
                 </el-col>
+              </el-row>
+          <el-row>
+            <el-col :span="16">
+              <el-form-item label="活动地区:">
               </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item class="fr">
-              <el-button type="primary" @click="searchFn">查 询</el-button>
-              <el-button @click="resetForm('filterForm')">重 置</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item class="fr">
+                <el-button type="primary" @click="searchFn">查 询</el-button>
+                <el-button @click="resetForm('filterForm')">重 置</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
     </div>
     <!--------------搜索结果------------>
     <div class="list_div">
@@ -68,125 +73,59 @@
         </el-col>
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
-      <el-table class="table_min_height mt10" :data="resData" ref="singleTable" border highlight-current-row style="width: 100%;">
-        <el-table-column align="center" type="index" label="" width="55"></el-table-column>
-        <el-table-column prop="activityName" label="活动名称" align="center" min-width="90" ></el-table-column>
-        <el-table-column prop="activityStartDate" label="活动时间" align="center" min-width="80"></el-table-column>
-        <el-table-column prop="createDate" align="center" label="创建时间" min-width="100"></el-table-column>
-        <el-table-column prop="activity_getNum" align="center" label="领取数量"></el-table-column>
-        <el-table-column prop="activity_pv" align="center" label="活动pv"></el-table-column>
-        <el-table-column prop="activity_url" align="center" min-width="140" label="活动链接"></el-table-column>
-        <el-table-column label="操作" align="center" width="140">
-          <template scope="scope">
-            <div v-if="activityType==0">
-              <el-button @click="addActivity" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="upActivity" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
-              <el-button @click="downActivity" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
-            </div>
-            <div v-if="activityType==1">
-              <el-button @click="addActivity" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="downActivity" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
-            </div>
-            <div v-if="activityType==2">
-              <el-button @click="addActivity" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="upActivity" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
-              <el-button @click="deleteActivity" type="text" style="padding-top:0px;padding-bottom:0px;">删除</el-button>
-            </div>
-            <div v-if="activityType==3">
-              <el-button @click="showPrizeUser" type="text" style="padding-top:0px;padding-bottom:0px;">中奖用户</el-button>
-            </div>
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[1].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">审核</el-button>-->
-            <!--</div>-->
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[2].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">查看</el-button>-->
-              <!--<el-button size="small" @click="revokeAudit(scope.row.id)">撤销</el-button>-->
-            <!--</div>-->
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[3].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">查看</el-button>-->
-              <!--<el-button size="small" @click="revokeAudit(scope.row.id)">撤销</el-button>-->
-            <!--</div>-->
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[4].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">查看</el-button>-->
-            <!--</div>-->
-          </template>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :default-sort = "{prop: 'date', order: 'descending'}"
+      >
+        <el-table-column
+          prop="activityName"
+          label="活动名称"
+          sortable width="150">
+        </el-table-column>
+        <el-table-column
+          prop="activityStartDate"
+          label="活动开始日期"
+          sortable width="150">
+        </el-table-column>
+        <el-table-column
+          prop="activityEndDate"
+          label="活动结束日期"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="buyNum"
+          label="领取数量"
+          sortable width="80">
+        </el-table-column>
+        <el-table-column
+          prop="activity_pv"
+          label="活动pv"
+          sortable width="80">
+        </el-table-column>
+        <el-table-column
+          prop="activityStatus"
+          label="状态"
+          sortable width="80">
+        </el-table-column>
+        <el-table-column
+          prop="createDate"
+          label="创建日期"
+          sortable width="100">
+        </el-table-column>
+        <el-table-column label="操作" fixed="right" width="200">
+            <template slot-scope="scope">
+              <el-button type="text">查看</el-button>
+              <el-button type="text">编辑</el-button>
+              <el-button type="text">结束活动</el-button>
+              <el-button type="text">活动链接</el-button>
+            </template>
         </el-table-column>
       </el-table>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
                      :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
-
-      <!-- 中奖用户弹出层 -->
-      <div class="mask" style="z-index: 12000;"></div>
-      <div class="prize-pop">
-        <!-- 关闭按钮 -->
-        <div class="pop-close" @click="hidePrizeUser">
-          <img src="./../../assets/images/pop-close.png" alt="">
-        </div>
-        <!-- 具体内容 -->
-        <div class="prize-tit">中奖用户</div>
-        <div class="pricontent">
-          <div class="pricontent-txt fl">
-            <div class="pricontent-body">
-              <ul class="namepeople">
-                <li>
-                  <p><em>用户姓名:</em><span>马晓光</span></p>
-                </li>
-                <li><p><em>手机号:</em><span>18614086655</span></p></li>
-              </ul>
-              <ul class="prizetxt">
-                <li>
-                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
-                </li>
-                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
-                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
-                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
-                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
-              </ul>
-            </div>
-          </div>
-          <div class="pricontent-txt fl">
-            <div class="pricontent-body">
-              <ul class="namepeople">
-                <li>
-                  <p><em>用户姓名:</em><span>马晓光</span></p>
-                </li>
-                <li><p><em>手机号:</em><span>18614086655</span></p></li>
-              </ul>
-              <ul class="prizetxt">
-                <li>
-                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
-                </li>
-                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
-                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
-                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
-                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
-              </ul>
-            </div>
-          </div>
-          <div class="pricontent-txt fl">
-            <div class="pricontent-body">
-              <ul class="namepeople">
-                <li>
-                  <p><em>用户姓名:</em><span>马晓光</span></p>
-                </li>
-                <li><p><em>手机号:</em><span>18614086655</span></p></li>
-              </ul>
-              <ul class="prizetxt">
-                <li>
-                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
-                </li>
-                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
-                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
-                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
-                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
 
@@ -207,9 +146,20 @@
   import VTipMsg from "./../../components/tipMsg.vue";
   import TestData from "./../../util/TestData"
   import $ from "jquery"
+  import ElCol from "element-ui/packages/col/src/col";
+  import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
   export default {
     data() {
       return {
+        tableData: [{
+          activityName:"测试活动3",
+          activityStartDate:"2017-11-28",
+          activityEndDate:"2017-12-28",
+          createDate:"2017-11-28",
+          activity_pv:19000,
+          activityStatus:'进行中',
+          buyNum:'100',
+        }],
         optionsActivityStart :{
           disabledDate:(time) => {
               if(this.filterForm.activityEndDate){
@@ -250,6 +200,7 @@
           createStartDate:'',//活动创建开始时间
           createEndDate:''//活动创建结束时间
         },
+        labelPosition:'left',
         activityType : 0,
         resData : [],
         currentPage: 1,
@@ -259,23 +210,26 @@
       }
     },
     components: {
+      ElButton,
+      ElCol,
       VHeader,
       VLeft,
       VConNav,
       VTipMsg
     },
     created (){
-      this.requestData();
     },
     mounted () {
       //      this.requestData();
     },
     watch: {
-      "$route": function (to, from) {
-        this.resetForm();
-      }
+
     },
     methods: {
+      ////table排序　
+      formatter(row, column) {
+        return row.address;
+      },
       /**
        * 新建活动点击
        * @returns {}
@@ -285,75 +239,6 @@
           msg:"还在开发! 急什么! 急什么!",
           type:"error"
         });
-      },
-      /**
-       * 已上架
-       * @returns {}
-       */
-      upActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
-      },
-      /**
-       * 已下架
-       * @returns {}
-       */
-      downActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
-      },
-      /**
-       * 显示中奖纪录
-       * @returns {}
-       */
-      showPrizeUser () {
-        $('.prize-pop,.mask').show();
-        return;
-//        this.$refs.tipMsgRef.showTipMsg({
-//          msg:"还在开发! 急什么! 急什么!",
-//          type:"error"
-//        });
-      },
-      /**
-       * 关闭中奖纪录
-       * @returns {}
-       */
-      hidePrizeUser () {
-        $('.prize-pop,.mask').hide();
-        return;
-      },
-      /**
-       * 新建活动点击
-       * @returns {}
-       */
-      deleteActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
-      },
-
-      /**
-       * 选项卡点击事件触发
-       * @returns {}
-       */
-      changeActivityType (tab, event){
-        this.activityType = tab.name;
-      },
-      /**
-       * 翻页控件触发事件
-       * @returns {}
-       */
-      handleCurrentChange(cpage) {
-        this.currentPage = cpage;
-        this.requestData();
-      },
-      toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
       },
       /**
        * 获取过滤器参数
@@ -382,33 +267,12 @@
         console.log("查询提交参数:",param);
         return param;
       },
+      /**
+       * 搜索
+       */
       searchFn () {
         this.currentPage = 1;
         this.requestData();
-      },
-      /**
-       * 请求列表数据
-       */
-      requestData (data) {
-        var p = this.getFilterParam();
-        let param = {jsonData: JSON.stringify(p), pageNum: this.currentPage, pageRecorders: this.pageRecorders};
-        this.resData=TestData.sedKill_list_data;
-        this.totalRow = 300;
-        return;
-        Api.sk_activity_list(param)
-          .then(res => {
-            if (res.status == 1) {
-              this.resData = res.result;
-              this.totalRow = res.totalRow;
-            }else {
-              this.$refs.tipMsgRef.showTipMsg({
-                msg:res.message,
-                type:"error"
-              });
-            }
-          }).catch(err => {
-
-        });
       },
       /**
        * 重置表单
@@ -416,15 +280,33 @@
       resetForm() {
         this.$refs['filterForm'].resetFields();
         this.searchFn();
-      }
-    }
-  }
+      },
+      /**
+       * 选项卡点击事件触发
+       * @returns {}
+       */
+      changeActivityType (tab, event){
+        this.activityType = tab.name;
+      },
+      /**
+       * 翻页控件触发事件
+       * @returns {}
+       */
+      handleCurrentChange(cpage) {
+        this.currentPage = cpage;
+        this.requestData();
+      },
+      toDetail (companyInfoId){
+        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
+      },
+
+
+
+}
+}
 </script>
 <style>
   .list_div {}
-  .list_div .el-tabs__content {
-      display :none
-  }
   .list_div el-tabs--top {
     display : none;
   }
@@ -436,94 +318,5 @@
 </style>
 
 <style scoped="scope">
-  /*.mask {*/
-    /*position: fixed;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*top: 0;*/
-    /*bottom: 0;*/
-    /*display: none;*/
-    /*z-index: 9000;*/
-    /*background-color: rgba(0,0,0,.6)*/
-  /*}*/
-  /*.prize-pop {*/
-    /*display: none;*/
-    /*position: fixed;*/
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*z-index: 13000;*/
-    /*margin-top: -320px;*/
-    /*margin-left: -490px;*/
-    /*width: 980px;*/
-    /*height: 640px;*/
-    /*background: url(./../../assets/images/zjyh_bg.png) no-repeat*/
-  /*}*/
-  /*.prize-pop .pop-close {*/
-    /*top: 130px;*/
-    /*right: 95px;*/
-    /*width: 23px;*/
-    /*height: 24px;*/
-    /*cursor: pointer*/
-  /*}*/
-  /*.prize-pop .prize-tit {*/
-    /*width: 100%;*/
-    /*height: auto;*/
-    /*margin-top: 130px;*/
-    /*font-size: 36px;*/
-    /*color: #e63834;*/
-    /*font-weight: 600;*/
-    /*line-height: 40px;*/
-    /*text-align: center*/
-  /*}*/
-  /*.prize-pop .pricontent {*/
-    /*width: 100%;*/
-    /*margin: 10px 0 0 30px;*/
-    /*height: 310px;*/
-    /*overflow-x: hidden;*/
-    /*overflow-y: auto*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt {*/
-    /*width: 400px;*/
-    /*border: 1px solid #f5efd7;*/
-    /*background: #fffcee;*/
-    /*margin: 0 20px 20px 0*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt.fl {*/
-    /*float: left;*/
-    /*display: inline-block*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt.fr {*/
-    /*float: right;*/
-    /*display: inline-block*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body {*/
-    /*padding: 20px 20px 0*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul {*/
-    /*width: 100%;*/
-    /*overflow: hidden*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul.namepeople {*/
-    /*border-bottom: 1px solid #f5efd7*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul.prizetxt {*/
-    /*margin-top: 20px*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li {*/
-    /*font-size: 14px;*/
-    /*color: #ba8305;*/
-    /*margin-bottom: 10px*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p {*/
-    /*width: 100%;*/
-    /*overflow: hidden*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p em {*/
-    /*width: 100px;*/
-    /*float: left*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p span {*/
-    /*float: right;*/
-    /*margin-left: 10px*/
-  /*}*/
+
 </style>
