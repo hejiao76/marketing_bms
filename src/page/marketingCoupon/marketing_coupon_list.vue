@@ -113,7 +113,7 @@
           label="创建日期"
           sortable width="100">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="200">
+        <el-table-column label="操作" fixed="right" width="100">
             <template slot-scope="scope">
               <el-button type="text">查看</el-button>
               <el-button type="text">编辑</el-button>
