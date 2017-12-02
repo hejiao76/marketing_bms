@@ -119,7 +119,7 @@
                           <!--<td id="cancleedit" style="display: block;"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
                           <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
                           <td><button @click="saveTickItem(checkedTicketItem.ticketId)" type="button" class=" btn_bass btn_b">保存</button></td>
-                          <td><button @click="editTickItem(checkedTicketItem.ticketId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>
+                          <td><button @click="editTicketItem(checkedTicketItem.ticketId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>
                         </tr>
                         </tbody>
                       </table>
@@ -174,7 +174,7 @@
                     <table class="mt20">
                       <tbody>
                       <tr>
-                        <td><button @click="editTickItem(checkedTicketItem.ticketId,1)" type="button" class=" btn_bass btn_b">编辑</button></td>
+                        <td><button @click="editTicketItem(checkedTicketItem.ticketId,1)" type="button" class=" btn_bass btn_b">编辑</button></td>
                         <td><button @click="removeTicketItem(checkedTicketItem.ticketId)" type="button" class=" btn_b_line">取消绑定</button></td>
                         <!--<td><button class="btn_b_line">取消绑定</button></td>-->
                         <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
@@ -224,7 +224,8 @@
 
         </el-row>
       </div>
-      <V-Addedkilllist ref="ticketDialog"></V-Addedkilllist>
+      <v-add-sedkill-list @call="addSedKillCallBack" ref="ticketDialog"></v-add-sedkill-list>
+      <v-tip-msg ref="tipMsgRef"></v-tip-msg>
     </div>
 
 </template>
@@ -236,7 +237,7 @@
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import VAddedkilllist from "./../../components/add_sedkill_list.vue";
+  import VAddSedkillList from "./../../components/add_sedkill_list.vue";
   import TestData from "./../../util/TestData"
   export default {
     data() {
@@ -299,7 +300,7 @@
       VLeft,
       VConNav,
       VTipMsg,
-      VAddedkilllist
+      VAddSedkillList
     },
     created (){
 
@@ -400,7 +401,7 @@
        * @param ticketId
        * @param status
        */
-      editTickItem (ticketId,status) {
+      editTicketItem (ticketId,status) {
         if(ticketId){
           for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
             if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
@@ -424,7 +425,7 @@
         }
       },
       /**
-       *  保存 秒杀券基本1信息按钮事件触发
+       *  保存 秒杀券基本信息按钮事件触发
        * @param ticketId
        */
       saveTickItem(ticketId){
@@ -464,12 +465,38 @@
           }
         }
       },
+      /**
+       * 获取已选择秒杀券ID
+       */
+      getExceptTicketId(){
+        let ticketIdArray = [];
+        for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
+          ticketIdArray.push(this.activityInfo.checked_ticket[i].ticketId);
+        }
+        return ticketIdArray;
+      },
+      /**
+       * 打开新增秒杀券模态框
+       * @param ticketId
+       */
       openAddList() {
-          this.$refs.ticketDialog.showDialog();
-        $('.choose-hd,.mask').show();
-//        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
-//          dangerouslyUseHTMLString: true
-//        });
+        this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
+      },
+      addSedKillCallBack(checkedNewTicketList){
+          console.log("回来了---------->",checkedNewTicketList)
+          for(let i = 0;i<checkedNewTicketList.length;i++){
+            let item =checkedNewTicketList[i];
+            let newTicketItem ={};
+            newTicketItem.ticketId = item.ticketId;
+            newTicketItem.ticketName = item.name;
+            newTicketItem.activityStartDate = item.startTime;
+            newTicketItem.activityEndDate = item.endTime;
+            newTicketItem.createDate = item.creatTime;
+            newTicketItem.editStatus=1;
+            newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
+            this.activityInfo.checked_ticket.push(newTicketItem);
+
+          }
       },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);

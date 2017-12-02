@@ -373,7 +373,7 @@
 }
 
 .saleticket-list.graysaletickstyle .saleticket-list_header {
-  background: url(../images/saletickesheader-gray.png) no-repeat #fff
+  background: url(../../images/saletickesheader-gray.png) no-repeat #fff
 }
 
 .saleticket-list.graysaletickstyle .saleticket-list_header p {
@@ -417,7 +417,7 @@
 }
 
 .saleticket-list.colorsaletickstyle .saleticket-list_header {
-  background: url(../images/saletickesheader-yellow.png) no-repeat #fff
+  background: url(../../images/saletickesheader-yellow.png) no-repeat #fff
 }
 
 .saleticket-list.colorsaletickstyle .saleticket-list_header p {
@@ -448,7 +448,7 @@
   position: relative;
   width: 260px;
   height: 110px;
-  background: url(../images/saletickesheader-blue.png) no-repeat #fff
+  background: url(../../images/saletickesheader-blue.png) no-repeat #fff
 }
 
 .saleticket-list .saleticket-list_header p {
