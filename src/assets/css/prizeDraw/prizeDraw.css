@@ -509,3 +509,10 @@
 .input-icon>i {
   margin: 9px 2px 4px 10px
 }
+.newp-title{
+  line-height:34px;
+  background: #cccccc;
+  text-align: right;
+  padding-right:20px;
+
+}

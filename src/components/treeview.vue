@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-row>
+    <div class="city-box-wrop" @click="boxIsShow()">
+        <span>请选择活动区域</span>
+    </div>
+    <el-row v-if="ifShow" style="margin-top:-34px;">
       <el-col :span="24">
 
         <div class="form-group">
@@ -17,11 +20,11 @@
                   <div class="city-body">
                     <div class="city-body-right" v-for="item in userData.optionalMenusTree">
                       <div class="city-body-title" >
-                        <el-checkbox v-model="checkedMenuCodeArray"  @change="handleCheckAllChange($event,item.menucode,item.children)" :label="item.menucode" :key="item.menucode" class="fw">{{item.menuName}}</el-checkbox>
+                        <el-checkbox v-model="checkedMenuCodeArray"  @change="handleCheckAllChange($event,item.menucode)" :label="item.menucode" :key="item.menucode" class="fw">{{item.menuName}}</el-checkbox>
                       </div>
                       <div class="city-body-content">
                         <el-col :span="6" v-for="childItem in item.children">
-                            <el-checkbox  v-model="checkedMenuCodeArray" @change="handleCheckedChildChange($event,thismenucode)" :label="childItem.menucode" :key="childItem.menucode">{{childItem.menuName}}</el-checkbox>
+                            <el-checkbox  v-model="checkedMenuCodeArray" @change="handleCheckedChildChange($event,item.menucode)" :label="childItem.menucode" :key="childItem.menucode">{{childItem.menuName}}</el-checkbox>
                         </el-col>
 
                       </div>
@@ -33,24 +36,15 @@
                     已选城市
                   </div>
                   <div class="city-body">
-                    <label class="col-md-12">
-                      <el-checkbox >合肥</el-checkbox>
-                    </label>
-                    <label class="col-md-12">
-                      <el-checkbox >合肥</el-checkbox>
-                    </label>
-                    <label class="col-md-12">
-                      <el-checkbox >合肥</el-checkbox>
-                    </label>
-                    <label class="col-md-12">
-                      <el-checkbox>合肥</el-checkbox>
-                    </label>
+                    <div class="city-body-title" v-for="item in checkedMenuCodeArray">
+                           {{item}}
+                    </div>
                   </div>
                 </div>
                 <el-row style="width: 100%;" class="city-footer">
                     <el-col :span="12"> <el-checkbox @change="allChecked($event)" class="fw">全选</el-checkbox></el-col>
                   <el-col :span="12" class="col-md-8 text-right">
-                    <el-button size="small" class="fr mr20 " style="margin-top:3px;">取消</el-button>
+                    <el-button size="small" class="fr mr20 " style="margin-top:3px;" @click="cityBoxhide()">取消</el-button>
                     <el-button type="primary" size="small" class="fr mr20 " style="margin-right:20px;margin-top:3px;">确认</el-button>
                   </el-col>
                 </el-row>
@@ -97,6 +91,7 @@
         <!--</ul>-->
       </el-col>
     </el-row>
+
   </div>
 </template>
 
@@ -111,13 +106,12 @@
     data () {
       return{
         tableData: [],
+        ifShow:false,
         currentPage: 1,
         tpageSize: 10,
         totalRow: 0,
-        isAllChild:false,
         childItems　:[],
         showChild:false,
-        thismenucode:'',
         settingSm:{
           set_smPhone:''
         },
@@ -284,6 +278,12 @@
 
     },
     methods:{
+      boxIsShow(){
+        this.ifShow = true;
+      },
+      cityBoxhide(){
+        this.ifShow = false;
+      },
       allChecked(event){
         let checked=event;
         let checkedMenuCodeArraySet = new Set (this.checkedMenuCodeArray);
@@ -298,7 +298,6 @@
               }
             }
           }
-          this.isAllChild = true;
         }else{
           for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
             let item=this.userData.optionalMenusTree[i];
@@ -310,11 +309,10 @@
               }
             }
           }
-          this.isAllChild = false;
         }
         this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
       },
-      handleCheckAllChange(event,menucode,item) {
+      handleCheckAllChange(event,menucode) {
         if(menucode){
           let checked=event;
           let checkedMenuCodeArraySet = new Set (this.checkedMenuCodeArray);
@@ -324,36 +322,14 @@
             if(item.parentMenuCode==menucode){
               if(checked){
                 checkedMenuCodeArraySet.add(item.menucode);
-                this.isAllChild = true;
               }else {
                 checkedMenuCodeArraySet.delete(item.menucode);
-                this.isAllChild = false;
               }
             }
           }
-          this.thismenucode = menucode
           this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
-          this.childItems = item;
+          console.log('1111111',this.checkedMenuCodeArray);
 
-        }
-      },
-      linkchild(item,menucode){
-        this.childItems = item;
-        this.thismenucode = menucode;
-      },
-      allChildrenChecked(event){
-        let checked=event;
-        for(let i = 0 ; i< this.userData.optionalMenus.length;i++){
-          let item=this.userData.optionalMenus[i];
-          if(checked){
-            if(this.thismenucode == item.menucode){
-              this.handleCheckAllChange(checked,this.thismenucode,item.children)
-            }
-          }else{
-            if(this.thismenucode == item.menucode){
-              this.handleCheckAllChange(checked,this.thismenucode,item.children)
-            }
-          }
         }
       },
       handleCheckedChildChange(event,parentMenuCode) {
@@ -373,12 +349,9 @@
           }else {
             checkedMenuCodeArraySet.delete(parentMenuCode);
           }
-          if(hasChildArraySet.size == menuCodeArray.length){
-            this.isAllChild = true;
-          }else{
-            this.isAllChild = false;
-          }
           this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
+          console.log('22222222',this.checkedMenuCodeArray);
+
         }
       },
       /**
@@ -440,5 +413,14 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
+.city-box-wrop{
+  width: 40%;
+  height: 34px;
+  line-height: 34px;
+  position: relative;
+  border:1px solid #d8dce5;
+  text-align: center;
+  color: #d8dce5;
+  border-radius: 4px;
+}
 </style>
