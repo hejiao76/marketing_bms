@@ -6,6 +6,8 @@ const marketing_coupon_edit = r => require.ensure([], () => r(require('../page/m
 const marketing_coupon_ticket_list = r => require.ensure([], () => r(require('../page/marketingCoupon/marketing_coupon_ticket_list')), 'marketing_coupon_ticket_list');
 const marketing_coupon_ticket_edit = r => require.ensure([], () => r(require('../page/marketingCoupon/marketing_coupon_ticket_edit')), 'marketing_coupon_ticket_edit');
 const marketing_coupon_record_list = r => require.ensure([], () => r(require('../page/marketingCoupon/marketing_coupon_record_list')), 'marketing_coupon_record_list');
+const marketing_coupon_detail = r => require.ensure([], () => r(require('../page/marketingCoupon/marketing_coupon_detail')), 'marketing_coupon_detail');
+const marketing_coupon_ticket_detail = r => require.ensure([], () => r(require('../page/marketingCoupon/marketing_coupon_ticket_detail')), 'marketing_coupon_ticket_detail');
 
 const routerConfig = [{
   path: '/coupon',
@@ -36,6 +38,16 @@ const routerConfig = [{
       path:'record_list/',//优惠券订单列表   消耗记录
       name:"marketing_coupon_record_list",
       component:marketing_coupon_record_list
+    },
+    {
+      path:'datail/:couponId',//抵扣券活动详情
+      name:"marketing_coupon_detail",
+      component:marketing_coupon_detail
+    },
+    {
+      path:'ticket_datail/:ticketId',//抵扣券详情
+      name:"marketing_coupon_ticket_detail",
+      component:marketing_coupon_ticket_detail
     },
   ]
 }];
