@@ -152,8 +152,10 @@
           <template slot-scope="scope">
             <el-button type="text">查看</el-button>
             <el-button type="text">编辑</el-button>
-            <el-button type="text">结束活动</el-button>
-            <el-button type="text">活动链接</el-button>
+            <el-button type="text">抵扣类型</el-button>
+            <el-button type="text">绑定车型</el-button>
+            <el-button type="text">复制</el-button>
+            <el-button type="text">禁用</el-button>
           </template>
         </el-table-column>
       </el-table >
@@ -161,43 +163,143 @@
       <div v-if="isCar">
         <el-row :gutter="20" >
           <el-col :xs="11" :sm="6" v-for="item in tableData" style="margin-bottom:20px;">
-            <div class="active-box">
-              <div class="active-header">
-                <p class="ah-title">{{item.activityName}}</p>
-                <div class="ah-time">
-                  <div class="ah-time-left">
-                    活动日期：
-                  </div>
-                  <div class="ah-time-right">
-                    <span>{{item.startDate}}</span>至<br />
-                    <span>{{item.endDate}}</span>
-                  </div>
+            <div class="saleticket-list">
+              <div class="saleticket-list_header">
+                <p>抵扣券名称名称名称名</p>
+                <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+                <div class="headericon">
+                  <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                  <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
                 </div>
               </div>
-              <div class="active-content">
-                <p>活动PV:{{item.activity_pv}}</p>
-                <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
-                <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
-                <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
-                <p class="ah-notes">（此活动包含3个抵扣券）</p>
-                <a  class="more-txt">查看详情&gt;</a>
+              <div class="saleticket-content">
+                <ul>
+                  <li>
+                    <div class="sal-con-tit">
+                      抵扣券类型：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>抵扣车款  其他权益</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      抵扣金额(元)：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>1000</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      绑定车系：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>博越</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      抵扣券数量：
+                    </div>
+                    <div class="sal-con_txt">
+                      asdfasdfads
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      创建日期：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>2017-11-11 10:15:20</span>
+                    </div>
+                  </li>
+                </ul>
               </div>
-              <div class="active-footer">
+              <div class="saleticket-footer">
+                <div class="headericon">
+                  <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                  <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+                </div>
                 <table>
                   <tr>
-                    <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
-                    <td><a href="javascript:void(0)">活动链接</a></td>
-                    <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
+                    <td><a href="javascript:void(0);">编辑</a></td>
+                    <td><a href="javascript:void(0);">复制</a></td>
+                    <td><a href="javascript:void(0);">禁用</a></td>
                   </tr>
                 </table>
               </div>
-              <div class="active-img">
-                <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
-                <img v-if="item.isStart==1" src="../../assets/images/start1.png"/>
-                <img v-if="item.isStart==2" src="../../assets/images/nostart1.png"/>
-              </div>
             </div>
           </el-col>
+          <div class="saleticket-list graysaletickstyle">
+            <div class="saleticket-list_header">
+              <p>抵扣券名称名称名称名</p>
+              <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+              <div class="headericon">
+                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+              </div>
+            </div>
+            <div class="saleticket-content">
+              <ul>
+                <li>
+                  <div class="sal-con-tit">
+                    抵扣券类型：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>抵扣车款  其他权益</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    抵扣金额(元)：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>1000</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    绑定车系：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>博越</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    抵扣券数量：
+                  </div>
+                  <div class="sal-con_txt">
+                    adfadsf
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    创建日期：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>2017-11-11 10:15:20</span>
+                  </div>
+                </li>
+              </ul>
+              <!--<div class="salemore-txt">-->
+                <!--<a href=" ">查看详情</a>-->
+              <!--</div>-->
+            </div>
+            <div class="saleticket-footer">
+              <div class="headericon">
+                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+              </div>
+              <table>
+                <tr>
+                  <td><a href="javascript:void(0);">复制</a></td>
+                  <td><a href="javascript:void(0);">查看</a></td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </el-row>
       </div>
       <!--<span class="demonstration">完整功能</span>-->
