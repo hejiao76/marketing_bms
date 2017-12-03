@@ -33,7 +33,7 @@ const routerConfig = [{
       component:marketing_sedKill_ticket_edit
     },
     {
-      path:'order_list/',//秒杀订单列表
+      path:'order_list',//秒杀订单列表
       name:"marketing_sedKill_order_list",
       component:marketing_sedKill_order_list
     },
