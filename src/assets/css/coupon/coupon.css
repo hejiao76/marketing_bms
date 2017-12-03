@@ -340,14 +340,14 @@
 }
 
 .saleticket-list.newlist .saleticket-content {
-  height: 160px;
+  height: 93px;
   overflow: hidden
 }
 
 .saleticket-list.newlist .saleticket-content p {
   font-size: 14px;
   text-align: center;
-  line-height: 110px
+  /*line-height: 110px*/
 }
 
 .saleticket-list.newlist .saleticket-content p img {
@@ -765,4 +765,7 @@
 }
 .el-tabs--card>.el-tabs__header .el-tabs__nav{
   border:none;
+}
+.active-content a:before, .body-layout, .header-right .header-right_icon, .header-right .header-right_icon span.message .prompt, .header-right .header-right_icon:first-child .prompt, .saleticket-list .isfill, .saleticket-list .saleticket-footer .headericon img, .saleticket-list .saleticket-list_header .headericon img, .saleticket-list.graysaletickstyle .saleticket-content .salemore-txt a:before, a.header-left {
+  position: absolute;
 }
