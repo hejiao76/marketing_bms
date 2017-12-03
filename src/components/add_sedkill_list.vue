@@ -118,7 +118,7 @@ export default {
         let newListObjArray = [] ;
         for(let i=0;i<listObj.length;i++){
             if(!this.exceptIdArray.includes(listObj[i].ticketId)){
-                newListObjArray.push(listObj[i]);
+                newListObjArray.push(Object.assign({},listObj[i]));
             }
         }
         return newListObjArray;
@@ -166,7 +166,7 @@ export default {
     sureSelect () {
       console.log("save");
       let checkedTicketArray=this.getCheckedTicket();
-      if(checkedTicketArray.length+this.exceptIdArray.length<=3){
+      if(checkedTicketArray.length+this.exceptIdArray.length<=10){
             this.$emit("call",checkedTicketArray)
             this.dialogTableVisible=false;
             this.listObj=[];

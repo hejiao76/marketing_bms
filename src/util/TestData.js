@@ -62,33 +62,35 @@ const OBJ ={
         ticketId:1,
         ticketName:'秒杀活动测试数据1',
         isvalid:'有效',
-        activityStartDate:"2017-12-28",
-        activityEndDate:"2017-12-28",
+        validityStartDate:"2017-12-28",
+        validityEndDate:"2017-12-28",
         createDate:"2017-12-29 10:12:11",
         applyCar:'迈腾',
         sedkillMoney:'2000',
-        sedKillStartDate:'2017-12-29 12:00:00',
-        ticketCount:'100',
-        maxPayCount:'10',
-        tmp:{}
-        // signUpStartTime:'2017-12-10',
-        // signUpEndTime:'2017-12-28',
-      },{
-        ticketId:2,
-        ticketName:'秒杀活动测试数据2',
-        isvalid:'有效',
-        activityStartDate:"2017-12-29",
-        activityEndDate:"2017-12-29",
-        createDate:"2017-12-30",
-        applyCar:'迈腾',
-        sedkillMoney:'2000',
-        sedKillStartDate:'2017-12-30 12:00:00',
-        ticketCount:'100',
-        maxPayCount:'10',
-        signUpStartTime:'2017-12-10',
-        signUpEndTime:'2017-12-29',
-        tmp:{}
-      }]
+        sedKillStartDate:'2017-12-28 12:00:00',
+        ticketCount:'10',
+        maxPayCount:'20',
+        tmp:{},
+        signUpStartTime:'2017-12-27 08:00:00',
+        signUpEndTime:'2017-12-27 10:00:00',
+      }
+        ,{
+          ticketId:2,
+          ticketName:'秒杀活动测试数据2',
+          isvalid:'有效',
+          validityStartDate:"2017-12-29",
+          validityEndDate:"2017-12-30",
+          createDate:"2017-12-30",
+          applyCar:'迈腾',
+          sedkillMoney:'1',
+          sedKillStartDate:'2017-12-30 12:00:00',
+          ticketCount:'100',
+          maxPayCount:'200',
+          signUpStartTime:'2017-12-27 01:00:00',
+          signUpEndTime:'2017-12-27 02:00:00',
+          tmp:{}
+        }
+      ]
     }
   },
   sedKill_list_data: [{
