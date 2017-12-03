@@ -1,175 +1,155 @@
 <template>
-
   <div class="con_list">
-    <el-form :model="filterForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
-    <el-row>
-      <el-col :span="20">
-        <el-tabs type="card" @tab-click="changeActivityType">
-
-          <el-tab-pane name="0" label="基本信息">
-              <div class="filter_div mb20">
-
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="活动名称" prop="ticketName">
-                      <el-input v-model="filterForm.ticketName"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-form-item label="秒杀券有效期" required>
-                      <el-col :span="11">
-                        <el-form-item prop="activityStartDate">
-                          <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
-                        </el-form-item>
-                      </el-col>
-                      <el-col class="line" :span="2" style="text-align: center">-</el-col>
-                      <el-col :span="11">
-                        <el-form-item prop="activityEndDate">
-                          <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
-                        </el-form-item>
-                      </el-col>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="活动名称" prop="applyCar">
-                      <el-input v-model="filterForm.applyCar"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-                  </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                  <el-col :span="12">
-                    <el-form-item label="秒杀券说明：" prop="remarks">
-                      <el-input type="textarea" v-model="filterForm.remarks"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="12">
-
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="24">
-                    <el-form-item label="秒杀券详情：" prop="remarks">
-                      <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="24">
-                    <el-form-item>
-                      <el-button type="primary" @click="submitForm('ruleForm')">创建</el-button>
-                      <el-button @click="resetForm('ruleForm')">取消</el-button>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-
-
-
-            </div>
-          </el-tab-pane>
-          <el-tab-pane name="1" label="抵扣车系">
+    <div class="filter_div mb20">
+      <el-form :model="activityInfo" :rules="rules" size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+        <el-row :gutter="20">
+          <el-col :span="16">
             <el-row>
-              <el-col :span="24">
-                  <el-form-item label="活动名称" prop="ticketName">
-                    <el-radio v-model="filterForm.radio" label="1">全车系</el-radio>
-                    <el-radio v-model="filterForm.radio" label="2">指定车系</el-radio>
+              <el-form-item label="活动名称：" prop="activityName">
+                <el-input v-model="activityInfo.activityName"></el-input>
+              </el-form-item>
+            </el-row>
+            <el-row>
+              <el-form-item label="创建时间：" required>
+                <el-col :span="11">
+                  <el-form-item prop="activityStartDate">
+                    <el-date-picker style="width: 100%;" v-model="activityInfo.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+
                   </el-form-item>
-              </el-col>
-              <el-col :span="24">
-                <el-form-item label="活动名称" prop="ticketName" v-if="filterForm.radio==2">
-                  <el-checkbox v-for="items in filterForm.carList">{{items}}</el-checkbox>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane name="2" label=" 抵扣类型 ">
-            <el-row>
-              <el-col :span="24">
-                <el-form-item label="抵扣类型" prop="ticketName">
-                  <el-checkbox v-model="filterForm.dikouType">抵扣车款</el-checkbox>
-                  <el-checkbox v-model="filterForm.otherWay">其他权益</el-checkbox>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-                <div class="saleticket-list colorsaletickstyle">
-                  <div class="saleticket-list_header">
-                    <p>抵扣券名称名称名称名</p>
-                    <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
-                    <div class="headericon">
-                      <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                      <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-                    </div>
-                  </div>
-                  <div class="saleticket-content">
-                    <ul>
-                      <li>
-                        <div class="sal-con-tit">
-                          加油卡：
-                        </div>
-                        <div class="sal-con_txt">
-                          <span>¥100X2</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="sal-con-tit">
-                          雨伞：
-                        </div>
-                        <div class="sal-con_txt">
-                          <span>¥100X2</span>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="saleticket-footer">
-                    <div class="headericon">
-                      <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                      <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-                    </div>
-                    <table>
-                      <tr>
-                        <td>345<em>(礼包金额)</em></td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="saleticket-list newlist">
-                    <div class="saleticket-list_header">
-                      <div class="headericon">
-                        <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                        <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-                      </div>
-                    </div>
-                    <div class="saleticket-content" @click="addCoupon()">
-                      <p data-toggle="modal" data-target="#aaa"><img src="../../assets/images/jia.png" alt="">添加抵扣券</p>
-                    </div>
-                    <div class="saleticket-footer">
-                      <div class="headericon">
-                        <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                        <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-                      </div>
-                      <table>
-                        <tr>
-                          <td>&nbsp;</td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
+                </el-col>
+                <el-col class="line" :span="2" style="text-align: center">-</el-col>
+                <el-col :span="11">
+                  <el-form-item prop="activityEndDate">
+                    <el-date-picker style="width: 100%;" v-model="activityInfo.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  </el-form-item>
+                </el-col>
+              </el-form-item>
             </el-row>
 
-          </el-tab-pane>
+          </el-col>
 
-        </el-tabs>
-      </el-col>
-      <el-col :span="4">
-      </el-col>
-    </el-row>
-    </el-form>
-    <V-Addcouponlist  ref="ticketDialog"></V-Addcouponlist>
+          <el-col :span="8">
+            <el-form-item label="分享图片：" prop="imageUrl">
+              <el-upload
+                class="avatar-uploader"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+                <img v-if="activityInfo.imageUrl" :src="activityInfo.imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+            <el-form-item label="活动地区">
+
+            </el-form-item>
+        </el-row>
+
+        <el-row>
+          <el-form-item label="抵扣券">
+
+          </el-form-item>
+        </el-row>
+
+      </el-form>
+      <el-row>
+        <div class="newhd">
+          <div class="saleticket-list">
+            <div class="saleticket-list_header">
+              <p>抵扣券名称名称名称名</p>
+              <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+              <div class="headericon">
+                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+              </div>
+            </div>
+            <div class="saleticket-content">
+              <ul>
+                <li>
+                  <div class="sal-con-tit">
+                    抵扣券类型：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>抵扣车款  其他权益</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    抵扣金额(元)：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>1000</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    绑定车系：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>博越</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    抵扣券数量：
+                  </div>
+                  <div class="sal-con_txt">
+                    asdfasdfads
+                  </div>
+                </li>
+                <li>
+                  <div class="sal-con-tit">
+                    创建日期：
+                  </div>
+                  <div class="sal-con_txt">
+                    <span>2017-11-11 10:15:20</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="saleticket-footer">
+              <div class="headericon">
+                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+              </div>
+              <table>
+                <tr>
+                  <td><a href="javascript:;">删除</a></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="saleticket-list newlist">
+            <div class="saleticket-list_header">
+              <div class="headericon">
+                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+              </div>
+            </div>
+            <div class="saleticket-content" style="height: 165px;">
+              <p @click="openAddList()"><img src="../../assets/images/jia.png" alt="" >添加抵扣券</p>
+            </div>
+            <div class="saleticket-footer">
+              <div class="headericon">
+                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+              </div>
+              <table>
+                <tr>
+                  <td>&nbsp;</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </el-row>
+    </div>
+    <V-AddcouponTlist @call="addSedKillCallBack" ref="ticketDialog"></V-AddcouponTlist>
+    <v-tip-msg ref="tipMsgRef"></v-tip-msg>
   </div>
 
 </template>
@@ -181,54 +161,38 @@
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import UE from './../../components/ue/ue.vue';
-  import ElRow from "element-ui/packages/row/src/row";
-  import ElCol from "element-ui/packages/col/src/col";
-  import VAddcouponlist from "./../../components/add_coupon_list.vue";
-
-
-  //  import ElCol from "element-ui/packages/col/src/col";
+  import VAddcouponTlist from "./../../components/add_coupon_t_list.vue";
+  import TestData from "./../../util/TestData"
   export default {
     data() {
       return {
+        testData:'',
         optionsActivityStart :{
           disabledDate:(time) => {
-            if(this.filterForm.activityEndDate){
-              let d = new Date (this.filterForm.activityEndDate)
+            if(this.activityInfo.activityEndDate){
+              let d = new Date (this.activityInfo.activityEndDate)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsActivityEnd :{
           disabledDate:(time) => {
-            if(this.filterForm.activityStartDate){
-              let d = new Date (this.filterForm.activityStartDate)
+            if(this.activityInfo.activityStartDate){
+              let d = new Date (this.activityInfo.activityStartDate)
               return time.getTime() <d.getTime();
             }
           }
         },
         labelPosition:'left',
-        defaultMsg: '这里是UE测试',
-        config: {
-          initialFrameWidth: null,
-          initialFrameHeight: 350
-        },
-        ue1: "ue1", // 不同编辑器必须不同的id
-        ue2: "ue2",
-        filterForm: {
-          ticketName: '',
-          activityStartDate:'',//活动开始时间
-          activityEndDate:'', //活动结束时间
-          applyCar:'',
-          remarks:'',
-          radio:'1',
-          carList:['博越','远景','帝豪','博越','博越',],
-          dikouType:true,//抵扣车型
-          otherWay:false,// 其他权益
-
-        },
+//        activityInfo: {
+//          activityName: '',
+//          activityStartDate:'',//活动开始时间
+//          activityEndDate:'', //活动结束时间
+//          imageUrl: ''
+//        },
+        tmpBindTicketItemKey : ["ticketId", "ticketName", "isvalid", "activityStartDate", "activityEndDate", "createDate", "applyCar", "sedkillMoney", "sedKillStartDate", "ticketCount", "maxPayCount", "signUpStartTime", "singUpStartTime"],
         rules: {
-          ticketName: [
+          activityName: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
             { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
           ],
@@ -238,73 +202,281 @@
           activityEndDate: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          applyCar: [
-            { required: true, message: '秒杀券适用车系', trigger: 'blur' },
-            { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+          imageUrl:[
+            { required: true, message: '请上传图片', trigger: 'change' }
           ],
-          remarks: [
-            { required: true, message: '秒杀券说明', trigger: 'blur' },
-            { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
+          signUpStartTime:[
+            { required: true, message: '请选择日期', trigger: 'blur' }
           ],
-        }
-      };
+          signUpEndTime:[
+            { required: true, message: '请选择日期', trigger: 'blur' }
+          ],
+          sedKillStartDate:[
+            { required: true, message: '请选择日期1', trigger: 'blur' }
+          ],
+        },
+        activityId:'', //秒杀活动ID
+        activityInfo:{},
+      }
     },
     components :{
-      ElCol,
-      ElRow,
       VHeader,
       VLeft,
       VConNav,
       VTipMsg,
-      UE,
-      VAddcouponlist,
-
+      VAddcouponTlist
     },
     created (){
 
     },
-
+    mounted (){
+      this.initPage();
+    },
+    watch : {
+      "$route": function (to, from) {
+        this.resetForm();
+      }
+    },
     methods : {
-      getUEContent() {
-        let content = this.$refs.ue.getUEContent(); // 调用子组件方法
-        this.$notify({
-          title: '获取成功，可在控制台查看！',
-          message: content,
-          type: 'success'
-        });
-        console.log(content)
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      initPage () {
+        this.activityId = this.$route.params.sedKillId;
+
+        if(this.activityId){
+          this.requestData()
+        }
       },
       /**
-       * 选项卡点击事件触发
-       * @returns {}
+       * 请求秒杀活动详情
        */
-      changeActivityType (tab, event){
-        this.activityType = tab.name;
-      },
-      addCoupon(){
-        '1111'.log
-        this.$refs.ticketDialog.showDialog();
-      }
+      requestData () {
+        if(this.activityId){
+          let param = {activityId:this.activityId};
+          this.activityInfo=TestData.sedKill_checked_ticket_data.result;
+          console.log(this.activityInfo);
+          return;
+          Api.sk_activity_list(param)
+            .then(res => {
+              if (res.status == 1) {
+                this.activityInfo = res.result;
+                this.totalRow = res.totalRow;
+              }else {
+                this.$refs.tipMsgRef.showTipMsg({
+                  msg:res.message,
+                  type:"error"
+                });
+              }
+            }).catch(err => {
 
+          });
+        }
+      },
+      getTicketItemByTicketId (ticketId) {
+
+      },
+      /**
+       * 日期转1字符串
+       * @param date
+       */
+      formatDateToString (date){
+        if(typeof date == 'object'){
+          return util.toFullDateString(date.getTime());
+        }else{
+          return date;
+        }
+      },
+      createTmpTicketItem(item){
+        let tmpTickItem = {};
+        if(item){
+          tmpTickItem.ticketCount=item.ticketCount || 1;
+          tmpTickItem.maxPayCount=item.maxPayCount || '';
+          tmpTickItem.sedkillMoney=item.sedkillMoney || 1;
+          tmpTickItem.signUpStartTime=item.signUpStartTime ? new Date(item.signUpStartTime) : '';
+          tmpTickItem.signUpEndTime=item.signUpEndTime ? new Date(item.signUpEndTime) : '';
+          tmpTickItem.sedKillStartDate=item.sedKillStartDate ? new Date(item.sedKillStartDate) : '';
+        }
+        return tmpTickItem;
+      },
+      syncTicketItemByTmp (item){
+        console.log("syncItem",item)
+        if(item && item.tmp){
+          if(item.tmp.ticketCount){
+            item.ticketCount=item.tmp.ticketCount;
+          }
+          if(item.tmp.maxPayCount){
+            item.maxPayCount=item.tmp.maxPayCount;
+          }
+          if(item.tmp.sedkillMoney){
+            item.sedkillMoney=item.tmp.sedkillMoney;
+          }
+          if(item.tmp.signUpStartTime){
+            item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTime).getTime())
+          }
+          if(item.tmp.signUpEndTime){
+            item.signUpEndTime=util.toFullDateString(new Date(item.tmp.signUpEndTime).getTime())
+          }
+          if(item.tmp.sedKillStartDate){
+            item.sedKillStartDate=util.toFullDateString(new Date(item.tmp.sedKillStartDate).getTime())
+          }
+        }
+        return item;
+      },
+      /**
+       * 编辑/取消1编1辑 秒杀券基本信息按钮事件触发
+       * @param ticketId
+       * @param status
+       */
+      editTicketItem (ticketId,status) {
+        if(ticketId){
+          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
+            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
+              let item = this.activityInfo.checked_ticket[i];
+              item.tmp=this.createTmpTicketItem(item);
+              console.log("editItem----------->",item);
+//              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
+//                  item.signUpStartTimeObj=new Date(item.siginUpStartTime);
+//              }
+//              if(item.signUpEndTime && typeof item.signUpEndTime !='object') {
+//                item.signUpEndTimeObj=new Date(item.signUpEndTime);
+//              }
+//              if(item.sedKillStartDate && typeof item.sedKillStartDate !='object') {
+//                item.sedKillStartDateObj=new Date(item.sedKillStartDate);
+//              }
+              item.editStatus=status;
+              this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
+              break;
+            }
+          }
+        }
+      },
+      /**
+       *  保存 秒杀券基本信息按钮事件触发
+       * @param ticketId
+       */
+      saveTickItem(ticketId){
+        if(ticketId){
+          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
+            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
+              let item = this.activityInfo.checked_ticket[i];
+              this.syncTicketItemByTmp(item);
+//              delete item.tmp;
+//              if(item.tmp.signUpStartTime) {
+//                item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTimeObj).getTime())
+//              }
+//              if(item.signUpEndTimeObj) {
+//                item.signUpEndTime=util.toFullDateString(new Date(item.signUpEndTimeObj).getTime())
+//              }
+//              if(item.sedKillStartDateObj) {
+//                item.sedKillStartDate=util.toFullDateString(new Date(item.sedKillStartDateObj).getTime())
+//              }
+              item.editStatus=0;
+              this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
+              break;
+            }
+          }
+        }
+      },
+      /**
+       * 删除已选择秒杀券
+       * @param ticketId
+       */
+      removeTicketItem (ticketId){
+        if(ticketId){
+          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
+            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
+              this.activityInfo.checked_ticket.splice(i, 1); //使用splice 触发数据更新
+              break;
+            }
+          }
+        }
+      },
+      /**
+       * 获取已选择秒杀券ID
+       */
+      getExceptTicketId(){
+        let ticketIdArray = [];
+        for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
+          ticketIdArray.push(this.activityInfo.checked_ticket[i].ticketId);
+        }
+        return ticketIdArray;
+      },
+      /**
+       * 打开新增秒杀券模态框
+       * @param ticketId
+       */
+      openAddList() {
+        this.$refs.ticketDialog.showDialog();
+      },
+      addSedKillCallBack(checkedNewTicketList){
+        console.log("回来了---------->",checkedNewTicketList)
+        for(let i = 0;i<checkedNewTicketList.length;i++){
+          let item =checkedNewTicketList[i];
+          let newTicketItem ={};
+          newTicketItem.ticketId = item.ticketId;
+          newTicketItem.ticketName = item.name;
+          newTicketItem.activityStartDate = item.startTime;
+          newTicketItem.activityEndDate = item.endTime;
+          newTicketItem.createDate = item.creatTime;
+          newTicketItem.editStatus=1;
+          newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
+          this.activityInfo.checked_ticket.push(newTicketItem);
+
+        }
+      },
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
     }
   }
 </script>
-<style scoped="scope">
-  .el-form-item{
-    margin-bottom: 20px;
+<style>
+  /*.filter_div .el-form-item .el-form-item ,.filter_div .el-form-item--small .el-form-item{*/
+  /*line-height:0px;*/
+  /*}*/
+  .edit-txt .el-date-editor{
+    width:170px;
+  }
+  .edit-txt .el-input__prefix {
+    left:auto;
+    right:30px;
+  }
+  .edit-txt .el-input__prefix i {
+    color:#9384e3;
+  }
+
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    display: block;
   }
 
   /*@import "./../../assets/css/common.css";*/

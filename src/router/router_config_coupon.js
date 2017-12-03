@@ -13,7 +13,7 @@ const routerConfig = [{
    redirect:'/marketing_coupon/marketing_coupon_list',  //根据实际业务 重定向到之路由
   children: [//二级路由  path不加 '/'  path 不加 '/'  path 不加 '/'  重要的事情说三遍  加了 '/' 代表根级
     {
-      path:'list',//优惠券活动列表
+      path:'list',//优惠券活动列表  抵扣券活动列表
       name:"marketing_coupon_list",
       component:marketing_coupon_list
     },
@@ -23,17 +23,17 @@ const routerConfig = [{
       component:marketing_coupon_edit
     },
     {
-      path:'ticket_list',//优惠券券列表
+      path:'ticket_list',//优惠券券列表 抵扣券列表抵扣券活动
       name:"marketing_coupon_ticket_list",
       component:marketing_coupon_ticket_list
     },
     {
-      path:'ticket_edit/:ticketId',//优惠券券编辑
+      path:'ticket_edit/:ticketId',//优惠券券编辑    添加抵扣券活动
       name:"marketing_coupon_ticket_edit",
       component:marketing_coupon_ticket_edit
     },
     {
-      path:'record_list/',//优惠券订单列表
+      path:'record_list/',//优惠券订单列表   消耗记录
       name:"marketing_coupon_record_list",
       component:marketing_coupon_record_list
     },
