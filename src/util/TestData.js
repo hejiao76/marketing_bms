@@ -252,7 +252,9 @@ const OBJ ={
       allBuyNum:1000,
       startDate:'2013-10-10',
       endDate:'2013-10-21',
-
+      activityStatus:'进行中',
+      activity_pv:19000,
+      activityName:'购车好礼',
     },
     {
       isStart:1,
@@ -261,6 +263,9 @@ const OBJ ={
       allBuyNum:1000,
       startDate:'2013-10-10',
       endDate:'2013-10-21',
+      activityStatus:'进行中',
+      activity_pv:19000,
+      activityName:'购车好礼',
 
     },
     {
@@ -270,7 +275,9 @@ const OBJ ={
       allBuyNum:1000,
       startDate:'2013-10-10',
       endDate:'2013-10-21',
-
+      activityStatus:'未开启',
+      activity_pv:19000,
+      activityName:'购车好礼',
     },
     {
       isStart:2,
@@ -279,16 +286,20 @@ const OBJ ={
       allBuyNum:1000,
       startDate:'2013-10-10',
       endDate:'2013-10-21',
-
+      activityStatus:'未开启',
+      activity_pv:19000,
+      activityName:'购车好礼',
     },
     {
       isStart:3,
       createDate:'2015-10-10',
       buyNum:100,
+      activity_pv:19000,
       allBuyNum:1000,
       startDate:'2013-10-10',
       endDate:'2013-10-21',
-
+      activityStatus:'已结束',
+      activityName:'购车好礼',
     }
   ]
 }

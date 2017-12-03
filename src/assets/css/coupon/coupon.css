@@ -108,18 +108,7 @@
   left: 20px
 }
 
-.active-content a:before {
-  content: '';
-  display: inline-block;
-  top: 50%;
-  right: -10px;
-  margin-top: -3px;
-  height: 6px;
-  width: 6px;
-  border-left: 1px solid #527EFE;
-  border-bottom: 1px solid #527EFE;
-  transform: rotate(-135deg)
-}
+
 
 .active-footer {
   background: #fff;
@@ -631,4 +620,149 @@
   line-height: 24px;
   color: #333;
   margin-bottom: 3px
+}
+
+.activename {
+  border-color: #F16767
+}
+
+.active-box {
+  width: 100%;
+  border: 1px solid #EFF0F5;
+  position: relative;
+  background: #fff
+}
+
+.active-img {
+  position: absolute;
+  top: 0;
+  right: 0
+}
+
+.active-header {
+  width: 100%;
+  background: #f0f2fa;
+  padding: 18px 0
+}
+
+.active-header .ah-title {
+  color: #404C73;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  margin: 0
+}
+
+.active-header .ah-time {
+  padding-left: 20%;
+  padding-top: 10px;
+  overflow: hidden;
+  color: #404C73;
+  font-size: 12px;
+  line-height: 17px
+}
+
+.active-header .ah-time div {
+  float: left
+}
+
+.active-content {
+  width: 100%;
+  background: #fff;
+  padding: 20px 0
+}
+
+.active-content p {
+  color: #404C73;
+  font-size: 12px;
+  line-height: 17px;
+  margin: 0 20px 10px
+}
+
+.active-content a {
+  position: relative;
+  left: 20px;
+  color: #527EFE;
+}
+
+/*.active-content a:before {*/
+/*content: '';*/
+/*display: inline-block;*/
+/*top: 50%;*/
+/*right: -10px;*/
+/*margin-top: -3px;*/
+/*height: 6px;*/
+/*width: 6px;*/
+/*border-left: 1px solid #527EFE;*/
+/*border-bottom: 1px solid #527EFE;*/
+/*transform: rotate(-135deg)*/
+/*}*/
+
+.active-footer {
+  background: #fff;
+  padding: 20px 0;
+  overflow: hidden;
+  margin: 0 20px;
+  border-top: 1px dashed #ddd
+}
+
+.active-footer table {
+  width: 100%;
+  overflow: hidden
+}
+
+.active-footer table tr {
+  width: 100%
+}
+
+.active-footer table tr td {
+  text-align: center
+}
+
+.active-footer table tr td a {
+  color: #517BDA;
+  font-size: 12px;
+  display: inline-block;
+  width: 60px;
+  height: 27px;
+  line-height: 27px;
+  text-align: center;
+  border: 1px solid #517BDA;
+  text-decoration: none
+}
+
+.active-footer table tr td a:hover {
+  text-decoration: none
+}
+.list_div .el-tabs__content {
+  display :none
+}
+.list_div el-tabs--top {
+  display : none;
+}
+.list_div .totalTip {
+  font-size: 14px;
+  color: #8C94AC;
+  letter-spacing: 0;
+}
+.list_div .el-tabs__content{
+  display: block;
+}
+.el-tabs__item{
+  background: #EFF0F6;
+}
+.el-tabs--card>.el-tabs__header .el-tabs__item{
+  float: left;
+  border-left:none;
+  margin-right:10px;
+  border-bottom: 1px solid #dfe4ed;
+}
+.el-tabs--card>.el-tabs__header .el-tabs__item.is-active{
+  border-left: 1px solid #dfe4ed;
+  border-right: 1px solid #dfe4ed;
+  border-top: 3px solid #527EFE;
+  background: #fff;
+}
+.el-tabs--card>.el-tabs__header .el-tabs__nav{
+  border:none;
 }

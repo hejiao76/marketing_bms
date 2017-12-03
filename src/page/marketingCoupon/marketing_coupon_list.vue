@@ -72,11 +72,24 @@
           <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建活动</el-button>
         </el-col>
       </el-row>
-      <div><span class="totalTip">共找到以下10条数据</span></div>
+      <div style="margin-bottom:15px;"><span class="totalTip">共找到以下10条数据</span>
+        <el-switch
+        style="display:inline-block;float: right"
+        v-model="isCar"
+        active-color="#13ce66"
+        inactive-color="#409EFF"
+        active-text="卡片"
+        inactive-text="列表"
+        change="changeCar()"
+        >
+       </el-switch>
+      </div>
+      <!--------------列表------------>
       <el-table
         :data="tableData"
         style="width: 100%"
         :default-sort = "{prop: 'date', order: 'descending'}"
+        v-if="!isCar"
       >
         <el-table-column
           prop="activityName"
@@ -84,12 +97,12 @@
           sortable width="150">
         </el-table-column>
         <el-table-column
-          prop="activityStartDate"
+          prop="startDate"
           label="活动开始日期"
           sortable width="150">
         </el-table-column>
         <el-table-column
-          prop="activityEndDate"
+          prop="endDate"
           label="活动结束日期"
           width="150">
         </el-table-column>
@@ -121,7 +134,50 @@
               <el-button type="text">活动链接</el-button>
             </template>
         </el-table-column>
-      </el-table>
+      </el-table >
+      <!--------------卡片------------>
+      <div v-if="isCar">
+        <el-row :gutter="20" >
+          <el-col :xs="11" :sm="6" v-for="item in tableData" style="margin-bottom:20px;">
+            <div class="active-box">
+              <div class="active-header">
+                <p class="ah-title">{{item.activityName}}</p>
+                <div class="ah-time">
+                  <div class="ah-time-left">
+                    活动日期：
+                  </div>
+                  <div class="ah-time-right">
+                    <span>{{item.startDate}}</span>至<br />
+                    <span>{{item.endDate}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="active-content">
+                <p>活动PV:{{item.activity_pv}}</p>
+                <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
+                <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
+                <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
+                <p class="ah-notes">（此活动包含3个抵扣券）</p>
+                <a  class="more-txt">查看详情&gt;</a>
+              </div>
+              <div class="active-footer">
+                <table>
+                  <tr>
+                    <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
+                    <td><a href="javascript:void(0)">活动链接</a></td>
+                    <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="active-img">
+                <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
+                <img v-if="item.isStart==1" src="../../assets/images/start1.png"/>
+                <img v-if="item.isStart==2" src="../../assets/images/nostart1.png"/>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
                      :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
@@ -151,15 +207,8 @@
   export default {
     data() {
       return {
-        tableData: [{
-          activityName:"测试活动3",
-          activityStartDate:"2017-11-28",
-          activityEndDate:"2017-12-28",
-          createDate:"2017-11-28",
-          activity_pv:19000,
-          activityStatus:'进行中',
-          buyNum:'100',
-        }],
+        tableData:TestData.prize_list,
+        isCar:true,//滑块
         optionsActivityStart :{
           disabledDate:(time) => {
               if(this.filterForm.activityEndDate){
@@ -229,6 +278,14 @@
       ////table排序　
       formatter(row, column) {
         return row.address;
+      },
+      ////卡片切换
+      changeCar(){
+        if(this.isCar){
+          this.isCar = false;
+        }else{
+          this.isCar = true;
+        }
       },
       /**
        * 新建活动点击
