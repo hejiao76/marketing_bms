@@ -110,7 +110,7 @@
                       活动地区：
                     </el-col>
                     <el-col :span="20">
-                      <V-Treeview></V-Treeview>
+                      <V-Treeview @call="addSedKillCallBack"></V-Treeview>
                     </el-col>
                   </el-row>
                   <el-row class="margin-bottom-20">
@@ -352,6 +352,10 @@
       changeActivityType(){
 
       },
+      addSedKillCallBack(cityArr){
+        console.log('cityArrcityArrcityArrcityArr',cityArr);
+      },
+
       closePrizeBox(idx){
          if(this.addPrizeList[idx].isshow){
            this.addPrizeList[idx].isshow = false;

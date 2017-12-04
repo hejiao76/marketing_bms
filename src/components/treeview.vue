@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="city-box-wrop" @click="boxIsShow()">
-        <span>请选择活动区域</span>
+        <span v-if="!newCityArr">请选择活动区域</span>
+        <span v-if="newCityArr" v-for="item in newCityArr">{{item}},</span>
     </div>
     <el-row v-if="ifShow" style="margin-top:-34px;">
       <el-col :span="24">
@@ -45,7 +46,7 @@
                     <el-col :span="12"> <el-checkbox @change="allChecked($event)" class="fw">全选</el-checkbox></el-col>
                   <el-col :span="12" class="col-md-8 text-right">
                     <el-button size="small" class="fr mr20 " style="margin-top:3px;" @click="cityBoxhide()">取消</el-button>
-                    <el-button type="primary" size="small" class="fr mr20 " style="margin-right:20px;margin-top:3px;">确认</el-button>
+                    <el-button type="primary" size="small" @click="checkedCity()" class="fr mr20 " style="margin-right:20px;margin-top:3px;">确认</el-button>
                   </el-col>
                 </el-row>
               </div>
@@ -137,6 +138,7 @@
         },
         allMenuCodeArray:[], //所有可选权限数组
         checkedMenuCodeArray:[], //已选择权限数组
+        newCityArr :[],
       }
     },
     created () {
@@ -407,6 +409,11 @@
           }
         }
       },
+      checkedCity(){
+        this.$emit("call",this.checkedMenuCodeArray);
+        this.newCityArr = this.checkedMenuCodeArray
+        this.ifShow = false;
+      }
     }
   }
 </script>
@@ -422,5 +429,112 @@
   text-align: center;
   color: #d8dce5;
   border-radius: 4px;
+}
+.city-box {
+  /*position: absolute;*/
+  z-index: 999;
+  overflow: hidden;
+  /*padding-right: 15px;*/
+  background: #fff
+}
+
+.city {
+  width: 80%;
+  float: left;
+  line-height: 34px;
+  color: #404C73;
+  font-size: 14px;
+  background: #fff
+}
+
+.city input {
+  vertical-align: -2px;
+  margin-right: 9px
+}
+.select-box{
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #404C73;
+  vertical-align: middle;
+  background-color: #ffffff;
+  border: 1px solid #E3E5E8;
+}
+
+.city .city-title {
+  height: 34px;
+  border-left: 1px solid #E3E5E8
+}
+
+.city-body {
+  border: 1px solid #E3E5E8;
+  border-bottom: none;
+  height: 200px;
+  overflow: scroll;
+  background: #fff;
+  padding-top: 18px;
+  padding-left:20px;
+}
+
+.city-body .city-body-left {
+  width: 5%;
+  float: left;
+  color: #404C73
+}
+
+.city-body .city-body-right {
+  width: 95%;
+  float: left;
+  color: #ABB3C8
+}
+
+.city-body .city-body-right .city-body-title {
+  color: #404C73;
+  font-weight: 900
+}
+
+.city-body .city-body-right .city-body-content label {
+  margin: 0 0 10px;
+  line-height: 20px;
+  padding-left: 0
+}
+
+.city-sidebar {
+  width: 20%;
+  float: left;
+  line-height: 34px;
+  color: #404C73;
+  font-size: 14px;
+  border-right: 1px solid #E3E5E8;
+  background: #fff
+}
+
+.city-sidebar input {
+  vertical-align: -2px;
+  margin-right: 9px
+}
+
+.city-sidebar .city-body {
+  border: none;
+  border-top: 1px solid #E3E5E8
+}
+
+.city-sidebar label {
+  margin: 0;
+  line-height: 20px;
+  color: #ABB3C8
+}
+
+.city-footer {
+  height: 40px;
+  padding-left:20px;
+  padding-right:20px;
+  line-height: 40px;
+  background: #fff;
+  float: left;
+  border: 1px solid #E3E5E8;
 }
 </style>

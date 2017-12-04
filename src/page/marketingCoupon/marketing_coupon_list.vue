@@ -45,6 +45,7 @@
           <el-row>
             <el-col :span="16">
               <el-form-item label="活动地区:">
+                <V-Treeview @call="addSedKillCallBack"></V-Treeview>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -131,7 +132,7 @@
               <el-button type="text">查看</el-button>
               <el-button type="text">编辑</el-button>
               <el-button type="text">结束活动</el-button>
-              <el-button type="text">活动链接</el-button>
+              <el-button type="text" @click="couponLink()">活动链接</el-button>
             </template>
         </el-table-column>
       </el-table >
@@ -164,7 +165,7 @@
                 <table>
                   <tr>
                     <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
-                    <td><a href="javascript:void(0)">活动链接</a></td>
+                    <td><a href="javascript:void(0)"  @click="couponLink()"> 活动链接</a></td>
                     <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
                   </tr>
                 </table>
@@ -184,6 +185,7 @@
                      :total="totalRow"></el-pagination>
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
+    <V-CouponLink ref="couponDialog"></V-CouponLink>
 
 
 
@@ -204,6 +206,8 @@
   import $ from "jquery"
   import ElCol from "element-ui/packages/col/src/col";
   import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
+  import VTreeview from "./../../components/treeview.vue";
+  import VCouponLink from "./../../components/coupon_link.vue";
   export default {
     data() {
       return {
@@ -264,7 +268,9 @@
       VHeader,
       VLeft,
       VConNav,
-      VTipMsg
+      VTipMsg,
+      VTreeview,
+      VCouponLink
     },
     created (){
     },
@@ -356,6 +362,14 @@
       toDetail (companyInfoId){
         this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
       },
+      // 返回城市列表
+      addSedKillCallBack(cityArr){
+
+      },
+      //活动链接
+      couponLink(){
+        this.$refs.couponDialog.showDialog('这是需要复制的内容！');
+      }
 
 
 
