@@ -2,7 +2,7 @@
   <div class="con_list">
     <!--过滤条件-->
     <div class="filter_div mb20">
-        <el-form :model="filterForm"   size="small" label-width="80px" class="demo-ruleForm" :label-position="labelPosition">
+        <el-form :model="filterForm" ref="filterForm"  size="small" label-width="80px" class="demo-ruleForm" :label-position="labelPosition">
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="活动名称">
@@ -15,13 +15,13 @@
                   <el-form-item label="活动日期:">
                     <el-col :span="11">
                       <el-form-item >
-                        <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
                       </el-form-item>
                     </el-col>
                     <el-col class="line" :span="2" style="text-align: center">-</el-col>
                     <el-col :span="11">
                       <el-form-item>
-                        <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
                       </el-form-item>
                     </el-col>
                   </el-form-item>
@@ -30,13 +30,13 @@
                   <el-form-item label="创建日期:">
                     <el-col :span="11">
                       <el-form-item>
-                        <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
                       </el-form-item>
                     </el-col>
                     <el-col class="line" :span="2" style="text-align: center">-</el-col>
                     <el-col :span="11">
                       <el-form-item>
-                        <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
                       </el-form-item>
                     </el-col>
                   </el-form-item>
@@ -63,10 +63,9 @@
         <el-col :span="20">
           <el-tabs type="card" @tab-click="changeActivityType">
             <el-tab-pane name="0" label="全部活动"></el-tab-pane>
-            <el-tab-pane name="1" label=" 已上架 "></el-tab-pane>
-            <el-tab-pane name="2" label=" 已下架 "></el-tab-pane>
+            <el-tab-pane name="1" label=" 进行中 "></el-tab-pane>
+            <el-tab-pane name="2" label=" 待上线 "></el-tab-pane>
             <el-tab-pane name="3" label=" 已结束 "></el-tab-pane>
-            <el-tab-pane name="4" label=" 已删除 "></el-tab-pane>
           </el-tabs>
         </el-col>
         <el-col :span="4">
@@ -181,7 +180,7 @@
       </div>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
-                     :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+                     :current-page="currentPage" :page-size="2" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
@@ -257,7 +256,7 @@
         activityType : 0,
         resData : [],
         currentPage: 1,
-        totalRow: 0,
+        totalRow: 20,
         pageRecorders: 10,
         Final: Final,
       }
@@ -278,7 +277,9 @@
       //      this.requestData();
     },
     watch: {
-
+      "$route": function (to, from) {
+        this.resetForm();
+      }
     },
     methods: {
       ////table排序　
@@ -335,13 +336,23 @@
        */
       searchFn () {
         this.currentPage = 1;
-        this.requestData();
+        this.totalRow = 20;
+        //this.requestData();
       },
       /**
        * 重置表单
        */
       resetForm() {
-        this.$refs['filterForm'].resetFields();
+
+        this.filterForm =  {
+          activityName:'',//活动名称
+            activityArea:'',//活动区域
+            activityStartDate:'',//活动开始时间
+            activityEndDate:'', //活动结束时间
+            createStartDate:'',//活动创建开始时间
+            createEndDate:''//活动创建结束时间
+        }
+
         this.searchFn();
       },
       /**
@@ -357,7 +368,7 @@
        */
       handleCurrentChange(cpage) {
         this.currentPage = cpage;
-        this.requestData();
+        //this.requestData();
       },
       toDetail (companyInfoId){
         this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})

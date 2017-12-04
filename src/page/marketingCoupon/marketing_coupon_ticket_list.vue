@@ -11,7 +11,14 @@
         </el-col>
           <el-col :span="12">
           <el-form-item label="抵扣券类型：">
-            <el-input v-model="filterForm.activityName"></el-input>
+            <el-select v-model="filterForm.activeOption" placeholder="请选择">
+              <el-option
+                v-for="item in filterForm.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
 
@@ -19,12 +26,12 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="绑定车系：">
-              <el-input v-model="filterForm.activityName"></el-input>
+              <el-input v-model="filterForm.activeBandCar"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="参与名称：">
-              <el-input v-model="filterForm.activityName"></el-input>
+              <el-input v-model="filterForm.activeJoinName"></el-input>
             </el-form-item>
           </el-col>
 
@@ -34,13 +41,13 @@
             <el-form-item label="活动日期:">
               <el-col :span="11">
                 <el-form-item >
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date"  placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd"  type="date" placeholder="请输入结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -49,13 +56,13 @@
             <el-form-item label="创建日期:">
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -66,16 +73,22 @@
             <el-form-item label="抵扣金额：">
               <el-col :span="11">
                 <el-form-item >
-                  <el-input v-model="filterForm.activityName"></el-input>
+                  <el-input v-model="filterForm.deductionStarNum" ></el-input>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-input v-model="filterForm.activityName"></el-input>
+                  <el-input v-model="filterForm.deductionEndNum"></el-input>
                 </el-form-item>
               </el-col>
 
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item class="fr">
+              <el-button type="primary" @click="searchFn">查 询</el-button>
+              <el-button @click="resetForm('filterForm')">重 置</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -116,22 +129,23 @@
         <el-table-column
           prop="activityName"
           label="抵扣券名称"
-          sortable>
+          >
         </el-table-column>
         <el-table-column
           prop="startDate"
           label="抵扣类型"
-          sortable width="100">
+           width="100">
         </el-table-column>
         <el-table-column
           prop="endDate"
           label="抵扣金额"
+          sortable
           >
         </el-table-column>
         <el-table-column
           prop="buyNum"
           label="绑定车系"
-          sortable>
+          >
         </el-table-column>
         <el-table-column
           prop="activity_pv"
@@ -141,7 +155,7 @@
         <el-table-column
           prop="activityStatus"
           label="参与活动"
-          sortable >
+           >
         </el-table-column>
         <el-table-column
           prop="createDate"
@@ -223,9 +237,9 @@
                 </div>
                 <table>
                   <tr>
-                    <td><a href="javascript:void(0);">编辑</a></td>
-                    <td><a href="javascript:void(0);">复制</a></td>
-                    <td><a href="javascript:void(0);">禁用</a></td>
+                    <td><a href="javascript:void(0);" @click="activeUpdate()">编辑</a></td>
+                    <td><a href="javascript:void(0);" @click="activeCopy()">复制</a></td>
+                    <td><a href="javascript:void(0);" @click="activeDisabled()">禁用</a></td>
                   </tr>
                 </table>
               </div>
@@ -294,7 +308,7 @@
               </div>
               <table>
                 <tr>
-                  <td><a href="javascript:void(0);">复制</a></td>
+                  <td><a href="javascript:void(0);" @click="activeCopy()">复制</a></td>
                   <td><a href="javascript:void(0);">查看</a></td>
                 </tr>
               </table>
@@ -367,17 +381,22 @@
         },
         filterForm: {
           activityName:'',//活动名称
-          activityArea:'',//活动区域
+          activeBandCar:'',//绑定车系
+          activeJoinName:'',//参与名称
           activityStartDate:'',//活动开始时间
           activityEndDate:'', //活动结束时间
           createStartDate:'',//活动创建开始时间
-          createEndDate:''//活动创建结束时间
+          createEndDate:'',//活动创建结束时间
+          options:[{value:'抵扣券类型',label:'1'}],//抵扣券类型
+          activeOption :'',//选择完成抵扣券类型
+          deductionStarNum:'',//抵扣最大金额
+          deductionEndNum:'',//抵扣最小金额
         },
         labelPosition:'left',
         activityType : 0,
         resData : [],
-        currentPage: 1,
-        totalRow: 0,
+        currentPage: 1,//当前页
+        totalRow: 20,//总页数
         pageRecorders: 10,
         Final: Final,
       }
@@ -453,13 +472,25 @@
        */
       searchFn () {
         this.currentPage = 1;
-        this.requestData();
+        //this.requestData();
       },
       /**
        * 重置表单
        */
       resetForm() {
-        this.$refs['filterForm'].resetFields();
+        this.filterForm = {
+          activityName:'',//活动名称
+          activeBandCar:'',//绑定车系
+          activeJoinName:'',//参与名称
+          activityStartDate:'',//活动开始时间
+          activityEndDate:'', //活动结束时间
+          createStartDate:'',//活动创建开始时间
+          createEndDate:'',//活动创建结束时间
+          options:[{value:'抵扣券类型',label:'1'}],//抵扣券类型
+          activeOption :'',//选择完成抵扣券类型
+          deductionStarNum:'',//抵扣最大金额
+          deductionEndNum:'',//抵扣最小金额
+        }
         this.searchFn();
       },
       /**
@@ -480,8 +511,27 @@
       toDetail (companyInfoId){
         this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
       },
-
-
+      //复制抵扣券
+      activeCopy(){
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:"复制抵扣券",
+          type:"error"
+        });
+      },
+      //编辑抵扣券
+      activeUpdate(){
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:"编辑抵扣券",
+          type:"error"
+        });
+      },
+      //禁用抵扣券
+      activeDisabled(){
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:"禁用抵扣券",
+          type:"error"
+        });
+      },
 
     }
   }
