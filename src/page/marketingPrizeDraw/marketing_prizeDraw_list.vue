@@ -54,21 +54,21 @@
         <td>周韵幂</td>
         <td>13899002233</td>
         <td>一等奖 特惠大礼包</td>
-        <td><a href="#no">幸运大转盘</a></td>
+        <td><a href="javascript:void(0)">幸运大转盘</a></td>
       </tr>
       <tr>
         <td>发撒发达</td>
         <td>周韵幂</td>
         <td>13899002233</td>
         <td>一等奖 特惠大礼包</td>
-        <td><a href="#no">幸运大转盘</a></td>
+        <td><a href="javascript:void(0)">幸运大转盘</a></td>
       </tr>
       <tr>
         <td>发撒发达</td>
         <td>周韵幂</td>
         <td>13899002233</td>
         <td>一等奖 特惠大礼包</td>
-        <td><a href="#no">幸运大转盘</a></td>
+        <td><a href="javascript:void(0)">幸运大转盘</a></td>
       </tr>
       </tbody>
     </table>
@@ -124,13 +124,27 @@
       }
     },
     methods: {
+      getFilterParam () {
+        var param = {token: localStorage.getItem("token"), type: this.checkStatus}
+        if (this.filterForm.activityName) {
+          param.activityName = this.filterForm.activityName
+        }
+        if (this.filterForm.activityArea) {
+          param.activityArea = this.filterForm.activityArea
+        }
+        console.log("查询提交参数:",param);
+        return param;
+      },
       // 搜索
       searchFn(){
 
       },
       //重置
       resetForm(){
-
+        this.filterForm={
+          activityName:'',//活动名称
+            activityArea:'全国',//活动区域
+        }
       },
       // 翻页
       handleCurrentChange(){
@@ -139,7 +153,7 @@
       // 导出excelbiao
       uploadEx(){
         this.$refs.tipMsgRef.showTipMsg({
-          msg:"复制券还在开发! 急什么! 急什么!",
+          msg:"还在开发! 急什么! 急什么!",
           type:"error"
         });
       }

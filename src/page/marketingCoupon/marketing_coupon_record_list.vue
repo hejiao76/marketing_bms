@@ -82,6 +82,12 @@
               </el-col>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item class="fr">
+              <el-button type="primary" @click="searchFn">查 询</el-button>
+              <el-button @click="resetForm('filterForm')">重 置</el-button>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
     </div>
@@ -322,7 +328,20 @@
        * 重置表单
        */
       resetForm() {
-        this.$refs['filterForm'].resetFields();
+        //this.$refs['filterForm'].resetFields();
+        this.filterForm= {
+          userName:'',//用户姓名
+            userPhone:'',//用户电话
+            activityName:'',//活动名称
+            couponName:'',//抵扣券名称
+            businessName:'',//商家名称
+            couponMa:'',//抵扣券码
+            couponMoney:'',//抵扣金额
+            getStartTIme:'',//领取开始日期
+            getEndTime:'',//领取结束日期
+            usedStartTime:'',//核销开始日期
+            usedEndTime:'',//核销结束日期
+        }
         this.searchFn();
       },
       /**
