@@ -6,12 +6,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="用户姓名：">
-              <el-input v-model="filterForm.activityName"></el-input>
+              <el-input v-model="filterForm.userName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="用户电话：">
-              <el-input v-model="filterForm.activityName"></el-input>
+              <el-input v-model="filterForm.userPhone"></el-input>
             </el-form-item>
           </el-col>
 
@@ -19,17 +19,29 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="抵扣券名称：">
-              <el-input v-model="filterForm.activityName"></el-input>
+              <el-input v-model="filterForm.couponName" placeholder="请输入抵扣券名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
           <el-form-item label="活动名称：">
-            <el-input v-model="filterForm.activityName"></el-input>
+            <el-input v-model="filterForm.activityName" placeholder="请输入活动名称"></el-input>
           </el-form-item>
         </el-col>
           <el-col :span="8">
             <el-form-item label="经销商简称：">
-              <el-input v-model="filterForm.activityName"></el-input>
+              <el-input v-model="filterForm.businessName" placeholder="请输入经销商简称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="抵扣券码：">
+              <el-input v-model="filterForm.couponMa" placeholder="请输入抵扣券码"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="抵扣金额：">
+              <el-input v-model="filterForm.couponMoney" placeholder="请输入抵扣金额"></el-input>
             </el-form-item>
           </el-col>
 
@@ -39,13 +51,13 @@
             <el-form-item label="领取日期:">
               <el-col :span="11">
                 <el-form-item >
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.getStartTIme" :editable="false" :picker-options="optionsGetStartTIme" type="date" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.getEndTime" :editable="false" :picker-options="optionsGetEndTime" type="date" placeholder="请输入结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -59,13 +71,13 @@
             <el-form-item label="核销日期:">
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.usedStartTime" :editable="false" :picker-options="optionsUsedStartTime" type="date" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.usedEndTime" :editable="false" :picker-options="optionsUsedEndTime" type="date" placeholder="请输入结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -85,12 +97,12 @@
         <el-table-column
           prop="activityName"
           label="抵扣券码"
-          sortable>
+          >
         </el-table-column>
         <el-table-column
           prop="startDate"
           label="抵扣券名称"
-          sortable width="100">
+           width="100">
         </el-table-column>
         <el-table-column
           prop="endDate"
@@ -100,7 +112,7 @@
         <el-table-column
           prop="buyNum"
           label="实际抵扣车型"
-          sortable>
+          >
         </el-table-column>
         <el-table-column
           prop="activity_pv"
@@ -110,12 +122,12 @@
         <el-table-column
           prop="activityStatus"
           label="用户姓名"
-          sortable >
+           >
         </el-table-column>
         <el-table-column
           prop="createDate"
           label="用户电话"
-          sortable >
+           >
         </el-table-column>
         <el-table-column
           prop="createDate"
@@ -129,7 +141,7 @@
         </el-table-column>
         <el-table-column
           label="经销商"
-          sortable >
+           >
           <template slot-scope="scope">
             <el-button type="text">汇通</el-button>
           </template>
@@ -164,51 +176,56 @@
     data() {
       return {
         tableData:TestData.prize_list,
-        optionsActivityStart :{
+        optionsGetStartTIme :{
           disabledDate:(time) => {
-            if(this.filterForm.activityEndDate){
-              let d = new Date (this.filterForm.activityEndDate)
+            if(this.filterForm.getStartTIme){
+              let d = new Date (this.filterForm.getStartTIme)
               return time.getTime() >d.getTime();
             }
           }
         },
-        optionsActivityEnd :{
+        optionsGetEndTime :{
           disabledDate:(time) => {
-            if(this.filterForm.activityStartDate){
-              let d = new Date (this.filterForm.activityStartDate)
+            if(this.filterForm.getEndTime){
+              let d = new Date (this.filterForm.getEndTime)
               return time.getTime() <d.getTime();
             }
           }
         },
-        optionsCreateStart : {
+        optionsUsedStartTime: {
           disabledDate:(time) => {
-            if(this.filterForm.createEndDate){
-              let d = new Date (this.filterForm.createEndDate)
+            if(this.filterForm.usedStartTime){
+              let d = new Date (this.filterForm.usedStartTime)
               return time.getTime() >d.getTime();
             }
           }
         },
-        optionsCreateEnd : {
+        optionsUsedEndTime: {
           disabledDate:(time) => {
-            if(this.filterForm.createStartDate){
-              let d = new Date (this.filterForm.createStartDate)
+            if(this.filterForm.usedEndTime){
+              let d = new Date (this.filterForm.usedEndTime)
               return time.getTime() <d.getTime();
             }
           }
         },
         filterForm: {
+          userName:'',//用户姓名
+          userPhone:'',//用户电话
           activityName:'',//活动名称
-          activityArea:'',//活动区域
-          activityStartDate:'',//活动开始时间
-          activityEndDate:'', //活动结束时间
-          createStartDate:'',//活动创建开始时间
-          createEndDate:''//活动创建结束时间
+          couponName:'',//抵扣券名称
+          businessName:'',//商家名称
+          couponMa:'',//抵扣券码
+          couponMoney:'',//抵扣金额
+          getStartTIme:'',//领取开始日期
+          getEndTime:'',//领取结束日期
+          usedStartTime:'',//核销开始日期
+          usedEndTime:'',//核销结束日期
         },
         labelPosition:'left',
         activityType : 0,
         resData : [],
-        currentPage: 1,
-        totalRow: 0,
+        currentPage: 1,//当前页
+        totalRow: 20,//总页数
         pageRecorders: 10,
         Final: Final,
       }
@@ -258,23 +275,38 @@
        */
       getFilterParam () {
         var param = {token: localStorage.getItem("token"), type: this.checkStatus}
+        if (this.filterForm.userName) {
+          param.activityName = this.filterForm.userName
+        }
         if (this.filterForm.activityName) {
           param.activityName = this.filterForm.activityName
         }
-        if (this.filterForm.activityArea) {
-          param.activityArea = this.filterForm.activityArea
+        if (this.filterForm.userPhone) {
+          param.userPhone = this.filterForm.userPhone
         }
-        if (this.filterForm.activityStartDate) {
-          param.activityStartDate = Util.toDateString(this.filterForm.activityStartDate.getTime());
+        if (this.filterForm.couponName) {
+          param.couponName = this.filterForm.couponName
         }
-        if (this.filterForm.activityEndDate) {
-          param.activityEndDate = Util.toDateString(this.filterForm.activityEndDate.getTime());
+        if (this.filterForm.businessName) {
+          param.businessName = this.filterForm.businessName
         }
-        if (this.filterForm.createStartDate) {
-          param.createStartDate = Util.toDateString(this.filterForm.createStartDate.getTime());
+        if (this.filterForm.couponMa) {
+          param.couponMa = this.filterForm.couponMa
         }
-        if (this.filterForm.createEndDate) {
-          param.createEndDate = Util.toDateString(this.filterForm.createEndDate.getTime());
+        if (this.filterForm.couponMoney) {
+          param.couponMoney = this.filterForm.couponMoney
+        }
+        if (this.filterForm.getStartTIme) {
+          param.getStartTIme = Util.toDateString(this.filterForm.getStartTIme.getTime());
+        }
+        if (this.filterForm.getEndTime) {
+          param.getEndTime = Util.toDateString(this.filterForm.getEndTime.getTime());
+        }
+        if (this.filterForm.usedStartTime) {
+          param.usedStartTime = Util.toDateString(this.filterForm.usedStartTime.getTime());
+        }
+        if (this.filterForm.usedEndTime) {
+          param.usedEndTime = Util.toDateString(this.filterForm.usedEndTime.getTime());
         }
         console.log("查询提交参数:",param);
         return param;
