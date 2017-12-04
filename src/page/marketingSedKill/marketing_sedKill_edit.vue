@@ -196,6 +196,14 @@
         return valid
       },
       submitActivityInfo(ruleForm) {
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
           console.log("111111111111111----------------->");
           if(!this.validPostCheckedTicketParam()){
             this.$refs.tipMsgRef.showTipMsg({
