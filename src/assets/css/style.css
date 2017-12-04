@@ -167,6 +167,7 @@ nav span .f_blue{
   color:#579fe9;
 }
 .con_main_r .con_tab{
+  flex: 1;
   font-size:14px;
   min-height:-moz-calc(100vh - 155px);
   min-height:-webkit-calc(100vh - 155px);
@@ -174,9 +175,9 @@ nav span .f_blue{
   margin:0px 20px 0;
   padding:30px 40px 20px;
   background: #fff;
-  max-width:1600px;
-  max-width: -webkit-calc(100vw - 270px);
-  max-width: calc(100vw - 270px);
+  /*max-width:1600px;*/
+  /*max-width: -webkit-calc(100vw - 270px);*/
+  /*max-width: calc(100vw - 270px);*/
   min-width: 1005px;
   /*overflow:hidden ;*/
 }

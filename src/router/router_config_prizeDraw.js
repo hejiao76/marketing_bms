@@ -16,7 +16,7 @@ const routerConfig = [{
       component:marketing_prizeDraw_list
     },
     {
-      path:'edit/:prizeDrawId',//新建/编辑抽奖活动
+      path:'edit/:prizeDrawCode',//新建/编辑抽奖活动
       name:"marketing_prizeDraw_edit",
       component:marketing_prizeDraw_edit
     },

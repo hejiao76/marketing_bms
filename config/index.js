@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/action' : {
-        target: 'http://wuliu-web.zhidianlife.com/',
+        target: 'http://59.110.14.204:8080/provider-sem/',
         // target:'https://audit.zhidianlife.com/',
         changeOrigin: true,
         pathRewrite: {
