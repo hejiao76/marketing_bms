@@ -12,13 +12,13 @@
               <v-pz-base-setting  @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-base-setting>
             </el-tab-pane>
             <el-tab-pane disabled label="抽奖设置" name="prize">
-              <v-pz-prize-draw-setting :prizeDrawDetail="prizeDrawDetail"></v-pz-prize-draw-setting>
+              <v-pz-prize-draw-setting @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-prize-draw-setting>
             </el-tab-pane>
             <el-tab-pane disabled label="奖品设置" name="gift">
-              <v-pz-gift-setting :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
+              <v-pz-gift-setting @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
             </el-tab-pane>
             <el-tab-pane disabled label="模板选择" name="template">
-              <v-pz-template-setting :prizeDrawDetail="prizeDrawDetail"></v-pz-template-setting>
+              <v-pz-template-setting @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-template-setting>
             </el-tab-pane>
           </el-tabs>
         </el-col>
@@ -134,9 +134,11 @@
           this.prizeDrawDetail = Object.assign({},this.prizeDrawDetail,data.callData);
           this.prizeDrawSettingTab ="prize";
         }else if(data.tag=="gift"){
-
+          this.prizeDrawDetail = Object.assign({},this.prizeDrawDetail,data.callData);
+          this.prizeDrawSettingTab ="gift";
         }else if (data.tag=="prize"){
-
+          this.prizeDrawDetail = Object.assign({},this.prizeDrawDetail,data.callData);
+          this.prizeDrawSettingTab ="gift";
         }else if(data.tag=="tmplate"){
 
         }
