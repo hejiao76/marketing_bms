@@ -17,17 +17,30 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div style="width:550px;">
-          <el-form-item label="活动时间:">
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择活动开始日期"></el-date-picker>
-            </el-col>
-            <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择活动结束日期"></el-date-picker>
-            </el-col>
-          </el-form-item>
-        </div>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="活动日期:">
+              <el-col :span="11">
+                <el-form-item >
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date"  placeholder="选择开始日期"></el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col class="line" :span="2" style="text-align: center">-</el-col>
+              <el-col :span="11">
+                <el-form-item>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd"  type="date" placeholder="请输入结束日期"></el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item class="fr">
+              <el-button type="primary" @click="searchFn">查 询</el-button>
+              <el-button @click="resetForm('filterForm')">重 置</el-button>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
       </el-form>
     </div>
     <!--------------搜索结果------------>
@@ -148,6 +161,7 @@
       }
     },
     components: {
+      ElCol,
       VHeader,
       VLeft,
       VConNav,
@@ -279,7 +293,13 @@
        * 重置表单
        */
       resetForm() {
-        this.$refs['filterForm'].resetFields();
+//        this.$refs['filterForm'].resetFields();
+        this.filterForm={
+          activityName:'',//活动名称
+            activityArea:'',//活动区域
+            activityStartDate:'',//活动开始时间
+            activityEndDate:'', //活动结束时间
+        };
         this.searchFn();
       },
       ///查看链接
