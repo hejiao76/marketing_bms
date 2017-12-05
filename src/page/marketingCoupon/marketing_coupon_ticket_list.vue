@@ -237,9 +237,9 @@
                 </div>
                 <table>
                   <tr>
-                    <td><a href="javascript:void(0);" @click="activeUpdate()">编辑</a></td>
+                    <td v-if="item.isStart==3"><a href="javascript:void(0);" @click="activeUpdate()">编辑</a></td>
                     <td><a href="javascript:void(0);" @click="activeCopy()">复制</a></td>
-                    <td><a href="javascript:void(0);" @click="activeDisabled()">禁用</a>
+                    <td v-if="item.isStart==3"><a href="javascript:void(0);" @click="activeDisabled()">禁用</a>
                     <td><a href="javascript:void(0);" @click="toDetail()">查看</a>
                   </tr>
                 </table>
