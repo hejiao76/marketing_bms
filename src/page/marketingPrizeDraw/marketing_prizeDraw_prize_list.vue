@@ -20,11 +20,11 @@
         <div style="width:550px;">
           <el-form-item label="活动时间:">
             <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择活动开始日期"></el-date-picker>
+              <el-date-picker v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择活动开始日期"></el-date-picker>
             </el-col>
             <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
             <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="选择活动结束日期"></el-date-picker>
+              <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择活动结束日期"></el-date-picker>
             </el-col>
           </el-form-item>
         </div>
@@ -32,182 +32,66 @@
     </div>
     <!--------------搜索结果------------>
     <div class="list_div">
-      <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
-        <div class="control-label col-md-12 row margin-bottom-10">
-          共找到以下
-          <span>10</span>条消息
-        </div>
-        <el-tab-pane label="全部活动" name="first" style="width: 100%;">
-          <el-row :gutter="20" >
-            <el-col :xs="11" :sm="6" v-for="item in prizeList" style="margin-bottom:20px;">
-              <div class="active-box">
-                <div class="active-header">
-                  <p class="ah-title">幸运大转盘大转盘</p>
-                  <div class="ah-time">
-                    <div class="ah-time-left">
-                      活动日期：
-                    </div>
-                    <div class="ah-time-right">
-                      <span>{{item.startDate}}</span>至<br />
-                      <span>{{item.endDate}}</span>
-                    </div>
-                  </div>
+      <el-row>
+        <el-col :span="20">
+          <el-tabs type="card" @tab-click="changeActivityType">
+            <el-tab-pane name="0" label="有效"></el-tab-pane>
+            <el-tab-pane name="1" label="失效"></el-tab-pane>
+          </el-tabs>
+        </el-col>
+        <el-col :span="4">
+          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建活动</el-button>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" >
+        <el-col :xs="11" :sm="6" v-for="item in prizeList" style="margin-bottom:20px;">
+          <div class="active-box">
+            <div class="active-header">
+              <p class="ah-title">幸运大转盘大转盘</p>
+              <div class="ah-time">
+                <div class="ah-time-left">
+                  活动日期：
                 </div>
-                <div class="active-content">
-                  <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
-                  <a  class="more-txt">查看详情&gt;</a>
-                </div>
-                <div class="active-footer">
-                  <table>
-                    <tr>
-                      <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
-                      <td><a href="javascript:void(0)">活动链接</a></td>
-                      <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="active-img">
-                  <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
-                  <img v-if="item.isStart==1" src="../../assets/images/start1.png"/>
-                  <img v-if="item.isStart==2" src="../../assets/images/nostart1.png"/>
+                <div class="ah-time-right">
+                  <span>{{item.startDate}}</span>至<br />
+                  <span>{{item.endDate}}</span>
                 </div>
               </div>
-            </el-col>
-          </el-row>
-        </el-tab-pane>
-        <el-tab-pane label="未开启" name="second">
-          <el-row :gutter="20">
-            <el-col :xs="11" :sm="6" v-for="item in prizeList" v-if="item.isStart==1" style="margin-bottom:20px;">
-              <div class="active-box" >
-                <div class="active-header">
-                  <p class="ah-title">幸运大转盘大转盘</p>
-                  <div class="ah-time">
-                    <div class="ah-time-left">
-                      活动日期：
-                    </div>
-                    <div class="ah-time-right">
-                      <span>{{item.startDate}}</span>至<br />
-                      <span>{{item.endDate}}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="active-content">
-                  <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
-                  <a  class="more-txt">查看详情&gt;</a>
-                </div>
-                <div class="active-footer">
-                  <table>
-                    <tr>
-                      <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
-                      <td><a href="javascript:void(0)">活动链接</a></td>
-                      <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="active-img">
-                  <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
-                  <img v-if="item.isStart==2" src="../../assets/images/start1.png"/>
-                  <img v-if="item.isStart==1" src="../../assets/images/nostart1.png"/>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-tab-pane>
-        <el-tab-pane label="进行中" name="third">
-          <el-row :gutter="20">
-            <el-col :xs="11" :sm="6" v-for="item in prizeList"  v-if="item.isStart==2" style="margin-bottom:20px;">
-              <div class="active-box">
-                <div class="active-header">
-                  <p class="ah-title">幸运大转盘大转盘</p>
-                  <div class="ah-time">
-                    <div class="ah-time-left">
-                      活动日期：
-                    </div>
-                    <div class="ah-time-right">
-                      <span>{{item.startDate}}</span>至<br />
-                      <span>{{item.endDate}}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="active-content">
-                  <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
-                  <a  class="more-txt">查看详情&gt;</a>
-                </div>
-                <div class="active-footer">
-                  <table>
-                    <tr>
-                      <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
-                      <td><a href="javascript:void(0)">活动链接</a></td>
-                      <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="active-img">
-                  <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
-                  <img v-if="item.isStart==2" src="../../assets/images/start1.png"/>
-                  <img v-if="item.isStart==1" src="../../assets/images/nostart1.png"/>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-tab-pane>
-        <el-tab-pane label="已结束" name="four">
-          <el-row :gutter="20">
-            <el-col :xs="11" :sm="6" v-for="item in prizeList" v-if="item.isStart==3" style="margin-bottom:20px;">
-              <div class="active-box">
-                <div class="active-header">
-                  <p class="ah-title">幸运大转盘大转盘</p>
-                  <div class="ah-time">
-                    <div class="ah-time-left">
-                      活动日期：
-                    </div>
-                    <div class="ah-time-right">
-                      <span>{{item.startDate}}</span>至<br />
-                      <span>{{item.endDate}}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="active-content">
-                  <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
-                  <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
-                  <a  class="more-txt">查看详情&gt;</a>
-                </div>
-                <div class="active-footer">
-                  <table>
-                    <tr>
-                      <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
-                      <td><a href="javascript:void(0)">活动链接</a></td>
-                      <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
-                    </tr>
-                  </table>
-                </div>
-                <div class="active-img">
-                  <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
-                  <img v-if="item.isStart==2" src="../../assets/images/start1.png"/>
-                  <img v-if="item.isStart==1" src="../../assets/images/nostart1.png"/>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-tab-pane>
+            </div>
+            <div class="active-content">
+              <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
+              <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
+              <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
+              <a  class="more-txt">查看详情&gt;</a>
+            </div>
+            <div class="active-footer">
+              <table>
+                <tr>
+                  <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
+                  <td><a href="javascript:void(0)" @click="couponLink()">活动链接</a></td>
+                  <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
+                </tr>
+              </table>
+            </div>
+            <div class="active-img">
+              <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
+              <img v-if="item.isStart==1" src="../../assets/images/start1.png"/>
+              <img v-if="item.isStart==2" src="../../assets/images/nostart1.png"/>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
 
-      </el-tabs>
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
                      :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
 
       <!-- 中奖用户弹出层 -->
-      <div class="mask" style="z-index: 12000;"></div>
+      <!--<div class="mask" style="z-index: 12000;"></div>-->
 
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
+    <V-CouponLink ref="prizeDialog"></V-CouponLink>
 
 
 
@@ -224,8 +108,10 @@
   import Api from "./../../fetch/api";
   import * as Util from "./../../util/util";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import TestData from "./../../util/TestData"
+  import TestData from "./../../util/TestData";
+  import ElCol from "element-ui/packages/col/src/col";
   import $ from "jquery"
+  import VCouponLink from "./../../components/coupon_link.vue";
   export default {
     data() {
       return {
@@ -265,7 +151,8 @@
       VHeader,
       VLeft,
       VConNav,
-      VTipMsg
+      VTipMsg,
+      VCouponLink
     },
     created (){
       this.requestData();
@@ -394,7 +281,13 @@
       resetForm() {
         this.$refs['filterForm'].resetFields();
         this.searchFn();
+      },
+      ///查看链接
+      couponLink(){
+        console.log('-=-=-=-=');
+        this.$refs.prizeDialog.showDialog('这是需要复制的内容！');
       }
+
     }
   }
 </script>

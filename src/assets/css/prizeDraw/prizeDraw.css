@@ -331,18 +331,7 @@
   color: #404C73
 }
 
-.choose-hd {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -320px;
-  margin-left: -450px;
-  z-index: 13000;
-  width: 900px;
-  height: 640px;
-  background: #fff
-}
+
 
 .choose-hd.olderdetail {
   display: none;
