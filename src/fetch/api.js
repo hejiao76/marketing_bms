@@ -26,7 +26,40 @@ const base = {
      */
     base_loginOut(params) {
       return fetch.fetch('/wuliu-web-user/wuliu/audit/logout.action', params)
-    }
+    },
+
+    /**
+     *  查询省市
+     */
+    base_sys_location (params){
+      return fetch.fetch('/sys/location', params)
+    },
+    /**
+     *  查询全部车系
+     */
+    base_sys_car_serials (params){
+      return fetch.fetch('/sys/car/serials', params)
+    },
+    /**
+     *  查询车系车型
+     */
+    base_sys_car_list (params){
+      return fetch.fetch('/sys/car/list', params)
+    },
+    /**
+     *  查询礼包列表
+     */
+    base_sys_gift_list (params){
+      return fetch.fetch('/sys/gift/list', params)
+    },
+    /**
+     *  查询单个礼包详情
+     */
+    base_sys_gift_info (params){
+      return fetch.fetch('/sys/gift/info', params)
+    },
+
+
 }
 
 export  default  Object.assign(base,apiMarketingCoupon,apiMarketingPrizeDra,apiMarketingSedKill);
