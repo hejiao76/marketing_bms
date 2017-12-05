@@ -13,11 +13,11 @@
         <el-row>
           <el-form-item label="秒杀券有效期:">
             <el-col :span="5">
-              <el-date-picker v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" style="width: 100%;" placeholder="选择开始日期"></el-date-picker>
+              <el-date-picker v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" style="width: 100%;" placeholder="选择开始日期"></el-date-picker>
             </el-col>
             <el-col  :span="1" style="text-align: center;">-</el-col>
             <el-col :span="5">
-              <el-date-picker v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期" style="width: 100%;"></el-date-picker>
+              <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期" style="width: 100%;"></el-date-picker>
             </el-col>
             <el-col :span="13" style="text-align: right">
               <el-button type="primary" size="small" @click="addTicket" class="fr mr20 " style="margin:0">查询</el-button>
@@ -32,24 +32,22 @@
         <el-col :span="20">
           <el-tabs type="card" @tab-click="changeActivityType">
             <el-tab-pane name="0" label="全部活动"></el-tab-pane>
-            <el-tab-pane name="1" label=" 已上架 "></el-tab-pane>
-            <el-tab-pane name="2" label=" 已下架 "></el-tab-pane>
-            <el-tab-pane name="3" label=" 已结束 "></el-tab-pane>
-            <el-tab-pane name="4" label=" 已删除 "></el-tab-pane>
+            <el-tab-pane name="1" label="有效"></el-tab-pane>
+            <el-tab-pane name="2" label="无效"></el-tab-pane>
           </el-tabs>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建活动</el-button>
+          <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建秒杀券</el-button>
         </el-col>
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
       <el-table class="table_min_height mt10" :data="STicketList" ref="singleTable" >
-        <el-table-column prop="ticketName" label="秒杀券名称" align="center" min-width="150" ></el-table-column>
-        <el-table-column prop="isvalid" label="秒杀券状态" align="center" min-width="50"></el-table-column>
-        <el-table-column prop="activityEndDate" align="center" label="秒杀券有效期" sortable min-width="120"></el-table-column>
-        <el-table-column prop="applyCar" align="center" label="秒杀券适用车系"></el-table-column>
+        <el-table-column prop="ticketName" label="秒杀券名称" align="center"></el-table-column>
+        <el-table-column prop="isvalid" label="秒杀券状态" align="center"></el-table-column>
+        <el-table-column prop="activityEndDate" align="center" label="秒杀券有效期" sortable></el-table-column>
+        <el-table-column prop="applyCar" align="center" label="秒杀券适用车系" ></el-table-column>
         <el-table-column prop="sedkillMoney" align="center" sortable label="单个秒杀券金额"></el-table-column>
-        <el-table-column label="操作" align="center" width="100">
+        <el-table-column label="操作" align="center">
           <template scope="scope">
             <el-button type="text" @click="updateTicket()">编辑</el-button>
             <el-button type="text" @click="invalidTicket()">无效</el-button>
@@ -133,30 +131,21 @@
        * @returns {}
        */
       copyTicket () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"复制券还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.$router.push("/sedkill/ticket_edit/1")
       },
       /**
        * 修改券
        * @returns {}
        */
       updateTicket () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"编辑券还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.$router.push("/sedkill/ticket_edit/1")
       },
       /**
        * 新建券
        * @returns {}
        */
       addTicket () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"新建券还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.$router.push("/sedkill/ticket_edit/1")
       },
       /**
        * invalid无效券
@@ -179,9 +168,6 @@
       handleCurrentChange(cpage) {
         this.currentPage = cpage;
         this.requestData();
-      },
-      toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
       },
       /**
        * 获取过滤器参数
@@ -233,7 +219,12 @@
        * 重置表单
        */
       resetForm() {
-        this.$refs['filterForm'].resetFields();
+        //this.$refs['filterForm'].resetFields();
+        this.filterForm={
+          ticketName:'',//秒杀券名称
+            activityStartDate:'',//活动开始时间
+            activityEndDate:'', //活动结束时间
+        }
         this.searchFn();
       }
     }
