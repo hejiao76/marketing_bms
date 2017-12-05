@@ -48,8 +48,10 @@
       <el-row>
         <el-col :span="20">
           <el-tabs type="card" @tab-click="changeActivityType">
-            <el-tab-pane name="0" label="有效"></el-tab-pane>
-            <el-tab-pane name="1" label="失效"></el-tab-pane>
+            <el-tab-pane name="0" label="全部"></el-tab-pane>
+            <el-tab-pane name="1" label="未开启"></el-tab-pane>
+            <el-tab-pane name="2" label="进行中"></el-tab-pane>
+            <el-tab-pane name="3" label="已结束"></el-tab-pane>
           </el-tabs>
         </el-col>
         <el-col :span="4">
@@ -75,14 +77,15 @@
               <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
               <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
               <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
-              <a  class="more-txt">查看详情&gt;</a>
+              <a  class="more-txt"  style="cursor: pointer;" @click="openDetail()">查看详情&gt;</a>
             </div>
             <div class="active-footer">
               <table>
                 <tr>
-                  <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
+                  <td><a href="javascript:void(0)" @click="updatePrize()" v-if="item.isStart!=3">编辑</a></td>
                   <td><a href="javascript:void(0)" @click="couponLink()">活动链接</a></td>
                   <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
+                  <td><a href="javascript:void(0)" @click="endPrize()" v-if="item.isStart==1">结束活动</a></td>
                 </tr>
               </table>
             </div>
@@ -99,17 +102,11 @@
                      :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
 
-      <!-- 中奖用户弹出层 -->
-      <!--<div class="mask" style="z-index: 12000;"></div>-->
 
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
     <V-CouponLink ref="prizeDialog"></V-CouponLink>
-
-
-
-
-
+    <V-Pldetail ref="prizeDetailDialog"></V-Pldetail>
   </div>
 </template>
 <script>
@@ -125,6 +122,7 @@
   import ElCol from "element-ui/packages/col/src/col";
   import $ from "jquery"
   import VCouponLink from "./../../components/coupon_link.vue";
+  import VPldetail from "./../../components/prize_list_detail.vue";
   export default {
     data() {
       return {
@@ -166,7 +164,8 @@
       VLeft,
       VConNav,
       VTipMsg,
-      VCouponLink
+      VCouponLink,
+      VPldetail,
     },
     created (){
       this.requestData();
@@ -180,15 +179,35 @@
       }
     },
     methods: {
+      openConfirm(obj) {
+        this.$confirm(obj.confirmCon, obj.confirmTitle, {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        })
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message:obj.successMsg
+            });
+          }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
       /**
        * 删除
        * @returns {}
        */
       deletePrize(){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.openConfirm({ confirmCon:'确认删除活动吗？', confirmTitle:'提示',successMsg:"删除成功"})
+//        this.$refs.tipMsgRef.showTipMsg({
+//          msg:"还在开发! 急什么! 急什么!",
+//          type:"error"
+//        });
       },
       /**
        * 修改
@@ -304,47 +323,22 @@
       },
       ///查看链接
       couponLink(){
-        console.log('-=-=-=-=');
         this.$refs.prizeDialog.showDialog('这是需要复制的内容！');
+      },
+      ///结束活动
+      endPrize(){
+        this.openConfirm({ confirmCon:'确认结束活动吗？', confirmTitle:'提示',successMsg:"结束活动成功"})
+      },
+      //查看详情
+      openDetail(){
+        this.$refs.prizeDetailDialog.showDialog();
       }
 
     }
   }
 </script>
 <style>
-  .list_div {}
-  .list_div .el-tabs__content {
-      display :none
-  }
-  .list_div el-tabs--top {
-    display : none;
-  }
-  .list_div .totalTip {
-    font-size: 14px;
-    color: #8C94AC;
-    letter-spacing: 0;
-  }
-  .list_div .el-tabs__content{
-    display: block;
-  }
-  .el-tabs__item{
-    background: #EFF0F6;
-  }
-  .el-tabs--card>.el-tabs__header .el-tabs__item{
-    float: left;
-    border-left:none;
-    margin-right:10px;
-    border-bottom: 1px solid #dfe4ed;
-  }
-  .el-tabs--card>.el-tabs__header .el-tabs__item.is-active{
-    border-left: 1px solid #dfe4ed;
-    border-right: 1px solid #dfe4ed;
-    border-top: 3px solid #527EFE;
-    background: #fff;
-  }
-  .el-tabs--card>.el-tabs__header .el-tabs__nav{
-    border:none;
-  }
+
 </style>
 
 <style scoped="scope">
