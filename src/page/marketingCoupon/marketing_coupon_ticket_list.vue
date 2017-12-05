@@ -104,7 +104,7 @@
           </el-tabs>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建活动</el-button>
+          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">添加抵扣券</el-button>
         </el-col>
       </el-row>
       <div style="margin-bottom:15px;"><span class="totalTip">共找到以下10条数据</span>
@@ -239,8 +239,6 @@
                   <tr>
                     <td v-if="item.isStart==3"><a href="javascript:void(0);" @click="activeUpdate()">编辑</a></td>
                     <td><a href="javascript:void(0);" @click="activeCopy()">复制</a></td>
-                    <td v-if="item.isStart==3"><a href="javascript:void(0);" @click="activeDisabled()">禁用</a>
-                    <td><a href="javascript:void(0);" @click="toDetail()">查看</a>
                   </tr>
                 </table>
               </div>
@@ -331,6 +329,7 @@
         totalRow: 20,//总页数
         pageRecorders: 10,
         Final: Final,
+        activeStatus:true,
       }
     },
     components: {

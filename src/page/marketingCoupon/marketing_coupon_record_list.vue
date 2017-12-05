@@ -46,7 +46,7 @@
           </el-col>
 
         </el-row>
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="12">
             <el-form-item label="领取日期:">
               <el-col :span="11">
@@ -66,7 +66,7 @@
 
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="12">
             <el-form-item label="核销日期:">
               <el-col :span="11">

@@ -3,14 +3,14 @@
     <!--过滤条件-->
     <div class="filter_div mb20">
         <el-form :model="filterForm" ref="filterForm"  size="small" label-width="80px" class="demo-ruleForm" :label-position="labelPosition">
-            <el-row :gutter="20">
+            <el-row>
               <el-col :span="12">
                 <el-form-item label="活动名称">
                   <el-input v-model="filterForm.activityName"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
-              <el-row :gutter="20">
+              <el-row>
                 <el-col :span="12">
                   <el-form-item label="活动日期:">
                     <el-col :span="11">
@@ -27,28 +27,29 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="创建日期:">
-                    <el-col :span="11">
-                      <el-form-item>
-                        <el-date-picker style="width: 100%;" v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
-                      </el-form-item>
-                    </el-col>
-                    <el-col class="line" :span="2" style="text-align: center">-</el-col>
-                    <el-col :span="11">
-                      <el-form-item>
-                        <el-date-picker style="width: 100%;" v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
-                      </el-form-item>
-                    </el-col>
-                  </el-form-item>
+
                 </el-col>
               </el-row>
           <el-row>
-            <el-col :span="16">
-              <el-form-item label="活动地区:">
-                <V-Treeview @call="addSedKillCallBack"></V-Treeview>
+            <el-col :span="12">
+              <!--<el-form-item label="活动地区:">-->
+                <!--<V-Treeview @call="addSedKillCallBack"></V-Treeview>-->
+              <!--</el-form-item>-->
+              <el-form-item label="创建日期:">
+                <el-col :span="11">
+                  <el-form-item>
+                    <el-date-picker style="width: 100%;" v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col class="line" :span="2" style="text-align: center">-</el-col>
+                <el-col :span="11">
+                  <el-form-item>
+                    <el-date-picker style="width: 100%;" v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  </el-form-item>
+                </el-col>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item class="fr">
                 <el-button type="primary" @click="searchFn">查 询</el-button>
                 <el-button @click="resetForm('filterForm')">重 置</el-button>
@@ -69,7 +70,7 @@
           </el-tabs>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建活动</el-button>
+          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建抵扣券活动</el-button>
         </el-col>
       </el-row>
       <div style="margin-bottom:15px;"><span class="totalTip">共找到以下10条数据</span>
@@ -114,23 +115,23 @@
         <el-table-column
           prop="activity_pv"
           label="活动pv"
-          sortable width="80">
+          sortable width="100">
         </el-table-column>
         <el-table-column
           prop="activityStatus"
           label="状态"
-          sortable width="80">
+          sortable width="100">
         </el-table-column>
         <el-table-column
           prop="createDate"
           label="创建日期"
-          sortable width="100">
+          sortable width="120">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="100">
+        <el-table-column label="操作" >
             <template slot-scope="scope">
-              <el-button type="text">查看</el-button>
-              <el-button type="text">编辑</el-button>
-              <el-button type="text">结束活动</el-button>
+              <el-button type="text" @click="openDetail()">查看</el-button>
+              <el-button type="text" @click="updatePrize()">编辑</el-button>
+              <el-button type="text" @click="activeCouEnd()">结束活动</el-button>
               <el-button type="text" @click="couponLink()">活动链接</el-button>
             </template>
         </el-table-column>
@@ -165,7 +166,7 @@
                   <tr>
                     <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
                     <td><a href="javascript:void(0)"  @click="couponLink()"> 活动链接</a></td>
-                    <td><a href="javascript:void(0)" @click="deletePrize()" v-if="item.isStart==2">删除</a></td>
+                    <td><a href="javascript:void(0)" @click="deletePrize()">删除</a></td>
                   </tr>
                 </table>
               </div>
@@ -211,7 +212,7 @@
     data() {
       return {
         tableData:TestData.prize_list,
-        isCar:true,//滑块
+        isCar:false,//滑块
         optionsActivityStart :{
           disabledDate:(time) => {
               if(this.filterForm.activityEndDate){
@@ -299,10 +300,11 @@
        * @returns {}
        */
       addActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.$router.push("/coupon/edit/1")
+//        this.$refs.tipMsgRef.showTipMsg({
+//          msg:"还在开发! 急什么! 急什么!",
+//          type:"error"
+//        });
       },
       /**
        * 获取过滤器参数
@@ -370,16 +372,24 @@
         this.currentPage = cpage;
         //this.requestData();
       },
-      toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
+      openDetail (){
+       // this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
+        this.$router.push("/coupon/datail/1")
       },
-      // 返回城市列表
-      addSedKillCallBack(cityArr){
-
+      //结束活动
+      activeCouEnd(){
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:"结束活动!",
+          type:"error"
+        });
       },
       //活动链接
       couponLink(){
         this.$refs.couponDialog.showDialog('这是需要复制的内容！');
+      },
+      ///编辑活动
+      updatePrize(){
+        this.$router.push("/coupon/edit/1")
       }
 
 

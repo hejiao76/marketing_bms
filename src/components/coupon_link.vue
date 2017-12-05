@@ -41,6 +41,7 @@
           message: '复制成功',
           type: 'success'
         });
+        this.dialogTableVisible=false;
       },
       //关闭
       closeLink(){

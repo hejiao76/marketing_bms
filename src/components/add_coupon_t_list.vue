@@ -73,11 +73,6 @@
                           <img src="./../assets/images/saleticketsleft.png" class="iconleft" alt="">
                           <img src="./../assets/images/saleticketsright.png" class="iconright" alt="">
                         </div>
-                        <table>
-                          <tr>
-                            <td><a href="javascript:;">删除</a></td>
-                          </tr>
-                        </table>
                       </div>
                     </div>
                 <!--</el-col>-->
