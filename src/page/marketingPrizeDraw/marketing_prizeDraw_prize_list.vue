@@ -294,7 +294,7 @@
        */
       resetForm() {
 //        this.$refs['filterForm'].resetFields();
-        this.filterForm={
+        this.filterForm = {
           activityName:'',//活动名称
             activityArea:'',//活动区域
             activityStartDate:'',//活动开始时间

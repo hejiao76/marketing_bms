@@ -449,124 +449,28 @@ table{
   /*left: 50%;*/
   margin: 20px 0;
 }
-.el-table__empty-block {
-  min-height: 60px;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-  color: #5e7382;
-}
+
 html,body{
   background: #fff;
 }
-.table-order{
-  width: 100%;
-  border-collapse: collapse;
+.el-tabs__item{
+  background: #EFF0F6;
+}
+.el-tabs--card>.el-tabs__header .el-tabs__item{
+  float: left;
+  border-left:none;
+  margin-right:10px;
+  border-bottom: 1px solid #dfe4ed;
+}
+.el-tabs--card>.el-tabs__header .el-tabs__item.is-active{
+  border-left: 1px solid #dfe4ed;
+  border-right: 1px solid #dfe4ed;
+  border-top: 3px solid #527EFE;
   background: #fff;
 }
-.table-order th{
-  height: 40px;
-  line-height: 40px;
-  color: #404C73;
-  font-size: 14px;
-  font-weight: 400;
-  background: #F6F7FB;
+.el-tabs--card>.el-tabs__header .el-tabs__nav{
+  border:none;
 }
-.order-row-none{
-  height: 20px;
+.active-content a:before, .body-layout, .header-right .header-right_icon, .header-right .header-right_icon span.message .prompt, .header-right .header-right_icon:first-child .prompt, .saleticket-list .isfill, .saleticket-list .saleticket-footer .headericon img, .saleticket-list .saleticket-list_header .headericon img, .saleticket-list.graysaletickstyle .saleticket-content .salemore-txt a:before, a.header-left {
+  position: absolute;
 }
-.order-row-none td{
-  border: 0 !important;
-}
-.tr-th{
-  background: #fff;
-  height: 40px;
-  line-height: 40px;
-  color: #8C94AC;
-  overflow: hidden;
-}
-.table-order tbody td{
-  font-size: 14px;
-}
-.tr-th span{
-  float: left;
-  height: 20px;
-  line-height: 20px;
-  padding: 2px 0 0;
-  font-size: 14px;
-  font-weight: normal;
-  _displan:inline;
-}
-.tr-th .inp-check{
-  width: 14px;
-  margin:0 5px;
-}
-.tr-th .number{
-  width: 160px;
-}
-.tr-th .datatime,.payfor{
-  width: 250px;
-  margin-right: 30px;
-  _margin-right: 15px;
-}
-.tr-td{
-  text-align: center;
-  vertical-align: top;
-  border-bottom: 1px solid #EFF0F5;
-  height: 90px;
-
-}
-.tr-td td{
-  padding: 21px 0;
-  vertical-align: top !important;
-}
-.car-list{
-  display: block;
-  width: 340px;
-  float: left;
-}
-.car-list-img{
-  float: left;
-  width: 60px;
-  height: 60px;
-  border: 1px solid #EFF0F5;
-  margin: 0 14px;
-  overflow: hidden;
-  _display:inline;
-}
-.car-list-txt{
-  float: left;
-  font-size: 14px;
-  line-height: 20px;
-  overflow: hidden;
-  color: #404C73;
-  padding-left: 26px;
-}
-.car-list-txt a{
-  color:#404C73;
-  /*text-decoration: none;*/
-}
-.clear{
-  display: block;
-  overflow: hidden;
-  clear: both;
-  height: 0;
-  line-height: 0;
-  font-size: 0;
-}
-a.tr-td-a{
-  display: block;
-  color: #404C73;
-  text-decoration: none !important;
-}
-.table-order .price{
-  color: #F16767;
-}
-/*a.tr-td-a:hover{
-	color: #f33;
-}*/

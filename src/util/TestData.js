@@ -167,80 +167,41 @@ const OBJ ={
         createTime:'2013-10-10',
         sedkillMoney:'1.00',
         sedkillStatus:'已支付',
+        orderStatus:'unpaid',
+        orderStatus:'cancel',
+        orderStatus:'refundIng',
+        orderStatus:'refundEnd',
 
       },
       {
-        orderNum:'002',
+        orderNum:'001',
         userName:'合脚',
         phoneNum:'1234567',
         orderName:'全部订单列表',
         createTime:'2013-10-10',
         sedkillMoney:'1.00',
         sedkillStatus:'已支付',
+        orderStatus:'unpaid',
+        orderStatus:'cancel',
+        orderStatus:'refundIng',
+        orderStatus:'refundEnd',
 
       },
       {
-        orderNum:'003',
+        orderNum:'001',
         userName:'合脚',
         phoneNum:'1234567',
         orderName:'全部订单列表',
         createTime:'2013-10-10',
         sedkillMoney:'1.00',
         sedkillStatus:'已支付',
+        orderStatus:'unpaid',
+        orderStatus:'cancel',
+        orderStatus:'refundIng',
+        orderStatus:'refundEnd',
 
-      }
-    ],
-    // 待支付
-    unpaid:[
-      {
-        orderNum:'001',
-        userName:'合脚',
-        phoneNum:'1234567',
-        orderName:'待支付列表',
-        createTime:'2013-10-10',
-        sedkillMoney:'1.00',
-        sedkillStatus:'已支付'
+      },
 
-      }
-    ],
-    //取消
-    cancel:[
-      {
-        orderNum:'001',
-        userName:'合脚',
-        phoneNum:'1234567',
-        orderName:'取消列表',
-        createTime:'2013-10-10',
-        sedkillMoney:'1.00',
-        sedkillStatus:'已支付'
-
-      }
-    ],
-    //退款中
-    refundIng:[
-      {
-        orderNum:'001',
-        userName:'合脚',
-        phoneNum:'1234567',
-        orderName:'退款中列表',
-        createTime:'2013-10-10',
-        sedkillMoney:'1.00',
-        sedkillStatus:'已支付'
-
-      }
-    ],
-    // 退款完成
-    refundEnd:[
-      {
-        orderNum:'001',
-        userName:'合脚',
-        phoneNum:'1234567',
-        orderName:'退款完成列表',
-        createTime:'2013-10-10',
-        sedkillMoney:'1.00',
-        sedkillStatus:'已支付'
-
-      }
     ],
 
 

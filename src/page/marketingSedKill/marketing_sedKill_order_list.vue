@@ -26,13 +26,13 @@
 
                 <el-form-item label="创建时间:">
                     <div style="width: 45%; float:left;">
-                      <el-date-picker v-model="filterForm.createStartDate" :picker-options="optionsCreateStart" type="date" style="width: 100%;" placeholder="请输入开始时间"></el-date-picker>
+                      <el-date-picker v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" style="width: 100%;" placeholder="请输入开始时间"></el-date-picker>
                     </div>
 
 
                   <div style="text-align: center;width:10%; float:left;">-</div>
                   <div style="width: 45%; float:left;">
-                    <el-date-picker v-model="filterForm.createEndDate" :picker-options="optionsCreateEnd" type="date" style="width: 100%;" placeholder="请输入结束日期" ></el-date-picker>
+                    <el-date-picker v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" style="width: 100%;" placeholder="请输入结束日期" ></el-date-picker>
                   </div>
                 </el-form-item>
 
@@ -58,27 +58,75 @@
     <!--------------搜索结果------------>
     <div>
       <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
-        <el-tab-pane label="全部订单" name="first">
-          <div><V-OrderList :message="orderList.allorder" :callback="callback"></V-OrderList></div>
-        </el-tab-pane>
-        <el-tab-pane label="待支付" name="second">
-          <div><V-OrderList :message="orderList.unpaid" :callback="callback"></V-OrderList></div>
-        </el-tab-pane>
-        <el-tab-pane label="已取消" name="third">
-          <div><V-OrderList :message="orderList.cancel"></V-OrderList></div>
-        </el-tab-pane>
-        <el-tab-pane label="退款中" name="fourth">
-          <div><V-OrderList :message="orderList.refundIng"></V-OrderList></div>
-        </el-tab-pane>
-        <el-tab-pane label="退款完成" name="five">
-          <div><V-OrderList :message="orderList.refundEnd"></V-OrderList></div>
-        </el-tab-pane>
+        <el-tab-pane label="全部订单" name="first"></el-tab-pane>
+        <el-tab-pane label="待支付" name="second"></el-tab-pane>
+        <el-tab-pane label="已取消" name="third"></el-tab-pane>
+        <el-tab-pane label="退款中" name="fourth"></el-tab-pane>
+        <el-tab-pane label="退款完成" name="five"></el-tab-pane>
       </el-tabs>
+      <el-table
+        :data="orderList.allorder"
+        style="width: 100%"
+        :default-sort = "{prop: 'date', order: 'descending'}"
+      >
+        <el-table-column
+          prop="orderNum"
+          label="订单编号"
+          width="100"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="orderName"
+          label="活动名称"
+          >
+        </el-table-column>
+        <el-table-column
+          prop="sedkillStatus"
+          label="订单状态"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="createTime"
+          label="创建时间"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="userName"
+          label="客户姓名"
+          width="100"
+          >
+        </el-table-column>
+        <el-table-column
+          prop="phoneNum"
+          label="客户手机"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="sedkillMoney"
+          label="秒杀支付金额"
+          width="120"
+        >
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="100"
+        >
+          <template slot-scope="scope">
+            <el-button type="text" @click="chekcOderDetail(scope.row.orderName)" >订单详情</el-button>
+          </template>
+        </el-table-column>
+
+      </el-table >
+
 
     </div>
-    <div class="mask" style="z-index: 12000;"></div>
+    <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
+                   :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+                   :total="totalRow"></el-pagination>
+    <!--<div class="mask" style="z-index: 12000;"></div>-->
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
-    <V-OrderDetail :ordername="ordername"></V-OrderDetail>
+    <V-OrderDetail  ref="oderDetailDialog"></V-OrderDetail>
   </div>
 
 </template>
@@ -99,15 +147,7 @@
   export default {
     data() {
       return {
-        callback:function (name) {
-          console.log('888888',name);
-          this.ordername = name;
-          $('.more-txt').click(function(){
-            $('.mask,.olderdetail').show();
-          })
-        },
         orderList:TestData.orderList,
-        activeName:'',
         optionsCreateStart : {
           disabledDate:(time) => {
             if(this.filterForm.createEndDate){
@@ -138,7 +178,8 @@
         pageRecorders: 10,
         Final: Final,
         activeName:'first',
-        ordername:"cecececece"
+        currentPage: 1,
+        totalRow: 20,
       }
     },
     components: {
@@ -152,7 +193,6 @@
     },
     created (){
       this.requestData();
-      console.log('121212',this.orderList);
     },
     mounted () {
       //      this.requestData();
@@ -226,132 +266,36 @@
        * 重置表单
        */
       resetForm() {
-        this.$refs['filterForm'].resetFields();
+       // this.$refs['filterForm'].resetFields();
+        this.filterForm = {
+          activityName:'',//活动名称
+            activityArea:'',//活动区域
+            createStartDate:'',//活动创建开始时间
+            createEndDate:'',//活动创建结束时间
+            orderNum:'',//订单编号
+            userName:'',//客户姓名
+            phoneNum:''//客户手机
+        }
         this.searchFn();
       },
       /**
        * 列表
        */
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
+
+      /// 查看详情
+      chekcOderDetail(name){
+        console.log('thisName',name);
+        this.$refs.oderDetailDialog.showDialog(name);
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
+      // 翻页
+      handleCurrentChange(){
+
+      }
 
     }
   }
 </script>
-<style>
-  .list_div {}
-  .list_div .el-tabs__content {
-      display :none
-  }
-  .list_div el-tabs--top {
-    display : none;
-  }
-  .list_div .totalTip {
-    font-size: 14px;
-    color: #8C94AC;
-    letter-spacing: 0;
-  }
-</style>
 
 <style scoped="scope">
-  .mask {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: none;
-    z-index: 9000;
-    background-color: rgba(0,0,0,.6)
-  }
-  .prize-pop {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 13000;
-    margin-top: -320px;
-    margin-left: -490px;
-    width: 980px;
-    height: 640px;
-    background: url(./../../assets/images/zjyh_bg.png) no-repeat
-  }
-  .prize-pop .pop-close {
-    top: 130px;
-    right: 95px;
-    width: 23px;
-    height: 24px;
-    cursor: pointer
-  }
-  .prize-pop .prize-tit {
-    width: 100%;
-    height: auto;
-    margin-top: 130px;
-    font-size: 36px;
-    color: #e63834;
-    font-weight: 600;
-    line-height: 40px;
-    text-align: center
-  }
-  .prize-pop .pricontent {
-    width: 100%;
-    margin: 10px 0 0 30px;
-    height: 310px;
-    overflow-x: hidden;
-    overflow-y: auto
-  }
-  .prize-pop .pricontent .pricontent-txt {
-    width: 400px;
-    border: 1px solid #f5efd7;
-    background: #fffcee;
-    margin: 0 20px 20px 0
-  }
-  .prize-pop .pricontent .pricontent-txt.fl {
-    float: left;
-    display: inline-block
-  }
-  .prize-pop .pricontent .pricontent-txt.fr {
-    float: right;
-    display: inline-block
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body {
-    padding: 20px 20px 0
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul {
-    width: 100%;
-    overflow: hidden
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul.namepeople {
-    border-bottom: 1px solid #f5efd7
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul.prizetxt {
-    margin-top: 20px
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li {
-    font-size: 14px;
-    color: #ba8305;
-    margin-bottom: 10px
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p {
-    width: 100%;
-    overflow: hidden
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p em {
-    width: 100px;
-    float: left
-  }
-  .prize-pop .pricontent .pricontent-txt .pricontent-body ul li p span {
-    float: right;
-    margin-left: 10px
-  }
+
 </style>
