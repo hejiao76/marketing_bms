@@ -28,104 +28,35 @@
     </div>
 
     <div class="list_div">
-      <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建</el-button>
-      <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
-        <div class="control-label col-md-12 row margin-bottom-10">
-          共找到以下
-          <span>10</span>条消息
-        </div>
-        <el-tab-pane label="全部活动" name="first">
-          <div>
-            <table  class="text-center table table-striped table-bordered table-hover">
-            <thead>
-            <tr>
-              <th>秒杀券名称</th>
-              <th>秒杀券状态</th>
-              <th>秒杀券有效期</th>
-              <th>秒杀券适用车系</th>
-              <th>单个秒杀券金额</th>
-              <th>操作</th>
-            </tr>
-            </thead>
-             <tbody>
-            <tr v-for="item in STicketList">
-              <td>{{item.ticketName}}</td>
-              <td>{{item.isvalid}}</td>
-              <td>{{item.activityEndDate}}</td>
-              <td>{{item.applyCar}}</td>
-              <td>{{item.sedkillMoney}}</td>
-              <td>
-                <a href="javascript:void(0)" class="st_list-btn" @click="updateTicket()">编辑</a>
-                <a href="javascript:void(0)" class="st_list-btn" @click="invalidTicket()">无效</a>
-                <a href="javascript:void(0)" class="st_list-btn" @click="copyTicket()">复制</a>
-              </td>
-            </tr>
-             </tbody>
-            </table>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="有效" name="second">
-          <div>
-            <table  class="text-center table table-striped table-bordered table-hover">
-              <thead>
-              <tr>
-                <th>秒杀券名称</th>
-                <th>秒杀券状态</th>
-                <th>秒杀券有效期</th>
-                <th>秒杀券适用车系</th>
-                <th>单个秒杀券金额</th>
-                <th>操作</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr v-for="item in STicketList">
-                <td>{{item.ticketName}}</td>
-                <td>{{item.isvalid}}</td>
-                <td>{{item.activityEndDate}}</td>
-                <td>{{item.applyCar}}</td>
-                <td>{{item.sedkillMoney}}</td>
-                <td>
-                  <a href="javascript:void(0)" class="st_list-btn" @click="updateTicket()">编辑</a>
-                  <a href="javascript:void(0)" class="st_list-btn" @click="invalidTicket()">无效</a>
-                  <a href="javascript:void(0)" class="st_list-btn" @click="copyTicket()">复制</a>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="无效" name="third">
-          <div>
-            <table  class="text-center table table-striped table-bordered table-hover">
-              <thead>
-              <tr>
-                <th>秒杀券名称</th>
-                <th>秒杀券状态</th>
-                <th>秒杀券有效期</th>
-                <th>秒杀券适用车系</th>
-                <th>单个秒杀券金额</th>
-                <th>操作</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr v-for="item in STicketList">
-                <td>{{item.ticketName}}</td>
-                <td>{{item.isvalid}}</td>
-                <td>{{item.activityEndDate}}</td>
-                <td>{{item.applyCar}}</td>
-                <td>{{item.sedkillMoney}}</td>
-                <td>
-                  <a href="javascript:void(0)" class="st_list-btn" @click="updateTicket()">编辑</a>
-                  <a href="javascript:void(0)" class="st_list-btn" @click="invalidTicket()">无效</a>
-                  <a href="javascript:void(0)" class="st_list-btn" @click="copyTicket()">复制</a>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </el-tab-pane>
-
-      </el-tabs>
+      <el-row>
+        <el-col :span="20">
+          <el-tabs type="card" @tab-click="changeActivityType">
+            <el-tab-pane name="0" label="全部活动"></el-tab-pane>
+            <el-tab-pane name="1" label=" 已上架 "></el-tab-pane>
+            <el-tab-pane name="2" label=" 已下架 "></el-tab-pane>
+            <el-tab-pane name="3" label=" 已结束 "></el-tab-pane>
+            <el-tab-pane name="4" label=" 已删除 "></el-tab-pane>
+          </el-tabs>
+        </el-col>
+        <el-col :span="4">
+          <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建活动</el-button>
+        </el-col>
+      </el-row>
+      <div><span class="totalTip">共找到以下10条数据</span></div>
+      <el-table class="table_min_height mt10" :data="STicketList" ref="singleTable" >
+        <el-table-column prop="ticketName" label="秒杀券名称" align="center" min-width="150" ></el-table-column>
+        <el-table-column prop="isvalid" label="秒杀券状态" align="center" min-width="50"></el-table-column>
+        <el-table-column prop="activityEndDate" align="center" label="秒杀券有效期" sortable min-width="120"></el-table-column>
+        <el-table-column prop="applyCar" align="center" label="秒杀券适用车系"></el-table-column>
+        <el-table-column prop="sedkillMoney" align="center" sortable label="单个秒杀券金额"></el-table-column>
+        <el-table-column label="操作" align="center" width="100">
+          <template scope="scope">
+            <el-button type="text" @click="updateTicket()">编辑</el-button>
+            <el-button type="text" @click="invalidTicket()">无效</el-button>
+            <el-button type="text" @click="copyTicket()">复制</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
                      :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
@@ -309,52 +240,6 @@
   }
 </script>
 <style>
-  .table-bordered {
-    border: 1px solid #F3F4F7;
-  }
-  .table {
-    width: 100%;
-    margin-bottom: 20px;
-    background-color: #fff;
-  }
-  .text-center {
-    text-align: center;
-  }
-  thead {
-    display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-  .table.table-bordered thead > tr > th {
-    border-bottom: 0;
-    background-color: #F6F7FB;
-    color: #333;
-    font-style: normal;
-  }
-  .table-striped > thead > tr > th:first-child {
-    padding-left: 15px;
-  }
-  .table thead tr th {
-    font-size: 14px;
-  }
-  .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td{
-    padding: 20px 9px;
-  }
-  tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-
-  .table-striped > tbody > tr > td:first-child {
-    padding-left: 15px;
-  }
-  .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
-    border: 1px solid #F3F4F7;
-  }
-  .table-hover > tbody > tr:hover, .table-hover > tbody > tr:hover > td {
-    background: #f3f4f6 !important;
-  }
   .el-tabs--card>.el-tabs__header .el-tabs__nav{
     border:none;
   }

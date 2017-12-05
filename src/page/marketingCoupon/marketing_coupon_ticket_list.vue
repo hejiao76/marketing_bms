@@ -164,12 +164,12 @@
         </el-table-column>
         <el-table-column label="操作" width="250">
           <template slot-scope="scope">
-            <el-button type="text">查看</el-button>
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">抵扣类型</el-button>
-            <el-button type="text">绑定车型</el-button>
-            <el-button type="text">复制</el-button>
-            <el-button type="text">禁用</el-button>
+            <el-button type="text" @click="toDetail(scope.row)">查看</el-button>
+            <el-button type="text" @click="activeUpdate()">编辑</el-button>
+            <el-button type="text" @click="checkTicketType(3)">抵扣类型</el-button>
+            <el-button type="text" @click="checkCar(2)">绑定车型</el-button>
+            <el-button type="text" @click="activeCopy()">复制</el-button>
+            <el-button type="text" @click="activeDisabled()">禁用</el-button>
           </template>
         </el-table-column>
       </el-table >
@@ -177,8 +177,8 @@
       <div v-if="isCar">
         <el-row :gutter="20" >
           <el-col :xs="11" :sm="6" v-for="item in tableData" style="margin-bottom:20px;">
-            <div class="saleticket-list">
-              <div class="saleticket-list_header">
+            <div class="saleticket-list" v-bind:class="{ graysaletickstyle: item.isStart==3 }">
+              <div class="saleticket-list_header" >
                 <p>抵扣券名称名称名称名</p>
                 <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
                 <div class="headericon">
@@ -239,81 +239,13 @@
                   <tr>
                     <td><a href="javascript:void(0);" @click="activeUpdate()">编辑</a></td>
                     <td><a href="javascript:void(0);" @click="activeCopy()">复制</a></td>
-                    <td><a href="javascript:void(0);" @click="activeDisabled()">禁用</a></td>
+                    <td><a href="javascript:void(0);" @click="activeDisabled()">禁用</a>
+                    <td><a href="javascript:void(0);" @click="toDetail()">查看</a>
                   </tr>
                 </table>
               </div>
             </div>
           </el-col>
-          <div class="saleticket-list graysaletickstyle">
-            <div class="saleticket-list_header">
-              <p>抵扣券名称名称名称名</p>
-              <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
-              <div class="headericon">
-                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-              </div>
-            </div>
-            <div class="saleticket-content">
-              <ul>
-                <li>
-                  <div class="sal-con-tit">
-                    抵扣券类型：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>抵扣车款  其他权益</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    抵扣金额(元)：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>1000</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    绑定车系：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>博越</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    抵扣券数量：
-                  </div>
-                  <div class="sal-con_txt">
-                    adfadsf
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    创建日期：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>2017-11-11 10:15:20</span>
-                  </div>
-                </li>
-              </ul>
-              <!--<div class="salemore-txt">-->
-                <!--<a href=" ">查看详情</a>-->
-              <!--</div>-->
-            </div>
-            <div class="saleticket-footer">
-              <div class="headericon">
-                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-              </div>
-              <table>
-                <tr>
-                  <td><a href="javascript:void(0);" @click="activeCopy()">复制</a></td>
-                  <td><a href="javascript:void(0);">查看</a></td>
-                </tr>
-              </table>
-            </div>
-          </div>
         </el-row>
       </div>
       <!--<span class="demonstration">完整功能</span>-->
@@ -346,7 +278,7 @@
     data() {
       return {
         tableData:TestData.prize_list,
-        isCar:true,//滑块
+        isCar:false,//滑块
         optionsActivityStart :{
           disabledDate:(time) => {
             if(this.filterForm.activityEndDate){
@@ -435,10 +367,7 @@
        * @returns {}
        */
       addActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.$router.push("/coupon/ticket_edit/1")
       },
       /**
        * 获取过滤器参数
@@ -509,21 +438,16 @@
         this.requestData();
       },
       toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
+//        this.$router.push({name: '/coupon/ticket_datail', params: {companyInfoId: companyInfoId}})
+        this.$router.push("/coupon/ticket_datail/1")
       },
       //复制抵扣券
       activeCopy(){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"复制抵扣券",
-          type:"error"
-        });
+        this.$router.push("/coupon/ticket_edit/1")
       },
       //编辑抵扣券
       activeUpdate(){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"编辑抵扣券",
-          type:"error"
-        });
+        this.$router.push("/coupon/ticket_edit/1")
       },
       //禁用抵扣券
       activeDisabled(){
@@ -532,6 +456,15 @@
           type:"error"
         });
       },
+      //修改抵扣券类型
+      checkTicketType(){
+        this.$router.push("/coupon/ticket_edit/1")
+      },
+      //修改绑定车型
+      checkCar(){
+        this.$router.push("/coupon/ticket_edit/1")
+      }
+
 
     }
   }
