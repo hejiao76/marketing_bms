@@ -214,10 +214,7 @@
        * @returns {}
        */
       updatePrize(){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.$router.push("/prizeDraw/edit/1")
       },
 
       /**
@@ -225,10 +222,7 @@
        * @returns {}
        */
       addActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        this.$router.push("/prizeDraw/edit/1")
       },
       /**
        * 新建活动点击
@@ -255,9 +249,6 @@
       handleCurrentChange(cpage) {
         this.currentPage = cpage;
         this.requestData();
-      },
-      toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
       },
       /**
        * 获取过滤器参数
