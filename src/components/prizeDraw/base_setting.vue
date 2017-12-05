@@ -226,6 +226,7 @@ export default {
   watch : {
     prizeDrawDetail (val, oldval) {
       this.cloneTicketInfo();
+      this.requsetLocation();
     }
   },
   created () {
@@ -234,6 +235,21 @@ export default {
 //    this.cloneTicketInfo();
   },
   methods:{
+      requsetLocation (){
+        Api.base_sys_location({})
+          .then(res => {
+            if (res.status == true) {
+              console.log(res);
+            }else {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(err => {
+
+        });
+      },
 //    submitForm(formName) {
 //      this.$refs[formName].validate((valid) => {
 //        if (valid) {

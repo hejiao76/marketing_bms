@@ -48,7 +48,7 @@
   export default {
     data() {
       return {
-        prizeDrawSettingTab:'prize', //选项卡默认选中项
+        prizeDrawSettingTab:'gift', //选项卡默认选中项
         prizeDrawDetail : {},
         prizeDrawCode:'',
 //        addPrizeList:[{isshow:true},{isshow:true}],

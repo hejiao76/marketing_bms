@@ -1,92 +1,135 @@
 //奖品设置模块
 <template>
-  <div>
-    <el-form :model="filterForm"  :rules="rules" ref="filterForm" label-width="120px" size="small" >
+  <div class="giftSetting">
+    <el-form :model="giftSetting"  :rules="rules" ref="giftSetting" label-width="120px" size="small" >
       <el-row>
         <el-col :span="24" class="">
-          <el-form-item label="兑奖时间:" prop="activityName">
-            <el-col :span="11">
-              <el-form-item prop="activityStartDate">
-                <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate"
-                                :picker-options="optionsActivityStart" type="date"
+          <el-form-item label="兑奖时间:" label-width="80px;" prop="activityName">
+            <el-row>
+            <el-col :span="10">
+              <el-form-item prop="redeemBeginTime">
+                <el-date-picker :clearable="false" :editable="false"  style="width: 100%;" type="datetime" v-model="giftSetting.redeemBeginTime"
+                                :picker-options="optionsActivityStart"
                                 placeholder="选择开始日期"></el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col class="line" :span="2" style="text-align: center">-</el-col>
-            <el-col :span="11">
-              <el-form-item prop="activityEndDate">
-                <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate"
-                                :picker-options="optionsActivityEnd" type="date"
+            <el-col class="line" :span="1" style="text-align: center">-</el-col>
+            <el-col :span="10">
+              <el-form-item prop="redeemEndTime">
+                <el-date-picker :clearable="false" :editable="false"  style="width: 100%;" type="datetime" v-model="giftSetting.redeemEndTime"
+                                :picker-options="optionsActivityEnd"
                                 placeholder="请输入结束日期"></el-date-picker>
               </el-form-item>
             </el-col>
+            </el-row>
           </el-form-item>
-          <el-row v-for="(items,index) in  addPrizeList">
-            <el-col :span="24" class="newp-title">
-              <img style="cursor: pointer;" src="../../assets/images/del.png"/>
-            </el-col>
-            <el-col style="border: 1px solid #ccc; padding:0 8px;">
-              <div v-if="items.isshow">
-                <el-form-item label="礼包名称:">
-                  <el-select v-model="filterForm.activityName" placeholder="请选择">
-                    <el-option
-                      v-for="item in filterForm.activityArea"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="礼包名称:">
-                  <p>1</p>
-                  <p>12</p>
-                  <p>13</p>
-                </el-form-item>
-                <el-form-item label="活动名称:" prop="activityName">
-                  <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
-                </el-form-item>
-                <el-form-item label="活动名称:" prop="activityName">
-                  <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
-                </el-form-item>
-                <el-form-item label="活动名称:" prop="activityName">
-                  <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
-                </el-form-item>
-                <el-form-item label="活动名称:">
-                  <el-col :span="6">
-                    <el-form-item prop="activityStartDate">
-                      <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                  <el-col class="line" :span="1" style="text-align: center">-</el-col>
-                  <el-col :span="6">
-                    <el-form-item prop="activityEndDate">
-                      <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    投放个数：<el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" style="width: 50px;" ></el-input>个
-                  </el-col>
-                  <el-col :span="5">
-                    <el-button>删除</el-button>
-                    <el-button type="primary">增加</el-button>
-                  </el-col>
-                </el-form-item>
-              </div>
-              <el-col :span="24" style="text-align: center">
-                <el-button v-if="items.isshow" @click="closePrizeBox(index)">收起</el-button>
-                <el-button v-if="!items.isshow"@click="closePrizeBox(index)">展开</el-button>
-              </el-col>
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="24" style="text-align: center;">
-          <el-button  type="primary">上一步</el-button>
-          <el-button  type="primary">下一步</el-button>
         </el-col>
       </el-row>
     </el-form>
+      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
+          <!--<el-row v-for="(items,index) in  addPrizeList">-->
+            <!--<el-col :span="24" class="newp-title">-->
+              <!--<span>一等奖</span>-->
+              <!--<img style="cursor: pointer;" src="../../assets/images/del.png"/>-->
+            <!--</el-col>-->
+            <!--<el-col style="border: 1px solid #ccc; padding:0 8px; margin-bottom:10px;">-->
+              <!--<el-collapse-transition>-->
+              <!--<div v-if="items.isshow">-->
+                <!--<el-form-item label="礼包名称:">-->
+                  <!--<el-select v-model="giftSetting.activityName" placeholder="请选择">-->
+                    <!--<el-option-->
+                      <!--v-for="item in giftSetting.activityArea"-->
+                      <!--:key="item.value"-->
+                      <!--:label="item.label"-->
+                      <!--:value="item.value">-->
+                    <!--</el-option>-->
+                  <!--</el-select>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="礼包详情:">-->
+                  <!--<p>1</p>-->
+                  <!--<p>12</p>-->
+                  <!--<p>13</p>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="奖品数量:" prop="activityName">-->
+                  <!--&lt;!&ndash;<el-input style="width:20%"   v-model="giftSetting.activityName" placeholder="请输入奖品数量" ></el-input>个&ndash;&gt;-->
+                  <!--<el-input-number style="width:20%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>个-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="中奖概率:" prop="activityName">-->
+                  <!--<el-input style="width:20%"   v-model="giftSetting.activityName" placeholder="中奖概率" ></el-input>%-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="每天投放个数:" prop="activityName">-->
+                  <!--&lt;!&ndash;<el-input  style="width:20%"  v-model="giftSetting.activityName" placeholder="请输入每天投放个数" ></el-input>个&ndash;&gt;-->
+                  <!--<el-input-number style="width:20%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>个-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="每天投放时间:">-->
+                  <!--<el-row>-->
+                    <!--<el-col :span="4">-->
+                      <!--<el-form-item prop="activityStartDate">-->
+                        <!--<el-time-select :editable="false" :clearable="false"  style="width:100%"  placeholder="起始时间" v-model="startTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}"></el-time-select>-->
+                      <!--</el-form-item>-->
+                    <!--</el-col>-->
+                    <!--<el-col class="line" :span="1" style="text-align: center">-</el-col>-->
+                    <!--<el-col :span="4">-->
+                      <!--<el-form-item prop="activityEndDate">-->
+                        <!--<el-time-select :editable="false" :clearable="false" style="width:100%" placeholder="结束时间" v-model="endTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: startTime}"></el-time-select>-->
+                      <!--</el-form-item>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="7">-->
+                      <!--<el-form-item prop="activityStartDate" label="投放个数:" label-width="80px">-->
+                      <!--&lt;!&ndash;<el-input v-model="giftSetting.activityName" placeholder="" style="width:80%"></el-input>&ndash;&gt;-->
+                        <!--<el-input-number style="width:80%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>-->
+                      <!--</el-form-item>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="7" style="text-align: right;">-->
+                      <!--<el-button>删除</el-button>-->
+                      <!--<el-button type="primary">增加</el-button>-->
+                    <!--</el-col>-->
+                  <!--</el-row>-->
+                  <!--<el-row>-->
+                    <!--<el-col :span="4">-->
+                      <!--<el-form-item prop="activityStartDate">-->
+                        <!--<el-time-select :editable="false" :clearable="false"  style="width:100%"  placeholder="起始时间" v-model="startTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}"></el-time-select>-->
+                      <!--</el-form-item>-->
+                    <!--</el-col>-->
+                    <!--<el-col class="line" :span="1" style="text-align: center">-</el-col>-->
+                    <!--<el-col :span="4">-->
+                      <!--<el-form-item prop="activityEndDate">-->
+                        <!--<el-time-select :editable="false" :clearable="false" style="width:100%" placeholder="结束时间" v-model="endTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: startTime}"></el-time-select>-->
+                      <!--</el-form-item>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="7">-->
+                      <!--<el-form-item prop="activityStartDate" label="投放个数:" label-width="80px">-->
+                        <!--&lt;!&ndash;<el-input v-model="giftSetting.activityName" placeholder="" style="width:80%"></el-input>&ndash;&gt;-->
+                        <!--<el-input-number style="width:80%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>-->
+                      <!--</el-form-item>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="7" style="text-align: right;">-->
+                      <!--<el-button>删除</el-button>-->
+                      <!--<el-button type="primary">增加</el-button>-->
+                    <!--</el-col>-->
+                  <!--</el-row>-->
+                <!--</el-form-item>-->
+              <!--</div>-->
+              <!--</el-collapse-transition>-->
+              <!--<el-col :span="24" style="text-align: center">-->
+                <!--<el-button v-if="items.isshow" @click="closePrizeBox(index)">收起</el-button>-->
+                <!--<el-button v-if="!items.isshow"@click="closePrizeBox(index)">展开</el-button>-->
+              <!--</el-col>-->
+            <!--</el-col>-->
+          <!--</el-row>-->
+
+    <el-row>
+      <el-col :span="24" style="text-align: right;">
+        <el-button  type="primary">增加奖项</el-button>
+      </el-col>
+    </el-row>
+      <el-row>
+        <el-col :span="24" style="text-align: center;">
+          <el-button  type="primary">上一步</el-button>
+          <el-button @click="saveGiftSetting"  type="primary">下一步</el-button>
+        </el-col>
+      </el-row>
+
     <!--<el-form :model="checkedTicketItemForm" :rules="ticketRules" size="small" ref="checkedTicketItemForm" label-width="0px" class="demo-ruleForm">-->
 
     <!--</el-form>-->
@@ -100,111 +143,68 @@ import Final from "./../../util/Final";
 import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
-import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
+import VGiftSettingItem from "./gift_setting_giftItem.vue"
 export default {
-  props:['ticketItem','ticketIndex','activityStartDate'],
+  props:['prizeDrawDetail'],
   data () {
     return {
+      startTime: '',
+      endTime: '',
       optionsActivityStart :{
         disabledDate:(time) => {
-          if(this.activityInfo.activityEndDate){
-            let d = new Date (this.activityInfo.activityEndDate)
-            return time.getTime() >d.getTime();
+          if(this.giftSetting.redeemEndTime){
+            let d = new Date (this.giftSetting.redeemEndTime)
+            return time.getTime() >d.getTime() ||  time.getTime() < new Date().getTime();
           }
         }
       },
       optionsActivityEnd :{
         disabledDate:(time) => {
-          if(this.activityInfo.activityStartDate){
-            let d = new Date (this.activityInfo.activityStartDate)
-            return time.getTime() <d.getTime();
+          if(this.giftSetting.redeemBeginTime){
+            let d = new Date (this.giftSetting.redeemBeginTime)
+            return time.getTime() <d.getTime() ||  time.getTime() < new Date().getTime();
           }
         }
       },
-      addPrizeList:[{isshow:true},{isshow:true}],
-      filterForm:{
-        ticketId:'', //秒杀券ID
-        ticketName:'',//秒杀券名称
-        signUpStartTime:'',//报名开始日期
-        signUpEndTime:'',//报名截止日期
-        validityStartDate:'',//有效期开始时间
-        validityEndDate:'',//有效期结束日期
-        createDate:'', //创建日期
-        applyCar:'',
-        sedkillMoney:'',//秒杀金额
-        sedKillStartDate:'',//秒杀开始日期
-        ticketCount:'', //秒杀券数量
-        maxPayCount:'', //最大支付数
-        editStatus:0, //当前是否处于1编辑状态
+      giftSetting:{
+        redeemBeginTime:new Date(new Date().setHours(new Date().getHours()+2)),//对奖开始时间
+        redeemEndTime:new Date(new Date().setDate(new Date().getDate()+7)),//兑奖结束时间
+        prizeList:[],//礼包集合
       },
       rules: {
-        ticketCount: [
-          { validator :this.userValidate().validate_ticketCount, trigger: 'blur' }
+        redeemBeginTime: [
+          { validator :this.userValidate().validate_redeemBeginTime, trigger: 'change' },
+          { validator :this.userValidate().validate_redeemEndTime, trigger: 'change' },
         ],
-        maxPayCount: [
-          { validator :this.userValidate().validate_maxPayCount, trigger: 'blur' }
-        ],
-        sedkillMoney: [
-          { validator :this.userValidate().validate_sedkillMoney, trigger: 'blur' }
-        ],
-        sedKillStartDate: [
-          { validator :this.userValidate().validate_sedKillStartDate, trigger: 'blur' }
-        ],
-        signUpStartTime:[
-          { validator :this.userValidate().validate_signUpStartTime, trigger: 'blur' }
-        ],
-        signUpEndTime:[
-          { validator :this.userValidate().validate_signUpEndTime, trigger: 'blur' }
-        ]
       },
     }
   },
   components :{
-    ElInput,
-    VTipMsg
+    VTipMsg,
+    VGiftSettingItem
+  },
+  watch : {
+    prizeDrawDetail (val, oldval) {
+        console.log("gift_setting_watch");
+      this.cloneGiftSettingInfo();
+    }
   },
   created () {
-    console.log("11111111111------",this.ticketItem)
-    this.cloneTicketInfo();
+
   },
   mounted () {
 
   },
   methods:{
-    closePrizeBox(idx){
-      if(this.addPrizeList[idx].isshow){
-        this.addPrizeList[idx].isshow = false;
-      }else{
-        this.addPrizeList[idx].isshow = true;
+    cloneGiftSettingInfo() {
+      if(this.prizeDrawDetail && this.prizeDrawDetail.name){
+        this.giftSetting = Object.assign({},{
+          redeemBeginTime:this.prizeDrawDetail.redeemBeginTime ? new Date(this.prizeDrawDetail.redeemBeginTime) : new Date(new Date().setHours(new Date().getHours()+2)),
+          redeemEndTime:this.prizeDrawDetail.redeemEndTime ? new Date(this.prizeDrawDetail.redeemEndTime) : new Date(new Date().setDate(new Date().getDate()+7)),
+          prizeList:this.prizeDrawDetail.prizeList
+        })
+        console.log(this.giftSetting.prizeList);
       }
-    },
-//    submitForm(formName) {
-//      this.$refs[formName].validate((valid) => {
-//        if (valid) {
-//          alert('submit!');
-//        } else {
-//          console.log('error submit!!');
-//          return false;
-//        }
-//      });
-//    },
-//    resetForm(formName) {
-//      this.$refs[formName].resetFields();
-//    },
-    cloneTicketInfo() {
-      this.checkedTicketItemForm = Object.assign({},this.checkedTicketItemForm,this.ticketItem);
-      if(this.checkedTicketItemForm.signUpStartTime){
-          this.checkedTicketItemForm.signUpStartTime = new Date(this.checkedTicketItemForm.signUpStartTime)
-      }
-      if(this.checkedTicketItemForm.signUpEndTime){
-        this.checkedTicketItemForm.signUpEndTime = new Date(this.checkedTicketItemForm.signUpEndTime)
-      }
-      if(this.checkedTicketItemForm.sedKillStartDate){
-        this.checkedTicketItemForm.sedKillStartDate = new Date(this.checkedTicketItemForm.sedKillStartDate)
-      }
-    },
-    test () {
-        console.log("blur------>",this.checkedTicketItemForm.maxPayCount);
     },
     /**
      * 日期转1字符串
@@ -218,151 +218,70 @@ export default {
       }
     },
     /**
-     * 编辑/取消编辑 秒杀券基本信息按钮事件触发
-     * @param ticketId
-     * @param status
+     *  下一步 基本信息设置1111111111111111
+     * @param
      */
-    editTicketItem (ticketId,status) {
-      if(ticketId){
-          this.checkedTicketItemForm.editStatus=status;
-          console.log("edit~~~~",JSON.stringify(this.checkedTicketItemForm))
-      }
+    saveGiftSetting(){
+        console.log(this.$children );
+        return;
+      this.$refs['giftSetting'].validate((valid) => {
+        if (valid) {
+          let newGiftSetting = Object.assign({}, this.giftSetting);
+          newGiftSetting.beginTime = this.formatDateToString(this.giftSetting.beginTime);
+          newGiftSetting.endTime = this.formatDateToString(this.giftSetting.endTime);
+          this.$emit("call", {op: "edit", tag: "base", callData: newGiftSetting});
+          console.log("success");
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
-    removeTicketItem () {
-        console.log("到哪儿去了------------11111",this.checkedTicketItemForm.ticketId);
-      if(this.checkedTicketItemForm.ticketId){
-          console.log(this.ticketId);
-        this.$emit("call",{op:"delete",callData:this.checkedTicketItemForm.ticketId});
-      }
-    },
-    /**
-     *  保存 秒杀券基本信息按钮事件触发
-     * @param ticketId
-     */
-    saveTicketItem(ticketId){
-      if(ticketId){
-        this.$refs['checkedTicketItemForm'].validate((valid) => {
-          if (valid) {
-            let newItem ={};
-            this.checkedTicketItemForm.editStatus=0;
-            Object.assign(newItem,this.checkedTicketItemForm);
-            console.log("~~~~",JSON.stringify(newItem));
-            if(this.checkedTicketItemForm.signUpStartTime){
-              newItem.signUpStartTime = this.formatDateToString(this.checkedTicketItemForm.signUpStartTime)
-            }
-            if(this.checkedTicketItemForm.signUpEndTime){
-              newItem.signUpEndTime = this.formatDateToString(this.checkedTicketItemForm.signUpEndTime)
-            }
-            if(this.checkedTicketItemForm.sedKillStartDate){
-              newItem.sedKillStartDate = this.formatDateToString(this.checkedTicketItemForm.sedKillStartDate)
-            }
-            delete newItem.editStatus;
-            this.$emit("call",{op:"edit",callData:newItem});
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      }
-    },
-    /**
-     * 自定义验证规则
-     * @returns {{validate_ticketCount: (function(*, *=, *)), validate_maxPayCount: (function(*, *=, *)), validate_sedkillMoney: (function(*, *=, *)), validate_sedKillStartDate: (function(*, *=, *)), validate_signUpStartTime: (function(*, *=, *)), validate_signUpEndTime: (function(*, *=, *))}}
-     */
-    userValidate (){
+    userValidate () {
         return {
-          validate_ticketCount : (rule, value, callback) => {
-            value=parseInt(value);
+          validate_redeemBeginTime : (rule, value, callback) => {
             if (!value) {
-              return callback(new Error('请输入秒杀券个数'));
-            }else if (!Number.isInteger(value)) {
-              callback(new Error('秒杀券个数须是数字'));
-            } else {
-              if (value > 9999) {
-                callback(new Error('秒杀券个数最多9999个'));
-              } else if(value<1) {
-                callback(new Error('秒杀券个数至少1个'));
-              }
-              callback();
-            }
-          },
-            validate_maxPayCount : (rule, value, callback) => {
-              value=parseInt(value);
-              if (!value) {
-                return callback(new Error('请输入最大支付数'));
-              }else if (!Number.isInteger(value)) {
-                callback(new Error('最大支付数须是数字'));
-              } else {
-                if(!this.checkedTicketItemForm.ticketCount){
-                  callback(new Error('请先输入秒杀券个数'));
-                }
-                if (value > this.checkedTicketItemForm.ticketCount*5) {
-                  callback(new Error('最大支付数不能超过5倍秒杀券个数'));
-                } else if(value<this.checkedTicketItemForm.ticketCount) {
-                  callback(new Error('最大支付数不能小于秒杀券个数'));
-                }
-                callback();
-              }
-          },
-          validate_sedkillMoney :(rule, value, callback) => {
-            value=parseInt(value);
-            if (!value) {
-              return callback(new Error('请输入秒杀金额'));
-            }else if (!/^[1-9]\d*$/.test(value)) {
-              callback(new Error('秒杀金额须是数字且大于0'));
-            } else{
-              callback();
-            }
-          },
-          validate_sedKillStartDate : (rule, value, callback) => {
-            if (!value) {
-              return callback(new Error('请输入秒杀开始时间'));
-            }else if (!this.checkedTicketItemForm.validityStartDate || isNaN(new Date(this.checkedTicketItemForm.validityStartDate).getTime())) {
-              callback(new Error('有效期时间无效'));
-            } else {
-              if(value.getTime()>(new Date(this.checkedTicketItemForm.validityEndDate).getTime()+3600*24*1000-1)){
-                callback(new Error('秒杀开始时间须小于有效期开始日期'));
-              }else if (value.getTime() < (new Date(this.checkedTicketItemForm.validityStartDate).getTime())){
-                callback(new Error('秒杀开始时间须大于有效期开始日期'));
+              return callback(new Error('请输入兑奖开始日期'));
+            }else {
+              if(value.getTime()>(new Date(this.giftSetting.redeemEndTime).getTime())){
+                callback(new Error('兑奖开始日期必须小于兑奖结束日期'));
+              }else if (value.getTime() < (new Date().getTime())){
+                callback(new Error('兑奖开始日期必须大于当前日期'));
               }else{
                 callback();
               }
             }
           },
-          validate_signUpStartTime : (rule, value, callback) => {
+          validate_redeemEndTime : (rule, value, callback) => {
             if (!value) {
-              return callback(new Error('请输入报名开始时间'));
-            }else if (!this.checkedTicketItemForm.sedKillStartDate || isNaN(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime())) {
-              callback(new Error('请先填写秒杀开始时间'));
-            } else {
-              if(value.getTime()>(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime()-(3600*1000))){
-                callback(new Error('报名开始时间须小于秒杀开始1小时'));
+              return callback(new Error('请输入兑奖开始日期'));
+            }else {
+              if(value.getTime()<(new Date(this.giftSetting.redeemStartTime).getTime())){
+                callback(new Error('兑奖结束日期必须小于兑奖结束日期'));
+              }else if (value.getTime() < (new Date().getTime())){
+                callback(new Error('兑奖结束日期必须大于当前日期'));
               }else{
                 callback();
               }
             }
           },
-          validate_signUpEndTime :(rule, value, callback) => {
-            if (!value) {
-              return callback(new Error('请输入报名结束时间'));
-            }else if (!this.checkedTicketItemForm.signUpEndTime || isNaN(new Date(this.checkedTicketItemForm.signUpEndTime).getTime())) {
-              callback(new Error('请先填写秒杀开始时间'));
-            } else {
-              if(value.getTime()>(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime()-(60*5*1000))){
-                callback(new Error('报名结束时间须小于秒杀开始5分钟'));
-              }else if (value.getTime()<(new Date(this.checkedTicketItemForm.signUpStartTime).getTime()+(60*30*1000))){
-                callback(new Error('报名结束时间须大于报名开始时间30分钟'));
-              }else{
-                callback();
-              }
-            }
-          }
-      }
-    },
+        }
+    }
   }
 }
 </script>
 
 <!-- Add1111 "scoped" attribute to limit CSS to this component only -->
-<style >
+<style>
+  .giftSetting .el-form-item__label {
+    text-align: left;
+  }
+ .giftSetting .el-input--small .el-input__inner{
+       padding-left:10px;
+     padding-right:10px;
+   text-align: center;
+   }
+ .giftSetting .el-input__prefix{
+   display: none;
+ }
 </style>

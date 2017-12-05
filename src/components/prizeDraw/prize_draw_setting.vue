@@ -77,9 +77,13 @@
             <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
             <el-input-number style="width:10%" v-model="prizeItem.ipGroupLotteryLimit" :controls="false" :min="0"></el-input-number>
             次,
-            次动态IP允许参与活动人数上限：
+            动态IP允许参与活动人数上限：
             <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
             <el-input-number style="width:10%" v-model="prizeItem.ipDynamicLotteryLimit" :controls="false" :min="0"></el-input-number>
+            次,
+            动态IP允许参与活动人数上限:
+            <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
+            <el-input-number style="width:10%" v-model="prizeItem.ipLotteryLimit" :controls="false" :min="0"></el-input-number>
             次
           </el-form-item>
 
@@ -155,7 +159,7 @@ export default {
     },
 
     /**
-     *  下一步 基本信息设置
+     *  下一步 抽奖信息设置
      * @param ticketId
      */
     savePrizeItem(ticketId){
