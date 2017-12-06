@@ -12,7 +12,7 @@
             <el-row class="this_box_wrop">
                 <!--<el-col style=" width: 260px;" >-->
                     <div class="saleticket-list"v-for="(item,index) in testData">
-                      <div class="isfill" @click="checkCP(index)">
+                      <div class="isfill" @click="checkCP(index,item.id)">
                         <img  v-if="item.ischecked" src="./../assets/images/fillin.png" alt="">
                         <img v-if="!item.ischecked" src="./../assets/images/fillnone.png" alt="">
                       </div>
@@ -47,7 +47,7 @@
                               绑定车系：
                             </div>
                             <div class="sal-con_txt">
-                              <span>博越</span>
+                              <span>博越23123</span>
                             </div>
                           </li>
                           <li>
@@ -103,7 +103,7 @@ export default {
         listObj:[],
         activityName:'',
         labelPosition:'left',
-        testData:[{ischecked:false},{ischecked:true},{ischecked:true}]
+        testData:[{ischecked:false,id:12},{ischecked:false,id:23},{ischecked:false,id:34}]
     }
   },
   components :{
@@ -115,11 +115,18 @@ export default {
 
   },
   methods:{
-    checkCP(idx){
+    checkCP(idx,id){
       if(this.testData[idx].ischecked){
         this.testData[idx].ischecked = false;
+        for(var i = 0; i< this.exceptIdArray.length;i++){
+          if(this.exceptIdArray[i] == id){
+            this.exceptIdArray.splice(i,1);
+            break;
+          }
+        }
       }else{
         this.testData[idx].ischecked = true;
+        this.exceptIdArray.push(id);
       }
     },
     /**
