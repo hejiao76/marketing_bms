@@ -1,7 +1,7 @@
 <template>
   <div class="con_list">
     <div class="filter_div mb20">
-      <el-form :model="activityInfo" :rules="rules" size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+      <el-form :model="activityInfo" :rules="rules" size="small" ref="activityInfo" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
         <el-row :gutter="20">
           <el-col :span="16">
             <el-row>
@@ -43,7 +43,7 @@
           </el-col>
         </el-row>
         <el-row>
-            <el-form-item label="活动地区">
+            <el-form-item label="活动地区" prop="activityCity">
 
             </el-form-item>
         </el-row>
@@ -53,100 +53,106 @@
 
           </el-form-item>
         </el-row>
+        <el-row>
+          <div class="newhd">
+            <el-form-item label="抵扣券" prop="ticketArr">
+             <div class="saleticket-list" v-for="item in activityInfo.ticketArr">
+              <div class="saleticket-list_header">
+                <p>抵扣券名称名称名称名</p>
+                <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+                <div class="headericon">
+                  <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                  <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+                </div>
+              </div>
+              <div class="saleticket-content">
+                <ul>
+                  <li>
+                    <div class="sal-con-tit">
+                      抵扣券类型：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>抵扣车款  其他权益</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      抵扣金额(元)：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>1000</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      绑定车系：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>博越</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      抵扣券数量：
+                    </div>
+                    <div class="sal-con_txt">
+                      asdfasdfads
+                    </div>
+                  </li>
+                  <li>
+                    <div class="sal-con-tit">
+                      创建日期：
+                    </div>
+                    <div class="sal-con_txt">
+                      <span>2017-11-11 10:15:20</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="saleticket-footer">
+                <div class="headericon">
+                  <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                  <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+                </div>
+                <table>
+                  <tr>
+                    <td><a href="javascript:;">删除</a></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            </el-form-item>
+            <div class="saleticket-list newlist">
+              <div class="saleticket-list_header">
+                <div class="headericon">
+                  <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                  <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+                </div>
+              </div>
+              <div class="saleticket-content" style="height: 165px;">
+                <p @click="openAddList()"><img src="../../assets/images/jia.png" alt="" >添加抵扣券</p>
+              </div>
+              <div class="saleticket-footer">
+                <div class="headericon">
+                  <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
+                  <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
+                </div>
+                <table>
+                  <tr>
+                    <td>&nbsp;</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
 
+        </el-row>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('activityInfo')">立即创建</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
       </el-form>
-      <el-row>
-        <div class="newhd">
-          <div class="saleticket-list">
-            <div class="saleticket-list_header">
-              <p>抵扣券名称名称名称名</p>
-              <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
-              <div class="headericon">
-                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-              </div>
-            </div>
-            <div class="saleticket-content">
-              <ul>
-                <li>
-                  <div class="sal-con-tit">
-                    抵扣券类型：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>抵扣车款  其他权益</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    抵扣金额(元)：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>1000</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    绑定车系：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>博越</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    抵扣券数量：
-                  </div>
-                  <div class="sal-con_txt">
-                    asdfasdfads
-                  </div>
-                </li>
-                <li>
-                  <div class="sal-con-tit">
-                    创建日期：
-                  </div>
-                  <div class="sal-con_txt">
-                    <span>2017-11-11 10:15:20</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="saleticket-footer">
-              <div class="headericon">
-                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-              </div>
-              <table>
-                <tr>
-                  <td><a href="javascript:;">删除</a></td>
-                </tr>
-              </table>
-            </div>
-          </div>
-          <div class="saleticket-list newlist">
-            <div class="saleticket-list_header">
-              <div class="headericon">
-                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-              </div>
-            </div>
-            <div class="saleticket-content" style="height: 165px;">
-              <p @click="openAddList()"><img src="../../assets/images/jia.png" alt="" >添加抵扣券</p>
-            </div>
-            <div class="saleticket-footer">
-              <div class="headericon">
-                <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-                <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-              </div>
-              <table>
-                <tr>
-                  <td>&nbsp;</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
 
-      </el-row>
     </div>
     <V-AddcouponTlist @call="addSedKillCallBack" ref="ticketDialog"></V-AddcouponTlist>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
@@ -184,12 +190,15 @@
           }
         },
         labelPosition:'left',
-//        activityInfo: {
-//          activityName: '',
-//          activityStartDate:'',//活动开始时间
-//          activityEndDate:'', //活动结束时间
-//          imageUrl: ''
-//        },
+        activityInfo: {
+          activityName: '',
+          activityStartDate:'',//活动开始时间
+          activityEndDate:'', //活动结束时间
+          imageUrl: '',
+          activityCity:[],
+          ticketArr:[]
+
+        },
         tmpBindTicketItemKey : ["ticketId", "ticketName", "isvalid", "activityStartDate", "activityEndDate", "createDate", "applyCar", "sedkillMoney", "sedKillStartDate", "ticketCount", "maxPayCount", "signUpStartTime", "singUpStartTime"],
         rules: {
           activityName: [
@@ -205,15 +214,13 @@
           imageUrl:[
             { required: true, message: '请上传图片', trigger: 'change' }
           ],
-          signUpStartTime:[
-            { required: true, message: '请选择日期', trigger: 'blur' }
+          activityCity: [
+            { type: 'array', required: true, message: '请至少选择一个地区', trigger: 'change' }
           ],
-          signUpEndTime:[
-            { required: true, message: '请选择日期', trigger: 'blur' }
+          ticketArr: [
+            { type: 'array', required: true, message: '请至少选择一个抵扣券', trigger: 'change' }
           ],
-          sedKillStartDate:[
-            { required: true, message: '请选择日期1', trigger: 'blur' }
-          ],
+
         },
         activityId:'', //秒杀活动ID
         activityInfo:{},
@@ -436,7 +443,18 @@
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
-      }
+      },
+      //提交表单
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
     }
   }
 </script>
