@@ -33,6 +33,11 @@ const routerConfig = [{
       component:marketing_sedKill_ticket_edit
     },
     {
+      path:'ticket_edit/:type/:ticketId',//秒杀券编辑
+      name:"marketing_sedKill_ticket_edit",
+      component:marketing_sedKill_ticket_edit
+    },
+    {
       path:'order_list',//秒杀订单列表
       name:"marketing_sedKill_order_list",
       component:marketing_sedKill_order_list
