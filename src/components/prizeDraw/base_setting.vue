@@ -142,6 +142,7 @@
       <el-row>
         <el-col :span="24" style="text-align: center;">
           <el-button @click="saveBaseItem" type="primary">下一步</el-button>
+          <el-button v-if="isEdit"  type="primary" @click="editSave">保存</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -160,7 +161,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import VTreeview from "./../../components/treeview.vue";
 export default {
-  props:['prizeDrawDetail'],
+  props:['prizeDrawDetail',"isEdit"],
   data () {
     return {
       optionsActivityStart :{
@@ -235,6 +236,9 @@ export default {
 //    this.cloneTicketInfo();
   },
   methods:{
+    editSave (){
+      this.$emit("editSaveCall");
+    },
       requsetLocation (){
         Api.base_sys_location({})
           .then(res => {
@@ -312,23 +316,48 @@ export default {
         return date;
       }
     },
+    validBaseItem () {
+      let validStatus=true;
+      this.$refs['baseItem'].validate((valid) => {
+        if (!valid) {
+          this.$refs.tipMsgRef.showTipMsg({
+            msg:"基础设置填写有误",
+            type:"error"
+          });
+          validStatus=false;
+          return false;
+        }
+      });
+      return validStatus;
+    },
+    getBaseItem(){
+        return this.baseItem;
+    },
     /**
      *  下一步 基本信息设置
      * @param ticketId
      */
-    saveBaseItem(ticketId){
-      this.$refs['baseItem'].validate((valid) => {
-          if (valid) {
+    saveBaseItem(){
+        if(this.validBaseItem()){
               let newBaseItem = Object.assign({},this.baseItem);
               newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
               newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
               this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
-              console.log("success");
-          }else{
-            console.log('error submit!!');
-            return false;
-          }
-      });
+        }
+//      this.$refs['baseItem'].validate((valid) => {
+//          if (valid) {
+//              let newBaseItem = Object.assign({},this.baseItem);
+//              newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
+//              newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
+//              this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
+//              console.log("success");
+//          }else{
+//            console.log('error submit!!');
+//            return false;
+//          }
+//      });
+
+
 //      if(ticketId){
 //        this.$refs['checkedTicketItemForm'].validate((valid) => {
 //          if (valid) {

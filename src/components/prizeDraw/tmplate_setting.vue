@@ -19,7 +19,8 @@
     <el-row>
       <el-col :span="24" style="text-align: center;">
         <el-button @click="preFn"  type="primary">上一步</el-button>
-        <el-button  @click="saveTemplateId" type="primary">保存</el-button>
+        <el-button v-if="isEdit"  type="primary" @click="editSave">保存</el-button>
+        <el-button v-else  @click="saveTemplateId" type="primary">保存</el-button>
       </el-col>
     </el-row>
     <!--<el-form :model="checkedTicketItemForm" :rules="ticketRules" size="small" ref="checkedTicketItemForm" label-width="0px" class="demo-ruleForm">-->
@@ -35,7 +36,7 @@ import Final from "./../../util/Final";
 import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 export default {
-  props:["prizeDrawDetail"],
+  props:["prizeDrawDetail","isEdit"],
   data () {
     return {
       templateIdTmp:1,
@@ -75,6 +76,9 @@ export default {
     })
   },
   methods:{
+    editSave (){
+      this.$emit("editSaveCall");
+    },
     /**
      * 选择模板
      */
