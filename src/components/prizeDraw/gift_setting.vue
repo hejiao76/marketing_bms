@@ -127,6 +127,7 @@
         <el-col :span="24" style="text-align: center;">
           <el-button @click="preFn"  type="primary">上一步</el-button>
           <el-button @click="saveGiftSetting"  type="primary">下一步</el-button>
+          <el-button v-if="isEdit"  type="primary" @click="editSave">保存</el-button>
         </el-col>
       </el-row>
 
@@ -145,7 +146,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import VGiftSettingItem from "./gift_setting_giftItem.vue"
 export default {
-  props:['prizeDrawDetail'],
+  props:['prizeDrawDetail',"isEdit"],
   data () {
     return {
       startTime: '',
@@ -196,6 +197,9 @@ export default {
 
   },
   methods:{
+    editSave (){
+      this.$emit("editSaveCall");
+    },
     cloneGiftSettingInfo() {
       if(this.prizeDrawDetail && this.prizeDrawDetail.name){
         this.giftSetting = Object.assign({},{
@@ -229,7 +233,7 @@ export default {
 //        console.log(this.giftSetting.prizeList.splice(index,1));
     },
     /**
-     * 日期转1字符串1111111111111111111111111111111
+     * 日期转字符串
      * @param date
      */
     formatDateToString (date){
@@ -242,33 +246,68 @@ export default {
     preFn () {
       this.$emit("call", {op: "edit", tag: "gift",pre:true});
     },
-    /**11111111111111111111111111111111111111111111111
+    validGiftSetting () {
+      let validPass=true;
+      if(this.giftSetting.prizeList.length>0){
+        for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
+          if(!this.$refs.prizeItem[i].validGiftItem()){
+            validPass=false;
+            this.$refs.tipMsgRef.showTipMsg({
+              msg:"奖品设置信息有误",
+              type:"error"
+            });
+            break;
+          }
+        }
+        if(validPass){
+          for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
+            this.giftSetting.prizeList.splice(i,1,this.$refs.prizeItem[i].getGiftItem());
+          }
+        }
+      }else {
+        validPass=false
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:"请添加至少一个奖品",
+          type:"error"
+        });
+      }
+      return validPass;
+    },
+    getGiftSetting () {
+        return this.giftSetting;
+    },
+    /**
      *  下一步 保存奖品设置
      * @param
      */
     saveGiftSetting(){
-        if(this.giftSetting.prizeList.length>0){
-          let validPass=true;
-          for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
-            if(!this.$refs.prizeItem[i].validGiftItem()){
-                validPass=false;
-                break;
-            }
-          }
-          if(validPass){
-            for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
-              this.giftSetting.prizeList.splice(i,1,this.$refs.prizeItem[i].getGiftItem());
-            }
-          }
+        if(this.validGiftSetting()){
           let newGiftSetting = Object.assign({}, this.giftSetting);
           console.log("数据过来了------->",JSON.stringify(this.giftSetting));
           this.$emit("call", {op: "edit", tag: "gift", callData: newGiftSetting});
-        }else {
-            this.$refs.tipMsg.showTipMsg({
-              msg:"请添加至少一个奖品",
-              type:"error"
-            });
         }
+//        if(this.giftSetting.prizeList.length>0){
+//          let validPass=true;
+//          for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
+//            if(!this.$refs.prizeItem[i].validGiftItem()){
+//                validPass=false;
+//                break;
+//            }
+//          }
+//          if(validPass){
+//            for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
+//              this.giftSetting.prizeList.splice(i,1,this.$refs.prizeItem[i].getGiftItem());
+//            }
+//          }
+//          let newGiftSetting = Object.assign({}, this.giftSetting);
+//          console.log("数据过来了------->",JSON.stringify(this.giftSetting));
+//          this.$emit("call", {op: "edit", tag: "gift", callData: newGiftSetting});
+//        }else {
+//            this.$refs.tipMsg.showTipMsg({
+//              msg:"请添加至少一个奖品",
+//              type:"error"
+//            });
+//        }
         return
       this.$refs['giftSetting'].validate((valid) => {
         if (valid) {

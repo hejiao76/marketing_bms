@@ -91,6 +91,7 @@
         <el-col :span="24" style="text-align: center;">
           <el-button @click="preFn"  type="primary">上一步</el-button>
           <el-button  type="primary" @click="savePrizeItem">下一步</el-button>
+          <el-button v-if="isEdit"  type="primary" @click="editSave">保存</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -108,7 +109,7 @@ import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 export default {
-  props:['prizeDrawDetail'],
+  props:['prizeDrawDetail',"isEdit"],
   data () {
     return {
       prizeItem:{
@@ -128,7 +129,7 @@ export default {
   },
   watch : {
     prizeDrawDetail (val, oldval) {
-      this.cloneTicketInfo();
+      this.clonPrizeDraw();
     }
   },
   components :{
@@ -140,10 +141,9 @@ export default {
 
   },
   mounted () {
-
   },
   methods:{
-    cloneTicketInfo() {
+    clonPrizeDraw() {
       if(this.prizeDrawDetail && this.prizeDrawDetail.name){
         this.prizeItem = {
           userWinningLimit:this.prizeDrawDetail.userWinningLimit || 0,
@@ -157,17 +157,32 @@ export default {
         }
       }
     },
+    editSave (){
+      this.$emit("editSaveCall");
+    },
+    /**
+     *  验证抽奖设置
+     * @param
+     */
     validPrizeItem ()  {
-      let valid=true;
+      let validStatus=true;
       this.$refs['prizeItem'].validate((valid) => {
-        if(!value){
-          valid=false;
+        if(!valid){
+          this.$refs.tipMsgRef.showTipMsg({
+            msg:"抽奖设置信息有误",
+            type:"error"
+          });
+          validStatus=false;
         }
       });
-      return valid;
+      return validStatus;
     },
+    /**
+     *  获取抽奖设置信息
+     * @param
+     */
     getPrizeItem(){
-
+      return this.prizeItem
     },
     /**
      *  上一步
@@ -181,16 +196,21 @@ export default {
      * @param
      */
     savePrizeItem(){
-      this.$refs['prizeItem'].validate((valid) => {
-        if (valid) {
+        if(this.validPrizeItem()){
           let newPrizeItem = Object.assign({}, this.prizeItem);
-          this.$emit("call", {op: "edit", tag: "prize", callData: newPrizeItem});
-          console.log("success");
-        } else {
-          console.log('error submit!!');
-          return false;
+          this.$emit("call", {op: "new", tag: "prize", callData: newPrizeItem});
         }
-      });
+//
+//      this.$refs['prizeItem'].validate((valid) => {
+//        if (valid) {
+//          let newPrizeItem = Object.assign({}, this.prizeItem);
+//          this.$emit("call", {op: "edit", tag: "prize", callData: newPrizeItem});
+//          console.log("success");
+//        } else {
+//          console.log('error submit!!');
+//          return false;
+//        }
+//      });
     }
   }
 }
