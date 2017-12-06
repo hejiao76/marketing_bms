@@ -4,8 +4,8 @@
     <el-form :model="prizeItemForm"  :rules="rules" ref="prizeItemForm" label-width="120px" size="small" >
           <el-row>
             <el-col :span="24" class="newp-title">
-              <span>{{wordMapping[prizeItemForm.level]}}等奖</span>
-              <img style="cursor: pointer;" src="../../assets/images/del.png"/>
+              <span>{{wordMapping[itemIndex+1]}}等奖</span>
+              <img @click="removePrizeItem" style="cursor: pointer;" src="../../assets/images/del.png"/>
             </el-col>
             <el-col style="border: 1px solid #ccc; padding:0 8px; margin-bottom:10px;">
               <el-collapse-transition>
@@ -105,7 +105,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
 export default {
-  props:['prizeItem'],
+  props:['prizeItem','itemIndex'],
   data () {
     return {
       wordMapping:{
@@ -180,33 +180,41 @@ export default {
           quantity:this.prizeItem.quantity, //数量
           level:this.prizeItem.level, //奖项等级
           odds:this.prizeItem.odds,  // 中奖概率
-          dayQuantity:this.prizeItem.dayQuantity, //每天投放数量1111111111111111111111ssssssssss11111111111111111111111
+          dayQuantity:this.prizeItem.dayQuantity, //每天投放数量
           ruleList:this.prizeItem.ruleList
         })
-        console.log("prizeItem-------->",this.prizeItemForm);
       }
     },
-    saveGiftItem () {
+    validGiftItem (){
+      let validpass=true;
       this.$refs['prizeItemForm'].validate((valid) => {
         if (valid) {
-            if(this.validRuleItemCount()){
+            if(this.validRuleItemCount() && this.validRuleItemTimeRange()){
 
+            }else{
+              validpass = false;
             }
-            console.log("succe22222222222222222222222222ss")
-//          let newBaseItem = Object.assign({},this.baseItem);
-//          newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
-//          newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
-//          this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
-//          console.log("success");
-        }else{
-          console.log('error submit!!');
-          this.$refs.tipMsgRef.showTipMsg({
-            msg:"礼品信息填写有误",
-            type:"error"
-          })
-          return false;
+        }else {
+            validpass=false;
         }
       });
+      if(!validpass){
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:"礼品信息填写有误",
+          type:"error"
+        })
+      }
+      return validpass;
+    },
+    saveGiftItem () {
+       if(validGiftItem()){
+
+       }
+    },
+    getGiftItem () {
+      if(this.validGiftItem()){
+          return Object.assign({},this.prizeItemForm)
+      }
     },
     /**
      * 添加投放时间段Item子项
@@ -219,10 +227,18 @@ export default {
         })
     },
     /**
-     * 删除投放时间段Item子项111111111111111
+     * 删除投放时间段Item子项
      */
     removeRuleItem (index){
       this.prizeItemForm.ruleList.splice(index,1);
+    },
+    /**
+     * 删除礼品项
+     */
+    removePrizeItem (){
+        console.log("delete---PrizeItem--------");
+//        this.$emit(call,this.prizeItem);
+      this.$emit("callRemove",{index:this.itemIndex});
     },
     validRuleItemCount () {
          let count = 0;
@@ -237,6 +253,65 @@ export default {
            return false;
          }
          return true;
+    },
+    validRuleItemTimeRange () {
+        let startTimeArray = [];
+        let endTimeArray = [];
+        let errorMsg = "";
+        for(let i = 0 ; i<this.prizeItemForm.ruleList.length;i++){
+            let item = this.prizeItemForm.ruleList[i];
+            if(item.beginTime){
+              let beginTimeStr= item.beginTime.toString().split(":");
+              if(beginTimeStr.length==2){
+                let bdate = new Date();
+                bdate.setHours(beginTimeStr[0]);
+                bdate.setMinutes(beginTimeStr[1]);
+                startTimeArray.push(bdate.getTime());
+              }else {
+                startTimeArray.push(item.beginTime);
+              }
+            }
+            if(item.endTime){
+              let endTimeStr= item.endTime.toString().split(":");
+              if(endTimeStr.length==2){
+                let edate = new Date();
+                edate.setHours(endTimeStr[0]);
+                edate.setMinutes(endTimeStr[1]);
+                endTimeArray.push(edate.getTime());
+              }else{
+                endTimeArray.push(item.endTime);
+              }
+            }
+        }
+        if(startTimeArray.length!=endTimeArray.length){
+            errorMsg = "请填写完整的时间段"
+        }else if(this.prizeItemForm.ruleList.length>1 && this.prizeItemForm.ruleList.length!=startTimeArray.length){
+            errorMsg = "请填写完整的时间段"
+        }else if(this.prizeItemForm.ruleList.length>1 && this.prizeItemForm.ruleList.length!=endTimeArray.length){
+            errorMsg = "请填写完整的时间段"
+        }else {
+          startTimeArray = startTimeArray.sort((a, b) => a - b);
+          endTimeArray = endTimeArray.sort((a, b) => a - b);
+          console.log("start------>",startTimeArray)
+          console.log("end------>",endTimeArray)
+          for(let i =1 ; i < startTimeArray.length;i++){
+              console.log(startTimeArray[i],endTimeArray[i-1])
+              console.log(startTimeArray[i]<endTimeArray[i-1])
+              if(startTimeArray[i]-endTimeArray[i-1]<0){
+                  errorMsg="时间段范围有重复";
+                  break;
+              }
+          }
+        }
+        if(errorMsg){
+          this.$refs.tipMsgRef.showTipMsg({
+            msg:this.wordMapping[this.prizeItemForm.level]+"等奖中"+errorMsg,
+            type:"error"
+          });
+            return false;
+        }else {
+            return true;
+        }
     },
     userValidate(){
       return {

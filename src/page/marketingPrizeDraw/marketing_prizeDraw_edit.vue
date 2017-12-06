@@ -8,16 +8,16 @@
         <el-col>
           <!--<el-form :model="filterForm"  :rules="rules" ref="filterForm" label-width="120px" size="small" ></el-form>-->
           <el-tabs type="card"   v-model="prizeDrawSettingTab" >
-            <el-tab-pane disabled  label="基础设置" name="base">
+            <el-tab-pane :disabled="this.disabledTab"  label="基础设置" name="base">
               <v-pz-base-setting  @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-base-setting>
             </el-tab-pane>
-            <el-tab-pane disabled label="抽奖设置" name="prize">
+            <el-tab-pane :disabled="this.disabledTab"  label="抽奖设置" name="prize">
               <v-pz-prize-draw-setting @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-prize-draw-setting>
             </el-tab-pane>
-            <el-tab-pane disabled label="奖品设置" name="gift">
+            <el-tab-pane :disabled="this.disabledTab"  label="奖品设置" name="gift">
               <v-pz-gift-setting @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
             </el-tab-pane>
-            <el-tab-pane disabled label="模板选择" name="template">
+            <el-tab-pane :disabled="this.disabledTab"  label="模板选择" name="template">
               <v-pz-template-setting @call="syncPrizeDrawDetail" :prizeDrawDetail="prizeDrawDetail"></v-pz-template-setting>
             </el-tab-pane>
           </el-tabs>
@@ -48,56 +48,13 @@
   export default {
     data() {
       return {
-        prizeDrawSettingTab:'gift', //选项卡默认选中项
+        disabledTab:false,
+        prizeDrawSettingTab:'base', //选项卡默认选中项1111111111111111111111111111
         prizeDrawDetail : {},
         prizeDrawCode:'',
-//        addPrizeList:[{isshow:true},{isshow:true}],
-//        labelPosition:'left',
-//        optionsActivityStart :{
-//          disabledDate:(time) => {
-//            if(this.activityInfo.activityEndDate){
-//              let d = new Date (this.activityInfo.activityEndDate)
-//              return time.getTime() >d.getTime();
-//            }
-//          }
-//        },
-//        optionsActivityEnd :{
-//          disabledDate:(time) => {
-//            if(this.activityInfo.activityStartDate){
-//              let d = new Date (this.activityInfo.activityStartDate)
-//              return time.getTime() <d.getTime();
-//            }
-//          }
-//        },
-//        labelPosition:'left',
-//        filterForm: {
-//          activityName: '',
-//          activityStartDate:'',//活动开始时间
-//          activityEndDate:'', //活动结束时间
-//          imageUrl: '',
-//          activityArea:'',
-//          radio:1,
-//        },
-//        rules: {
-//          activityName: [
-//            { required: true, message: '请输入活动名称', trigger: 'blur' },
-//            { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
-//          ],
-//          activityStartDate: [
-//            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-//          ],
-//          activityEndDate: [
-//            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-//          ],
-//        },
-//        activityId:'', //秒杀活动ID
-//        activityInfo:{},
       }
     },
     components :{
-//      ElButton,
-//      ElRow,
-//      ElCol,
       VHeader,
       VLeft,
       VConNav,
@@ -116,33 +73,65 @@
     },
     watch : {
       "$route": function (to, from) {
-        this.resetForm();
+//        this.resetForm();
       }
     },
     methods : {
       initPage () {
         this.prizeDrawCode = this.$route.params.prizeDrawCode;
         if(this.prizeDrawCode=='new'){
+            this.disabledTab=true;
           //新增相关操作
         }else if(this.prizeDrawCode){
+          this.disabledTab=false;
           this.requestData()
         }
       },
       syncPrizeDrawDetail (data) {
-
         if(data.tag=="base"){
-          this.prizeDrawDetail = Object.assign({},this.prizeDrawDetail,data.callData);
+          this.prizeDrawDetail = Object.assign(this.prizeDrawDetail,data.callData);
           this.prizeDrawSettingTab ="prize";
         }else if(data.tag=="gift"){
-          this.prizeDrawDetail = Object.assign({},this.prizeDrawDetail,data.callData);
-          this.prizeDrawSettingTab ="gift";
+          if(data.pre){
+            this.prizeDrawSettingTab ="prize";
+          }else {
+            this.prizeDrawDetail = Object.assign(this.prizeDrawDetail, data.callData);
+            this.prizeDrawSettingTab = "template";
+          }
         }else if (data.tag=="prize"){
-          this.prizeDrawDetail = Object.assign({},this.prizeDrawDetail,data.callData);
-          this.prizeDrawSettingTab ="gift";
-        }else if(data.tag=="tmplate"){
+          if(data.pre){
+            this.prizeDrawSettingTab ="base";
+          }else{
+            this.prizeDrawDetail = Object.assign(this.prizeDrawDetail,data.callData);
+            this.prizeDrawSettingTab ="gift";
+          }
+        }else if(data.tag=="template"){
+            if(data.pre){
+              this.prizeDrawSettingTab ="gift";
+            }else{
+              this.prizeDrawDetail =Object.assign(this.prizeDrawDetail,data.callData);
+              this.savePrizeDrawInfo();
+            }
 
         }
         console.log("updateObject-------------->",this.prizeDrawDetail);
+      },
+      savePrizeDrawInfo(){
+          let param = {jsonData : JSON.stringify(this.prizeDrawDetail)}
+          Api.pd_activity_update(param)
+            .then(res => {
+              if (res.status == true) {
+                console.log(JSON.stringify(res));
+
+              }else {
+                this.$refs.tipMsgRef.showTipMsg({
+                  msg:res.message,
+                  type:"error"
+                });
+              }
+            }).catch(err => {
+
+          });
       },
       /**
        * 请求抽奖活动详情

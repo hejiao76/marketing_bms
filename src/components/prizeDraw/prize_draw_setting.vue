@@ -89,7 +89,7 @@
 
       <el-row>
         <el-col :span="24" style="text-align: center;">
-          <el-button  type="primary">上一步</el-button>
+          <el-button @click="preFn"  type="primary">上一步</el-button>
           <el-button  type="primary" @click="savePrizeItem">下一步</el-button>
         </el-col>
       </el-row>
@@ -157,12 +157,30 @@ export default {
         }
       }
     },
+    validPrizeItem ()  {
+      let valid=true;
+      this.$refs['prizeItem'].validate((valid) => {
+        if(!value){
+          valid=false;
+        }
+      });
+      return valid;
+    },
+    getPrizeItem(){
 
+    },
     /**
-     *  下一步 抽奖信息设置
+     *  上一步
      * @param ticketId
      */
-    savePrizeItem(ticketId){
+    preFn () {
+      this.$emit("call", {op: "edit", tag: "prize",pre:true});
+    },
+    /**
+     *  下一步 抽奖信息设置
+     * @param
+     */
+    savePrizeItem(){
       this.$refs['prizeItem'].validate((valid) => {
         if (valid) {
           let newPrizeItem = Object.assign({}, this.prizeItem);

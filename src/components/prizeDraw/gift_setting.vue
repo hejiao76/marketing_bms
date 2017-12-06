@@ -26,7 +26,7 @@
         </el-col>
       </el-row>
     </el-form>
-      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
+      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
           <!--<el-row v-for="(items,index) in  addPrizeList">-->
             <!--<el-col :span="24" class="newp-title">-->
               <!--<span>一等奖</span>-->
@@ -120,12 +120,12 @@
 
     <el-row>
       <el-col :span="24" style="text-align: right;">
-        <el-button  type="primary">增加奖项</el-button>
+        <el-button v-if="giftSetting.prizeList.length<5" @click="addGiftItem"  type="primary">增加奖项</el-button>
       </el-col>
     </el-row>
       <el-row>
         <el-col :span="24" style="text-align: center;">
-          <el-button  type="primary">上一步</el-button>
+          <el-button @click="preFn"  type="primary">上一步</el-button>
           <el-button @click="saveGiftSetting"  type="primary">下一步</el-button>
         </el-col>
       </el-row>
@@ -206,8 +206,30 @@ export default {
         console.log(this.giftSetting.prizeList);
       }
     },
+    addGiftItem () {
+        this.giftSetting.prizeList.push({
+          prizeId:'', //奖品ID
+          giftGroupId:'', // 礼包ID
+          giftGroupName:'', //礼包名称
+          quantity:0, //数量
+          level:'', //奖项等级
+          odds:0,  // 中奖概率
+          dayQuantity:0, //每天投放数量
+          ruleList:[{
+            beginTime:'',
+            endTime:'',
+            quantity:0,
+          }], //投放规则列表
+        });
+    },
+    removeGiftItem (callData) {
+        console.log(callData);
+      console.log("数据会不会还原 MLGB");
+      this.giftSetting.prizeList.splice(callData.index,1)
+//        console.log(this.giftSetting.prizeList.splice(index,1));
+    },
     /**
-     * 日期转1字符串
+     * 日期转1字符串1111111111111111111111111111111
      * @param date
      */
     formatDateToString (date){
@@ -217,13 +239,37 @@ export default {
         return date;
       }
     },
-    /**
-     *  下一步 基本信息设置1111111111111111
+    preFn () {
+      this.$emit("call", {op: "edit", tag: "gift",pre:true});
+    },
+    /**11111111111111111111111111111111111111111111111
+     *  下一步 保存奖品设置
      * @param
      */
     saveGiftSetting(){
-        console.log(this.$children );
-        return;
+        if(this.giftSetting.prizeList.length>0){
+          let validPass=true;
+          for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
+            if(!this.$refs.prizeItem[i].validGiftItem()){
+                validPass=false;
+                break;
+            }
+          }
+          if(validPass){
+            for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
+              this.giftSetting.prizeList.splice(i,1,this.$refs.prizeItem[i].getGiftItem());
+            }
+          }
+          let newGiftSetting = Object.assign({}, this.giftSetting);
+          console.log("数据过来了------->",JSON.stringify(this.giftSetting));
+          this.$emit("call", {op: "edit", tag: "gift", callData: newGiftSetting});
+        }else {
+            this.$refs.tipMsg.showTipMsg({
+              msg:"请添加至少一个奖品",
+              type:"error"
+            });
+        }
+        return
       this.$refs['giftSetting'].validate((valid) => {
         if (valid) {
           let newGiftSetting = Object.assign({}, this.giftSetting);
