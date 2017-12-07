@@ -276,7 +276,7 @@
           if(this.filterForm.carTypeCode){
               for(let i =0 ;i<this.carSerialsList.length;i++){
                   if(this.carSerialsList[i].id == this.filterForm.carTypeCode){
-                      this.filterForm.carTypeName = this.carSerialsList[i].brandName;
+                      this.filterForm.carTypeName = this.carSerialsList[i].serialName;
                   }
               }
           }

@@ -35,6 +35,11 @@ const routerConfig = [{
       component:marketing_coupon_ticket_edit
     },
     {
+      path:'ticket_edit/:type/:ticketId',//优惠券券编辑    添加抵扣券活动
+      name:"marketing_coupon_ticket_edit",
+      component:marketing_coupon_ticket_edit
+    },
+    {
       path:'record_list/',//优惠券订单列表   消耗记录
       name:"marketing_coupon_record_list",
       component:marketing_coupon_record_list
