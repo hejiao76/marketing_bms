@@ -1,19 +1,42 @@
 <template>
   <header>
-    <div class="logo">
-      <!--<img class="vm" src="./../assets/img/small_logo.png"/>-->
-      <span class="vm">吉利经销商系统</span>
-    </div>
-    <el-menu style="border:none;" class="el-menu-demo" mode="horizontal" text-color="#404C73" hover-text-color="#55ACEE" active-text-color="#55ACEE">
-      <el-menu-item index="1">首页</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">应用</template>
-        <el-menu-item index="2-1">抵扣券活动</el-menu-item>
-        <el-menu-item index="2-2">秒杀活动</el-menu-item>
-        <el-menu-item index="2-3">大转盘活动</el-menu-item>
-      </el-submenu>
-      <!--<el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
-    </el-menu>
+    <el-row  style="width: 100%;">
+        <el-col :span="6">
+          <div class="logo">
+            <!--<img class="vm" src="./../assets/img/small_logo.png"/>-->
+            <span class="vm">吉利经销商系统</span>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-menu style="border:none;" class="el-menu-demo" mode="horizontal" text-color="#404C73" hover-text-color="#55ACEE" active-text-color="#55ACEE">
+            <el-menu-item index="1">首页</el-menu-item>
+            <el-submenu index="2">
+              <template slot="title">应用</template>
+              <el-menu-item index="2-1">抵扣券活动</el-menu-item>
+              <el-menu-item index="2-2">秒杀活动</el-menu-item>
+              <el-menu-item index="2-3">大转盘活动</el-menu-item>
+            </el-submenu>
+            <!--<el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
+          </el-menu>
+        </el-col>
+        <el-col :span="6" style="padding-right:30px;text-align: right;line-height:60px;">
+            <img src="../assets/images/jia.png" alt="" style="width: 30px;height: 30px;border-radius: 15px;background: #62d84c;margin-right: 20px;">
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                我是超级用户<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>退出1</el-dropdown-item>
+                <el-dropdown-item>退出2</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+
+        </el-col>
+    </el-row>
+
+
+
+
     <!--<ul class="fl">-->
       <!--<router-link v-for="item in mainMenus" @click.native="saveMainMenuCode(item.menucode)" :to="{path:item.path}" tag="li">-->
         <!--<span :class="['h_icon' ,item.icon]"></span>-->
@@ -63,7 +86,12 @@
 <script>
   import Api from "./../fetch/api"
   import Final from "./../util/Final"
+  import ElRow from "element-ui/packages/row/src/row";
+  import ElCol from "element-ui/packages/col/src/col";
 export default {
+  components: {
+    ElCol,
+    ElRow},
   name: 'header',
   data () {
     return {
