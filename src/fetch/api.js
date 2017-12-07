@@ -32,31 +32,31 @@ const base = {
      *  查询省市
      */
     base_sys_location (params){
-      return fetch.fetch('/sys/location', params)
+      return fetch.fetch('/sys/location', params,"get")
     },
     /**
      *  查询全部车系
      */
     base_sys_car_serials (params){
-      return fetch.fetch('/sys/car/serials', params)
+      return fetch.fetch('/sys/car/serials', params,"get")
     },
     /**
      *  查询车系车型
      */
     base_sys_car_list (params){
-      return fetch.fetch('/sys/car/list', params)
+      return fetch.fetch('/sys/car/list', params,"get")
     },
     /**
      *  查询礼包列表
      */
     base_sys_gift_list (params){
-      return fetch.fetch('/sys/gift/list', params)
+      return fetch.fetch('/sys/gift/list', params,"get")
     },
     /**
      *  查询单个礼包详情
      */
     base_sys_gift_info (params){
-      return fetch.fetch('/sys/gift/info', params)
+      return fetch.fetch('/sys/gift/info', params,"get")
     },
 
 

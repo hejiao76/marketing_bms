@@ -31,10 +31,10 @@
               <!--<el-input v-model="filterForm.carTypeCode"></el-input>-->
               <el-select v-model="filterForm.carTypeCode" placeholder="请选择">
                 <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  v-for="item in carSerialsList"
+                  :key="item.id"
+                  :label="item.brandName"
+                  :value="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -66,7 +66,7 @@
           <el-col :span="24">
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')">创建</el-button>
-              <el-button @click="resetForm('ruleForm')">取消</el-button>
+              <el-button @click="returnList('ruleForm')">取消</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -94,6 +94,8 @@
   export default {
     data() {
       return {
+        isEdit:true,
+        carSerialsList:[],
         optionsActivityStart :{
           disabledDate:(time) => {
             if(this.filterForm.endTime){
@@ -122,25 +124,10 @@
           beginTime:'',//有效期开始时间
           endTime:'', //有效期结束时间
           carTypeCode:'',
+          carTypeName:'',//车系名称
           amount:'',
           description:'',
         },
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
         rules: {
           name: [
             { required: true, message: '请输入秒杀券名称', trigger: 'blur' },
@@ -153,7 +140,7 @@
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
           carTypeCode: [
-            { required: true, message: '请选择秒杀券适用车系', trigger: 'blur' }
+            { required: true,type:"number", message: '请选择秒杀券适用车系', trigger: 'blur' }
           ],
           amount: [
             { required: true, message: '单个秒杀券金额', trigger: 'blur' },
@@ -184,14 +171,57 @@
           let type  = this.$route.params.type;
           let code = this.$route.params.ticketId;
           if(type=="copy" && code && code!="new"){
-            this.$refs.tipMsgRef.showTipMsg({
-              msg:"复制模式",
-              type:"error"
-            });
+            this.isEdit=false
+//            this.$refs.tipMsgRef.showTipMsg({
+//              msg:"复制模式",
+//              type:"error"
+//            });
           }else if(code=="new"){
-            this.$refs.tipMsgRef.showTipMsg({
-              msg:"新增模式",
-              type:"error"
+            this.isEdit=false
+//            this.$refs.tipMsgRef.showTipMsg({
+//              msg:"新增模式",
+//              type:"error"
+//            });
+          }
+          this.requestCarTypeList();
+      },
+      /**
+       * 请求车系列表
+       * @param id
+       */
+      requestCarTypeList () {
+        Api.base_sys_car_serials({})
+          .then(res => {
+            if (res.status == 1) {
+              this.carSerialsList = res.result
+            }else {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(err => {
+
+        });
+      },
+      /**
+       * 请求秒杀券详情
+       * @param id
+       */
+      requestCouponInfo (id) {
+          if(id){
+            Api.sk_activity_detail({id:id})
+              .then(res => {
+                if (res.status == true) {
+
+                }else {
+                  this.$refs.tipMsgRef.showTipMsg({
+                    msg:res.message,
+                    type:"error"
+                  });
+                }
+              }).catch(err => {
+
             });
           }
       },
@@ -204,18 +234,72 @@
         });
         console.log(content)
       },
+      /**
+       * 修改秒杀券信息
+       */
+      updateActivity (){
+        let param = {jsonData:JSON.stringify(this.getParameter())}
+        Api.sk_activity_update(param)
+          .then(res => {
+            if (res.status == 1) {
+
+            }else {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(err => {
+
+        });
+      },
+      /**
+       * 新增秒杀券信息
+       */
+      addActivity () {
+        let param = {jsonData:JSON.stringify(this.getParameter())}
+        Api.sk_activity_add(param)
+          .then(res => {
+            if (res.status == 1) {
+
+            }else {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(err => {
+
+        });
+      },
+      getParameter () {
+          if(this.filterForm.carTypeCode){
+              for(let i =0 ;i<this.carSerialsList.length;i++){
+                  if(this.carSerialsList[i].id == this.filterForm.carTypeCode){
+                      this.filterForm.carTypeName = this.carSerialsList[i].brandName;
+                  }
+              }
+          }
+          this.filterForm.details = this.$refs.ue.getUEContent();
+          return this.filterForm;
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            if(this.isEdit){
+                this.updateActivity();
+            }else {
+                this.addActivity();
+            }
           } else {
             console.log('error submit!!');
             return false;
           }
         });
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      returnList(formName) {
+//        this.$refs[formName].resetFields();
+        this.$router.push("/sedkill/ticket_list");
       }
 
     }
