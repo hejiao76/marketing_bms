@@ -175,8 +175,8 @@
       </el-table >
       <!--------------卡片------------>
       <div v-if="isCar">
-        <el-row :gutter="20" >
-          <el-col :xs="11" :sm="6" v-for="item in tableData" style="margin-bottom:20px;">
+        <el-row :gutter="10" >
+          <el-col  :xs="12" :sm="12" :md="8" :lg="8" :xl="6" v-for="item in tableData" style="margin-bottom:20px;">
             <div class="saleticket-list" v-bind:class="{ graysaletickstyle: item.isStart==3 }">
               <div class="saleticket-list_header" >
                 <p>抵扣券名称名称名称名</p>
