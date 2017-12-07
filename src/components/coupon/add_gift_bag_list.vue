@@ -4,17 +4,24 @@
     <el-dialog class="choose-hd" center title="添加礼品包" :visible.sync="dialogTableVisible" >
       <el-form  size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
       <el-form-item label="礼品包名称：">
-        <el-input v-model="activityName" placeholder="请输商品名称"></el-input>
+        <!--<el-input v-model="activityName" placeholder="请输商品名称"></el-input>-->
+        <el-input placeholder="请输入内容" v-model="giftGroupName">
+          <el-button @click="searchGiftGroup" slot="append" icon="el-icon-search"></el-button>
+        </el-input>
       </el-form-item>
       </el-form>
       <div class="choose-copntent">
         <div class="choose-copntent_body">
             <el-row class="this_box_wrop">
                 <!--<el-col style=" width: 260px;" >-->
-                  <div class="saleticket-list colorsaletickstyle" v-for="item in testData">
+                  <div class="saleticket-list colorsaletickstyle" v-for="item in listObj">
+                    <div class="isfill">
+                      <img @click="checkGiftGroup(item.groupId)"  v-if="item.groupId!=tmpGiftGroupId" src="./../../assets/images/fillnone.png" alt="">
+                      <img @click="cancelCheckGiftGroup" v-else src="./../../assets/images/fillin.png" alt="">
+                    </div>
                     <div class="saleticket-list_header">
-                      <p>抵扣券名称名称名称名</p>
-                      <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+                      <p>{{item.giftGroupName}}</p>
+                      <span>有效日期: {{item.effectiveDate}}</span>
                       <div class="headericon">
                         <img src="./../../assets/images/saleticketsleft.png" class="iconleft" alt="">
                         <img src="./../../assets/images/saleticketsright.png" class="iconright" alt="">
@@ -22,12 +29,12 @@
                     </div>
                     <div class="saleticket-content">
                       <ul>
-                        <li>
+                        <li v-for="giftItem in item.giftInfoList">
                           <div class="sal-con-tit">
-                            加油卡：
+                            {{giftItem.giftName}}：
                           </div>
                           <div class="sal-con_txt">
-                            <span>¥100X2</span>
+                            <span>¥{{giftItem.giftPrice || 0}}X{{giftItem.giftCount}}</span>
                           </div>
                         </li>
                         <li>
@@ -78,7 +85,8 @@ export default {
         dialogTableVisible:true,
         exceptIdArray:[],
         listObj:[],
-        activityName:'',
+        giftGroupName:'',
+        tmpGiftGroupId:'',
         labelPosition:'left',
         testData:[1,2,3]
     }
@@ -89,17 +97,53 @@ export default {
     VTipMsg
   },
   created () {
+      this.showDialog();
 
   },
   methods:{
+    checkGiftGroup (tmpId){
+        this.tmpGiftGroupId=tmpId
+    },
+    cancelCheckGiftGroup (){
+      this.tmpGiftGroupId=""
+    },
+    searchGiftGroup () {
+        this.requestGiftList();
+    },
     /**
      * 显示新增秒杀券模态框
      * @param exceptIdArray
      */
     showDialog (exceptIdArray) {
+      console.log("request---gift_-----list");
 //        this.exceptIdArray=exceptIdArray;
 //        this.requestAddTicketList();
         this.dialogTableVisible=true;
+        this.requestGiftList();
+    },
+    requestGiftList (){
+        console.log("request---gift_-----list");
+        let param = {
+          giftGroupName:this.giftGroupName || '测试',
+          type:1,
+          pageIndex:1,
+          pageSize:10000
+        }
+      Api.base_sys_gift_list(param)
+        .then(res => {
+          if (res.status == true) {
+              this.listObj=res.result;
+//            this.activityInfo = res.result;
+//            this.totalRow = res.totalRow;
+          }else {
+            this.$refs.tipMsgRef.showTipMsg({
+              msg:res.message,
+              type:"error"
+            });
+          }
+        }).catch(err => {
+
+      });
     },
     /**
      * 选择秒杀券
