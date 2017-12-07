@@ -184,8 +184,8 @@
 </script>
 <style>
   .el-upload-dragger{
-    width: 150px;
-    height: 150px;
+    width: 100%;
+    height:100%;
   }
   .upload-demo{
     margin-top:10px;

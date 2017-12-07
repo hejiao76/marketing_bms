@@ -1,7 +1,7 @@
 //抽奖设置模块
 <template>
   <div>
-    <el-form :model="prizeItem"   :rules="rules" ref="prizeItem" label-width="120px" size="small" >
+    <el-form :model="prizeItem"   :rules="rules" ref="prizeItem"  size="small" >
       <!--<el-row>-->
         <!--<el-col :span="24">-->
           <!--<div style="float:left;line-height:32px;">中奖次数:</div>-->
@@ -16,9 +16,8 @@
       <!--</el-row>-->
       <el-row>
         <el-col :span="24">
-          <div style="float:left;line-height:32px;">中奖次数:</div>
           <div>
-          <el-form-item label-width="0px;" prop="userWinningLimit">
+          <el-form-item label="中奖次数:" prop="userWinningLimit">
             <span>每人总中奖次数：</span>
             <!--<el-input style="width: 10%" v-model="prizeItem.userLotteryLimit" placeholder="1"></el-input>-->
             <el-input-number style="width:10%" v-model="prizeItem.userWinningLimit" :controls="false" :min="0"></el-input-number>
@@ -28,21 +27,9 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="24">
-          <div style="float:left;line-height:32px;">免费抽奖次数上限设置:</div>
-          <el-form-item label="" labelWidth="0px" prop="userLotteryLimit">
-            单人免费总抽奖次数：
-            <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
-            <el-input-number style="width:10%" v-model="prizeItem.userLotteryLimit" :controls="false" :min="0"></el-input-number>
-            次,
-            每日免费抽奖次数：
-            <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
-            <el-input-number style="width:10%" v-model="prizeItem.userDayLotteryLimit" :controls="false" :min="0"></el-input-number>
-            次
-          </el-form-item>
-        </el-col>
+
       </el-row>
-          <el-form-item label="免费抽奖次数上限设置:" labelWidth="200px" prop="activityName">
+          <el-form-item label="免费抽奖次数上限设置:"  prop="activityName">
             单人免费总抽奖次数：
             <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
             <el-input-number style="width:10%" v-model="prizeItem.userLotteryLimit" :controls="false" :min="0"></el-input-number>
@@ -52,7 +39,7 @@
             <el-input-number style="width:10%" v-model="prizeItem.userLotteryLimit" :controls="false" :min="0"></el-input-number>
             次
           </el-form-item>
-          <el-form-item label="增加抽奖机会设置:" prop="activityName" labelWidth="180px">
+          <el-form-item label="增加抽奖机会设置:" prop="activityName">
             每次分享增加：
             <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
             <el-input-number style="width:10%" v-model="prizeItem.onceShareLimit" :controls="false" :min="0"></el-input-number>

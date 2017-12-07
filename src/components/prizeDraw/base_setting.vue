@@ -1,7 +1,7 @@
 //基础设置模块
 <template>
   <div>
-    <el-form :model="baseItem"  :rules="rules" ref="baseItem" label-width="85px" size="small">
+    <el-form :model="baseItem"  :rules="rules" ref="baseItem" label-width="120px" size="small" :label-position="labelPosition">
       <el-row>
         <el-col :span="24">
           <el-form-item label="活动名称:" prop="name">
@@ -69,7 +69,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <div style="font-size: 12px;padding-top:125px;">大小200kb内<br/>
+            <div style="font-size: 12px;padding-top:40%;">大小200kb内<br/>
               尺寸：50px*50px</div>
             <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
           </el-col>
@@ -88,7 +88,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <div style="font-size: 12px;padding-top:125px;">大小200kb内<br/>
+            <div style="font-size: 12px;padding-top:40%;">大小200kb内<br/>
               尺寸：50px*50px</div>
             <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
           </el-col>
@@ -107,23 +107,19 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <div style="font-size: 12px;padding-top:125px;">大小200kb内<br/>
-              尺寸：50px*50px</div>
+            <div style="font-size: 12px;padding-top:40%">大小:<br/>200kb内<br/>
+              尺寸：<br/>50px*50px</div>
             <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
           </el-col>
         </el-col>
       </el-row>
       <el-row class="margin-bottom-20" style="margin-top:20px;">
-        <el-col :span="4"  style="margin-top:10px;">
-          活动地区：
-        </el-col>
-        <el-col :span="20">
+        <el-form-item label="活动地区:" prop="description">
           <V-Treeview></V-Treeview>
-        </el-col>
+        </el-form-item>
       </el-row>
       <el-row class="margin-bottom-20">
-        <span class="span-120">车系／车型：</span>
-        <el-select  v-model="baseItem.carStyle" placeholder="全部"size="small">
+        <span class="span-120">车系／车型：</span><el-select  v-model="baseItem.carStyle" placeholder="全部"size="small">
           <el-option
             v-for="item in baseItem.activityArea"
             :key="item.value"
@@ -218,6 +214,7 @@ export default {
           { required: true, message: '请输入活动说明', trigger: 'blur' }
         ]
       },
+      labelPosition:'left',
     }
   },
   components :{
