@@ -153,7 +153,7 @@
        * @returns {}
        */
       invalidTicket (id) {
-        Api.sk_activity_order_detail({id:id,status:2})
+        Api.sk_activity_ticket_update_status({id:id,status:2})
           .then(res => {
             if (res.status) {
               this.requestData();
@@ -210,7 +210,7 @@
        */
       requestData (data) {
         var p = this.getFilterParam();
-        Api.sk_activity_list(p)
+        Api.sk_activity_ticket_list(p)
           .then(res => {
             if (res.status) {
               this.resData = res.result;

@@ -57,7 +57,7 @@ export default {
     },
     showDialog (id) {
       this.dialogTableVisible=true;
-      Api.sk_activity_order_list({orderNum:id})
+      Api.sk_activity_order_detail({orderNum:id})
         .then(res => {
           if (res.status) {
             this.result = res.result;

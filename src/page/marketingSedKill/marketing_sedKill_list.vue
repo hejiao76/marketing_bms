@@ -265,7 +265,7 @@
        * @returns {}
        */
       publicFun(dataId,statusId){
-        Api.sk_activity_list({id:dataId,status:statusId}).then(res => {
+        Api.sk_activity_update_status({id:dataId,status:statusId}).then(res => {
           if (res.status) {
             this.currentPage = 1;
             this.requestData();

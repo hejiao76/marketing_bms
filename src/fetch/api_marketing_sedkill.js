@@ -99,7 +99,7 @@ export default {
     return fetch.fetch('seckill/getOrderList', params,"get");
   },
   /**
-   * 秒杀活动订单列表
+   * 秒杀活动订单详情
    * @param params
    * @returns {*}
    */
