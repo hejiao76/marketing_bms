@@ -23,7 +23,9 @@
       <el-row>
         <el-col :span="24">
           <el-form-item>
-            <el-button type="primary" @click="saveSeriesItem">下一步</el-button>
+            <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
+            <el-button v-if="!isEdit" type="primary" @click="saveSeriesItem">上一步</el-button>
+            <el-button v-if="!isEdit" type="primary" @click="saveSeriesItem">下一步</el-button>
             <el-button @click="resetForm('ruleForm')">取消</el-button>
           </el-form-item>
         </el-col>
@@ -63,8 +65,15 @@ export default {
   },
   watch : {
     couponDetail (val, oldval) {
-      this.cloneTicketInfo();
+      this.cloneSeriesInfo();
 //      this.requsetLocation();
+    },
+    seriesItemForm :{
+        handler(val,oldval){
+          console.log("watch --- tmpseries----",Object.assign({},this.seriesItemForm));
+          this.$emit("getTmpSeriesData",Object.assign({},this.seriesItemForm));
+        },
+        deep:true
     }
   },
   created () {
@@ -103,21 +112,33 @@ export default {
 //    resetForm(formName) {
 //      this.$refs[formName].resetFields();
 //    },
-    cloneTicketInfo() {
+    cloneSeriesInfo() {
       if(this.couponDetail){
         this.seriesItemForm = {
-          car_type:this.couponDetail.car_type || 1,
+          car_type:this.couponDetail.carType || 1,
           car_ids : this.getCarIdsArray()
+        }
+        if(this.seriesItemForm.car_ids){
+            this.requestSeries();
         }
       }
     },
+    /**
+     * 获取车系ID集合
+     */
     getCarIdsArray () {
         let idsArray=[];
-        if(this.couponDetail.car_ids && this.couponDetail.car_ids.length>0){
-            idsArray.push(this.couponDetail.car_ids[i].id);
+        if(this.couponDetail.carIds && this.couponDetail.carIds.length>0){
+            for(let i = 0 ; i < this.couponDetail.carIds.length; i++){
+              idsArray.push(this.couponDetail.carIds[i].id);
+            }
+
         }
         return idsArray;
     },
+    /**
+     * 车系ID转成车系Object集合
+     */
     carIdsArrayToObject () {
         if(this.seriesItemForm.car_ids && this.seriesItemForm.car_ids.length>0 && this.seriesList.length>0){
             let objArray = [];
@@ -137,10 +158,11 @@ export default {
       let validStatus=true;
       this.$refs['seriesItemForm'].validate((valid) => {
         if (!valid) {
-          this.$refs.tipMsgRef.showTipMsg({
-            msg:"抵扣车系信息填写有误",
-            type:"error"
-          });
+//          this.$refs.tipMsgRef.showTipMsg({
+//            msg:"抵扣车系信息填写有误",
+//            type:"error"
+//          });
+          this.$emit("errorTipMsg",{msg:"抵扣车系信息填写有误"});
           validStatus=false;
           return false;
         }

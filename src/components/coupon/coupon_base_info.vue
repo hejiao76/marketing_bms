@@ -56,7 +56,8 @@
         <el-row>
           <el-col :span="24">
             <el-form-item style="text-align: center">
-              <el-button type="primary" @click="saveBaseItem">下一步</el-button>
+              <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
+              <el-button v-if="!isEdit" type="primary" @click="saveBaseItem">下一步</el-button>
               <el-button @click="resetForm('ruleForm')">取消</el-button>
             </el-form-item>
           </el-col>
@@ -181,10 +182,11 @@ export default {
       let validStatus=true;
       this.$refs['baseSettingForm'].validate((valid) => {
         if (!valid) {
-          this.$refs.tipMsgRef.showTipMsg({
-            msg:"基础信息填写有误",
-            type:"error"
-          });
+//          this.$refs.tipMsgRef.showTipMsg({
+//            msg:"基础信息填写有误",
+//            type:"error"
+//          });
+          this.$emit("errorTipMsg",{msg:"基础信息填写有误"});
           validStatus=false;
           return false;
         }else {
@@ -217,10 +219,11 @@ export default {
            this.baseSettingForm.details=details;
            return true;
        }else{
-         this.$refs.tipMsgRef.showTipMsg({
-           msg:"请填写抵扣券详情",
-           type:"error"
-         });
+//         this.$refs.tipMsgRef.showTipMsg({
+//           msg:"请填写抵扣券详情",
+//           type:"error"
+//         });
+         this.$emit("errorTipMsg",{msg:"请填写抵扣券详情"});
            return false;
        }
     },

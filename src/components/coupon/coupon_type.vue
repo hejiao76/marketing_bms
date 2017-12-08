@@ -12,11 +12,14 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="this.isShowGiftItem ">
-        <div v-if="this.typeItemForm.gift_Obj.id" class="saleticket-list colorsaletickstyle">
+      <el-row v-if="isShowGiftItem ">
+        <div v-if="typeItemForm.gift_obj.giftGroupId" class="saleticket-list colorsaletickstyle">
+          <div class="isfill">
+            <img  @click="removeGiftGroup"   src="./../../assets/images/fillnone.png" alt="">
+          </div>
           <div class="saleticket-list_header">
-            <p>抵扣券名称名称名称名</p>
-            <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+            <p>{{typeItemForm.gift_obj.giftGroupName}}</p>
+            <span>有效日期：{{typeItemForm.gift_obj.effectiveDate}}</span>
             <div class="headericon">
               <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
               <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
@@ -24,22 +27,22 @@
           </div>
           <div class="saleticket-content">
             <ul>
-              <li>
+              <li v-for="giftItem in typeItemForm.gift_obj.giftInfoList">
                 <div class="sal-con-tit">
-                  加油卡：
+                  {{giftItem.giftName}}：
                 </div>
                 <div class="sal-con_txt">
-                  <span>¥100X2</span>
+                  <span>¥{{giftItem.giftPrice || 0}}X{{giftItem.giftCount}}</span>
                 </div>
               </li>
-              <li>
-                <div class="sal-con-tit">
-                  雨伞：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
+              <!--<li>-->
+                <!--<div class="sal-con-tit">-->
+                  <!--雨伞：-->
+                <!--</div>-->
+                <!--<div class="sal-con_txt">-->
+                  <!--<span>¥100X2</span>-->
+                <!--</div>-->
+              <!--</li>-->
             </ul>
           </div>
           <div class="saleticket-footer">
@@ -80,7 +83,8 @@
       <el-row>
         <el-col :span="24">
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">创建</el-button>
+            <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
+            <el-button v-if="!isEdit" type="primary" @click="saveBaseItem()">创建</el-button>
             <el-button @click="resetForm('ruleForm')">取消</el-button>
           </el-form-item>
         </el-col>
@@ -88,7 +92,7 @@
     </el-form>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
     <!--<V-Addcouponlist  ref="ticketDialog"></V-Addcouponlist>-->
-    <v-add-gift-bag-list ref="ticketDialog"></v-add-gift-bag-list>
+    <v-add-gift-bag-list @call="syncGiftIds" :tmpSeriesData="tmpSeriesDataObj" ref="ticketDialog"></v-add-gift-bag-list>
   </div>
 </template>
 
@@ -98,15 +102,16 @@ import Final from "./../../util/Final";
 import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData";
-import VAddGiftBagList from "./../../components/coupon/add_gift_bag_list.vue";
+import VAddGiftBagList from "./add_gift_group_list.vue";
 export default {
-  props:['couponDetail',"isEdit"],
+  props:['couponDetail',"isEdit","tmpSeriesData"],
   data () {
     return {
       isShowGiftItem:false,
+      tmpSeriesDataObj:{},
       typeItemForm:{
         type:[],
-        gift_Obj:{},
+        gift_obj:{},
         gift_ids:'',
       },
       rules: {
@@ -123,17 +128,28 @@ export default {
   watch : {
     couponDetail (val, oldval) {
       this.cloneTypeInfo();
+    },
+    tmpSeriesData : {
+        handler(val, oldval){
+          console.log("watch----111111111111111111------tmpSeriesData",this.tmpSeriesData);
+          this.tmpSeriesDataObj=this.tmpSeriesData
+        },
+        deep:true
     }
   },
   created () {
   },
   mounted () {
+      console.log("加载抵扣类型");
 //    this.cloneTypeInfo();
   },
   methods:{
     editSave (){
       this.$emit("editSaveCall");
     },
+    /**
+     * 显示礼品包详情
+     */
     showGiftItem (checked){
         if(checked){
           this.isShowGiftItem=true;
@@ -142,16 +158,20 @@ export default {
           }
         }else{
           this.isShowGiftItem=false;
-          this.typeItemForm.gift_Obj={};
+          this.typeItemForm.gift_obj={};
+          this.typeItemForm.gift_ids='';
         }
 
     },
-    requestGiftItemInfo (giftId){
-        Api.base_sys_gift_info({})
+    /**
+     * 请求礼品包详情
+     */
+    requestGiftItemInfo (){
+        Api.base_sys_gift_info({giftGroupId:this.typeItemForm.gift_ids})
           .then(res => {
             if (res.status == true) {
               console.log(res);
-              this.typeItemForm.gift_Obj =res.result;
+              this.typeItemForm.gift_obj=res.result;
             }else {
               this.$refs.tipMsgRef.showTipMsg({
                 msg:res.message,
@@ -162,10 +182,13 @@ export default {
 
         });
       },
+    /**
+     * 克隆礼品券类型信息
+     */
     cloneTypeInfo() {
       this.typeItemForm={
         type:[],
-        gift_Obj:{},
+        gift_obj:{},
         gift_ids:'',
       }
       if(this.couponDetail && this.couponDetail.type){
@@ -179,26 +202,65 @@ export default {
               type.push(this.couponDetail.type);
           }
          this.typeItemForm.type=type,
-         this.typeItemForm.gift_ids=this.couponDetail.gift_ids
+         this.typeItemForm.gift_ids=this.couponDetail.giftIds;
+          if(this.typeItemForm.gift_ids){
+              this.showGiftItem(true);
+          }
 
       }
     },
+    /**
+     * 同步已选择的礼品包ID
+     */
+    syncGiftIds (data) {
+        console.log("选择礼品-----回到父级",JSON.stringify(data));
+        if(data && data.giftGroupId){
+            this.typeItemForm.gift_ids =data.giftGroupId;
+            this.requestGiftItemInfo();
+        }
+    },
+    /**
+     * 验证抵扣信息类型填写是否正确
+     */
     validTypeItem () {
       let validStatus=true;
       this.$refs['typeItemForm'].validate((valid) => {
         if (!valid) {
-          this.$refs.tipMsgRef.showTipMsg({
-            msg:"基础设置填写有误",
-            type:"error"
-          });
+//          this.$refs.tipMsgRef.showTipMsg({
+//            msg:"抵扣类型填写有误",
+//            type:"error"
+//          });
+          this.$emit("errorTipMsg",{msg:"抵扣类型填写有误"});
           validStatus=false;
           return false;
+        }else {
+          validStatus = this.validCheckGiftGroup();
         }
       });
       return validStatus;
     },
+    /**
+     * 验证勾选其他权益后是否选择礼包
+     */
+    validCheckGiftGroup (){
+      if(this.typeItemForm.type.includes(2) && !this.typeItemForm.gift_ids){
+//          this.$refs.tipMsgRef.showTipMsg({
+//            msg:"请添加礼包",
+//            type:"error"
+//          });
+          this.$emit("errorTipMsg",{msg:"请添加礼包"});
+          return false;
+      }else{
+        return true;
+      }
+    },
+    /**
+     * 获取抵扣券类型信息
+     */
     getTypeItem(){
         let newTypeItem = Object.assign({},this.typeItemForm);
+        delete newTypeItem.gift_obj;
+        newTypeItem.type = newTypeItem.type.length==2 ?  3 : newTypeItem.type[0];
         return newTypeItem;
     },
     /**
@@ -208,12 +270,21 @@ export default {
     saveBaseItem(){
         if(this.validTypeItem()){
 //              let newTypeItem = Object.assign({},this.typeItemForm);
-              this.$emit("call",{op:"edit",tag:"type",callData:this.getTypeItem()});
+              this.$emit("call",{tag:"type",callData:this.getTypeItem()});
         }
 //
     },
+    removeGiftGroup () {
+        this.typeItemForm.gift_obj = {}
+    },
+
     addCoupon(){
-      this.$refs.ticketDialog.showDialog();
+        if(this.tmpSeriesData.car_type==2 && this.tmpSeriesData.car_ids.length<=0){
+          this.$emit("errorTipMsg",{msg:"请先选择车系"});
+        }else{
+          this.$refs.ticketDialog.showDialog();
+        }
+
     },
     /**
      * 自定义验证规则
