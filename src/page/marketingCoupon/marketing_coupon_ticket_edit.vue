@@ -2,7 +2,7 @@
 
   <div class="con_list">
       <el-row>
-        <el-col :span="20">
+        <el-col :span="24">
           <el-tabs type="card" v-model="couponSettingTab">
             <el-tab-pane name="base" :disabled="this.disabledTab"  label="基本信息">
               <v-coupon-base-info ref="baseSetting" @editSaveCall="updateCouponInfo"  @call="syncCouponDetail" :isEdit="isEdit" :couponDetail="couponDetail"></v-coupon-base-info>
@@ -37,7 +37,7 @@
       return {
         disabledTab:false,
         isEdit:true,
-        couponSettingTab:'base', //选项卡默认选中项1111111111111111111111111111
+        couponSettingTab:'type', //选项卡默认选中项1111111111111111111111111111
         couponDetail : {},
         couponCode:'',
 //        optionsActivityStart :{
@@ -111,10 +111,12 @@
     created (){
 
     },
-
+    mounted (){
+      this.initPage();
+    },
     methods : {
       initPage () {
-        this.couponCode = this.$route.params.couponCode;
+        this.couponCode = this.$route.params.ticketId;
         if(this.couponCode=='new'){
           this.isEdit=false;
           this.disabledTab=true;
@@ -127,7 +129,7 @@
       syncCouponDetail (data) {
         if(data.tag=="base"){
           this.couponDetail = Object.assign(this.couponDetail,data.callData);
-          this.couponSettingTab ="base";
+          this.couponSettingTab ="series";
         }else if(data.tag=="series"){
           if(data.pre){
             this.couponSettingTab ="base";

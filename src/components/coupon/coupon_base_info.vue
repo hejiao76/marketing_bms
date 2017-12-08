@@ -1,17 +1,17 @@
 //基础设置模块
 <template>
   <div>
-    <el-form :model="baseSettingForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm" label-position="left">
+    <el-form :model="baseSettingForm" :rules="rules" ref="baseSettingForm" size="small" label-width="120px" class="demo-ruleForm" label-position="left">
       <div class="filter_div mb20">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="抵扣券名称" prop="ticketName">
-              <el-input v-model="baseSettingForm.ticketName"></el-input>
+            <el-form-item label="抵扣券名称" prop="name">
+              <el-input v-model="baseSettingForm.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="抵扣券有效期" required>
-              <el-date-picker style="width: 100%;" v-model="baseSettingForm.validity" :editable="false"  :picker-options="optionsValidity" type="datetime" placeholder="选择开始日期"></el-date-picker>
+            <el-form-item label="抵扣券有效期"  prop="validity">
+              <el-date-picker style="width: 100%;" v-model="baseSettingForm.validity" :editable="false" :clearable="false"  :picker-options="optionsValidity" type="datetime" placeholder="选择有效期日期"></el-date-picker>
               <!--<el-col :span="11">-->
                 <!--<el-form-item prop="activityStartDate">-->
                   <!--<el-date-picker style="width: 100%;" v-model="baseSettingForm.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>-->
@@ -28,8 +28,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="活动名称" prop="applyCar">
-              <el-input v-model="baseSettingForm.applyCar"></el-input>
+            <el-form-item label="抵扣券金额" prop="amount">
+              <!--<el-input v-model="baseSettingForm.amount"></el-input>-->
+              <el-input-number v-model="baseSettingForm.amount" :max="99999999" :controls="false"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -37,8 +38,8 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="秒杀券说明：" prop="remarks">
-              <el-input type="textarea" v-model="baseSettingForm.remarks"></el-input>
+            <el-form-item label="抵扣券说明：" prop="description">
+              <el-input type="textarea" v-model="baseSettingForm.description"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -47,15 +48,15 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="秒杀券详情：" prop="remarks">
-              <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE>
+            <el-form-item label="抵扣券券详情：" prop="remarks">
+              <UE ref="ueRef" :defaultMsg=baseSettingForm.details :config=config :id=ue1></UE>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')">创建</el-button>
+            <el-form-item style="text-align: center">
+              <el-button type="primary" @click="saveBaseItem">下一步</el-button>
               <el-button @click="resetForm('ruleForm')">取消</el-button>
             </el-form-item>
           </el-col>
@@ -72,47 +73,50 @@ import Final from "./../../util/Final";
 import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
-import VTreeview from "./../../components/treeview.vue";
 import UE from './../../components/ue/ue.vue';
 export default {
   props:['couponDetail',"isEdit"],
   data () {
     return {
+          ue1: "ue1", // 不同编辑器必须不同的id
+        ue2: "ue2",
+              config: {
+          initialFrameWidth: null,
+          initialFrameHeight: 350
+        },
       optionsValidity :{
         disabledDate:(time) => {
-          if(this.baseItem.validity){
             return time.getTime() < new Date().getTime();
-          }
         }
       },
 //      optionsActivityStart :{
 //        disabledDate:(time) => {
-//          if(this.baseItem.beginTime){
-//            let d = new Date (this.baseItem.endTime)
+//          if(this.baseSettingForm.beginTime){
+//            let d = new Date (this.baseSettingForm.endTime)
 //            return time.getTime() >d.getTime() ||  time.getTime() < new Date().getTime();
 //          }
 //        }
 //      },
 //      optionsActivityEnd :{
 //        disabledDate:(time) => {
-//          if(this.baseItem.endTime){
-//            let d = new Date (this.baseItem.beginTime)
+//          if(this.baseSettingForm.endTime){
+//            let d = new Date (this.baseSettingForm.beginTime)
 //            return time.getTime() <d.getTime() ||  time.getTime() < new Date().getTime();
 //          }
 //        }
 //      },
       baseSettingForm:{
         name:'', //活动名称
-        validity:new Date(new Date().setHours(new Date().getHours()+1)), //有效期时间
+        validity:'', //有效期时间
 //        endTime:new Date(new Date().setDate(new Date().getDate()+7)), //活动结束时间
-        amount:1, //抵扣金额
+        amount:0, //抵扣金额
         description:'', //简介
         details:'',//秒杀
 
       },
       rules: {
         name: [
-          { required: true, message: '请填写活动名称', trigger: 'change' },
+          { required: true, message: '请填写活动名称', trigger: 'blur' },
           { max:10,message:'活动名称最大长度为10', trigger: 'blur' }
         ],
 //        isShowJoinSize: [
@@ -121,30 +125,26 @@ export default {
 //        isShowWinningRecord: [
 //          { required: true, message: '请选择是否显示获奖信息', trigger: 'change' }
 //        ],
-        bgImg: [
-          { required: true, message: '请上传背景图片', trigger: 'change' }
+        validity :[
+          { required: true, type:"date", message: '请填写有效期时间', trigger: 'change' }
         ],
-        titleImg: [
-          { required: true, message: '请上传标题图片', trigger: 'change' }
-        ],
-        shareImg: [
-          { required: true, message: '请上传分享图片', trigger: 'change' }
+        amount: [
+          { required: true, type:"number", message: '请输入抵扣金额', trigger: 'blur' },
         ],
         description: [
-          { required: true, message: '请输入活动说明', trigger: 'blur' }
+          { required: true, message: '请输入简介', trigger: 'blur' },
+          { max:200,message:'简介最大长度为200', trigger: 'blur' }
         ]
       },
     }
   },
   components :{
-    VTreeview,
     UE,
     VTipMsg
   },
   watch : {
     couponDetail (val, oldval) {
-      this.cloneTicketInfo();
-      this.requsetLocation();
+      this.cloneBaseInfo();
     }
   },
   created () {
@@ -155,58 +155,16 @@ export default {
     editSave (){
       this.$emit("editSaveCall");
     },
-      requsetLocation (){
-        Api.base_sys_location({})
-          .then(res => {
-            if (res.status == true) {
-              console.log(res);
-            }else {
-              this.$refs.tipMsgRef.showTipMsg({
-                msg:res.message,
-                type:"error"
-              });
-            }
-          }).catch(err => {
-
-        });
-      },
-    cloneTicketInfo() {
-      if(this.couponDetail && this.couponDetail.name){
-        this.baseItem = {
+    cloneBaseInfo() {
+      if(this.couponDetail){
+        this.baseSettingForm = {
           name:this.couponDetail.name, //活动名称
-          beginTime:new Date(this.couponDetail.beginTime), //活动开始时间
-          endTime:new Date(this.couponDetail.endTime), //活动结束时间
-          isShowJoinSize:this.couponDetail.isShowJoinSize || 1, //是否显示参与人数
-          addJoinSize:this.couponDetail.addJoinSize || 0, //添加参与人数
-          isShowWinningRecord:this.couponDetail.isShowWinningRecord || 1, //是否显示中奖记录
-          bgImg:this.couponDetail.bgImg,//背景图片地址,
-          titleImg:this.couponDetail.titleImg, //标题图片地址,
-          shareImg:this.couponDetail.shareImg,//分享图片地址
-          area:this.couponDetail.area,//活动地区JSON串
-          carStyle:this.couponDetail.carStyle,// 车系车型JSON串
-          description:this.couponDetail.description,//活动说明
+          validity:this.couponDetail.validity ? new Date(this.couponDetail.validity) : '', //抵扣券有效期
+          amount:this.couponDetail.description || '', //抵扣金额
+          description:this.couponDetail.description || '',//抵扣券简介
+          details:this.couponDetail.details || '', //抵扣券详情
         }
       }
-    },
-    /**
-     * 上传图片成功回调
-     * @param res
-     * @param file
-     */
-    handleAvatarSuccess(res, file) {
-      this.baseItem.bgImg = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
     },
     /**
      * 日期转1字符串
@@ -221,20 +179,26 @@ export default {
     },
     validBaseItem () {
       let validStatus=true;
-      this.$refs['baseItem'].validate((valid) => {
+      this.$refs['baseSettingForm'].validate((valid) => {
         if (!valid) {
           this.$refs.tipMsgRef.showTipMsg({
-            msg:"基础设置填写有误",
+            msg:"基础信息填写有误",
             type:"error"
           });
           validStatus=false;
           return false;
+        }else {
+            if(!this.validUEContent()){
+              validStatus=false;
+            }
         }
       });
       return validStatus;
     },
     getBaseItem(){
-        return this.baseItem;
+        let newBaseItem = Object.assign({},this.baseSettingForm);
+        newBaseItem.validity = this.formatDateToString(this.baseSettingForm.validity);
+        return newBaseItem;
     },
     /**
      *  下一步 基本信息设置
@@ -242,11 +206,23 @@ export default {
      */
     saveBaseItem(){
         if(this.validBaseItem()){
-              let newBaseItem = Object.assign({},this.baseItem);
-              newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
-              newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
-              this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
+//              let newBaseItem = Object.assign({},this.baseSettingForm);
+//              newBaseItem.validity = this.formatDateToString(this.baseSettingForm.validity);
+              this.$emit("call",{tag:"base",callData:this.getBaseItem()});
         }
+    },
+    validUEContent (){
+        let details=this.$refs.ueRef.getUEContent();
+       if(this.$refs.ueRef.getUEContent()){
+           this.baseSettingForm.details=details;
+           return true;
+       }else{
+         this.$refs.tipMsgRef.showTipMsg({
+           msg:"请填写抵扣券详情",
+           type:"error"
+         });
+           return false;
+       }
     },
     /**
      * 自定义验证规则
