@@ -395,7 +395,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.dataNumber;
+              this.totalRow = res.totalPage;
             }else {
 
             }

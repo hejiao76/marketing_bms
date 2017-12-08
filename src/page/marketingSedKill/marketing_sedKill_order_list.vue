@@ -257,7 +257,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.dataNumber;
+              this.totalRow = res.totalPage;
             }else {
 
             }
@@ -290,8 +290,8 @@
        */
 
       /// 查看详情
-      chekcOderDetail(id){
-        this.$refs.oderDetailDialog.showDialog(id);
+      chekcOderDetail(orderNum){
+        this.$refs.oderDetailDialog.showDialog(orderNum);
       },
       // 翻页
       handleCurrentChange(cpage){

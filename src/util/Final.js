@@ -5,6 +5,9 @@ const OBJ ={
   seckill_order:{
     0:"全部", 1:"待支付",2:"已支付",3:"已取消",4:"退款中",5:"已退款"
   },
+  seckill_ticket:{
+   1:"有效",2:"无效"
+  },
   PATH_MAPPING : ["startWorkDetail","companyDetail","personalDetail","personalDetailInfo","driverDetail","driverDetailInfo","truckDriverDetail","truckDriverDetailInfo","truckDetail","truckDetailInfo"],  //左侧菜单适配路由名称
   PATH_MAPPING_OBJ : {//左侧菜单适配路由映射地址
     "startWorkDetail" : {name :"startWorkDetail",defaultPathMap:"/startwork/startwork_1"},
