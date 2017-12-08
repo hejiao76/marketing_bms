@@ -56,7 +56,7 @@ export default {
    * @returns {*}
    */
   sk_activity_list(params) {
-    return fetch.fetch('seckill/getActivitylist', params);
+    return fetch.fetch('seckill/getActivitylist', params,'get');
   },
   /**
    * 秒杀活动新增

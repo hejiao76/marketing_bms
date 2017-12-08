@@ -69,45 +69,31 @@
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
       <el-table class="table_min_height mt10" :data="resData" ref="singleTable" >
-        <el-table-column prop="activityName" label="活动名称" align="center" min-width="90" ></el-table-column>
-        <el-table-column prop="activityStartDate" label="活动时间" align="center" min-width="80"></el-table-column>
-        <el-table-column prop="createDate" align="center" label="创建时间" sortable min-width="100"></el-table-column>
-        <el-table-column prop="activity_getNum" align="center" label="领取数量"></el-table-column>
-        <el-table-column prop="activity_pv" align="center" label="活动pv"></el-table-column>
-        <el-table-column prop="activity_url" align="center" min-width="140" label="活动链接"></el-table-column>
+        <el-table-column prop="name" label="活动名称" align="center" min-width="90" ></el-table-column>
+        <el-table-column  label="活动时间" align="center" min-width="80"> <template scope="scope">{{scope.row.beginTime}}至{{scope.row.endTime}}</template></el-table-column>
+        <el-table-column  align="center" label="创建时间" sortable min-width="100"><template scope="scope">{{scope.row.createTime}}</template></el-table-column>
+        <el-table-column prop="enrollCount" align="center" label="领取数量"></el-table-column>
+        <el-table-column prop="pvCount" align="center" label="活动pv"></el-table-column>
+        <el-table-column prop="shareUrl" align="center" min-width="140" label="活动链接"></el-table-column>
         <el-table-column label="操作" align="center" width="140">
           <template scope="scope">
             <div v-if="activityType==0">
-              <el-button @click="addActivity" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="upActivity" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
-              <el-button @click="downActivity" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
+              <el-button @click="addActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
+              <el-button @click="upActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
+              <el-button @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
             </div>
             <div v-if="activityType==1">
-              <el-button @click="addActivity" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="downActivity" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
+              <el-button @click="addActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
+              <el-button @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
             </div>
             <div v-if="activityType==2">
-              <el-button @click="addActivity" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="upActivity" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
-              <el-button @click="deleteActivity" type="text" style="padding-top:0px;padding-bottom:0px;">删除</el-button>
+              <el-button @click="addActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
+              <el-button @click="upActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
+              <el-button @click="deleteActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">删除</el-button>
             </div>
             <div v-if="activityType==3">
               <el-button @click="showPrizeUser" type="text" style="padding-top:0px;padding-bottom:0px;">中奖用户</el-button>
             </div>
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[1].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">审核</el-button>-->
-            <!--</div>-->
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[2].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">查看</el-button>-->
-              <!--<el-button size="small" @click="revokeAudit(scope.row.id)">撤销</el-button>-->
-            <!--</div>-->
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[3].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">查看</el-button>-->
-              <!--<el-button size="small" @click="revokeAudit(scope.row.id)">撤销</el-button>-->
-            <!--</div>-->
-            <!--<div v-if="Final.CHECK_TYPE_MAPPING[4].includes(scope.row.status)">-->
-              <!--<el-button size="small" @click="toDetail(scope.row.id)">查看</el-button>-->
-            <!--</div>-->
           </template>
         </el-table-column>
       </el-table>
@@ -247,10 +233,12 @@
           activityStartDate:'',//活动开始时间
           activityEndDate:'', //活动结束时间
           createStartDate:'',//活动创建开始时间
-          createEndDate:''//活动创建结束时间
+          createEndDate:'',//活动创建结束时间
+          activeStatus:0,//活动状态
+          shareUrl:'',//活动区域
         },
         activityType : 0,
-        resData : [],
+        resData : [{id:1},{id:2},{id:3}],
         currentPage: 1,
         totalRow: 0,
         pageRecorders: 10,
@@ -263,11 +251,8 @@
       VConNav,
       VTipMsg
     },
-    created (){
-      this.requestData();
-    },
     mounted () {
-      //      this.requestData();
+      this.requestData();
     },
     watch: {
       "$route": function (to, from) {
@@ -276,11 +261,31 @@
     },
     methods: {
       /**
+       * 上架，下架，删除公用方法
+       * @returns {}
+       */
+      publicFun(dataId,statusId){
+        Api.sk_activity_list({id:dataId,status:statusId}).then(res => {
+          if (res.status) {
+            this.currentPage = 1;
+            this.requestData();
+          }else {
+
+          }
+        }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
+      /**
        * 新建活动点击
        * @returns {}
        */
-      addActivity () {
-        this.$router.push("/sedkill/edit/1")
+      addActivity (id) {
+        this.$router.push("/sedkill/edit/"+id)
        // this.$refs.tipMsgRef.showTipMsg({
         //  msg:"还在开发! 急什么! 急什么!",
         //  type:"error"
@@ -290,21 +295,15 @@
        * 已上架
        * @returns {}
        */
-      upActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+      upActivity (id) {
+        this.publicFun(id,1)
       },
       /**
        * 已下架
        * @returns {}
        */
-      downActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+      downActivity (id) {
+        this.publicFun(id,2)
       },
       /**
        * 显示中奖纪录
@@ -330,11 +329,8 @@
        * 新建活动点击
        * @returns {}
        */
-      deleteActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+      deleteActivity (id) {
+        this.publicFun(id,4)
       },
 
       /**
@@ -343,6 +339,9 @@
        */
       changeActivityType (tab, event){
         this.activityType = tab.name;
+        this.currentPage = 1;
+        this.requestData();
+
       },
       /**
        * 翻页控件触发事件
@@ -352,33 +351,34 @@
         this.currentPage = cpage;
         this.requestData();
       },
-      toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
-      },
       /**
        * 获取过滤器参数
        * @returns {{token: (string|null)}}
        */
       getFilterParam () {
-        var param = {token: localStorage.getItem("token"), type: this.checkStatus}
+        var param = {}
         if (this.filterForm.activityName) {
-          param.activityName = this.filterForm.activityName
+          param.name = this.filterForm.activityName
         }
         if (this.filterForm.activityArea) {
-          param.activityArea = this.filterForm.activityArea
+          param.shareUrl = this.filterForm.activityArea
         }
         if (this.filterForm.activityStartDate) {
-          param.activityStartDate = Util.toDateString(this.filterForm.activityStartDate.getTime());
+          param.beginTime = Util.toDateString(this.filterForm.activityStartDate.getTime());
         }
         if (this.filterForm.activityEndDate) {
-          param.activityEndDate = Util.toDateString(this.filterForm.activityEndDate.getTime());
+          param.endTime = Util.toDateString(this.filterForm.activityEndDate.getTime());
         }
         if (this.filterForm.createStartDate) {
-          param.createStartDate = Util.toDateString(this.filterForm.createStartDate.getTime());
+          param.createBeginTime   = Util.toDateString(this.filterForm.createStartDate.getTime());
         }
         if (this.filterForm.createEndDate) {
-          param.createEndDate = Util.toDateString(this.filterForm.createEndDate.getTime());
+          param.createEndTime    = Util.toDateString(this.filterForm.createEndDate.getTime());
         }
+        param.status = this.activityType;
+        param.pageIndex = this.currentPage;
+        param.pageSize = this.pageRecorders;
+
         console.log("查询提交参数:",param);
         return param;
       },
@@ -391,23 +391,20 @@
        */
       requestData (data) {
         var p = this.getFilterParam();
-        let param = {jsonData: JSON.stringify(p), pageNum: this.currentPage, pageRecorders: this.pageRecorders};
-        this.resData=TestData.sedKill_list_data;
-        this.totalRow = 300;
-        return;
-        Api.sk_activity_list(param)
+        Api.sk_activity_list(p)
           .then(res => {
-            if (res.status == 1) {
+            if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalRow;
+              this.totalRow = res.dataNumber;
             }else {
-              this.$refs.tipMsgRef.showTipMsg({
-                msg:res.message,
-                type:"error"
-              });
+
             }
           }).catch(err => {
-
+              this.$message({
+                showClose: true,
+                message: '数据请求失败！',
+                type: 'error'
+              });
         });
       },
       /**
@@ -444,94 +441,5 @@
 </style>
 
 <style scoped="scope">
-  /*.mask {*/
-    /*position: fixed;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*top: 0;*/
-    /*bottom: 0;*/
-    /*display: none;*/
-    /*z-index: 9000;*/
-    /*background-color: rgba(0,0,0,.6)*/
-  /*}*/
-  /*.prize-pop {*/
-    /*display: none;*/
-    /*position: fixed;*/
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*z-index: 13000;*/
-    /*margin-top: -320px;*/
-    /*margin-left: -490px;*/
-    /*width: 980px;*/
-    /*height: 640px;*/
-    /*background: url(./../../assets/images/zjyh_bg.png) no-repeat*/
-  /*}*/
-  /*.prize-pop .pop-close {*/
-    /*top: 130px;*/
-    /*right: 95px;*/
-    /*width: 23px;*/
-    /*height: 24px;*/
-    /*cursor: pointer*/
-  /*}*/
-  /*.prize-pop .prize-tit {*/
-    /*width: 100%;*/
-    /*height: auto;*/
-    /*margin-top: 130px;*/
-    /*font-size: 36px;*/
-    /*color: #e63834;*/
-    /*font-weight: 600;*/
-    /*line-height: 40px;*/
-    /*text-align: center*/
-  /*}*/
-  /*.prize-pop .pricontent {*/
-    /*width: 100%;*/
-    /*margin: 10px 0 0 30px;*/
-    /*height: 310px;*/
-    /*overflow-x: hidden;*/
-    /*overflow-y: auto*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt {*/
-    /*width: 400px;*/
-    /*border: 1px solid #f5efd7;*/
-    /*background: #fffcee;*/
-    /*margin: 0 20px 20px 0*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt.fl {*/
-    /*float: left;*/
-    /*display: inline-block*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt.fr {*/
-    /*float: right;*/
-    /*display: inline-block*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body {*/
-    /*padding: 20px 20px 0*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul {*/
-    /*width: 100%;*/
-    /*overflow: hidden*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul.namepeople {*/
-    /*border-bottom: 1px solid #f5efd7*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul.prizetxt {*/
-    /*margin-top: 20px*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li {*/
-    /*font-size: 14px;*/
-    /*color: #ba8305;*/
-    /*margin-bottom: 10px*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p {*/
-    /*width: 100%;*/
-    /*overflow: hidden*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p em {*/
-    /*width: 100px;*/
-    /*float: left*/
-  /*}*/
-  /*.prize-pop .pricontent .pricontent-txt .pricontent-body ul li p span {*/
-    /*float: right;*/
-    /*margin-left: 10px*/
-  /*}*/
+
 </style>
