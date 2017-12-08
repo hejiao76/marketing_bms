@@ -238,7 +238,7 @@
           shareUrl:'',//活动区域
         },
         activityType : 0,
-        resData : [{id:1},{id:2},{id:3}],
+        resData : [],
         currentPage: 1,
         totalRow: 0,
         pageRecorders: 10,

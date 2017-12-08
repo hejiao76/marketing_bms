@@ -6,8 +6,8 @@
       </div>
       <div class="verify-txt">
         <ul>
-          <li style="color: red">用户姓名：{{activeName}}</li>
-          <li>用户手机号：18614086655</li>
+          <li>用户姓名：{{result.userName}}</li>
+          <li>用户手机号：{{result.userPhone}}</li>
         </ul>
       </div>
       <div class="verify margin-top-20">
@@ -15,20 +15,15 @@
       </div>
       <div class="verify-txt">
         <ul>
-          <li>订单编号：M000000000001</li>
-          <li >活动名称：</li>
-          <li>订单创建时间：2017-11-11 15:00:00</li>
-          <li>订单状态：已支付</li>
-          <li>活动支付金额：1.11元</li>
-          <li>核销码：HGH156485</li>
-          <li>支付完成时间：2018-05-18 14:00</li>
-          <li>取消时间：2018-05-18 15:00</li>
-          <li>退款完成时间：2018-05-18 16:00</li>
-          <li>核销码：HGH156485</li>
-          <li>支付完成时间：2018-05-18 14:00</li>
-          <li>取消时间：2018-05-18 15:00</li>
-          <li>退款完成时间：2018-05-18 16:00</li>
-
+          <li>订单编号：{{result.orderNum}}</li>
+          <li >活动名称：{{result.itemName}}</li>
+          <li>订单创建时间：{{result.createTime}}</li>
+          <li>订单状态：{{Final.seckill_order[result.status]}}</li>
+          <li>活动支付金额：{{result.amount}}</li>
+          <li>核销码：{{result.verifyCode}}</li>
+          <li>支付完成时间：{{result.payTime}}</li>
+          <li>取消时间：{{result.cancelTime}}</li>
+          <li>退款完成时间：{{result.refundTime}}</li>
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -46,20 +41,40 @@ export default {
   data () {
     return {
       dialogTableVisible : false,
-      activeName : '',
+      result:'',
+      Final: Final,
     }
   },
   created () {
+
+  },
+  components: {
 
   },
   methods:{
     handleClose(){
       this.dialogTableVisible = false
     },
-    showDialog (name) {
+    showDialog (id) {
       this.dialogTableVisible=true;
-      this.activeName = name
+      Api.sk_activity_order_list({orderNum:id})
+        .then(res => {
+          if (res.status) {
+            this.result = res.result;
+            this.dialogTableVisible=true;
+          }else {
+
+          }
+        }).catch(err => {
+        this.$message({
+          showClose: true,
+          message: '数据请求失败！',
+          type: 'error'
+        });
+      });
+
     },
+
   }
 }
 </script>

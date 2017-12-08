@@ -18,8 +18,8 @@
 
         <el-row>
           <el-col :span="11">
-            <el-form-item label="活动名称:" prop="activityName">
-              <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
+            <el-form-item label="客户姓名:" prop="activityName">
+              <el-input   v-model="filterForm.userName" placeholder="请输入客户姓名" ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="11">
@@ -57,15 +57,16 @@
     </div>
     <!--------------搜索结果------------>
     <div>
-      <el-tabs type="card"  v-model="activeName" @tab-click="changeActivityType">
-        <el-tab-pane label="全部订单" name="first"></el-tab-pane>
-        <el-tab-pane label="待支付" name="second"></el-tab-pane>
-        <el-tab-pane label="已取消" name="third"></el-tab-pane>
-        <el-tab-pane label="退款中" name="fourth"></el-tab-pane>
-        <el-tab-pane label="退款完成" name="five"></el-tab-pane>
+      <el-tabs type="card"  v-model="activityType" @tab-click="changeActivityType">
+        <el-tab-pane label="全部订单" name="0"></el-tab-pane>
+        <el-tab-pane label="待支付" name="1"></el-tab-pane>
+        <el-tab-pane label="支付完成" name="2"></el-tab-pane>
+        <el-tab-pane label="已取消" name="3"></el-tab-pane>
+        <el-tab-pane label="退款中" name="4"></el-tab-pane>
+        <el-tab-pane label="退款完成" name="5"></el-tab-pane>
       </el-tabs>
       <el-table
-        :data="orderList.allorder"
+        :data="resData"
         style="width: 100%"
         :default-sort = "{prop: 'date', order: 'descending'}"
       >
@@ -76,14 +77,14 @@
         >
         </el-table-column>
         <el-table-column
-          prop="orderName"
+          prop="itemName"
           label="活动名称"
           >
         </el-table-column>
         <el-table-column
-          prop="sedkillStatus"
           label="订单状态"
         >
+          <template slot-scope="scope">{{Final.seckill_order[scope.row.status]}}</template>
         </el-table-column>
         <el-table-column
           prop="createTime"
@@ -98,12 +99,12 @@
           >
         </el-table-column>
         <el-table-column
-          prop="phoneNum"
+          prop="userPhone"
           label="客户手机"
         >
         </el-table-column>
         <el-table-column
-          prop="sedkillMoney"
+          prop="amount"
           label="秒杀支付金额"
           width="120"
         >
@@ -113,7 +114,7 @@
           width="100"
         >
           <template slot-scope="scope">
-            <el-button type="text" @click="chekcOderDetail(scope.row.orderName)" >订单详情</el-button>
+            <el-button type="text" @click="chekcOderDetail(scope.row.orderNum)" >订单详情</el-button>
           </template>
         </el-table-column>
 
@@ -166,20 +167,18 @@
         },
         filterForm: {
           activityName:'',//活动名称
-          activityArea:'',//活动区域
           createStartDate:'',//活动创建开始时间
           createEndDate:'',//活动创建结束时间
           orderNum:'',//订单编号
           userName:'',//客户姓名
           phoneNum:''//客户手机
         },
-        activityType : 0,
-        resData : [],
-        pageRecorders: 10,
+        resData : [{status:0},{status:1},{status:2},{status:3},{status:4},{status:5}],
+        pageRecorders: 1,
         Final: Final,
-        activeName:'first',
         currentPage: 1,
-        totalRow: 20,
+        totalRow: 10,
+        activityType:0,
       }
     },
     components: {
@@ -211,6 +210,8 @@
        */
       changeActivityType (tab, event){
         this.activityType = tab.name;
+        this.currentPage = 1;
+        this.requestData();
       },
 
       /**
@@ -218,12 +219,18 @@
        * @returns {{token: (string|null)}}
        */
       getFilterParam () {
-        var param = {token: localStorage.getItem("token"), type: this.checkStatus}
+        var param = {}
         if (this.filterForm.activityName) {
           param.activityName = this.filterForm.activityName
         }
-        if (this.filterForm.activityArea) {
-          param.activityArea = this.filterForm.activityArea
+        if (this.filterForm.orderNum) {
+          param.orderNum = this.filterForm.orderNum
+        }
+        if (this.filterForm.userName) {
+          param.userName = this.filterForm.userName
+        }
+        if (this.filterForm.phoneNum) {
+          param.phoneNum = this.filterForm.phoneNum
         }
         if (this.filterForm.createStartDate) {
           param.createStartDate = Util.toDateString(this.filterForm.createStartDate.getTime());
@@ -231,6 +238,9 @@
         if (this.filterForm.createEndDate) {
           param.createEndDate = Util.toDateString(this.filterForm.createEndDate.getTime());
         }
+        param.status = this.activityType;
+        param.pageIndex = this.currentPage;
+        param.pageSize = this.pageRecorders;
         console.log("查询提交参数:",param);
         return param;
       },
@@ -243,23 +253,20 @@
        */
       requestData (data) {
         var p = this.getFilterParam();
-        let param = {jsonData: JSON.stringify(p), pageNum: this.currentPage, pageRecorders: this.pageRecorders};
-        this.resData=TestData.sedKill_list_data;
-        this.totalRow = 300;
-        return;
-        Api.sk_activity_list(param)
+        Api.sk_activity_order_list(p)
           .then(res => {
-            if (res.status == 1) {
+            if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalRow;
+              this.totalRow = res.dataNumber;
             }else {
-              this.$refs.tipMsgRef.showTipMsg({
-                msg:res.message,
-                type:"error"
-              });
+
             }
           }).catch(err => {
-
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
         });
       },
       /**
@@ -283,13 +290,13 @@
        */
 
       /// 查看详情
-      chekcOderDetail(name){
-        console.log('thisName',name);
-        this.$refs.oderDetailDialog.showDialog(name);
+      chekcOderDetail(id){
+        this.$refs.oderDetailDialog.showDialog(id);
       },
       // 翻页
-      handleCurrentChange(){
-
+      handleCurrentChange(cpage){
+        this.currentPage = cpage;
+        this.requestData();
       }
 
     }
