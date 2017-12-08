@@ -20,7 +20,10 @@
               <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期" style="width: 100%;"></el-date-picker>
             </el-col>
             <el-col :span="13" style="text-align: right">
-              <el-button type="primary" size="small" @click="addTicket" class="fr mr20 " style="margin:0">查询</el-button>
+              <el-form-item class="fr">
+                <el-button type="primary" @click="searchFn">查 询</el-button>
+                <el-button @click="resetForm('filterForm')">重 置</el-button>
+              </el-form-item>
             </el-col>
           </el-form-item>
         </el-row>
@@ -37,21 +40,21 @@
           </el-tabs>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" size="small" @click="addTicket" class="fr mr20 ">新建秒杀券</el-button>
+          <el-button type="primary" size="small" @click="addTicket()" class="fr mr20 ">新建秒杀券</el-button>
         </el-col>
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
-      <el-table class="table_min_height mt10" :data="STicketList" ref="singleTable" >
-        <el-table-column prop="ticketName" label="秒杀券名称" align="center"></el-table-column>
-        <el-table-column prop="isvalid" label="秒杀券状态" align="center"></el-table-column>
-        <el-table-column prop="activityEndDate" align="center" label="秒杀券有效期" sortable></el-table-column>
-        <el-table-column prop="applyCar" align="center" label="秒杀券适用车系" ></el-table-column>
-        <el-table-column prop="sedkillMoney" align="center" sortable label="单个秒杀券金额"></el-table-column>
+      <el-table class="table_min_height mt10" :data="resData" ref="singleTable" >
+        <el-table-column prop="name" label="秒杀券名称" align="center"></el-table-column>
+        <el-table-column label="秒杀券状态" align="center"> <template slot-scope="scope">{{Final.seckill_ticket[scope.row.status]}}</template></el-table-column>
+        <el-table-column align="center" label="秒杀券有效期" sortable><template scope="scope">{{scope.row.beginTime}}至{{scope.row.endTime}}</template></el-table-column>
+        <el-table-column prop="carTypeCode" align="center" label="秒杀券适用车系" ></el-table-column>
+        <el-table-column prop="amount" align="center" sortable label="单个秒杀券金额"></el-table-column>
         <el-table-column label="操作" align="center">
           <template scope="scope">
-            <el-button type="text" @click="updateTicket()">编辑</el-button>
-            <el-button type="text" @click="invalidTicket()">无效</el-button>
-            <el-button type="text" @click="copyTicket()">复制</el-button>
+            <el-button type="text" @click="updateTicket(scope.row.id)">编辑</el-button>
+            <el-button v-if="scope.row.id==1" type="text" @click="invalidTicket(scope.row.id)">无效</el-button>
+            <el-button type="text" @click="copyTicket(scope.row.id)">复制</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -77,8 +80,6 @@
     data() {
       return {
         labelPosition:'left',
-        STicketList:TestData.sedKill_ticket_list_data,
-        activeName:'first',
         optionsActivityStart :{
           disabledDate:(time) => {
             if(this.filterForm.activityEndDate){
@@ -130,15 +131,15 @@
        * 复制券
        * @returns {}
        */
-      copyTicket () {
-        this.$router.push("/sedkill/ticket_edit/1")
+      copyTicket (id) {
+        this.$router.push("/sedkill/ticket_edit/"+id)
       },
       /**
        * 修改券
        * @returns {}
        */
-      updateTicket () {
-        this.$router.push("/sedkill/ticket_edit/1")
+      updateTicket (id) {
+        this.$router.push("/sedkill/ticket_edit/"+id)
       },
       /**
        * 新建券
@@ -151,15 +152,26 @@
        * invalid无效券
        * @returns {}
        */
-      invalidTicket () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
+      invalidTicket (id) {
+        Api.sk_activity_ticket_update_status({id:id,status:2})
+          .then(res => {
+            if (res.status) {
+              this.requestData();
+            }else {
+
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
         });
       },
 
       changeActivityType (tab, event){
         this.activityType = tab.name;
+        this.requestData();
       },
       /**
        * 翻页控件触发事件
@@ -174,9 +186,9 @@
        * @returns {{token: (string|null)}}
        */
       getFilterParam () {
-        var param = {token: localStorage.getItem("token"), type: this.checkStatus}
+        var param = {}
         if (this.filterForm.ticketName) {
-          param.activityName = this.filterForm.activityName
+          param.ticketName = this.filterForm.ticketName
         }
         if (this.filterForm.activityStartDate) {
           param.activityStartDate = Util.toDateString(this.filterForm.activityStartDate.getTime());
@@ -184,7 +196,9 @@
         if (this.filterForm.activityEndDate) {
           param.activityEndDate = Util.toDateString(this.filterForm.activityEndDate.getTime());
         }
-        console.log("查询提交参数:",param);
+        param.status = this.activityType;
+        param.pageIndex = this.currentPage;
+        param.pageSize = this.pageRecorders;
         return param;
       },
       searchFn () {
@@ -196,34 +210,30 @@
        */
       requestData (data) {
         var p = this.getFilterParam();
-        let param = {jsonData: JSON.stringify(p), pageNum: this.currentPage, pageRecorders: this.pageRecorders};
-        this.resData=TestData.sedKill_ticket_list_data;
-        this.totalRow = 300;
-        return;
-        Api.sk_activity_list(param)
+        Api.sk_activity_ticket_list(p)
           .then(res => {
-            if (res.status == 1) {
+            if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalRow;
+              this.totalRow = res.totalPage;
             }else {
-              this.$refs.tipMsgRef.showTipMsg({
-                msg:res.message,
-                type:"error"
-              });
+
             }
           }).catch(err => {
-
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
         });
       },
       /**
        * 重置表单
        */
       resetForm() {
-        //this.$refs['filterForm'].resetFields();
         this.filterForm={
-          ticketName:'',//秒杀券名称
-            activityStartDate:'',//活动开始时间
-            activityEndDate:'', //活动结束时间
+             ticketName:'',//秒杀券名称
+             activityStartDate:'',//活动开始时间
+             activityEndDate:'', //活动结束时间
         }
         this.searchFn();
       }
