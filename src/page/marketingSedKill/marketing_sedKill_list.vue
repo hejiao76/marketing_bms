@@ -4,17 +4,40 @@
     <div class="filter_div mb20">
       <el-form :model="filterForm"  ref="filterForm" label-width="80px" size="small">
         <el-row>
-          <el-col :span="14">
+          <el-col :span="12">
           <el-form-item label="活动名称:" prop="activityName">
             <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称"></el-input>
           </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="活动区域:" class="ml10" prop="activityArea" label-width="80px">
-              <el-select v-model="filterForm.activityArea" placeholder="请选择">
-                <!--<el-option v-for="item in companyContents" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+          <el-col :span="12">
+            <el-row :gutter="20">
+              <el-form-item label="活动区域:" class="ml10" prop="activityArea" label-width="80px">
+              <el-col :span="12">
+              <template>
+              <el-select v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
+              <el-option
+              v-for="item in cityArr"
+              :key="item.provinceId"
+              :label="item.provinceName"
+              :value="item.provinceId">
+              </el-option>
               </el-select>
-            </el-form-item>
+              </template>
+              </el-col>
+              <el-col :span="12">
+              <template>
+              <el-select v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
+              <el-option
+              v-for="item in cityVmList"
+              :key="item.cityId"
+              :label="item.cityName"
+              :value="item.cityId">
+              </el-option>
+              </el-select>
+              </template>
+              </el-col>
+              </el-form-item>
+            </el-row>
           </el-col>
         </el-row>
         <div style="width:550px;">
@@ -235,7 +258,14 @@
           createStartDate:'',//活动创建开始时间
           createEndDate:'',//活动创建结束时间
           activeStatus:0,//活动状态
-          shareUrl:'',//活动区域
+          provinceObj:{
+            provinceName:'',
+            provinceId:'',
+            cityId:'',
+            cityName:'',
+
+
+          }
         },
         activityType : 0,
         resData : [],
@@ -243,6 +273,8 @@
         totalRow: 0,
         pageRecorders: 10,
         Final: Final,
+        cityArr:[],
+        cityVmList:[],
       }
     },
     components: {
@@ -253,6 +285,7 @@
     },
     mounted () {
       this.requestData();
+      this.getCity();
     },
     watch: {
       "$route": function (to, from) {
@@ -260,6 +293,50 @@
       }
     },
     methods: {
+      /**
+       * 获取省市
+       * @returns {}
+       */
+      getCity(){
+        Api.base_sys_location({})
+          .then(res => {
+            if (res.status) {
+              this.cityArr = res.result;
+            }else {
+
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
+      /**
+       * 省市联动
+       * @returns {}
+       */
+      checkProvince(provinceId){
+        for(var i = 0 ; i < this.cityArr.length; i++){
+          if(this.cityArr[i].provinceId == provinceId){
+            this.filterForm.provinceObj.provinceId = provinceId;
+            this.filterForm.provinceObj.provinceName = this.cityArr[i].provinceName;
+            this.cityVmList = this.cityArr[i].cityVmList;
+            break;
+          }
+        }
+
+      },
+      checkCity(cityId){
+        for(var i = 0 ; i < this.cityVmList.length; i++){
+          if(this.cityVmList[i].cityId == cityId){
+            this.filterForm.provinceObj.cityId = cityId;
+            this.filterForm.provinceObj.cityName = this.cityVmList[i].cityName;
+            break;
+          }
+        }
+      },
       /**
        * 上架，下架，删除公用方法
        * @returns {}

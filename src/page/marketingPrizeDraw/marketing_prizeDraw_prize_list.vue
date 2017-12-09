@@ -322,16 +322,16 @@
       getFilterParam () {
         var param = {}
         if (this.filterForm.activityName) {
-          param.activityName = this.filterForm.activityName
+          param.name = this.filterForm.activityName
         }
         if (this.filterForm.activityArea) {
           param.activityArea = this.filterForm.activityArea
         }
         if (this.filterForm.activityStartDate) {
-          param.activityStartDate = Util.toDateString(this.filterForm.activityStartDate.getTime());
+          param.beginTime = Util.toDateString(this.filterForm.activityStartDate.getTime());
         }
         if (this.filterForm.activityEndDate) {
-          param.activityEndDate = Util.toDateString(this.filterForm.activityEndDate.getTime());
+          param.endTime = Util.toDateString(this.filterForm.activityEndDate.getTime());
         }
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
