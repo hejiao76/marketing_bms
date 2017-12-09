@@ -33,7 +33,7 @@
           <el-row>
             <el-col :span="12">
               <!--<el-form-item label="活动地区:">-->
-                <!--<V-Treeview @call="addSedKillCallBack"></V-Treeview>-->
+              <!--<V-Treeview @call="addSedKillCallBack"></V-Treeview>-->
               <!--</el-form-item>-->
               <el-form-item label="创建日期:">
                 <el-col :span="11">
@@ -48,6 +48,39 @@
                   </el-form-item>
                 </el-col>
               </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+
+            <el-col :span="12">
+              <el-row :gutter="20">
+                <el-form-item label="活动区域:" class="ml10" prop="activityArea" label-width="80px">
+                  <el-col :span="12">
+                    <template>
+                      <el-select v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
+                        <el-option
+                          v-for="item in cityArr"
+                          :key="item.provinceId"
+                          :label="item.provinceName"
+                          :value="item.provinceId">
+                        </el-option>
+                      </el-select>
+                    </template>
+                  </el-col>
+                  <el-col :span="12">
+                    <template>
+                      <el-select v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
+                        <el-option
+                          v-for="item in cityVmList"
+                          :key="item.cityId"
+                          :label="item.cityName"
+                          :value="item.cityId">
+                        </el-option>
+                      </el-select>
+                    </template>
+                  </el-col>
+                </el-form-item>
+              </el-row>
             </el-col>
             <el-col :span="12">
               <el-form-item class="fr">
@@ -70,7 +103,7 @@
           </el-tabs>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建抵扣券活动</el-button>
+          <el-button type="primary" size="small" @click="addActivity()" class="fr mr20 ">新建抵扣券活动</el-button>
         </el-col>
       </el-row>
       <div style="margin-bottom:15px;"><span class="totalTip">共找到以下10条数据</span>
@@ -87,93 +120,95 @@
       </div>
       <!--------------列表------------>
       <el-table
-        :data="tableData"
+        :data="resData"
         style="width: 100%"
-        :default-sort = "{prop: 'date', order: 'descending'}"
+        @sort-change="sortTable"
         v-if="!isCar"
       >
         <el-table-column
-          prop="activityName"
+          prop="name"
           label="活动名称"
-          sortable width="150">
+           width="150">
         </el-table-column>
         <el-table-column
-          prop="startDate"
+          prop="beginTime"
           label="活动开始日期"
-          sortable width="150">
+          sortable="custom"
+           width="150">
         </el-table-column>
         <el-table-column
-          prop="endDate"
+          prop="endTime"
           label="活动结束日期"
+          sortable="custom"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="buyNum"
+          prop="couponGet"
           label="领取数量"
-          sortable width="80">
+          sortable="custom" width="80">
         </el-table-column>
         <el-table-column
-          prop="activity_pv"
+          prop="pvCount"
           label="活动pv"
-          sortable width="100">
+          sortable="custom" width="100">
         </el-table-column>
         <el-table-column
-          prop="activityStatus"
+          prop="isOnline"
           label="状态"
-          sortable width="100">
+           width="100">
         </el-table-column>
         <el-table-column
-          prop="createDate"
+          prop="createTime"
           label="创建日期"
-          sortable width="120">
+          sortable="custom" width="120">
         </el-table-column>
         <el-table-column label="操作" >
             <template slot-scope="scope">
-              <el-button type="text" @click="openDetail()">查看</el-button>
-              <el-button type="text" @click="updatePrize()">编辑</el-button>
-              <el-button type="text" @click="activeCouEnd()">结束活动</el-button>
-              <el-button type="text" @click="couponLink()">活动链接</el-button>
+              <el-button type="text" @click="openDetail(scope.row.id)">查看</el-button>
+              <el-button type="text" @click="updatePrize(scope.row.id)">编辑</el-button>
+              <el-button type="text" @click="activeCouEnd(scope.row.id)">结束活动</el-button>
+              <el-button type="text" @click="couponLink(scope.row.shareUrl)">活动链接</el-button>
             </template>
         </el-table-column>
       </el-table >
       <!--------------卡片------------>
       <div v-if="isCar">
         <el-row :gutter="20" >
-          <el-col :xs="11" :sm="6" v-for="item in tableData" style="margin-bottom:20px;">
+          <el-col :xs="11" :sm="6" v-for="item in resData" style="margin-bottom:20px;">
             <div class="active-box">
               <div class="active-header">
-                <p class="ah-title">{{item.activityName}}</p>
+                <p class="ah-title">{{item.name}}</p>
                 <div class="ah-time">
                   <div class="ah-time-left">
                     活动日期：
                   </div>
                   <div class="ah-time-right">
-                    <span>{{item.startDate}}</span>至<br />
-                    <span>{{item.endDate}}</span>
+                    <span>{{item.beginTime}}</span>至<br />
+                    <span>{{item.endTime}}</span>
                   </div>
                 </div>
               </div>
               <div class="active-content">
-                <p>活动PV:{{item.activity_pv}}</p>
-                <p class="ah-title">已发放/剩余总数量：<span>{{item.buyNum}}/{{item.allBuyNum}}</span></p>
-                <p class="ah-title">剩余数量：<span>{{item.allBuyNum}}</span></p>
-                <p class="ah-title">创建日期：<span>{{item.createDate}}</span></p>
-                <p class="ah-notes">（此活动包含3个抵扣券）</p>
-                <a  class="more-txt">查看详情&gt;</a>
+                <p>活动PV:{{item.pvCount}}</p>
+                <p class="ah-title">已发放/总数量：<span>{{item.couponGet}}/{{item.couponTotal}}</span></p>
+                <p class="ah-title">剩余数量：<span>{{item.couponTotal-item.couponGet}}</span></p>
+                <p class="ah-title">创建日期：<span>{{item.createTime}}</span></p>
+                <p class="ah-notes">（此活动包含{{item.couponCount}}个抵扣券）</p>
+                <a  class="more-txt" @click="openDetail(item.id)">查看详情&gt;</a>
               </div>
               <div class="active-footer">
                 <table>
                   <tr>
-                    <td><a href="javascript:void(0)" @click="updatePrize()">编辑</a></td>
-                    <td><a href="javascript:void(0)"  @click="couponLink()"> 活动链接</a></td>
-                    <td><a href="javascript:void(0)" @click="deletePrize()">删除</a></td>
+                    <td><a href="javascript:void(0)" @click="updatePrize(item.id)">编辑</a></td>
+                    <td><a href="javascript:void(0)"  @click="couponLink(item.shareUrl)"> 活动链接</a></td>
+                    <td><a href="javascript:void(0)" @click="deletePrize(item.id)">删除</a></td>
                   </tr>
                 </table>
               </div>
               <div class="active-img">
-                <img v-if="item.isStart==3" src="../../assets/images/end1.png"/>
-                <img v-if="item.isStart==1" src="../../assets/images/start1.png"/>
-                <img v-if="item.isStart==2" src="../../assets/images/nostart1.png"/>
+                <img v-if="item.status==3" src="../../assets/images/end1.png"/>
+                <img v-if="item.status==2" src="../../assets/images/start1.png"/>
+                <img v-if="item.status==1" src="../../assets/images/nostart1.png"/>
               </div>
             </div>
           </el-col>
@@ -181,7 +216,7 @@
       </div>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
-                     :current-page="currentPage" :page-size="2" layout="total, prev, pager, next, jumper"
+                     :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
@@ -211,7 +246,6 @@
   export default {
     data() {
       return {
-        tableData:TestData.prize_list,
         isCar:false,//滑块
         optionsActivityStart :{
           disabledDate:(time) => {
@@ -246,20 +280,30 @@
           }
         },
         filterForm: {
-          activityName:'',//活动名称
-          activityArea:'',//活动区域
-          activityStartDate:'',//活动开始时间
-          activityEndDate:'', //活动结束时间
-          createStartDate:'',//活动创建开始时间
-          createEndDate:''//活动创建结束时间
+          name:"",
+          beginTime:"",
+          endTime:"",
+          createTime:"",
+          createTime2:"",
+          provinceObj:{
+            provinceName:'',
+            provinceId:'',
+            cityId:'',
+            cityName:'',
+          }
+
         },
         labelPosition:'left',
         activityType : 0,
         resData : [],
         currentPage: 1,
-        totalRow: 20,
+        totalRow: 0,
         pageRecorders: 10,
         Final: Final,
+        cityArr:[],
+        cityVmList:[],
+        sortStatus:1,// 排序方式 1：正序 2：倒序
+        sortType:1,// 排序字段 1：活动开始日期 2：活动结束日期 3：领取数量 4：活动PV 5：创建日期
       }
     },
     components: {
@@ -272,10 +316,10 @@
       VTreeview,
       VCouponLink
     },
-    created (){
-    },
+
     mounted () {
-      //      this.requestData();
+      this.requestData();
+      this.getCity();
     },
     watch: {
       "$route": function (to, from) {
@@ -283,6 +327,70 @@
       }
     },
     methods: {
+      sortTable(obj){
+       if(obj.prop == 'beginTime'){
+         this.sortType = 1
+       }else if(obj.prop == 'endTime'){
+         this.sortType = 2
+       }else if(obj.prop == 'couponGet'){
+         this.sortType = 3
+       }else if(obj.prop == 'pvCount'){
+         this.sortType = 4
+       }else if(obj.prop == 'createTime'){
+         this.sortType = 5
+       }
+       if(obj.order == 'descending'){
+         this.sortStatus = 2
+       }else{
+         this.sortStatus = 1
+       }
+       this.requestData();
+      },
+      /**
+       * 获取省市
+       * @returns {}
+       */
+      getCity(){
+        Api.base_sys_location({})
+          .then(res => {
+            if (res.status) {
+              this.cityArr = res.result;
+            }else {
+
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
+      /**
+       * 省市联动
+       * @returns {}
+       */
+      checkProvince(provinceId){
+        for(var i = 0 ; i < this.cityArr.length; i++){
+          if(this.cityArr[i].provinceId == provinceId){
+            this.filterForm.provinceObj.provinceId = provinceId;
+            this.filterForm.provinceObj.provinceName = this.cityArr[i].provinceName;
+            this.cityVmList = this.cityArr[i].cityVmList;
+            break;
+          }
+        }
+
+      },
+      checkCity(cityId){
+        for(var i = 0 ; i < this.cityVmList.length; i++){
+          if(this.cityVmList[i].cityId == cityId){
+            this.filterForm.provinceObj.cityId = cityId;
+            this.filterForm.provinceObj.cityName = this.cityVmList[i].cityName;
+            break;
+          }
+        }
+      },
+
       ////table排序　
       formatter(row, column) {
         return row.address;
@@ -311,35 +419,57 @@
        * @returns {{token: (string|null)}}
        */
       getFilterParam () {
-        var param = {token: localStorage.getItem("token"), type: this.checkStatus}
-        if (this.filterForm.activityName) {
-          param.activityName = this.filterForm.activityName
+        var param = {}
+        if (this.filterForm.name) {
+          param.name = this.filterForm.name
         }
-        if (this.filterForm.activityArea) {
-          param.activityArea = this.filterForm.activityArea
+        if (this.filterForm.beginTime) {
+          param.beginTime = Util.toDateString(this.filterForm.beginTime.getTime());
         }
-        if (this.filterForm.activityStartDate) {
-          param.activityStartDate = Util.toDateString(this.filterForm.activityStartDate.getTime());
+        if (this.filterForm.endTime) {
+          param.endTime = Util.toDateString(this.filterForm.endTime.getTime());
         }
-        if (this.filterForm.activityEndDate) {
-          param.activityEndDate = Util.toDateString(this.filterForm.activityEndDate.getTime());
+        if (this.filterForm.createTime) {
+          param.createTime = Util.toDateString(this.filterForm.createTime.getTime());
         }
-        if (this.filterForm.createStartDate) {
-          param.createStartDate = Util.toDateString(this.filterForm.createStartDate.getTime());
+        if (this.filterForm.createTime2) {
+          param.createTime2 = Util.toDateString(this.filterForm.createTime2.getTime());
         }
-        if (this.filterForm.createEndDate) {
-          param.createEndDate = Util.toDateString(this.filterForm.createEndDate.getTime());
-        }
+        param.status = this.activityType;
+        param.pageNo = this.currentPage;
+        param.pageSize = this.pageRecorders;
+        param.sortStatus = this.sortStatus;
+        param.sortType = this.sortType
         console.log("查询提交参数:",param);
         return param;
+      },
+      /**
+       * 数据初始化
+       */
+      requestData(){
+        var p = this.getFilterParam();
+        Api.cp_activity_list(p)
+          .then(res => {
+            if (res.status) {
+              this.resData = res.result;
+              this.totalRow = res.couponTotal;
+            }else {
+              this.resData = [];
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
       },
       /**
        * 搜索
        */
       searchFn () {
         this.currentPage = 1;
-        this.totalRow = 20;
-        //this.requestData();
+        this.requestData();
       },
       /**
        * 重置表单
@@ -363,6 +493,8 @@
        */
       changeActivityType (tab, event){
         this.activityType = tab.name;
+        this.currentPage = 1;
+        this.requestData();
       },
       /**
        * 翻页控件触发事件
@@ -370,22 +502,49 @@
        */
       handleCurrentChange(cpage) {
         this.currentPage = cpage;
-        //this.requestData();
+        this.requestData();
       },
-      openDetail (){
-       // this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
-        this.$router.push("/coupon/datail/1")
+      openDetail (id){
+        this.$router.push({name: 'marketing_coupon_detail', params: {companyInfoId: id}})
+        //this.$router.push("/coupon/datail/"+id)
       },
       //结束活动
-      activeCouEnd(){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"结束活动!",
-          type:"error"
+      activeCouEnd(id){
+        Api.cp_activity_stop({id:id})
+          .then(res => {
+            if (res.status) {
+              this.requestData();
+            }else {
+
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
+      ///删除活动
+      deletePrize(id){
+        Api.cp_activity_car_series_del({id:id})
+          .then(res => {
+            if (res.status) {
+              this.requestData();
+            }else {
+
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
         });
       },
       //活动链接
-      couponLink(){
-        this.$refs.couponDialog.showDialog('这是需要复制的内容！');
+      couponLink(url){
+        this.$refs.couponDialog.showDialog(url);
       },
       ///编辑活动
       updatePrize(){

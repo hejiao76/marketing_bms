@@ -6,14 +6,7 @@
         <el-row>
           <el-col :span="10">
           <el-form-item label="活动名称:" >
-            <el-select v-model="filterForm.activityArea" placeholder="请选择" style="width: 100%;">
-              <el-option
-                v-for="item in areaArr"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
+            <el-input   v-model="filterForm.activityName" placeholder="请输入用户姓名"></el-input>
           </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -22,7 +15,7 @@
         <el-row>
           <el-col :span="10">
               <el-form-item label="用户姓名:">
-                <el-input   v-model="filterForm.activityName" placeholder="请输入用户姓名"></el-input>
+                <el-input   v-model="filterForm.userName" placeholder="请输入用户姓名"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -38,40 +31,45 @@
     <div class="text-right margin-bottom-15">
       <el-button type="primary" @click="uploadEx()">导出</el-button>
     </div>
-    <table class="text-center table table-striped table-bordered table-hover">
-      <thead>
-      <tr>
-        <th>用户名</th>
-        <th>用户姓名</th>
-        <th>用户手机号</th>
-        <th>将品</th>
-        <th>活动名称</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>发撒发达</td>
-        <td>周韵幂</td>
-        <td>13899002233</td>
-        <td>一等奖 特惠大礼包</td>
-        <td><a href="javascript:void(0)">幸运大转盘</a></td>
-      </tr>
-      <tr>
-        <td>发撒发达</td>
-        <td>周韵幂</td>
-        <td>13899002233</td>
-        <td>一等奖 特惠大礼包</td>
-        <td><a href="javascript:void(0)">幸运大转盘</a></td>
-      </tr>
-      <tr>
-        <td>发撒发达</td>
-        <td>周韵幂</td>
-        <td>13899002233</td>
-        <td>一等奖 特惠大礼包</td>
-        <td><a href="javascript:void(0)">幸运大转盘</a></td>
-      </tr>
-      </tbody>
-    </table>
+    <el-table
+      :data="dataDetail"
+      style="width: 100%; "
+      :default-sort = "{prop: 'date', order: 'descending'}"
+    >
+      <el-table-column
+        prop="username"
+        label="用户名"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="userLoginName"
+        label="用户姓名"
+        >
+      </el-table-column>
+      <el-table-column
+        prop="userPhone"
+        label="用户手机号"
+      >
+      </el-table-column>
+      <el-table-column
+        prop="buyNum"
+        label="奖品"
+      >
+        <template slot-scope="scope">
+          {{scope.row.level}}:{{scope.row.giftGroupName}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="createTime"
+        label="中奖日期"
+        sortable>
+      </el-table-column>
+      <el-table-column
+        prop="acitvityName"
+        label="活动名称"
+      >
+      </el-table-column>
+    </el-table >
 
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
     <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
@@ -96,13 +94,12 @@
       return {
         filterForm: {
           activityName:'',//活动名称
-          activityArea:'全国',//活动区域
+          userName:'',//用户姓名
         },
-        currentPage:1,
-        totalRow:100,
-        areaArr:[
-          '全国','在售','停售'
-        ]
+        currentPage: 1,
+        totalRow: 0,
+        pageRecorders: 10,
+        dataDetail:[],
 
       }
     },
@@ -112,11 +109,9 @@
       VConNav,
       VTipMsg
     },
-    created (){
 
-    },
     mounted () {
-      //      this.requestData();
+      this.requestData();
     },
     watch: {
       "$route": function (to, from) {
@@ -125,37 +120,64 @@
     },
     methods: {
       getFilterParam () {
-        var param = {token: localStorage.getItem("token"), type: this.checkStatus}
+        var param = {}
         if (this.filterForm.activityName) {
-          param.activityName = this.filterForm.activityName
+          param.acitvityName = this.filterForm.activityName
         }
-        if (this.filterForm.activityArea) {
-          param.activityArea = this.filterForm.activityArea
+        if (this.filterForm.userName) {
+          param.userName = this.filterForm.userName
         }
-        console.log("查询提交参数:",param);
+        param.pageIndex = this.currentPage;
+        param.pageSize = this.pageRecorders;
         return param;
+      },
+      requestData(){
+        var p = this.getFilterParam();
+        Api.pd_activity_winning_list(p)
+          .then(res => {
+            if (res.status) {
+              this.dataDetail = res.result;
+              this.totalRow = res.totalPage;
+            }else {
+
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
       },
       // 搜索
       searchFn(){
-
+        this.currentPage = 1;
+        this.requestData();
       },
       //重置
       resetForm(){
         this.filterForm={
           activityName:'',//活动名称
-            activityArea:'全国',//活动区域
+          userName:'',//用户姓名
         }
       },
       // 翻页
-      handleCurrentChange(){
-
+      handleCurrentChange(cpage){
+        this.currentPage = cpage;
+        this.requestData();
       },
       // 导出excelbiao
       uploadEx(){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
-        });
+        let param="?1=1"
+        if (this.filterForm.activityName) {
+          p.acitvityName = this.filterForm.activityName
+           param+="activityName="+this.filterForm.activityName
+          }
+        if (this.filterForm.userName) {
+          param+="userName="+this.filterForm.userName
+        }
+        window.open(window.location.href.split("#")[0]+'action/lottery/winning/exp'+param);
+
       }
     }
   }
@@ -167,50 +189,7 @@
   .text-right {
     text-align: right;
   }
-  .table-bordered {
-    border: 1px solid #F3F4F7;
-  }
-  .table {
-    width: 100%;
-    margin-bottom: 20px;
-    background-color: #fff;
-  }
   .text-center {
     text-align: center;
-  }
-  thead {
-    display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-  .table.table-bordered thead > tr > th {
-    border-bottom: 0;
-    background-color: #F6F7FB;
-    color: #333;
-    font-style: normal;
-  }
-  .table-striped > thead > tr > th:first-child {
-    padding-left: 15px;
-  }
-  .table thead tr th {
-    font-size: 14px;
-  }
-  .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td{
-    padding: 20px 9px;
-  }
-  tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-
-  .table-striped > tbody > tr > td:first-child {
-    padding-left: 15px;
-  }
-  .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
-    border: 1px solid #F3F4F7;
-  }
-  .table-hover > tbody > tr:hover, .table-hover > tbody > tr:hover > td {
-    background: #f3f4f6 !important;
   }
 </style>

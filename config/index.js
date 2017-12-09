@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/action' : {
-        target: 'http://59.110.14.204:8085/provider-sem/',
+        target: 'http://sem.familyku.com/',
         // target:'https://audit.zhidianlife.com/',
         changeOrigin: true,
         pathRewrite: {

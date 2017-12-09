@@ -114,4 +114,12 @@ export default {
   cp_activity_car_series_list(params) {
     return fetch.fetch('coupon/carSeriesList', params,"post","json");
   },
+  /**
+   * 删除抵扣券活动
+   * @param params
+   * @returns {*}
+   */
+  cp_activity_car_series_del(params) {
+    return fetch.fetch('coupon/deleteActivity', params,"post","json");
+  },
 }
