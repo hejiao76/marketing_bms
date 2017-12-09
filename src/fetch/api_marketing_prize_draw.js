@@ -40,7 +40,7 @@ export default {
    * @returns {*}
    */
   pd_activity_delete(params) {
-    return fetch.fetch('lottery/del', params);
+    return fetch.fetch('lottery/del', params,'post');
   },
   /**
    * 抽奖活动----结束活动
@@ -56,14 +56,14 @@ export default {
    * @returns {*}
    */
   pd_activity_info(params) {
-    return fetch.fetch('lottery/info', params);
+    return fetch.fetch('lottery/info', params,"get");
   },
   /**
    * 抽奖活动----中奖记录列表
    * @param params
    * @returns {*}
    */
-  pd_activity_info(params) {
+  pd_activity_winning_list(params) {
     return fetch.fetch('lottery/winning/list', params,"get");
   },
   /**

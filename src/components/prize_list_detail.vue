@@ -3,10 +3,10 @@
     <el-dialog class="choose-hd" center title="订单详情" :visible.sync="dialogTableVisible" :before-close="handleClose">
       <div class="verify-txt">
         <ul>
-          <li>活动名称：幸运大转盘转转转转转</li>
-          <li>活动状态：进行中</li>
-          <li>活动时间：2017-11-01 00:00:00至2017-11-01 00:00:00</li>
-          <li>参与人数：10000人</li>
+          <li>活动名称：{{details.name}}</li>
+          <li>活动状态：{{details.status}}</li>
+          <li>活动时间：{{details.beginTime}}&nbsp;至&nbsp;{{details.endTime}}</li>
+          <li>参与人数：{{details.joinSize}}人</li>
         </ul>
       </div>
       <div class="verify margin-top-20">
@@ -14,31 +14,13 @@
       </div>
       <div class="verify-txt">
         <ul>
-          <li>
+          <li v-for="item in details.prizeList">
             <div class="verify-txt-left">
-              一等奖：
+              {{item.level}}：
             </div>
             <div class="verify-txt-right">
-              <p class="verify-txt-title">转盘抽奖尊享礼包（1/10）</p>
-              <p>(礼包礼品：航嘉导航仪1，车载音箱1，购车抵扣券1)</p>
-            </div>
-          </li>
-          <li>
-            <div class="verify-txt-left">
-              二等奖：
-            </div>
-            <div class="verify-txt-right">
-              <p class="verify-txt-title">转盘抽奖乐享礼包（1/20）</p>
-              <p>(礼包礼品：航嘉导航仪1，车载音箱1，购车抵扣券1)</p>
-            </div>
-          </li>
-          <li>
-            <div class="verify-txt-left">
-              三等奖：
-            </div>
-            <div class="verify-txt-right">
-              <p class="verify-txt-title">转盘抽奖尊享礼包（1/10）</p>
-              <p>(礼包礼品：航嘉导航仪1，车载音箱1，购车抵扣券1)</p>
+              <p class="verify-txt-title">{{item.giftGroupName}}（{{item.prizeCount}}/{{item.surplusQuantity}}）</p>
+              <p>{{item.details}}</p>
             </div>
           </li>
         </ul>
@@ -58,6 +40,7 @@ export default {
   data () {
     return {
       dialogTableVisible : false,
+      details:'',
     }
   },
   created () {
@@ -67,8 +50,23 @@ export default {
     handleClose(){
       this.dialogTableVisible = false
     },
-    showDialog (name) {
-      this.dialogTableVisible = true;
+    showDialog (code) {
+      Api.pd_activity_info({activityCode:code})
+        .then(res => {
+          if (res.status) {
+              this.details = res.result;
+              this.dialogTableVisible = true;
+          }else {
+
+          }
+        }).catch(err => {
+        this.$message({
+          showClose: true,
+          message: '数据请求失败！',
+          type: 'error'
+        });
+      });
+
     }
   }
 }
