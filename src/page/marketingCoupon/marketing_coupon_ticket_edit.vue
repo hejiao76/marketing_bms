@@ -5,19 +5,20 @@
         <el-col :span="24">
           <el-tabs type="card" v-model="couponSettingTab">
             <el-tab-pane name="base" :disabled="this.disabledTab"  label="基本信息">
-              <v-coupon-base-info ref="baseSetting" @editSaveCall="updateCouponInfo"  @call="syncCouponDetail" :isEdit="isEdit" :couponDetail="couponDetail"></v-coupon-base-info>
+              <v-coupon-base-info ref="baseSetting" @errorTipMsg="showChildTipMsg" @editSaveCall="updateCouponInfo"  @call="syncCouponDetail" :isEdit="isEdit" :couponDetail="couponDetail"></v-coupon-base-info>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab" name="series" label="抵扣车系">
-              <v-coupon-bind-car-series ref="seriesSetting" @editSaveCall="updateCouponInfo" @call="syncCouponDetail"  :isEdit="isEdit"  :couponDetail="couponDetail"></v-coupon-bind-car-series>
+              <v-coupon-bind-car-series ref="seriesSetting" @getTmpSeriesData="getTmpSeriesData" @errorTipMsg="showChildTipMsg" @editSaveCall="updateCouponInfo" @call="syncCouponDetail"   :isEdit="isEdit"  :couponDetail="couponDetail"></v-coupon-bind-car-series>
             </el-tab-pane>
-            <el-tab-pane :disabled="this.disabledTab" name="type" label=" 抵扣类型 ">
-              <v-coupon-type ref="typeSetting" @editSaveCall="updateCouponInfo" @call="syncCouponDetail"  :isEdit="isEdit"  :couponDetail="couponDetail"></v-coupon-type>
+            <el-tab-pane :disabled="this.disabledTab"  name="type" label=" 抵扣类型 ">
+              <v-coupon-type ref="typeSetting" @errorTipMsg="showChildTipMsg" @editSaveCall="updateCouponInfo" @call="syncCouponDetail"  :isEdit="isEdit" :tmpSeriesData="tmpSeriesData"  :couponDetail="couponDetail"></v-coupon-type>
             </el-tab-pane>
           </el-tabs>
         </el-col>
         <el-col :span="4">
         </el-col>
       </el-row>
+    <v-tip-msg ref="tipMsgRef"></v-tip-msg>
   </div>
 </template>
 <script>
@@ -35,9 +36,11 @@
   export default {
     data() {
       return {
+        tmpSeriesData:{}, //车系缓存数据----查询礼包时使用
         disabledTab:false,
         isEdit:true,
-        couponSettingTab:'type', //选项卡默认选中项1111111111111111111111111111
+        isCopy:false,
+        couponSettingTab:'base', //选项卡默认选中项
         couponDetail : {},
         couponCode:'',
 //        optionsActivityStart :{
@@ -117,11 +120,17 @@
     methods : {
       initPage () {
         this.couponCode = this.$route.params.ticketId;
+        let type= this.$route.params.type;
+        this.isCopy = type =="copy" ? true : false;
         if(this.couponCode=='new'){
+          //新增相关操作
           this.isEdit=false;
           this.disabledTab=true;
-          //新增相关操作
         }else if(this.couponCode){
+          //编辑相关操作
+          if(type=="series"){
+              this.couponSettingTab="series"
+          }
           this.disabledTab=false;
           this.requestData()
         }
@@ -136,6 +145,7 @@
           }else {
             this.couponDetail = Object.assign(this.couponDetail, data.callData);
             this.couponSettingTab = "type";
+            this.disabledTab=false;
           }
         }else if (data.tag=="type"){
           if(data.pre){
@@ -148,14 +158,20 @@
         console.log("updateObject-------------->",this.couponDetail);
       },
       updateCouponInfo(){
-        if(this.$refs.baseSetting.validBaseItem() && this.$refs.seriesSetting.validPrizeItem() && this.$refs.typeSetting.validGiftSetting()){
-          let newCouponDetail = Object.assign({},this.couponDetail,this.$refs.baseSetting.getBaseItem(),this.$refs.seriesSetting.getPrizeItem(),this.$refs.typeSetting.getGiftSetting())
-          let param = {jsonData : JSON.stringify(newCouponDetail)}
-          Api.pd_activity_update(param)
+        if(this.$refs.baseSetting.validBaseItem() && this.$refs.seriesSetting.validSeriesItem() && this.$refs.typeSetting.validTypeItem()){
+          let newCouponDetail = Object.assign({},this.couponDetail,this.$refs.baseSetting.getBaseItem(),this.$refs.seriesSetting.getSeriesItem(),this.$refs.typeSetting.validTypeItem())
+          let param = newCouponDetail
+          Api.cp_activity_coupon_save(param)
             .then(res => {
               if (res.status == true) {
-                console.log(JSON.stringify(res));
-
+                this.$refs.tipMsgRef.showTipMsg({
+                  msg:"操作成功",
+                  type:"success",
+                  scope:this,
+                  callback:function (){
+                    this.$router.push("/coupon/ticket_list");
+                  }
+                });
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
@@ -163,26 +179,27 @@
                 });
               }
             }).catch(err => {
-
+              console.log("err----------",err);
           });
         }
       },
       saveCouponInfo(){
-        let param = {jsonData : JSON.stringify(this.couponDetail)}
-        Api.pd_activity_update(param)
-          .then(res => {
-            if (res.status == true) {
-              console.log(JSON.stringify(res));
-
-            }else {
-              this.$refs.tipMsgRef.showTipMsg({
-                msg:res.message,
-                type:"error"
-              });
-            }
-          }).catch(err => {
-
-        });
+          this.updateCouponInfo();
+//        let param = {jsonData : JSON.stringify(this.couponDetail)}
+//        Api.pd_activity_update(param)
+//          .then(res => {
+//            if (res.status == true) {
+//              console.log(JSON.stringify(res));
+//
+//            }else {
+//              this.$refs.tipMsgRef.showTipMsg({
+//                msg:res.message,
+//                type:"error"
+//              });
+//            }
+//          }).catch(err => {
+//
+//        });
       },
       /**
        * 请求抵扣券详情
@@ -190,24 +207,40 @@
       requestData () {
         if(this.couponCode){
           let param = {id:this.couponCode};
-//          Object.assign(this.activityInfo,TestData.sedKill_checked_ticket_data.result);
-//          console.log(this.activityInfo);
           Api.cp_activity_coupon_info(param)
             .then(res => {
               if (res.status == true) {
                 console.log(JSON.stringify(res));
                 this.couponDetail = res.result;
+                if(this.isCopy ){
+                  delete this.couponDetail.id;
+                }
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
-                  type:"error"
+                  type:"error",
+                  scope:this,
+                  callback:function (){
+                    this.$router.push("/coupon/ticket_list");
+                  }
                 });
               }
             }).catch(err => {
-
+            console.log("err----------",err);
           });
         }
-      }
+      },
+      getTmpSeriesData(data){
+//          console.log("parent------>",this.tmpSeriesData);
+          this.tmpSeriesData =  Object.assign({},data);
+        console.log("parent------>",this.tmpSeriesData);
+      },
+      showChildTipMsg (data) {
+        this.$refs.tipMsgRef.showTipMsg({
+          msg:data.msg,
+          type:"error"
+        });
+      },
 //      getUEContent() {
 //        let content = this.$refs.ue.getUEContent(); // 调用子组件方法
 //        this.$notify({

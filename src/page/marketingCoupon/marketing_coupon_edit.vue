@@ -5,22 +5,22 @@
         <el-row :gutter="20">
           <el-col :span="16">
             <el-row>
-              <el-form-item label="活动名称：" prop="activityName">
-                <el-input v-model="activityInfo.activityName"></el-input>
+              <el-form-item label="活动名称：" prop="name">
+                <el-input v-model="activityInfo.name"></el-input>
               </el-form-item>
             </el-row>
             <el-row>
-              <el-form-item label="创建时间：" required>
+              <el-form-item label="活动时间：" required>
                 <el-col :span="11">
-                  <el-form-item prop="activityStartDate">
-                    <el-date-picker style="width: 100%;" v-model="activityInfo.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-form-item prop="begin_time">
+                    <el-date-picker style="width: 100%;" v-model="activityInfo.begin_time" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始时间"></el-date-picker>
 
                   </el-form-item>
                 </el-col>
                 <el-col class="line" :span="2" style="text-align: center">-</el-col>
                 <el-col :span="11">
-                  <el-form-item prop="activityEndDate">
-                    <el-date-picker style="width: 100%;" v-model="activityInfo.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  <el-form-item prop="end_time">
+                    <el-date-picker style="width: 100%;" v-model="activityInfo.end_time" :picker-options="optionsActivityEnd" type="datetime" placeholder="请输入结束时间"></el-date-picker>
                   </el-form-item>
                 </el-col>
               </el-form-item>
@@ -122,7 +122,7 @@
               </div>
             </div>
             </el-form-item>
-            <div class="saleticket-list newlist">
+            <div class="saleticket-list newlist cur" @click="openAddList()">
               <div class="saleticket-list_header">
                 <div class="headericon">
                   <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
@@ -130,7 +130,7 @@
                 </div>
               </div>
               <div class="saleticket-content" style="height: 165px;">
-                <p @click="openAddList()"><img src="../../assets/images/jia.png" alt="" >添加抵扣券</p>
+                <p ><img src="../../assets/images/jia.png" alt="" >添加抵扣券</p>
               </div>
               <div class="saleticket-footer">
                 <div class="headericon">
@@ -167,7 +167,7 @@
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import VAddcouponTlist from "./../../components/add_coupon_t_list.vue";
+  import VAddcouponTlist from "./../../components/coupon/add_coupon_t_list.vue";
   import TestData from "./../../util/TestData"
   export default {
     data() {
@@ -175,40 +175,40 @@
         testData:'',
         optionsActivityStart :{
           disabledDate:(time) => {
-            if(this.activityInfo.activityEndDate){
-              let d = new Date (this.activityInfo.activityEndDate)
+            if(this.activityInfo.end_time){
+              let d = new Date (this.activityInfo.end_time)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsActivityEnd :{
           disabledDate:(time) => {
-            if(this.activityInfo.activityStartDate){
-              let d = new Date (this.activityInfo.activityStartDate)
+            if(this.activityInfo.begin_time){
+              let d = new Date (this.activityInfo.begin_time)
               return time.getTime() <d.getTime();
             }
           }
         },
         labelPosition:'left',
         activityInfo: {
-          activityName: '',
-          activityStartDate:'',//活动开始时间
-          activityEndDate:'', //活动结束时间
-          imageUrl: '',
-          activityCity:[],
-          ticketArr:[]
+          id:'',
+          name:'',
+          begin_time:'',
+          end_time:'',
+          coupons:[],
+          area:{},
+
 
         },
-        tmpBindTicketItemKey : ["ticketId", "ticketName", "isvalid", "activityStartDate", "activityEndDate", "createDate", "applyCar", "sedkillMoney", "sedKillStartDate", "ticketCount", "maxPayCount", "signUpStartTime", "singUpStartTime"],
         rules: {
-          activityName: [
+          name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
             { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
           ],
-          activityStartDate: [
+          begin_time: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          activityEndDate: [
+          end_time: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
           imageUrl:[
@@ -411,7 +411,7 @@
        * @param ticketId
        */
       openAddList() {
-        this.$refs.ticketDialog.showDialog();
+        this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
       },
       addSedKillCallBack(checkedNewTicketList){
         console.log("回来了---------->",checkedNewTicketList)
@@ -420,8 +420,8 @@
           let newTicketItem ={};
           newTicketItem.ticketId = item.ticketId;
           newTicketItem.ticketName = item.name;
-          newTicketItem.activityStartDate = item.startTime;
-          newTicketItem.activityEndDate = item.endTime;
+          newTicketItem.begin_time = item.startTime;
+          newTicketItem.end_time = item.endTime;
           newTicketItem.createDate = item.creatTime;
           newTicketItem.editStatus=1;
           newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;

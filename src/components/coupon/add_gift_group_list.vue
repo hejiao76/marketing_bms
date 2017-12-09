@@ -2,7 +2,7 @@
   <div>
 
     <el-dialog class="choose-hd" center title="添加礼品包" :visible.sync="dialogTableVisible" >
-      <el-form  size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+      <el-form  size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" label-position="left">
       <el-form-item label="礼品包名称：">
         <!--<el-input v-model="activityName" placeholder="请输商品名称"></el-input>-->
         <el-input placeholder="请输入内容" v-model="giftGroupName">
@@ -10,14 +10,14 @@
         </el-input>
       </el-form-item>
       </el-form>
-      <div class="choose-copntent">
-        <div class="choose-copntent_body">
+      <div class="choose-copntent" style="min-height:180px;">
+        <div class="choose-copntent_body" >
             <el-row class="this_box_wrop">
                 <!--<el-col style=" width: 260px;" >-->
                   <div class="saleticket-list colorsaletickstyle" v-for="item in listObj">
                     <div class="isfill">
-                      <img @click="checkGiftGroup(item.groupId)"  v-if="item.groupId!=tmpGiftGroupId" src="./../../assets/images/fillnone.png" alt="">
-                      <img @click="cancelCheckGiftGroup" v-else src="./../../assets/images/fillin.png" alt="">
+                      <img v-if="item.giftGroupId!=tmpGiftGroupId" @click="checkGiftGroup(item.giftGroupId)"   src="./../../assets/images/fillnone.png" alt="">
+                      <img v-else  @click="cancelCheckGiftGroup" src="./../../assets/images/fillin.png" alt="">
                     </div>
                     <div class="saleticket-list_header">
                       <p>{{item.giftGroupName}}</p>
@@ -37,14 +37,14 @@
                             <span>¥{{giftItem.giftPrice || 0}}X{{giftItem.giftCount}}</span>
                           </div>
                         </li>
-                        <li>
-                          <div class="sal-con-tit">
-                            雨伞：
-                          </div>
-                          <div class="sal-con_txt">
-                            <span>¥100X2</span>
-                          </div>
-                        </li>
+                        <!--<li>-->
+                          <!--<div class="sal-con-tit">-->
+                            <!--雨伞：-->
+                          <!--</div>-->
+                          <!--<div class="sal-con_txt">-->
+                            <!--<span>¥100X2</span>-->
+                          <!--</div>-->
+                        <!--</li>-->
                       </ul>
                     </div>
                     <div class="saleticket-footer">
@@ -54,7 +54,7 @@
                       </div>
                       <table>
                         <tr>
-                          <td>345<em>(礼包金额)</em></td>
+                          <td>{{item.groupPrice}}<em>(礼包金额)</em></td>
                         </tr>
                       </table>
                     </div>
@@ -80,15 +80,15 @@ import TestData from "./../../util/TestData"
 import ElRow from "element-ui/packages/row/src/row";
 import ElCol from "element-ui/packages/col/src/col";
 export default {
+  props:['giftGroupId','tmpSeriesData'],
   data () {
     return {
-        dialogTableVisible:true,
+        dialogTableVisible:false, //dialog是否显示
         exceptIdArray:[],
-        listObj:[],
-        giftGroupName:'',
-        tmpGiftGroupId:'',
-        labelPosition:'left',
-        testData:[1,2,3]
+        listObj:[],  //礼品包计划
+        giftGroupName:'', //搜索礼品包名称
+        tmpGiftGroupId:'', //选择礼品包ID
+//        testData:[1,2,3]
     }
   },
   components :{
@@ -96,36 +96,58 @@ export default {
     ElRow,
     VTipMsg
   },
+  watch : {
+    giftGroupId (val, oldval) {
+      this.tmpGiftGroupId = this.giftGroupId;
+    }
+  },
   created () {
-      this.showDialog();
+//      this.showDialog();
+  },
+  mounted (){
 
   },
   methods:{
+    /**
+     * 选择礼包，只能选择一个
+     */
     checkGiftGroup (tmpId){
+        console.log("checkGiftGroup------",tmpId)
         this.tmpGiftGroupId=tmpId
     },
+    /**
+     * 取消选择礼包
+     */
     cancelCheckGiftGroup (){
       this.tmpGiftGroupId=""
     },
+    /**
+     * 搜索可选礼包
+     */
     searchGiftGroup () {
+//        console.log("车系缓存1111111111111信息----------",this.tmpSeriesData);
         this.requestGiftList();
     },
     /**
-     * 显示新增秒杀券模态框
+     * 显示选择礼品包模态框
      * @param exceptIdArray
      */
     showDialog (exceptIdArray) {
-      console.log("request---gift_-----list");
+//      console.log("request---gift_-----list",);
 //        this.exceptIdArray=exceptIdArray;
 //        this.requestAddTicketList();
         this.dialogTableVisible=true;
-        this.requestGiftList();
+//        this.requestGiftList();
     },
+    /**
+     * 请求可选礼包
+     */
     requestGiftList (){
         console.log("request---gift_-----list");
         let param = {
-          giftGroupName:this.giftGroupName || '测试',
-          type:1,
+          giftGroupName:this.giftGroupName || '',
+          type:this.tmpSeriesData.car_type,
+          serialId:JSON.stringify(this.tmpSeriesData.car_ids),
           pageIndex:1,
           pageSize:10000
         }
@@ -133,8 +155,6 @@ export default {
         .then(res => {
           if (res.status == true) {
               this.listObj=res.result;
-//            this.activityInfo = res.result;
-//            this.totalRow = res.totalRow;
           }else {
             this.$refs.tipMsgRef.showTipMsg({
               msg:res.message,
@@ -144,78 +164,17 @@ export default {
         }).catch(err => {
 
       });
-    },
-    /**
-     * 选择秒杀券
-     * @param ticketId
-     */
-    checkTicket (ticketId,checked){
-        if(ticketId){
-          for(let i=0;i<this.listObj.length;i++){
-            if(this.listObj[i].ticketId==ticketId){
-                this.listObj[i].tmpChecked = checked;
-                this.listObj.splice(i,1,this.listObj[i]);
-                console.log("find--->", this.listObj[i].tmpChecked)
-                break;
-            }
-          }
-        }
-    },
-    /**
-     * 过滤已选择秒杀券1
-     * @param listObj
-     * @returns {Array}
-     */
-    filterExceptId (listObj) {
-        let newListObjArray = [] ;
-        for(let i=0;i<listObj.length;i++){
-            if(!this.exceptIdArray.includes(listObj[i].ticketId)){
-                newListObjArray.push(listObj[i]);
-            }
-        }
-        return newListObjArray;
-    },
-    /**
-     * 请求可选秒杀券列表
-     */
-    requestAddTicketList () {
-//      let param = {activityId:this.activityId};
-//      this.activityInfo=TestData.sedKill_checked_ticket_data.result;
-        let resData = TestData.sedKill_newTicket_data;
-        this.listObj = this.filterExceptId(resData);
-      console.log(this.listObj);
-      return;
-      Api.sk_activity_list(param)
-        .then(res => {
-          if (res.status == 1) {
-            this.activityInfo = res.result;
-            this.totalRow = res.totalRow;
-          }else {
-            this.$refs.tipMsgRef.showTipMsg({
-              msg:res.message,
-              type:"error"
-            });
-          }
-        }).catch(err => {
-
-      });
-    },
-    /**
-     * 获取已选择的秒杀券列表
-     */
-    getCheckedTicket(){
-      let checkedTicketArray = [];
-      for(let i=0;i<this.listObj.length;i++){
-        if(this.listObj[i].tmpChecked){
-          checkedTicketArray.push(this.listObj[i]);
-        }
-      }
-      return checkedTicketArray;
     },
     /**
      * 确认选择
      */
     sureSelect () {
+        if(this.tmpGiftGroupId){
+          this.dialogTableVisible=false;
+          this.$emit("call",{giftGroupId:this.tmpGiftGroupId})
+          this.tmpGiftGroupId='';
+          this.listObj=[];
+        }
 //      console.log("save");
 //      let checkedTicketArray=this.getCheckedTicket();
 //      if(checkedTicketArray.length+this.exceptIdArray.length<=3){
@@ -233,8 +192,9 @@ export default {
      * 取消选择
      */
     cancelSelect(){
-//      this.dialogTableVisible=false;
-//      this.listObj=[];
+      this.dialogTableVisible=false;
+      this.tmpGiftGroupId='';
+      this.listObj=[];
     },
     clearTmpStatus(){
 
