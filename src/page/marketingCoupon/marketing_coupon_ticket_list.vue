@@ -148,7 +148,7 @@
           label="抵扣类型"
            width="100">
           <template slot-scope="scope">
-            <span>{{Final.COUPON_TYPE[scope.row.type]}}</span>
+            <span>{{Final.COUPON_TYPE[scope.row.serialType]}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -158,12 +158,9 @@
           >
         </el-table-column>
         <el-table-column
-          prop="carIds"
+          prop="dealersName"
           label="绑定车系"
           >
-          <template slot-scope="scope">
-            <span v-for="item in scope.row.carIds">{{item.cx}},</span>
-          </template>
         </el-table-column>
         <el-table-column
           label="有效期"
@@ -220,7 +217,7 @@
                       抵扣券类型：
                     </div>
                     <div class="sal-con_txt">
-                      <span v-for="cars in item.carIds">{{cars.cx}}</span>
+                      <span>{{item.serialType}}</span>
                     </div>
                   </li>
                   <li>
@@ -236,7 +233,7 @@
                       绑定车系：
                     </div>
                     <div class="sal-con_txt">
-                      <span v-for="cars in item.carIds">{{cars.cx}}</span>
+                      <span>{{item.serialName}}</span>
                     </div>
                   </li>
                   <li>
@@ -480,7 +477,7 @@
           param.amount2 = this.filterForm.amount2
         }
         if (this.filterForm.activeOption) {
-          param.type = this.filterForm.activeOption
+          param.serialType = this.filterForm.activeOption
         }
         if (this.filterForm.serialIds) {
           param.serialIds = this.filterForm.serialIds

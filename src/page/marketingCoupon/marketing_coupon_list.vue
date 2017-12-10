@@ -462,10 +462,10 @@
           param.createTime2 = Util.toDateString(this.filterForm.createTime2.getTime());
         }
         if (this.filterForm.provinceObj.provinceName) {
-          param.area = this.filterForm.provinceObj.provinceName
+          param.areaNames = this.filterForm.provinceObj.provinceName
         }
         if (this.filterForm.provinceObj.cityName) {
-          param.area = this.filterForm.provinceObj.cityName
+          param.areaNames = this.filterForm.provinceObj.cityName
         }
         param.status = this.activityType;
         param.pageNo = this.currentPage;

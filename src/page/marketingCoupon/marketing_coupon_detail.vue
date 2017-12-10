@@ -39,7 +39,7 @@
                     抵扣券类型：
                   </div>
                   <div class="sal-con_txt">
-                    <span>{{Final.COUPON_TYPE[item.type]}}</span>
+                    <span>{{Final.COUPON_TYPE[item.serialType]}}</span>
                   </div>
                 </li>
                 <li>
@@ -55,8 +55,8 @@
                     绑定车系：
                   </div>
                   <div class="sal-con_txt">
-                    <span v-if="item.carType == 1">全车系</span>
-                    <span v-if="item.carType == 2" v-for="car in item.carIds">{{car.cx}},</span>
+                    <span v-if="item.serialType == 1">全车系</span>
+                    <span v-if="item.serialType == 2">{{item.serialName}}</span>
                   </div>
                 </li>
                 <li>

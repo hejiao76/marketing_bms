@@ -324,7 +324,7 @@
        * @returns {{token: (string|null)}}
        */
       getFilterParam () {
-        var param = {token: localStorage.getItem("token"), type: this.checkStatus}
+        var param = {}
         if (this.filterForm.userName) {
           param.userName = this.filterForm.userName
         }
