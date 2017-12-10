@@ -15,9 +15,10 @@
             <el-row class="this_box_wrop">
                 <!--<el-col style=" width: 260px;" >-->
                     <div class="saleticket-list"v-for="(item,index) in listObj">
-                      <div class="isfill">
-                        <img class="cur" v-if="!item.tmpChecked" @click="checkTicket(item.id,true)"  src="./../../assets/images/fillnone.png" alt="">
-                        <img class="cur" v-if="item.tmpChecked" @click="checkTicket(item.id,false)" src="./../../assets/images/fillin.png" alt="">
+                      <div v-if="validSeriesInclude(item)" class="isfill">
+                      <!--<div  class="isfill">-->
+                        <img class="cur" v-if="!item.tmpChecked" @click="checkTicket(item,true)"  src="./../../assets/images/fillnone.png" alt="">
+                        <img class="cur" v-if="item.tmpChecked" @click="checkTicket(item,false)" src="./../../assets/images/fillin.png" alt="">
                       </div>
                       <div class="saleticket-list_header">
                         <p>{{item.name}}</p>
@@ -62,7 +63,8 @@
                               抵扣券数量：
                             </div>
                             <div class="sal-con_txt">
-                              <el-input v-model="item.tmpCount" ></el-input>
+                              <!--<el-input v-model="item.tmpCount" ></el-input>-->
+                              <el-input-number :controls="false" v-model="item.tmpCount" label="请输入秒杀券数量"></el-input-number>
                             </div>
                           </li>
                           <li>
@@ -111,7 +113,8 @@ export default {
         listObj:[],
         ticketName:'',
         labelPosition:'left',
-        testData:[{ischecked:false,id:12},{ischecked:false,id:23},{ischecked:false,id:34}]
+        testData:[{ischecked:false,id:12},{ischecked:false,id:23},{ischecked:false,id:34}],
+        tmpSeriesIds:{}, //已选择车系ID
     }
   },
   components :{
@@ -126,22 +129,50 @@ export default {
   mounted (){
   },
   methods:{
+    /**
+     * 选择可选抵扣券
+     */
+    validSeriesInclude (item){
+//      console.log("哈哈，方法 我来了",item);
+        let validStatus=true;
+        for(let i=0;i<item.car_ids.length;i++){
+            if(!item.tmpChecked && this.tmpSeriesIds["series_"+item.car_ids[i].id]){
+                console.log(this.tmpSeriesIds);
+                validStatus=false;
+                break;
+            }
+        }
+        return validStatus;
+
+    },
+    /**
+     * 选择可选抵扣券
+     */
+    removeSeriesTmp (item){
+      if(item.car_type == 2){
+        for(let i = 0 ; i< item.car_ids.length ; i ++){
+            console.log("deleteSeriesTmp----",item.car_ids[i].id)
+          delete this.tmpSeriesIds["series_"+item.car_ids[i].id];
+          console.log("deleteSeriesTmp---after----",this.tmpSeriesIds);
+        }
+      }
+    },
+    /**
+     * 添加已选择抵扣券包含车系
+     */
+    addSeriesTmp (item){
+        console.log('addSeriesTmp',item.car_ids);
+      if(item.car_type == 2){
+        for(let i = 0 ; i< item.car_ids.length ; i ++){
+          this.tmpSeriesIds["series_"+item.car_ids[i].id] = item.car_ids[i].id;
+        }
+      }
+    },
+    /**
+     * 请求可选抵扣券
+     */
     searchTickets(){
       this.requestAddTicketList();
-    },
-    checkCP(idx,id){
-      if(this.testData[idx].ischecked){
-        this.testData[idx].ischecked = false;
-        for(var i = 0; i< this.exceptIdArray.length;i++){
-          if(this.exceptIdArray[i] == id){
-            this.exceptIdArray.splice(i,1);
-            break;
-          }
-        }
-      }else{
-        this.testData[idx].ischecked = true;
-        this.exceptIdArray.push(id);
-      }
     },
     /**
      * 显示新增抵扣券模态框
@@ -156,10 +187,29 @@ export default {
      * 选择抵扣券
      * @param id
      */
-    checkTicket (id,checked){
-        if(id){
+    checkTicket (item,checked){
+        console.log(item,checked);
+        if(item.id){
+          let id =item.id;
+          if(!checked){
+             this.removeSeriesTmp(item);
+          }
           for(let i=0;i<this.listObj.length;i++){
             if(this.listObj[i].id==id){
+               // this.tmpSeriesIds
+              if(checked) {
+                this.addSeriesTmp(this.listObj[i]);
+              }
+//                if(this.listObj[i].car_ids.length>0){
+////                    console.log("怎么了........",this.listObj[i].car_ids)
+////                    for(let j = 0;j<this.listObj[i].car_ids.length;j++){
+////                        if(checked){
+////                          let series = this.listObj[i].car_ids[j];
+////                          this.tmpSeriesIds[series.id] =series.id;
+////                        }
+////
+////                    }
+//                }
                 this.listObj[i].tmpChecked = checked;
                 this.listObj.splice(i,1,this.listObj[i]);
                 console.log("find--->", this.listObj[i].tmpChecked)
@@ -239,7 +289,7 @@ export default {
             this.listObj=[];
       }else{
         this.$refs.tipMsgRef.showTipMsg({
-          msg:"活动绑定的抵扣券数量已经超过101",
+          msg:"活动绑定的抵扣券数量已经超过10个",
           type:"error"
         });
       }

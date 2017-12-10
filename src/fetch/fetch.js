@@ -7,6 +7,7 @@ import qs from 'qs'
 // axios 配置
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.headers.post['X-REQUESTED-WITH']='XMLHttpRequest';
 // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 axios.defaults.baseURL ='/action'; // '/action';
 
@@ -34,7 +35,7 @@ axios.interceptors.response.use((res) =>{
   // }else if(res.data.status==999){
   //     window.location.href=window.location.href.split("#")[0]+"#/login";
   // }
-  if(res.data.status==999){
+  if(res.data.status==true && res.data.code==999){
     window.location.href=window.location.href.split("#")[0]+"#/login";
   }
   return res;

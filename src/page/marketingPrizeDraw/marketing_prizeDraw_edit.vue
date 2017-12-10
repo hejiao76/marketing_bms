@@ -122,29 +122,48 @@
         if(this.$refs.baseSetting.validBaseItem() && this.$refs.prizeDrawSetting.validPrizeItem() && this.$refs.giftSetting.validGiftSetting() && this.$refs.templateSetting.validTemplateInfo()){
           let newPrizeDrawDetail = Object.assign({},this.prizeDrawDetail,this.$refs.baseSetting.getBaseItem(),this.$refs.prizeDrawSetting.getPrizeItem(),this.$refs.giftSetting.getGiftSetting(),this.$refs.templateSetting.getTemplateInfo())
           let param = {jsonData : JSON.stringify(newPrizeDrawDetail)}
-          Api.pd_activity_update(param)
-            .then(res => {
-              if (res.status == true) {
-                console.log(JSON.stringify(res));
+          console.log(this.prizeDrawCode);
+          if(this.prizeDrawCode=="new"){ //111111111111111111111111
+            Api.pd_activity_add(param)
+              .then(res => {
+                if (res.status == true) {
+                  console.log(JSON.stringify(res));
 
-              }else {
-                this.$refs.tipMsgRef.showTipMsg({
-                  msg:res.message,
-                  type:"error"
-                });
-              }
-            }).catch(err => {
+                }else {
+                  this.$refs.tipMsgRef.showTipMsg({
+                    msg:res.message,
+                    type:"error"
+                  });
+                }
+              }).catch(err => {
 
-          });
+            });
+          }else{
+            Api.pd_activity_update(param)
+              .then(res => {
+                if (res.status == true) {
+                  console.log(JSON.stringify(res));
+
+                }else {
+                  this.$refs.tipMsgRef.showTipMsg({
+                    msg:res.message,
+                    type:"error"
+                  });
+                }
+              }).catch(err => {
+
+            });
+          }
+
         }
       },
       savePrizeDrawInfo(){
           let param = {jsonData : JSON.stringify(this.prizeDrawDetail)}
-          Api.pd_activity_update(param)
+          Api.pd_activity_add(param)
             .then(res => {
               if (res.status == true) {
                 console.log(JSON.stringify(res));
-
+                this.$router.push("/prizeDraw/list");
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,

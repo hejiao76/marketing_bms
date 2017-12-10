@@ -2,6 +2,10 @@
  * Created by jsb-cpyy on 2017/8/30.
  */
 const OBJ ={
+  TICKET_NAME:"ticket",
+  LOGIN_PAGE_URL:"http://www.baidu.com",
+  IMG_PATH:"http://59.110.14.204:8085",
+  UPLOAD_PATH:"/action/sys/upload",
   seckill_order:{
     0:"全部", 1:"待支付",2:"已支付",3:"已取消",4:"退款中",5:"已退款"
   },

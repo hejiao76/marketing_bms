@@ -8,6 +8,8 @@
 
 <script>
   import api from "./fetch/api"
+  import * as util from "./util/util"
+  import Final from "./util/Final"
 export default {
   name: 'app',
   created (){
@@ -17,20 +19,16 @@ export default {
   },
   methods : {
       checkLogin(){
-//          let token = localStorage.getItem("token");
-//          if(!token){
-//              this.$router.replace("login");
-//          }else {
-//              var param={token : token};
-//            login_api.checkLogin(param)
+//          console.log(window.location.href);
+//            let ticket=util.getUrlParam(window.location.href,"ticket");
+//            console.log("url------>",ticket);
+//            api.base_checkLogin({ticket:ticket})
 //              .then(res =>{
-//                if(res.status!=1){
-//                  this.$router.replace("login");
-//                }
+//                console.log(res);
 //            }).catch(error => {
-//              this.$router.replace("login");
+//              window.location.href=Final.LOGIN_PAGE_URL;
 //            })
-//          }
+
       }
   }
 }

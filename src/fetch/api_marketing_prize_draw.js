@@ -8,7 +8,7 @@ export default {
     * @returns {*}
   */
   pd_activity_add(params) {
-    return fetch.fetch('ottery/add', params);
+    return fetch.fetch('lottery/add', params);
   },
   /**
    * 抽奖活动----获取活动编辑详情
