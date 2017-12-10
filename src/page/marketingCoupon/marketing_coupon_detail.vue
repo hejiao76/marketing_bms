@@ -5,28 +5,28 @@
         <el-row>
           <el-col :span="16">
             <el-form-item label="活动名称：">
-              <div style="width: 70%;">{{activityInfo.activityName}}</div>
+              <div style="width: 70%;">{{activityInfo.name}}</div>
             </el-form-item>
             <el-form-item label="活动日期：">
-              <div  style="width: 70%;"> {{activityInfo.startTime}}-{{activityInfo.endTime}}</div>
+              <div  style="width: 70%;">{{activityInfo.beginTime}}至{{activityInfo.endTime}}</div>
             </el-form-item>
             <el-form-item label="活动地区：">
-              <div  style="width: 70%;"><span v-for="item in activityInfo.city">{{item}}&nbsp;&nbsp;,</span></div>
+              <div  style="width: 70%;"><span v-for="item in activityInfo.area.list">{{item.city}}&nbsp;&nbsp;,</span></div>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="分享图片：">
-              <img src="../../assets/images/img01.jpg" alt="" style="width: 130px;height: 130px;">
+              <img :src="activityInfo.shareImg" alt="" style="width: 130px;height: 130px;">
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-form-item label="抵扣券：">
           </el-form-item>
-          <div v-for="item in activityInfo.ticketArr" class="saleticket-list">
+          <div v-for="item in activityInfo.couponList" class="saleticket-list">
             <div class="saleticket-list_header">
-              <p>抵扣券名称名称名称名</p>
-              <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+              <p>{{item.name}}</p>
+              <span>有效日期：{{item.createTime}}至{{item.validity}}</span>
               <div class="headericon">
                 <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
                 <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
@@ -39,7 +39,7 @@
                     抵扣券类型：
                   </div>
                   <div class="sal-con_txt">
-                    <span>抵扣车款  其他权益</span>
+                    <span>{{Final.COUPON_TYPE[item.type]}}</span>
                   </div>
                 </li>
                 <li>
@@ -47,7 +47,7 @@
                     抵扣金额(元)：
                   </div>
                   <div class="sal-con_txt">
-                    <span>1000</span>
+                    <span>{{item.amount}}</span>
                   </div>
                 </li>
                 <li>
@@ -55,7 +55,8 @@
                     绑定车系：
                   </div>
                   <div class="sal-con_txt">
-                    <span>博越</span>
+                    <span v-if="item.carType == 1">全车系</span>
+                    <span v-if="item.carType == 2" v-for="car in item.carIds">{{car.cx}},</span>
                   </div>
                 </li>
                 <li>
@@ -63,7 +64,7 @@
                     抵扣券数量：
                   </div>
                   <div class="sal-con_txt">
-                    asdfasdfads
+                    {{item.maxCount}}
                   </div>
                 </li>
                 <li>
@@ -71,7 +72,7 @@
                     创建日期：
                   </div>
                   <div class="sal-con_txt">
-                    <span>2017-11-11 10:15:20</span>
+                    <span>{{item.createTime}}</span>
                   </div>
                 </li>
               </ul>
@@ -105,12 +106,10 @@
     data() {
       return {
         labelPosition:'left',
+        activeId:'',
+        Final:Final,
         activityInfo:{
-          activityName:'金秋十月',
-          startTime:'2017-10-10',
-          endTime:'2017-10-11',
-          city:['北京','上海','沈阳'],
-          ticketArr:[1,2,3,4,5]
+          area:[]
         }
       }
     },
@@ -120,18 +119,35 @@
       VLeft,
       VConNav,
       VTipMsg,
-    },
-    created (){
-
+      Final
     },
     mounted (){
-
+       this.activeId = this.$route.params.couponId;
+       this.requestData();
     },
     watch : {
 
     },
     methods : {
-
+      /**
+       * 数据初始化
+       */
+      requestData(){
+        Api.cp_activity_detail({id:this.activeId})
+          .then(res => {
+            if (res.status) {
+              this.activityInfo = res.result;
+            }else {
+              this.activityInfo = '';
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
     }
   }
 </script>

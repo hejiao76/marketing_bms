@@ -97,8 +97,8 @@
         <el-col :span="20">
           <el-tabs type="card" @tab-click="changeActivityType">
             <el-tab-pane name="0" label="全部活动"></el-tab-pane>
-            <el-tab-pane name="1" label=" 进行中 "></el-tab-pane>
-            <el-tab-pane name="2" label=" 待上线 "></el-tab-pane>
+            <el-tab-pane name="1" label=" 待上线 "></el-tab-pane>
+            <el-tab-pane name="2" label=" 进行中 "></el-tab-pane>
             <el-tab-pane name="3" label=" 已结束 "></el-tab-pane>
           </el-tabs>
         </el-col>
@@ -121,26 +121,32 @@
       <!--------------列表------------>
       <el-table
         :data="resData"
-        style="width: 100%"
+        style="width: 100%;"
         @sort-change="sortTable"
         v-if="!isCar"
       >
         <el-table-column
           prop="name"
           label="活动名称"
-           width="150">
+          >
         </el-table-column>
         <el-table-column
           prop="beginTime"
           label="活动开始日期"
           sortable="custom"
-           width="150">
+          width="120"
+           >
+          <template slot-scope="scope">
+            <span v-html="formatterBr(scope.row.beginTime)"></span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="endTime"
           label="活动结束日期"
           sortable="custom"
-          width="150">
+          >
+          <template slot-scope="scope">
+            <span v-html="formatterBr(scope.row.endTime)"></span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="couponGet"
@@ -153,20 +159,26 @@
           sortable="custom" width="100">
         </el-table-column>
         <el-table-column
-          prop="isOnline"
+          prop="status"
           label="状态"
            width="100">
+          <template slot-scope="scope">
+            {{Final.COUPON_STATUS[scope.row.status]}}
+          </template>
         </el-table-column>
         <el-table-column
-          prop="createTime"
           label="创建日期"
-          sortable="custom" width="120">
+          sortable="custom">
+          <template slot-scope="scope">
+            <span v-html="formatterBr(scope.row.createTime)"></span>
+          </template>
         </el-table-column>
         <el-table-column label="操作" >
             <template slot-scope="scope">
               <el-button type="text" @click="openDetail(scope.row.id)">查看</el-button>
               <el-button type="text" @click="updatePrize(scope.row.id)">编辑</el-button>
-              <el-button type="text" @click="activeCouEnd(scope.row.id)">结束活动</el-button>
+              <el-button type="text" v-if="scope.row.status==1" @click="deletePrize(scope.row.id)">删除</el-button>
+              <el-button type="text" v-if="scope.row.status==2" @click="activeCouEnd(scope.row.id)">结束活动</el-button>
               <el-button type="text" @click="couponLink(scope.row.shareUrl)">活动链接</el-button>
             </template>
         </el-table-column>
@@ -200,8 +212,10 @@
                 <table>
                   <tr>
                     <td><a href="javascript:void(0)" @click="updatePrize(item.id)">编辑</a></td>
+                    <td v-if="item.status==1"><a href="javascript:void(0)" @click="deletePrize(item.id)">删除</a></td>
+                    <td v-if="item.status==2"><a href="javascript:void(0)" @click="activeCouEnd(item.id)">结束活动</a></td>
                     <td><a href="javascript:void(0)"  @click="couponLink(item.shareUrl)"> 活动链接</a></td>
-                    <td><a href="javascript:void(0)" @click="deletePrize(item.id)">删除</a></td>
+
                   </tr>
                 </table>
               </div>
@@ -279,6 +293,7 @@
             }
           }
         },
+        Final:Final,
         filterForm: {
           name:"",
           beginTime:"",
@@ -327,6 +342,11 @@
       }
     },
     methods: {
+      //
+      formatterBr(cellValue){
+        let arr = cellValue.split(" ");
+        return arr[0]+'<br/>'+arr[1];
+      },
       sortTable(obj){
        if(obj.prop == 'beginTime'){
          this.sortType = 1
@@ -452,7 +472,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.couponTotal;
+              this.totalRow = res.totalPage;
             }else {
               this.resData = [];
             }
@@ -475,16 +495,19 @@
        * 重置表单
        */
       resetForm() {
-
-        this.filterForm =  {
-          activityName:'',//活动名称
-            activityArea:'',//活动区域
-            activityStartDate:'',//活动开始时间
-            activityEndDate:'', //活动结束时间
-            createStartDate:'',//活动创建开始时间
-            createEndDate:''//活动创建结束时间
+        this.filterForm = {
+          name: "",
+          beginTime: "",
+          endTime: "",
+          createTime: "",
+          createTime2: "",
+          provinceObj: {
+            provinceName: '',
+            provinceId: '',
+            cityId: '',
+            cityName: '',
+          }
         }
-
         this.searchFn();
       },
       /**
@@ -505,7 +528,7 @@
         this.requestData();
       },
       openDetail (id){
-        this.$router.push({name: 'marketing_coupon_detail', params: {companyInfoId: id}})
+        this.$router.push({name: 'marketing_coupon_detail', params: {couponId: id}})
         //this.$router.push("/coupon/datail/"+id)
       },
       //结束活动
