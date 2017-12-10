@@ -5,17 +5,17 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="抵扣券名称：">
-              <div>{{activityInfo.activityName}}</div>
+              <div>{{activityInfo.name}}</div>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="有效期：">
-              <div> {{activityInfo.startTime}}-{{activityInfo.endTime}}</div>
+              <div> {{activityInfo.validity}}</div>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="抵扣金额：">
-              <div>1000</div>
+              <div>{{activityInfo.amount}}</div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -26,46 +26,37 @@
         </el-row>
         <el-row>
           <el-form-item label="绑定车系：">
-            <div>吉利博越</div>
+            <div><span v-for="item in activityInfo.carIds">{{item.cx}},</span></div>
           </el-form-item>
         </el-row>
         <el-row>
           <el-form-item label="参与活动：">
-            <div>金秋十月 豪礼</div>
+            <div><div><span v-for="item in activityInfo.activityList">{{item.name}},</span></div></div>
           </el-form-item>
         </el-row>
         <el-row>
           <el-form-item label="简介：">
-            <div>抵扣券简介</div>
+            <div>{{activityInfo.description}}</div>
           </el-form-item>
         </el-row>
         <el-row>
-          <el-col :span="16">
+          <el-col :span="20">
             <el-form-item label="抵扣券说明：">
-              <p>1</p>
-              <p>2</p>
-              <p>3</p>
-              <p>4</p>
-              <p>5</p>
-              <p>6</p>
-              <p>7</p>
-              <p>8</p>
+              <div v-html="activityInfo.details"></div>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="分享图片：">
-              <img src="../../assets/images/img01.jpg" alt="" style="width: 130px;height: 130px;">
-            </el-form-item>
-          </el-col>
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="分享图片：">-->
+              <!--<img src="../../assets/images/img01.jpg" alt="" style="width: 130px;height: 130px;">-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
 
         </el-row>
-
-      </el-form>
       <div style="overflow: auto;">
-        <div class="saleticket-list colorsaletickstyle ">
+        <div class="saleticket-list colorsaletickstyle " v-if="activityInfo.type!=1">
           <div class="saleticket-list_header">
-            <p>抵扣券名称名称名称名</p>
-            <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+            <p>抵扣券名称：{{activityInfo.gift.giftGroupName}}</p>
+            <span>有效期：{{activityInfo.gift.effectiveDate}}</span>
             <div class="headericon">
               <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
               <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
@@ -73,20 +64,12 @@
           </div>
           <div class="saleticket-content">
             <ul>
-              <li>
+              <li v-for="item in activityInfo.gift.giftInfoList">
                 <div class="sal-con-tit">
-                  加油卡：
+                  {{item.giftName}}:
                 </div>
                 <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-              <li>
-                <div class="sal-con-tit">
-                  雨伞：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
+                  <span>¥1{{item.giftPrice}}X{{item.giftCount}}</span>
                 </div>
               </li>
             </ul>
@@ -98,177 +81,13 @@
             </div>
             <table>
               <tr>
-                <td>345<em>(礼包金额)</em></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="saleticket-list colorsaletickstyle ">
-          <div class="saleticket-list_header">
-            <p>抵扣券名称名称名称名</p>
-            <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-          </div>
-          <div class="saleticket-content">
-            <ul>
-              <li>
-                <div class="sal-con-tit">
-                  加油卡：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-              <li>
-                <div class="sal-con-tit">
-                  雨伞：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="saleticket-footer">
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-            <table>
-              <tr>
-                <td>345<em>(礼包金额)</em></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="saleticket-list colorsaletickstyle ">
-          <div class="saleticket-list_header">
-            <p>抵扣券名称名称名称名</p>
-            <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-          </div>
-          <div class="saleticket-content">
-            <ul>
-              <li>
-                <div class="sal-con-tit">
-                  加油卡：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-              <li>
-                <div class="sal-con-tit">
-                  雨伞：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="saleticket-footer">
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-            <table>
-              <tr>
-                <td>345<em>(礼包金额)</em></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="saleticket-list colorsaletickstyle ">
-          <div class="saleticket-list_header">
-            <p>抵扣券名称名称名称名</p>
-            <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-          </div>
-          <div class="saleticket-content">
-            <ul>
-              <li>
-                <div class="sal-con-tit">
-                  加油卡：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-              <li>
-                <div class="sal-con-tit">
-                  雨伞：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="saleticket-footer">
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-            <table>
-              <tr>
-                <td>345<em>(礼包金额)</em></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="saleticket-list colorsaletickstyle ">
-          <div class="saleticket-list_header">
-            <p>抵扣券名称名称名称名</p>
-            <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-          </div>
-          <div class="saleticket-content">
-            <ul>
-              <li>
-                <div class="sal-con-tit">
-                  加油卡：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-              <li>
-                <div class="sal-con-tit">
-                  雨伞：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="saleticket-footer">
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-            <table>
-              <tr>
-                <td>345<em>(礼包金额)</em></td>
+                <td>{{activityInfo.gift.groupPrice}}<em>({{activityInfo.gift.description}})</em></td>
               </tr>
             </table>
           </div>
         </div>
       </div>
-
+      </el-form>
     </div>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
   </div>
@@ -288,12 +107,10 @@
     data() {
       return {
         labelPosition:'left',
+        Final:Final,
         activityInfo:{
-          activityName:'金秋十月',
-          startTime:'2017-10-10',
-          endTime:'2017-10-11',
-          city:['北京','上海','沈阳'],
-          ticketArr:[1,2,3,4,5]
+          area:[],
+          gift:{},
         }
       }
     },
@@ -304,17 +121,33 @@
       VConNav,
       VTipMsg,
     },
-    created (){
-
-    },
     mounted (){
-
+      this.activeId = this.$route.params.ticketId;
+      this.requestData();
     },
     watch : {
 
     },
     methods : {
-
+      /**
+       * 数据初始化
+       */
+      requestData(){
+        Api.cp_activity_coupon_info({id:this.activeId})
+          .then(res => {
+            if (res.status) {
+              this.activityInfo = res.result;
+            }else {
+              this.activityInfo = '';
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
     }
   }
 </script>
