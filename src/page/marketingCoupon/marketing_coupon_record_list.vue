@@ -6,12 +6,12 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="用户姓名：">
-              <el-input v-model="filterForm.userName"></el-input>
+              <el-input v-model="filterForm.userName"  placeholder="请输入用户姓名"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="用户电话：">
-              <el-input v-model="filterForm.userPhone"></el-input>
+            <el-form-item label="用户电话：" >
+              <el-input v-model="filterForm.userPhone" placeholder="请输入用户电话"></el-input>
             </el-form-item>
           </el-col>
 
@@ -194,32 +194,32 @@
       return {
         optionsGetStartTIme :{
           disabledDate:(time) => {
-            if(this.filterForm.getTime){
-              let d = new Date (this.filterForm.getTime)
+            if(this.filterForm.getTime2){
+              let d = new Date (this.filterForm.getTime2)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsGetEndTime :{
           disabledDate:(time) => {
-            if(this.filterForm.getTime2){
-              let d = new Date (this.filterForm.getTime2)
+            if(this.filterForm.getTime){
+              let d = new Date (this.filterForm.getTime)
               return time.getTime() <d.getTime();
             }
           }
         },
         optionsUsedStartTime: {
           disabledDate:(time) => {
-            if(this.filterForm.useTime){
-              let d = new Date (this.filterForm.useTime)
+            if(this.filterForm.useTime2){
+              let d = new Date (this.filterForm.useTime2)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsUsedEndTime: {
           disabledDate:(time) => {
-            if(this.filterForm.useTime2){
-              let d = new Date (this.filterForm.useTime2)
+            if(this.filterForm.useTime){
+              let d = new Date (this.filterForm.useTime)
               return time.getTime() <d.getTime();
             }
           }

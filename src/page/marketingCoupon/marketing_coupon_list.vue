@@ -59,6 +59,11 @@
                     <template>
                       <el-select v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
                         <el-option
+                          key=""
+                          label="全国"
+                          value=""
+                        ></el-option>
+                        <el-option
                           v-for="item in cityArr"
                           :key="item.provinceId"
                           :label="item.provinceName"

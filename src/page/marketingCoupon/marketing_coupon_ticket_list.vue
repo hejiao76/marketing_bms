@@ -26,7 +26,19 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="绑定车系：">
-              <el-input v-model="filterForm.activeBandCar"></el-input>
+              <el-select v-model="filterForm.serialIds" placeholder="请选择" style="width: 100%;">
+                <el-option
+                  key=""
+                  label="全部车系"
+                  value=""
+                ></el-option>
+                <el-option
+                  v-for="item in carArr"
+                  :key="item.id"
+                  :label="item.brandName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -330,10 +342,12 @@
           activeOption :'',//选择完成抵扣券类型
           amount:'',//抵扣最大金额
           amount2:'',//抵扣最小金额
+          serialIds:'',
         },
         labelPosition:'left',
         activityType : 1,
         resData : [],
+        carArr:[],
         currentPage: 1,//当前页
         totalRow: 20,//总页数
         pageRecorders: 10,
@@ -342,6 +356,7 @@
         sortStatus:1,// 排序方式 1：正序 2：倒序
         sortType:1,// 排序字段 1：活动开始日期 2：活动结束日期 3：领取数量 4：活动PV 5：创建日期
         dataNumber:0,
+        carArr:[],
       }
     },
     components: {
@@ -354,11 +369,28 @@
     },
     mounted () {
        this.requestData();
+       this.gatCars();
     },
     watch: {
 
     },
     methods: {
+      /**
+       * 获取车系
+       * @returns
+       */
+      gatCars(){
+        Api.base_sys_car_serials({})
+          .then(res => {
+            this.carArr = res.result;
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
       /**
        * 截取时间
        * @returns
@@ -449,6 +481,9 @@
         }
         if (this.filterForm.activeOption) {
           param.type = this.filterForm.activeOption
+        }
+        if (this.filterForm.serialIds) {
+          param.serialIds = this.filterForm.serialIds
         }
         if (this.filterForm.validity) {
           param.validity = Util.toDateString(this.filterForm.validity.getTime());
