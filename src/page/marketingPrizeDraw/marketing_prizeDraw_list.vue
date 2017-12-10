@@ -34,7 +34,7 @@
     <el-table
       :data="dataDetail"
       style="width: 100%; "
-      :default-sort = "{prop: 'date', order: 'descending'}"
+      @sort-change="sortTable"
     >
       <el-table-column
         prop="username"
@@ -62,7 +62,8 @@
       <el-table-column
         prop="createTime"
         label="中奖日期"
-        sortable>
+        sortable="custom"
+        >
       </el-table-column>
       <el-table-column
         prop="acitvityName"
@@ -94,7 +95,8 @@
       return {
         filterForm: {
           activityName:'',//活动名称
-          userName:'',//用户姓名
+          userName:'',//用户姓名,
+          descType:'',// 日期排序
         },
         currentPage: 1,
         totalRow: 0,
@@ -119,6 +121,18 @@
       }
     },
     methods: {
+      /**
+       * table排序
+       * @returns
+       */
+      sortTable(obj){
+        if(obj.order == 'descending'){
+          this.filterForm.descType = 'desc'
+        }else{
+          this.filterForm.descType = 'asc'
+        }
+        this.requestData();
+      },
       getFilterParam () {
         var param = {}
         if (this.filterForm.activityName) {
@@ -126,6 +140,9 @@
         }
         if (this.filterForm.userName) {
           param.userName = this.filterForm.userName
+        }
+        if (this.filterForm.descType) {
+          param.descType = this.filterForm.descType
         }
         param.pageIndex = this.currentPage;
         param.pageSize = this.pageRecorders;

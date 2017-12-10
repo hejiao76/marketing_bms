@@ -54,7 +54,7 @@
 
             <el-col :span="12">
               <el-row :gutter="20">
-                <el-form-item label="活动区域:" class="ml10" prop="activityArea" label-width="80px">
+                <el-form-item label="活动区域:" class="ml10"  label-width="80px">
                   <el-col :span="12">
                     <template>
                       <el-select v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">

@@ -11,31 +11,36 @@
           </el-col>
           <el-col :span="12">
             <el-row :gutter="20">
-              <el-form-item label="活动区域:" class="ml10" prop="activityArea" label-width="80px">
-              <el-col :span="12">
-              <template>
-              <el-select v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
-              <el-option
-              v-for="item in cityArr"
-              :key="item.provinceId"
-              :label="item.provinceName"
-              :value="item.provinceId">
-              </el-option>
-              </el-select>
-              </template>
-              </el-col>
-              <el-col :span="12">
-              <template>
-              <el-select v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
-              <el-option
-              v-for="item in cityVmList"
-              :key="item.cityId"
-              :label="item.cityName"
-              :value="item.cityId">
-              </el-option>
-              </el-select>
-              </template>
-              </el-col>
+              <el-form-item label="活动区域:" class="ml10"  label-width="80px">
+                <el-col :span="12">
+                  <template>
+                    <el-select v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
+                      <el-option
+                        key=""
+                        label="全国"
+                        value=""
+                      ></el-option>
+                      <el-option
+                        v-for="item in cityArr"
+                        :key="item.provinceId"
+                        :label="item.provinceName"
+                        :value="item.provinceId">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-col>
+                <el-col :span="12">
+                  <template>
+                    <el-select v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
+                      <el-option
+                        v-for="item in cityVmList"
+                        :key="item.cityId"
+                        :label="item.cityName"
+                        :value="item.cityId">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-col>
               </el-form-item>
             </el-row>
           </el-col>
@@ -91,10 +96,10 @@
         </el-col>
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
-      <el-table class="table_min_height mt10" :data="resData" ref="singleTable" >
+      <el-table class="table_min_height mt10" :data="resData" ref="singleTable" @sort-change="sortTable" >
         <el-table-column prop="name" label="活动名称" align="center" min-width="90" ></el-table-column>
         <el-table-column  label="活动时间" align="center" min-width="80"> <template scope="scope">{{scope.row.beginTime}}至{{scope.row.endTime}}</template></el-table-column>
-        <el-table-column  align="center" label="创建时间" sortable min-width="100"><template scope="scope">{{scope.row.createTime}}</template></el-table-column>
+        <el-table-column  align="center" label="创建时间"  min-width="100"><template scope="scope">{{scope.row.createTime}}</template></el-table-column>
         <el-table-column prop="enrollCount" align="center" label="领取数量"></el-table-column>
         <el-table-column prop="pvCount" align="center" label="活动pv"></el-table-column>
         <el-table-column prop="shareUrl" align="center" min-width="140" label="活动链接"></el-table-column>
@@ -318,6 +323,7 @@
        * @returns {}
        */
       checkProvince(provinceId){
+        this.filterForm.provinceObj.cityName = "";
         for(var i = 0 ; i < this.cityArr.length; i++){
           if(this.cityArr[i].provinceId == provinceId){
             this.filterForm.provinceObj.provinceId = provinceId;
@@ -437,8 +443,11 @@
         if (this.filterForm.activityName) {
           param.name = this.filterForm.activityName
         }
-        if (this.filterForm.activityArea) {
-          param.shareUrl = this.filterForm.activityArea
+        if (this.filterForm.provinceObj.provinceName) {
+          param.area = this.filterForm.provinceObj.provinceName
+        }
+        if (this.filterForm.provinceObj.cityName) {
+          param.area = this.filterForm.provinceObj.cityName
         }
         if (this.filterForm.activityStartDate) {
           param.beginTime = Util.toDateString(this.filterForm.activityStartDate.getTime());
