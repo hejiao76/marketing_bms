@@ -29,19 +29,19 @@
         </el-col>
           <el-col :span="8">
             <el-form-item label="经销商简称：">
-              <el-input v-model="filterForm.businessName" placeholder="请输入经销商简称"></el-input>
+              <el-input v-model="filterForm.dealersName" placeholder="请输入经销商简称"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="抵扣券码：">
-              <el-input v-model="filterForm.couponMa" placeholder="请输入抵扣券码"></el-input>
+              <el-input v-model="filterForm.couponCode" placeholder="请输入抵扣券码"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="抵扣金额：">
-              <el-input v-model="filterForm.couponMoney" placeholder="请输入抵扣金额"></el-input>
+              <el-input v-model="filterForm.couponAmount" placeholder="请输入抵扣金额"></el-input>
             </el-form-item>
           </el-col>
 
@@ -51,13 +51,13 @@
             <el-form-item label="领取日期:">
               <el-col :span="11">
                 <el-form-item >
-                  <el-date-picker style="width: 100%;" v-model="filterForm.getStartTIme" :editable="false" :picker-options="optionsGetStartTIme" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.getTime" :editable="false" :picker-options="optionsGetStartTIme" type="date" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.getEndTime" :editable="false" :picker-options="optionsGetEndTime" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.getTime2" :editable="false" :picker-options="optionsGetEndTime" type="date" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -71,13 +71,13 @@
             <el-form-item label="核销日期:">
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.usedStartTime" :editable="false" :picker-options="optionsUsedStartTime" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.useTime" :editable="false" :picker-options="optionsUsedStartTime" type="date" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.usedEndTime" :editable="false" :picker-options="optionsUsedEndTime" type="date" placeholder="请输入结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.useTime2" :editable="false" :picker-options="optionsUsedEndTime" type="date" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -93,63 +93,74 @@
     </div>
     <!--------------搜索结果------------>
     <div class="list_div">
-      <div style="margin-bottom:15px;"><span class="totalTip">共找到以下10条数据</span></div>
+      <div style="margin-bottom:15px;"><span class="totalTip">共找到以下 <span style="padding:0 10px;color: #409eff">{{dataNumber}}</span>条数据</span></div>
       <!--------------列表------------>
       <el-table
-        :data="tableData"
+        :data="resData"
         style="width: 100%"
-        :default-sort = "{prop: 'date', order: 'descending'}"
+        @sort-change="sortTable"
       >
         <el-table-column
-          prop="activityName"
+          prop="couponCode"
           label="抵扣券码"
           >
         </el-table-column>
         <el-table-column
-          prop="startDate"
+          prop="couponName"
           label="抵扣券名称"
-           width="100">
+          width="120"
+           >
         </el-table-column>
         <el-table-column
-          prop="endDate"
+          prop="activityName"
           label="参与活动"
         >
         </el-table-column>
         <el-table-column
-          prop="buyNum"
+          prop="carName"
           label="实际抵扣车型"
+          width="120"
           >
         </el-table-column>
         <el-table-column
-          prop="activity_pv"
+          prop="couponAmount"
           label="抵扣金额(元)"
-          sortable>
+          width="120"
+          sortable="custom">
         </el-table-column>
         <el-table-column
-          prop="activityStatus"
+          prop="userName"
           label="用户姓名"
            >
         </el-table-column>
         <el-table-column
-          prop="createDate"
+          prop="userPhone"
           label="用户电话"
            >
         </el-table-column>
         <el-table-column
-          prop="createDate"
+          prop="getTime"
           label="领取日期"
-          sortable >
+          width="110"
+          sortable="custom" >
+          <template slot-scope="scope">
+            <span v-html="formatterBr(scope.row.getTime)"></span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="createDate"
+          prop="useTime"
           label="核销日期"
-          sortable >
+          width="110"
+          sortable="custom" >
+          <template slot-scope="scope">
+            <span v-html="formatterBr(scope.row.useTime)"></span>
+          </template>
         </el-table-column>
         <el-table-column
           label="经销商"
            >
           <template slot-scope="scope">
-            <el-button type="text">汇通</el-button>
+            <el-button type="text">{{scope.row.dealersName}}</el-button>
           </template>
         </el-table-column>
       </el-table >
@@ -181,59 +192,61 @@
   export default {
     data() {
       return {
-        tableData:TestData.prize_list,
         optionsGetStartTIme :{
           disabledDate:(time) => {
-            if(this.filterForm.getStartTIme){
-              let d = new Date (this.filterForm.getStartTIme)
+            if(this.filterForm.getTime){
+              let d = new Date (this.filterForm.getTime)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsGetEndTime :{
           disabledDate:(time) => {
-            if(this.filterForm.getEndTime){
-              let d = new Date (this.filterForm.getEndTime)
+            if(this.filterForm.getTime2){
+              let d = new Date (this.filterForm.getTime2)
               return time.getTime() <d.getTime();
             }
           }
         },
         optionsUsedStartTime: {
           disabledDate:(time) => {
-            if(this.filterForm.usedStartTime){
-              let d = new Date (this.filterForm.usedStartTime)
+            if(this.filterForm.useTime){
+              let d = new Date (this.filterForm.useTime)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsUsedEndTime: {
           disabledDate:(time) => {
-            if(this.filterForm.usedEndTime){
-              let d = new Date (this.filterForm.usedEndTime)
+            if(this.filterForm.useTime2){
+              let d = new Date (this.filterForm.useTime2)
               return time.getTime() <d.getTime();
             }
           }
         },
         filterForm: {
-          userName:'',//用户姓名
-          userPhone:'',//用户电话
-          activityName:'',//活动名称
-          couponName:'',//抵扣券名称
-          businessName:'',//商家名称
-          couponMa:'',//抵扣券码
-          couponMoney:'',//抵扣金额
-          getStartTIme:'',//领取开始日期
-          getEndTime:'',//领取结束日期
-          usedStartTime:'',//核销开始日期
-          usedEndTime:'',//核销结束日期
+          "getTime":"", //领取时间
+          "getTime2":"",
+          "useTime":"", //核销时间
+          "useTime2":"",
+          "couponCode":"", //抵扣券码
+          "couponAmount":"", //抵扣金额
+          "couponAmount2":"",
+          "couponName":"", //抵扣券名称
+          "activityName":"", //活动名称
+          "userPhone":"", //用户电话
+          "userName":"", //用户姓名
+          "dealersName":"" //经销商简称
         },
         labelPosition:'left',
-        activityType : 0,
         resData : [],
         currentPage: 1,//当前页
         totalRow: 20,//总页数
         pageRecorders: 10,
         Final: Final,
+        sortStatus:1,// 排序方式 1：正序 2：倒序
+        sortType:1,// 排序字段 1：活动开始日期 2：活动结束日期 3：领取数量 4：活动PV 5：创建日期
+        dataNumber:0,
       }
     },
     components: {
@@ -244,35 +257,66 @@
       VConNav,
       VTipMsg
     },
-    created (){
-    },
     mounted () {
-      //      this.requestData();
+        this.requestData();
     },
     watch: {
 
     },
     methods: {
-      ////table排序　
-      formatter(row, column) {
-        return row.address;
-      },
-      ////卡片切换
-      changeCar(){
-        if(this.isCar){
-          this.isCar = false;
-        }else{
-          this.isCar = true;
+      /**
+       * 截取时间
+       * @returns
+       */
+       formatterBr(cellValue){
+            let arr = cellValue.split(" ");
+             return arr[0]+'<br/>'+arr[1];
+        },
+      /**
+       * table排序
+       * @returns
+       */
+      sortTable(obj){
+        console.log(obj);
+        if(obj.prop == 'couponAmount'){
+          this.sortType = 1
+        }else if(obj.prop == 'getTime'){
+          this.sortType = 2
+        }else if(obj.prop == 'useTime'){
+          this.sortType = 3
         }
+        if(obj.order == 'descending'){
+          this.sortStatus = 2
+        }else{
+          this.sortStatus = 1
+        }
+        this.requestData();
       },
       /**
-       * 新建活动点击
-       * @returns {}
+       * 数据初始化
+       * @returns
        */
-      addActivity () {
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"还在开发! 急什么! 急什么!",
-          type:"error"
+      requestData(){
+        var p = this.getFilterParam();
+        Api.cp_activity_coupon_use_list(p)
+          .then(res => {
+            if (res.status) {
+              this.resData = res.result;
+              this.currentPage = 1;
+              this.totalRow = res.totalPage;
+              this.dataNumber = res.dataNumber;
+            }else {
+              this.resData = [];
+              this.currentPage = 0;
+              this.totalRow = 0;
+              this.dataNumber = 0;
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
         });
       },
       /**
@@ -282,7 +326,7 @@
       getFilterParam () {
         var param = {token: localStorage.getItem("token"), type: this.checkStatus}
         if (this.filterForm.userName) {
-          param.activityName = this.filterForm.userName
+          param.userName = this.filterForm.userName
         }
         if (this.filterForm.activityName) {
           param.activityName = this.filterForm.activityName
@@ -293,27 +337,34 @@
         if (this.filterForm.couponName) {
           param.couponName = this.filterForm.couponName
         }
-        if (this.filterForm.businessName) {
-          param.businessName = this.filterForm.businessName
+        if (this.filterForm.dealersName) {
+          param.dealersName = this.filterForm.dealersName
         }
-        if (this.filterForm.couponMa) {
-          param.couponMa = this.filterForm.couponMa
+        if (this.filterForm.couponCode) {
+          param.couponCode = this.filterForm.couponCode
         }
-        if (this.filterForm.couponMoney) {
-          param.couponMoney = this.filterForm.couponMoney
+        if (this.filterForm.couponAmount) {
+          param.couponAmount = this.filterForm.couponAmount
         }
-        if (this.filterForm.getStartTIme) {
-          param.getStartTIme = Util.toDateString(this.filterForm.getStartTIme.getTime());
+        if (this.filterForm.couponAmount2) {
+          param.couponAmount2 = this.filterForm.couponAmount2
         }
-        if (this.filterForm.getEndTime) {
-          param.getEndTime = Util.toDateString(this.filterForm.getEndTime.getTime());
+        if (this.filterForm.getTime) {
+          param.getTime = Util.toDateString(this.filterForm.getTime.getTime());
         }
-        if (this.filterForm.usedStartTime) {
-          param.usedStartTime = Util.toDateString(this.filterForm.usedStartTime.getTime());
+        if (this.filterForm.getTime2) {
+          param.getTime2 = Util.toDateString(this.filterForm.getTime2.getTime());
         }
-        if (this.filterForm.usedEndTime) {
-          param.usedEndTime = Util.toDateString(this.filterForm.usedEndTime.getTime());
+        if (this.filterForm.useTime) {
+          param.useTime = Util.toDateString(this.filterForm.useTime.getTime());
         }
+        if (this.filterForm.useTime2) {
+          param.useTime2 = Util.toDateString(this.filterForm.useTime2.getTime());
+        }
+        param.pageNo = this.currentPage;
+        param.pageSize = this.pageRecorders;
+        param.sortStatus = this.sortStatus;
+        param.sortType = this.sortType
         console.log("查询提交参数:",param);
         return param;
       },
@@ -330,26 +381,20 @@
       resetForm() {
         //this.$refs['filterForm'].resetFields();
         this.filterForm= {
-          userName:'',//用户姓名
-            userPhone:'',//用户电话
-            activityName:'',//活动名称
-            couponName:'',//抵扣券名称
-            businessName:'',//商家名称
-            couponMa:'',//抵扣券码
-            couponMoney:'',//抵扣金额
-            getStartTIme:'',//领取开始日期
-            getEndTime:'',//领取结束日期
-            usedStartTime:'',//核销开始日期
-            usedEndTime:'',//核销结束日期
+          "getTime":"", //领取时间
+          "getTime2":"",
+          "useTime":"", //核销时间
+          "useTime2":"",
+          "couponCode":"", //抵扣券码
+          "couponAmount":"", //抵扣金额
+          "couponAmount2":"",
+          "couponName":"", //抵扣券名称
+          "activityName":"", //活动名称
+          "userPhone":"", //用户电话
+          "userName":"", //用户姓名
+          "dealersName":"" //经销商简称
         }
         this.searchFn();
-      },
-      /**
-       * 选项卡点击事件触发
-       * @returns {}
-       */
-      changeActivityType (tab, event){
-        this.activityType = tab.name;
       },
       /**
        * 翻页控件触发事件
@@ -358,10 +403,7 @@
       handleCurrentChange(cpage) {
         this.currentPage = cpage;
         this.requestData();
-      },
-      toDetail (companyInfoId){
-        this.$router.push({name: 'companyDetail', params: {companyInfoId: companyInfoId}})
-      },
+      }
 
 
 

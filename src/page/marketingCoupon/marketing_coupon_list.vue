@@ -473,6 +473,7 @@
             if (res.status) {
               this.resData = res.result;
               this.totalRow = res.totalPage;
+              this.currentPage = 1;
             }else {
               this.resData = [];
             }
