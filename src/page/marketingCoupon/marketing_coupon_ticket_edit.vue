@@ -130,6 +130,8 @@
           //编辑相关操作
           if(type=="series"){
               this.couponSettingTab="series"
+          } else if(type=="type"){
+            this.couponSettingTab="type"
           }
           this.disabledTab=false;
           this.requestData()
