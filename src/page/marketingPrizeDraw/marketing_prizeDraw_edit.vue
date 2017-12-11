@@ -47,7 +47,7 @@
       return {
         disabledTab:false,
         isEdit:true,
-        prizeDrawSettingTab:'gift', //选项卡默认选中项1111111111111111111111111111
+        prizeDrawSettingTab:'base', //选项卡默认选中项1111111111111111111111111111
         prizeDrawDetail : {},
         prizeDrawCode:'',
       }
