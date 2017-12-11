@@ -52,8 +52,8 @@
           <span>抽奖活动</span>
         </template>
           <el-menu-item index="1-1" :route="{path:'/prizeDraw/edit/-1'}">新增抽奖活动</el-menu-item>
-          <el-menu-item index="1-2" :route="{path:'/prizeDraw/prize_list'}">抽奖活动管理</el-menu-item>
-          <el-menu-item index="1-3" :route="{path:'/prizeDraw/list'}">中奖记录</el-menu-item>
+          <el-menu-item index="1-2" :route="{path:'/prizeDraw/list'}">抽奖活动管理</el-menu-item>
+          <el-menu-item index="1-3" :route="{path:'/prizeDraw/prize_list'}">中奖记录</el-menu-item>
 
       </el-submenu>
       <el-submenu index="2">
