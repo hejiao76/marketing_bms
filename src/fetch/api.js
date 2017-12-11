@@ -13,7 +13,7 @@ const base = {
     },
 
     base_checkLogin (params){
-      return fetch.fetch('/wuliu-web-user/wuliu/audit/veifyToken.action?tag='+new Date().getTime(),params);
+      return fetch.fetch('/admin/veifyToken.action?tag='+new Date().getTime(),params);
     },
     /**
      * 用户注册
@@ -51,6 +51,12 @@ const base = {
      */
     base_sys_gift_list (params){
       return fetch.fetch('/sys/gift/list', params,"get")
+    },
+    /**
+     *  通过车系查询礼包列表下拉列表
+     */
+    base_sys_gift_list_select (params){
+      return fetch.fetch('/sys/gift/list2', params,"get")
     },
     /**
      *  查询单个礼包详情

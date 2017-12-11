@@ -10,13 +10,13 @@
             <el-col style="border: 1px solid #ccc; padding:0 8px; margin-bottom:10px;">
               <el-collapse-transition>
               <div v-if="isshow">
-                <el-form-item label="礼包名称:" prop="giftGroupName">
-                  <el-select v-model="prizeItemForm.giftGroupName" placeholder="请选择">
+                <el-form-item label="礼包名称:" prop="giftGroupId">
+                  <el-select v-model="prizeItemForm.giftGroupId" @change="selectGiftGroup" placeholder="请选择">
                     <el-option
-                      v-for="item in prizeItemForm.activityArea"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
+                      v-for="item in giftList"
+                      :key="item.giftGroupId"
+                      :label="item.giftGroupName"
+                      :value="item.giftGroupId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -116,7 +116,9 @@ export default {
         5:"五",
       },
       isshow:true,
+      giftList:[],
       prizeItemForm:{
+        details:'礼包详情 必填',
         prizeId:'', //奖品ID
         giftGroupId:'', // 礼包ID
         giftGroupName:'', //礼包名称
@@ -124,7 +126,8 @@ export default {
         level:'', //奖项等级
         odds:0,  // 中奖概率
         dayQuantity:0, //每天投放数量
-        ruleList:[], //投放规则列表
+        ruleList:[], //投放规则列表,
+        giftGroupPrice:100
       },
 //      prizeRulsItem:{  //投放规则项
 //        prizeRulsId:'',
@@ -166,8 +169,34 @@ export default {
   },
   mounted () {
     this.cloneGiftSettingInfo();
+    this.requestGiftList();
   },
   methods:{
+      selectGiftGroup (value){
+          for(let i = 0 ;this.giftList.length;i++){
+              if(this.giftList[i].giftGroupId == this.prizeItemForm.giftGroupId){
+                this.prizeItemForm.giftGroupName = this.giftList[i].giftGroupName;
+                this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice;
+              }
+          }
+      },
+      requestGiftList (){
+          let param={type:1,pageIndex:1,pageSize:1000,giftGroupName:'礼'}
+        Api.base_sys_gift_list(param)
+          .then(res => {
+            if (res.status == true) {
+                this.giftList=res.result;
+                console.log(res);
+            }else {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(err => {
+
+        });
+      },
     /**
      * 克隆礼品项信息
      */
@@ -213,6 +242,8 @@ export default {
     },
     getGiftItem () {
       if(this.validGiftItem()){
+          let newItem=Object.assign({},this.prizeItemForm);
+
           return Object.assign({},this.prizeItemForm)
       }
     },

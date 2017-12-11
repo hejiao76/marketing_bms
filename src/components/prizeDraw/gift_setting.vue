@@ -211,12 +211,13 @@ export default {
       }
     },
     addGiftItem () {
+        let level=this.giftSetting.prizeList.length+1;
         this.giftSetting.prizeList.push({
           prizeId:'', //奖品ID
           giftGroupId:'', // 礼包ID
           giftGroupName:'', //礼包名称
           quantity:0, //数量
-          level:'', //奖项等级
+          level:level, //奖项等级
           odds:0,  // 中奖概率
           dayQuantity:0, //每天投放数量
           ruleList:[{
@@ -283,6 +284,8 @@ export default {
     saveGiftSetting(){
         if(this.validGiftSetting()){
           let newGiftSetting = Object.assign({}, this.giftSetting);
+          newGiftSetting.redeemBeginTime = this.formatDateToString(this.giftSetting.redeemBeginTime);
+          newGiftSetting.redeemEndTime = this.formatDateToString(this.giftSetting.redeemEndTime);
           console.log("数据过来了------->",JSON.stringify(this.giftSetting));
           this.$emit("call", {op: "edit", tag: "gift", callData: newGiftSetting});
         }

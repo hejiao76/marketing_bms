@@ -58,10 +58,10 @@
               <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
             <!--</el-upload>-->
             <!--</el-form-item>-->
-            <el-form-item prop="bgImg" label-width="0px;">
-            <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+            <el-form-item prop="shareImg" label-width="0px;">
+            <el-upload class="upload-demo" :on-success="bgImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
               <!--<i class="el-icon-upload" ></i>-->
-              <img v-if="baseItem.bgImg" :src="baseItem.bgImg" class="avatar">
+              <img v-if="baseItem.bgImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">
               <i v-else class="el-icon-upload" ></i>
               <div class="el-upload__text">拖动或<em>点击上传</em></div>
               <div class="el-upload__tip" slot="tip"></div>
@@ -79,8 +79,8 @@
           <el-col :span="14">
             <span >标题图片：</span>
             <el-form-item prop="titleImg" label-width="0px;">
-            <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
-              <img v-if="baseItem.titleImg" :src="baseItem.titleImg" class="avatar">
+            <el-upload class="upload-demo" :on-success="titleImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
+              <img v-if="baseItem.titleImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">
               <i v-else class="el-icon-upload" ></i>
               <div class="el-upload__text">拖动或<em>点击上传</em></div>
               <div class="el-upload__tip" slot="tip"></div>
@@ -97,9 +97,9 @@
           <el-col :span="14">
             <span >活动图片：</span>
             <el-form-item prop="shareImg" label-width="0px;">
-              <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+              <el-upload class="upload-demo" :on-success="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                 <!--<i class="el-icon-upload" ></i>-->
-                <img v-if="baseItem.shareImg" :src="baseItem.shareImg" class="avatar">
+                <img v-if="baseItem.shareImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">
                 <i v-else class="el-icon-upload" ></i>
                 <div class="el-upload__text">拖动或<em>点击上传</em></div>
                 <div class="el-upload__tip" slot="tip"></div>
@@ -115,16 +115,16 @@
       </el-row>
       <el-row class="margin-bottom-20" style="margin-top:20px;">
         <el-form-item label="活动地区:" prop="description">
-          <V-Treeview></V-Treeview>
+          <V-Treeview @call="syncArea"></V-Treeview>
         </el-form-item>
       </el-row>
       <el-row class="margin-bottom-20">
-        <span class="span-120">车系／车型：</span><el-select  v-model="baseItem.carStyle" placeholder="全部"size="small">
+        <span class="span-120">车系／车型：</span><el-select  v-model="baseItem.serialIds" placeholder="全部"size="small">
           <el-option
-            v-for="item in baseItem.activityArea"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in seriesList"
+            :key="item.id"
+            :label="item.serialName"
+            :value="item.id">
           </el-option>
         </el-select>
       </el-row>
@@ -160,6 +160,8 @@ export default {
   props:['prizeDrawDetail',"isEdit"],
   data () {
     return {
+      Final:Final,
+      uploadParam:{module:"lottery"},
       optionsActivityStart :{
         disabledDate:(time) => {
           if(this.baseItem.beginTime){
@@ -186,9 +188,11 @@ export default {
         bgImg:'',//背景图片地址,
         titleImg:'', //标题图片地址,
         shareImg:'',//分享图片地址
-        area:'',//活动地区JSON串
+        areaIds:'',//活动地区ID字符串
+        areaNames:'',//活动地区名称字符串
         carStyle:'',// 车系车型JSON串
-        description:'',//活动说明
+        description:'',//活动说明,
+        serialIds:'' //车系ID
       },
       rules: {
         name: [
@@ -214,6 +218,7 @@ export default {
           { required: true, message: '请输入活动说明', trigger: 'blur' }
         ]
       },
+      seriesList:[],
       labelPosition:'left',
     }
   },
@@ -230,6 +235,7 @@ export default {
   created () {
   },
   mounted () {
+        this.requsetSeriesList();
 //    this.cloneTicketInfo();
   },
   methods:{
@@ -240,6 +246,22 @@ export default {
         Api.base_sys_location({})
           .then(res => {
             if (res.status == true) {
+              console.log(res);
+            }else {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(err => {
+
+        });
+      },
+      requsetSeriesList (){
+        Api.base_sys_car_serials({})
+          .then(res => {
+            if (res.status == true) {
+                this.seriesList=res.result;
               console.log(res);
             }else {
               this.$refs.tipMsgRef.showTipMsg({
@@ -276,11 +298,16 @@ export default {
           bgImg:this.prizeDrawDetail.bgImg,//背景图片地址,
           titleImg:this.prizeDrawDetail.titleImg, //标题图片地址,
           shareImg:this.prizeDrawDetail.shareImg,//分享图片地址
-          area:this.prizeDrawDetail.area,//活动地区JSON串
+          areaIds:this.prizeDrawDetail.areaIds,//活动地区ID字符串
+          areaNames:this.prizeDrawDetail.areaNames,//活动地区名称字符串
           carStyle:this.prizeDrawDetail.carStyle,// 车系车型JSON串
           description:this.prizeDrawDetail.description,//活动说明
         }
       }
+    },
+    syncArea(data){
+      this.baseItem.areaIds=data.allCode;
+      this.baseItem.areaNames=data.allName;
     },
     /**
      * 上传图片成功回调
@@ -341,44 +368,24 @@ export default {
               newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
               this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
         }
-//      this.$refs['baseItem'].validate((valid) => {
-//          if (valid) {
-//              let newBaseItem = Object.assign({},this.baseItem);
-//              newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
-//              newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
-//              this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
-//              console.log("success");
-//          }else{
-//            console.log('error submit!!');
-//            return false;
-//          }
-//      });
-
-
-//      if(ticketId){
-//        this.$refs['checkedTicketItemForm'].validate((valid) => {
-//          if (valid) {
-//            let newItem ={};
-//            this.checkedTicketItemForm.editStatus=0;
-//            Object.assign(newItem,this.checkedTicketItemForm);
-//            console.log("~~~~",JSON.stringify(newItem));
-//            if(this.checkedTicketItemForm.signUpStartTime){
-//              newItem.signUpStartTime = this.formatDateToString(this.checkedTicketItemForm.signUpStartTime)
-//            }
-//            if(this.checkedTicketItemForm.signUpEndTime){
-//              newItem.signUpEndTime = this.formatDateToString(this.checkedTicketItemForm.signUpEndTime)
-//            }
-//            if(this.checkedTicketItemForm.sedKillStartDate){
-//              newItem.sedKillStartDate = this.formatDateToString(this.checkedTicketItemForm.sedKillStartDate)
-//            }
-//            delete newItem.editStatus;
-//            this.$emit("call",{op:"edit",callData:newItem});
-//          } else {
-//            console.log('error submit!!');
-//            return false;
-//          }
-//        });
-//      }
+    },
+    bgImgUploadSuccess (res, file, fileList) {
+        if(res.status==true){
+            this.baseItem.bgImg=res.result.path;
+            console.log(this.baseItem.bgImg);
+        }
+    },
+    titleImgUploadSuccess (res, file, fileList) {
+      if(res.status==true){
+        this.baseItem.titleImg=res.result.path;
+        console.log(this.baseItem.titleImg);
+      }
+    },
+    shareImgUploadSuccess (res, file, fileList) {
+      if(res.status==true){
+        this.baseItem.shareImg=res.result.path;
+        console.log(this.baseItem.shareImg);
+      }
     },
     /**
      * 自定义验证规则

@@ -74,6 +74,29 @@ export function toFullDateString(l_date) {
   second = second < 10 ? "0" + second : second;
   return ( year+"-"+month + "-" + day + " " + hour + ":" + minute+":"+second);
 }
+/**
+ * 解析URL参数
+ * @param url
+ * @param name
+ * @returns {*}
+ */
+export function getUrlParam (url, name) {
+  var pattern = new RegExp("[?&]" + name + "=([^&^#]+)", "g");
+  var matcher = pattern.exec(url);
+  var items = null;
+  if (null != matcher) {
+    try {
+      items = decodeURIComponent(decodeURIComponent(matcher[1]));
+    } catch (e) {
+      try {
+        items = decodeURIComponent(matcher[1]);
+      } catch (e) {
+        items = matcher[1];
+      }
+    }
+  }
+  return items;
+}
 export function checkMobile(phone){
   if(!(/^1[34578]\d{9}$/.test(phone))){
     return false;

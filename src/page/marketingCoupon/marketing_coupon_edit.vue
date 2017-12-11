@@ -1,7 +1,7 @@
 <template>
   <div class="con_list">
     <div class="filter_div mb20">
-      <el-form :model="activityInfo" :rules="rules" size="small" ref="activityInfo" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+      <el-form :model="activityInfo" :rules="rules" size="small" ref="activityInfo" label-width="120px" class="demo-ruleForm" label-position="left">
         <el-row :gutter="20">
           <el-col :span="16">
             <el-row>
@@ -173,6 +173,7 @@
     data() {
       return {
         testData:'',
+        Final:Final,
         optionsActivityStart :{
           disabledDate:(time) => {
             if(this.activityInfo.end_time){
@@ -189,7 +190,6 @@
             }
           }
         },
-        labelPosition:'left',
         activityInfo: {
           id:'',
           name:'',
@@ -197,9 +197,8 @@
           end_time:'',
           coupons:[],
           area:{},
-
-
         },
+        checked_ticket:[],
         rules: {
           name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -223,7 +222,7 @@
 
         },
         activityId:'', //秒杀活动ID
-        activityInfo:{},
+//        activityInfo:{},
       }
     },
     components :{
@@ -246,8 +245,7 @@
     },
     methods : {
       initPage () {
-        this.activityId = this.$route.params.sedKillId;
-
+        this.activityId = this.$route.params.couponId;
         if(this.activityId){
           this.requestData()
         }
@@ -328,7 +326,7 @@
         return item;
       },
       /**
-       * 编辑/取消1编1辑 秒杀券基本信息按钮事件触发
+       * 编辑/取消编辑 秒杀券基本信息按钮事件触发
        * @param ticketId
        * @param status
        */
@@ -400,6 +398,7 @@
        * 获取已选择秒杀券ID
        */
       getExceptTicketId(){
+        console.log("getExceptTicketId")
         let ticketIdArray = [];
         for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
           ticketIdArray.push(this.activityInfo.checked_ticket[i].ticketId);
@@ -411,6 +410,7 @@
        * @param ticketId
        */
       openAddList() {
+          console.log("open")
         this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
       },
       addSedKillCallBack(checkedNewTicketList){
