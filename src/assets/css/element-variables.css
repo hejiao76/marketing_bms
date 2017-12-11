@@ -17,6 +17,10 @@
   border-color: #409eff;
   color: #fff
 }
+
+.el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
+  border-color:#d8dce6
+}
 /*******----------------form表单---------------******/
 .el-form-item {
   margin-bottom:18px;
