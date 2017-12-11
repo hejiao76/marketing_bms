@@ -90,7 +90,6 @@
   import UE from './../../components/ue/ue.vue';
 
 
-  //  import ElCol from "element-ui/packages/col/src/col";
   export default {
     data() {
       return {

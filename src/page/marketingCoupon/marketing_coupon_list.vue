@@ -258,8 +258,7 @@
   import VTipMsg from "./../../components/tipMsg.vue";
   import TestData from "./../../util/TestData"
   import $ from "jquery"
-  import ElCol from "element-ui/packages/col/src/col";
-  import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
+
   import VTreeview from "./../../components/treeview.vue";
   import VCouponLink from "./../../components/coupon_link.vue";
   export default {
@@ -328,8 +327,8 @@
       }
     },
     components: {
-      ElButton,
-      ElCol,
+//      ElButton,
+//      ElCol,
       VHeader,
       VLeft,
       VConNav,

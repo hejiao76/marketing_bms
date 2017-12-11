@@ -93,8 +93,8 @@ import Api from "./../fetch/api"
 import Final from "./../util/Final"
 import VTipMsg from "./tipMsg.vue";
 import TestData from "./../util/TestData"
-import ElRow from "element-ui/packages/row/src/row";
-import ElCol from "element-ui/packages/col/src/col";
+//import ElRow from "element-ui/packages/row/src/row";
+//import ElCol from "element-ui/packages/col/src/col";
 export default {
   data () {
     return {
@@ -107,8 +107,8 @@ export default {
     }
   },
   components :{
-    ElCol,
-    ElRow,
+//    ElCol,
+//    ElRow,
     VTipMsg
   },
   created () {

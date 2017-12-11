@@ -144,7 +144,6 @@
   import VOrderList from "./../../components/order_list.vue";
   import TestData from "./../../util/TestData"
   import $ from "jquery"
-  import ElRow from "element-ui/packages/row/src/row";
   export default {
     data() {
       return {
@@ -182,7 +181,6 @@
       }
     },
     components: {
-      ElRow,
       VHeader,
       VLeft,
       VConNav,

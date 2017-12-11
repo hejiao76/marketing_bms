@@ -36,7 +36,7 @@
             次,
             每日免费抽奖次数：
             <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
-            <el-input-number style="width:10%" v-model="prizeItem.userLotteryLimit" :controls="false" :min="0"></el-input-number>
+            <el-input-number style="width:10%" v-model="prizeItem.userDayLotteryLimit" :controls="false" :min="0"></el-input-number>
             次
           </el-form-item>
           <el-form-item label="增加抽奖机会设置:" prop="activityName">

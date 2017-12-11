@@ -142,7 +142,6 @@
   import * as Util from "./../../util/util";
   import VTipMsg from "./../../components/tipMsg.vue";
   import TestData from "./../../util/TestData";
-  import ElCol from "element-ui/packages/col/src/col";
   import $ from "jquery"
   import VCouponLink from "./../../components/coupon_link.vue";
   import VPldetail from "./../../components/prize_list_detail.vue";
@@ -192,7 +191,6 @@
       }
     },
     components: {
-      ElCol,
       VHeader,
       VLeft,
       VConNav,

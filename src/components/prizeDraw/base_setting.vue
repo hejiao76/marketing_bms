@@ -45,92 +45,110 @@
       </el-row>
       <el-row>
         <el-col :span="8">
-          <el-col :span="14">
             <span >背景图片：</span>
-            <!--<el-form-item prop="bgImg" label-width="0px;">-->
-            <!--<el-upload-->
-              <!--class="upload-demo"-->
-              <!--action="https://jsonplaceholder.typicode.com/posts/"-->
-              <!--:show-file-list="false"-->
-              <!--:on-success="handleAvatarSuccess"-->
-              <!--:before-upload="beforeAvatarUpload">-->
-              <!--<img v-if="baseItem.bgImg" :src="baseItem.bgImg" class="avatar">-->
-              <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-            <!--</el-upload>-->
-            <!--</el-form-item>-->
-            <el-form-item prop="shareImg" label-width="0px;">
-            <el-upload class="upload-demo" :on-success="bgImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
-              <!--<i class="el-icon-upload" ></i>-->
-              <img v-if="baseItem.bgImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">
-              <i v-else class="el-icon-upload" ></i>
-              <div class="el-upload__text">拖动或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip"></div>
-            </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <div style="font-size: 12px;padding-top:40%;">大小200kb内<br/>
-              尺寸：50px*50px</div>
-            <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
-          </el-col>
-
-        </el-col>
-        <el-col :span="8">
-          <el-col :span="14">
-            <span >标题图片：</span>
-            <el-form-item prop="titleImg" label-width="0px;">
-            <el-upload class="upload-demo" :on-success="titleImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
-              <img v-if="baseItem.titleImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">
-              <i v-else class="el-icon-upload" ></i>
-              <div class="el-upload__text">拖动或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip"></div>
-            </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <div style="font-size: 12px;padding-top:40%;">大小200kb内<br/>
-              尺寸：50px*50px</div>
-            <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
-          </el-col>
-        </el-col>
-        <el-col :span="8">
-          <el-col :span="14">
-            <span >活动图片：</span>
-            <el-form-item prop="shareImg" label-width="0px;">
-              <el-upload class="upload-demo" :on-success="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
-                <!--<i class="el-icon-upload" ></i>-->
-                <img v-if="baseItem.shareImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">
-                <i v-else class="el-icon-upload" ></i>
-                <div class="el-upload__text">拖动或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip"></div>
+            <el-form-item prop="bgImg" label-width="0px;"  class="prizeDrawUpload">
+              <el-upload class="avatar-uploader" style="min-width:100px;max-width:60%" :on-success="bgImgUploadSuccess" :before-upload="bgImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
+                <img v-if="baseItem.bgImg" :src="baseItem.bgImg.includes('http://') ? baseItem.bgImg : Final.IMG_PATH+baseItem.bgImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
+              <div class="rightTip" style="">
+                <div style="">大小200kb内</div>
+                <a href="javascript:void(0)" style="color: #527EFE" @click="setDefaultImg('bg')">恢复默认</a>
+              </div>
             </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <div style="font-size: 12px;padding-top:40%">大小:<br/>200kb内<br/>
-              尺寸：<br/>50px*50px</div>
-            <a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>
-          </el-col>
         </el-col>
+        <el-col :span="8">
+          <span >标题图片：</span>
+          <el-form-item prop="bgImg" label-width="0px;"  class="prizeDrawUpload">
+            <el-upload class="avatar-uploader" style="min-width:100px;max-width:60%" :on-success="titleImgUploadSuccess" :before-upload="titleImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
+              <img v-if="baseItem.titleImg" :src="baseItem.titleImg.includes('http://') ? baseItem.titleImg : Final.IMG_PATH+baseItem.titleImg" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <div class="rightTip" style="">
+              <div style="">大小200kb内</div>
+              <a href="javascript:void(0)" style="color: #527EFE" @click="setDefaultImg('title')">恢复默认</a>
+            </div>
+          </el-form-item>
+        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<el-col :span="14">-->
+            <!--<span >标题图片：</span>-->
+            <!--<el-form-item prop="titleImg" label-width="0px;">-->
+            <!--&lt;!&ndash;<el-upload class="upload-demo" :on-success="titleImgUploadSuccess" :before-upload="titleImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">&ndash;&gt;-->
+              <!--&lt;!&ndash;<img v-if="baseItem.titleImg" :src="Final.IMG_PATH+baseItem.titleImg" class="avatar">&ndash;&gt;-->
+              <!--&lt;!&ndash;<i v-else class="el-icon-plus avatar-uploader-icon"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-upload>&ndash;&gt;-->
+              <!--<el-upload class="avatar-uploader" :on-success="titleImgUploadSuccess" :before-upload="titleImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">-->
+                <!--<img v-if="baseItem.titleImg" :src="Final.IMG_PATH+baseItem.titleImg" class="avatar">-->
+                <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+              <!--</el-upload>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="8">-->
+            <!--<div style="font-size: 12px;padding-top:40%;">大小200kb内</div>-->
+            <!--<a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>-->
+          <!--</el-col>-->
+        <!--</el-col>-->
+        <el-col :span="8">
+          <span >活动图片：</span>
+          <el-form-item prop="bgImg" label-width="0px;"  class="prizeDrawUpload">
+            <el-upload class="avatar-uploader" style="min-width:100px;max-width:60%" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
+              <img v-if="baseItem.shareImg" :src="baseItem.shareImg.includes('http://') ? baseItem.shareImg : Final.IMG_PATH+baseItem.shareImg" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <div class="rightTip" style="">
+              <div style="">大小200kb内<br/>50px*50px</div>
+              <a href="javascript:void(0)" style="color: #527EFE" @click="setDefaultImg('share')">恢复默认</a>
+            </div>
+          </el-form-item>
+        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<el-col :span="14">-->
+            <!--<span >活动图片：</span>-->
+            <!--<el-form-item prop="shareImg" label-width="0px;">-->
+              <!--&lt;!&ndash;<el-upload class="upload-demo" :on-success="shareImgUploadSuccess" :before-upload="shareImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<i class="el-icon-upload" ></i>&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;<img style="width:100%;" v-if="baseItem.shareImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<i v-else class="el-icon-upload" ></i>&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="el-upload__text"><em>点击上传</em></div>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="el-upload__tip" slot="tip"></div>&ndash;&gt;-->
+              <!--&lt;!&ndash;</el-upload>&ndash;&gt;-->
+              <!--<el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">-->
+                <!--<img v-if="baseItem.shareImg" :src="Final.IMG_PATH+baseItem.shareImg" class="avatar">-->
+                <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+              <!--</el-upload>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="8">-->
+            <!--<div style="font-size: 12px;padding-top:40%">大小:<br/>200kb内<br/>-->
+              <!--尺寸：<br/>50px*50px</div>-->
+            <!--<a href="javascript:void(0)" style="color: #527EFE">恢复默认</a>-->
+          <!--</el-col>-->
+        <!--</el-col>-->
       </el-row>
       <el-row class="margin-bottom-20" style="margin-top:20px;">
-        <el-form-item label="活动地区:" prop="description">
-          <V-Treeview @call="syncArea"></V-Treeview>
+        <el-form-item label="活动地区:" required>
+          <V-Treeview  @call="syncArea"></V-Treeview>
         </el-form-item>
       </el-row>
       <el-row class="margin-bottom-20">
-        <span class="span-120">车系／车型：</span><el-select  v-model="baseItem.serialIds" placeholder="全部"size="small">
-          <el-option
-            v-for="item in seriesList"
-            :key="item.id"
-            :label="item.serialName"
-            :value="item.id">
-          </el-option>
-        </el-select>
+        <el-col :span="14">
+          <el-form-item label="车系／车型：" prop="serialIds">
+          <!--<span class="span-120"></span>-->
+          <el-select style="width:100%;"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
+            <el-option
+              v-for="item in seriesList"
+              :key="item.id"
+              :label="item.serialName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="活动说明:" prop="description">
+          <el-form-item label="活动说明:" maxlength="1000" prop="description">
             <el-input type="textarea" placeholder="填写商家自定义的活动说明" v-model="baseItem.description"></el-input>
           </el-form-item>
         </el-col>
@@ -192,11 +210,11 @@ export default {
         areaNames:'',//活动地区名称字符串
         carStyle:'',// 车系车型JSON串
         description:'',//活动说明,
-        serialIds:'' //车系ID
+        serialIds:[] //车系ID
       },
       rules: {
         name: [
-          { required: true, message: '请填写活动名称', trigger: 'change' },
+          { required: true, message: '请填写活动名称', trigger: 'blur' },
           { max:10,message:'活动名称最大长度为10', trigger: 'blur' }
         ],
 //        isShowJoinSize: [
@@ -214,6 +232,9 @@ export default {
         shareImg: [
           { required: true, message: '请上传分享图片', trigger: 'change' }
         ],
+        serialIds:[
+          { required: true, type:"array", message: '请选择车系', trigger: 'change' }
+        ],
         description: [
           { required: true, message: '请输入活动说明', trigger: 'blur' }
         ]
@@ -229,13 +250,14 @@ export default {
   watch : {
     prizeDrawDetail (val, oldval) {
       this.cloneTicketInfo();
-      this.requsetLocation();
+
     }
   },
   created () {
   },
   mounted () {
-        this.requsetSeriesList();
+      this.requsetSeriesList();
+      this.requsetLocation();
 //    this.cloneTicketInfo();
   },
   methods:{
@@ -262,6 +284,12 @@ export default {
           .then(res => {
             if (res.status == true) {
                 this.seriesList=res.result;
+                let _self=this;
+////                console.log("11111111111111111111111111");
+//                window.setTimeout(function(){
+//                  _self.baseItem.serialIds=_self.prizeDrawDetail.serialIds.split(",")// 车系车型JSON串11111111111111111111111111111
+//                },10)
+
               console.log(res);
             }else {
               this.$refs.tipMsgRef.showTipMsg({
@@ -287,6 +315,7 @@ export default {
 //      this.$refs[formName].resetFields();
 //    },
     cloneTicketInfo() {
+          console.log("clone---->base---",this.prizeDrawDetail);
       if(this.prizeDrawDetail && this.prizeDrawDetail.name){
         this.baseItem = {
           name:this.prizeDrawDetail.name, //活动名称
@@ -300,7 +329,7 @@ export default {
           shareImg:this.prizeDrawDetail.shareImg,//分享图片地址
           areaIds:this.prizeDrawDetail.areaIds,//活动地区ID字符串
           areaNames:this.prizeDrawDetail.areaNames,//活动地区名称字符串
-          carStyle:this.prizeDrawDetail.carStyle,// 车系车型JSON串
+          serialIds:this.prizeDrawDetail.serialIds.split(","),// 车系车型JSON串
           description:this.prizeDrawDetail.description,//活动说明
         }
       }
@@ -308,26 +337,6 @@ export default {
     syncArea(data){
       this.baseItem.areaIds=data.allCode;
       this.baseItem.areaNames=data.allName;
-    },
-    /**
-     * 上传图片成功回调
-     * @param res
-     * @param file
-     */
-    handleAvatarSuccess(res, file) {
-      this.baseItem.bgImg = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
     },
     /**
      * 日期转1字符串
@@ -344,10 +353,15 @@ export default {
       let validStatus=true;
       this.$refs['baseItem'].validate((valid) => {
         if (!valid) {
-          this.$refs.tipMsgRef.showTipMsg({
-            msg:"基础设置填写有误",
-            type:"error"
-          });
+            this.$message({
+              type:'error',
+              message:'基础信息填写有误',
+              duration:'1500'
+            });
+//          this.$refs.tipMsgRef.showTipMsg({
+//            msg:"基础设置填写有误",
+//            type:"error"
+//          });
           validStatus=false;
           return false;
         }
@@ -366,13 +380,38 @@ export default {
               let newBaseItem = Object.assign({},this.baseItem);
               newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
               newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
+              newBaseItem.serialIds = this.baseItem.serialIds.join(",");
               this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
         }
     },
+    beforeUpload (file){
+        console.log(file);
+      const isAllowType = ['image/jpeg', 'image/png','image/bmp'].includes(file.type);
+      const isMaxSize = file.size / 1024 < 200; //小于200Kb
+
+      if (!isAllowType) {
+        this.$message.error('上传头像图片只能是 JPG/PNG/BMP格式!');
+      }
+      if (!isMaxSize) {
+        this.$message.error('上传头像图片大小不能超过 200KB!');
+      }
+      return isAllowType && isMaxSize;
+    },
+    bgImgBeforeUpload (file){
+        return this.beforeUpload(file);
+    },
+    titleImgBeforeUpload(file){
+      return this.beforeUpload(file);
+    },
+    shareImgBeforeUpload(file){
+      return this.beforeUpload(file);
+    },
     bgImgUploadSuccess (res, file, fileList) {
+        console.log(file);
         if(res.status==true){
-            this.baseItem.bgImg=res.result.path;
-            console.log(this.baseItem.bgImg);
+          this.baseItem.bgImg=res.result.path;
+          console.log(this.baseItem.bgImg);
+
         }
     },
     titleImgUploadSuccess (res, file, fileList) {
@@ -383,8 +422,30 @@ export default {
     },
     shareImgUploadSuccess (res, file, fileList) {
       if(res.status==true){
-        this.baseItem.shareImg=res.result.path;
-        console.log(this.baseItem.shareImg);
+        let img = new Image();
+        let _self=this;
+        img.src=Final.IMG_PATH+res.result.path;
+        img.onload=function(){
+          var imgwidth=img.offsetWidth;
+          var imgheight=img.offsetHeight;
+          if(imgwidth!=50 || imgheight!=50){
+            _self.$message.error('分享图片尺寸必须是50px*50px');
+          }else{
+            _self.baseItem.shareImg=res.result.path;
+            console.log(_self.baseItem.shareImg);
+          }
+
+        };
+
+      }
+    },
+    setDefaultImg (type){
+      if(type=='share'){
+          this.baseItem.shareImg=Final.DEFAULT_IMG.prizeDraw.default_share;
+      }else if(type == "title"){
+        this.baseItem.titleImg=Final.DEFAULT_IMG.prizeDraw.default_title;
+      }else if(type == "bg"){
+        this.baseItem.bgImg=Final.DEFAULT_IMG.prizeDraw.default_bg;
       }
     },
     /**
@@ -414,27 +475,44 @@ export default {
 
 <!-- Add1111 "scoped" attribute to limit CSS to this component only -->
 <style >
-  /*.avatar-uploader .el-upload {*/
-    /*border: 1px dashed #d9d9d9;*/
-    /*border-radius: 6px;*/
-    /*cursor: pointer;*/
-    /*position: relative;*/
-    /*overflow: hidden;*/
-  /*}*/
-  /*.avatar-uploader .el-upload:hover {*/
-    /*border-color: #409EFF;*/
-  /*}*/
-  /*.avatar-uploader-icon {*/
-    /*font-size: 28px;*/
-    /*color: #8c939d;*/
-    /*width: 100px;*/
-    /*height: 100px;*/
-    /*line-height: 100px;*/
-    /*text-align: center;*/
-  /*}*/
-  /*.avatar {*/
-    /*width: 100px;*/
-    /*height: 100px;*/
-    /*display: block;*/
-  /*}*/
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+  }
+  .avatar {
+    min-width: 100px;
+    min-height: 100px;
+    max-width:100%;
+    max-height:200px;
+    display: block;
+  }
+  .prizeDrawUpload {
+      margin-top:5px;
+  }
+  .prizeDrawUpload .rightTip{
+    font-size: 10px;display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    justify-content: flex-end;
+    padding-bottom: 5px;
+    margin-left:5px;
+    line-height: 20px;
+  }
+  .prizeDrawUpload .el-form-item__content{
+    display: flex;
+  }
 </style>

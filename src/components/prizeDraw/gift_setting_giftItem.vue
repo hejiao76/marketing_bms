@@ -21,9 +21,9 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="礼包详情:">
-                  <p>1</p>
-                  <p>12</p>
-                  <p>13</p>
+                  <p v-for="(detailItem,index) in prizeItemForm.details">{{(index+1)+"、"+detailItem.giftName + "x"+detailItem.giftCount}}</p>
+                  <!--<p>12</p>-->
+                  <!--<p>13</p>-->
                 </el-form-item>
                 <el-form-item label="奖品数量:" prop="quantity">
                   <!--<el-input style="width:20%"   v-model="prizeItemForm.activityName" placeholder="请输入奖品数量" ></el-input>个-->
@@ -87,8 +87,8 @@
               </div>
               </el-collapse-transition>
               <el-col :span="24" style="text-align: center">
-                <el-button @click="isshow=!isshow">{{isshow ? "收起" : "展开"}}</el-button>
-                <el-button @click="saveGiftItem">验证</el-button>
+                <el-button size="mini" @click="isshow=!isshow">{{isshow ? "收起" : "展开"}}</el-button>
+                <!--<el-button @click="saveGiftItem">验证</el-button>-->
               </el-col>
             </el-col>
           </el-row>
@@ -118,10 +118,10 @@ export default {
       isshow:true,
       giftList:[],
       prizeItemForm:{
-        details:'礼包详情 必填',
         prizeId:'', //奖品ID
         giftGroupId:'', // 礼包ID
         giftGroupName:'', //礼包名称
+        details:[],//礼包详情
         quantity:0, //数量
         level:'', //奖项等级
         odds:0,  // 中奖概率
@@ -136,13 +136,13 @@ export default {
 //        quantity:'' //投放数量
 //      },
       rules: {
-        giftGroupName: [
-          { required: true, message: '请选择礼包', trigger: 'change' },
+        giftGroupId: [
+          { required: true, type:"number", message: '请选择礼包', trigger: 'change' },
 //          { validator :this.userValidate().validate_odds, trigger: 'change' },
 //          { validator :this.userValidate().validate_redeemEndTime, trigger: 'change' },
         ],
         quantity: [
-          { required: true, type:"number", message: '请输入奖品数量', trigger: 'change' },
+          { required: true, type:"number", message: '请输入奖品数量', trigger: 'blur' },
         ],
         odds: [
 //          { required: true, type:"number", message: '请输入中奖概率', trigger: 'change' },
@@ -172,17 +172,20 @@ export default {
     this.requestGiftList();
   },
   methods:{
-      selectGiftGroup (value){
-          for(let i = 0 ;this.giftList.length;i++){
+      selectGiftGroup (){
+          for(let i = 0 ;i<this.giftList.length;i++){
               if(this.giftList[i].giftGroupId == this.prizeItemForm.giftGroupId){
                 this.prizeItemForm.giftGroupName = this.giftList[i].giftGroupName;
                 this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice;
+                this.prizeItemForm.details=this.giftList[i].giftInfoList;
               }
           }
       },
       requestGiftList (){
           let param={type:1,pageIndex:1,pageSize:1000,giftGroupName:'礼'}
+//          let param={};
         Api.base_sys_gift_list(param)
+//        Api.base_sys_gift_list_select({})
           .then(res => {
             if (res.status == true) {
                 this.giftList=res.result;
@@ -228,24 +231,44 @@ export default {
         }
       });
       if(!validpass){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"礼品信息填写有误",
-          type:"error"
-        })
+//        this.$refs.tipMsgRef.showTipMsg({
+//          msg:"礼品信息填写有误",
+//          type:"error"
+//        })
+        this.$message({
+          type:'error',
+          message:'礼品信息填写有误',
+          duration:'1500'
+        });
+
       }
       return validpass;
     },
     saveGiftItem () {
-       if(validGiftItem()){
+       if(this.validGiftItem()){
 
        }
     },
     getGiftItem () {
       if(this.validGiftItem()){
           let newItem=Object.assign({},this.prizeItemForm);
-
-          return Object.assign({},this.prizeItemForm)
+//          debugger;
+          newItem.details = this.formatDetailToSubmit();
+          console.log( newItem.details);
+          return Object.assign({},newItem)
       }
+    },
+    formatDetailToSubmit(){
+        console.log("here--------->",this.prizeItemForm.details);
+        let strArray=[];
+        let str="";
+       for(let i = 0 ; i< this.prizeItemForm.details.length;i++){
+           let detailItem = this.prizeItemForm.details[i];
+           strArray.push((i+1)+"、"+detailItem.giftName + "x"+detailItem.giftCount);
+       }
+       str=strArray.join("||");
+
+      return str;
     },
     /**
      * 添加投放时间段Item子项
@@ -271,20 +294,31 @@ export default {
 //        this.$emit(call,this.prizeItem);
       this.$emit("callRemove",{index:this.itemIndex});
     },
+    /**
+     * 验证投放时段数量和每天投放数量是否冲突
+     */
     validRuleItemCount () {
          let count = 0;
          for(let i = 0 ; i<this.prizeItemForm.ruleList.length;i++){
              count+=this.prizeItemForm.ruleList[i].quantity;
          }
          if(count> this.prizeItemForm.dayQuantity){
-           this.$refs.tipMsgRef.showTipMsg({
-             msg:this.wordMapping[this.prizeItemForm.level]+"等奖中时段投放数量总和大于每天投放数量",
-             type:"error"
+//           this.$refs.tipMsgRef.showTipMsg({
+//             msg:this.wordMapping[this.prizeItemForm.level]+"等奖中时段投放数量总和大于每天投放数量",
+//             type:"error"
+//           });
+           this.$message({
+             type:'error',
+             message:this.wordMapping[this.prizeItemForm.level]+"等奖中时段投放数量总和大于每天投放数量",
+             duration:'1500'
            });
            return false;
          }
          return true;
     },
+    /**
+     * 验证投放时段是否有交叉
+     */
     validRuleItemTimeRange () {
         let startTimeArray = [];
         let endTimeArray = [];
@@ -335,9 +369,14 @@ export default {
           }
         }
         if(errorMsg){
-          this.$refs.tipMsgRef.showTipMsg({
-            msg:this.wordMapping[this.prizeItemForm.level]+"等奖中"+errorMsg,
-            type:"error"
+//          this.$refs.tipMsgRef.showTipMsg({
+//            msg:this.wordMapping[this.prizeItemForm.level]+"等奖中"+errorMsg,
+//            type:"error"
+//          });
+          this.$message({
+            type:'error',
+            message:this.wordMapping[this.prizeItemForm.level]+"等奖中"+errorMsg,
+            duration:'1500'
           });
             return false;
         }else {

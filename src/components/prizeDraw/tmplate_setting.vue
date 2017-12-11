@@ -5,7 +5,7 @@
     <el-col v-for="(tmpItem,index) in templateTmp" :lg="8" :xl="6" :span="8" class="mb20 ">
       <div style="width:100%;position: relative;">
       <div @click="chooseTmp(tmpItem.id)" v-if="tmpItem.id!=templateIdTmpObj.templateId" class="fade_div cur"></div>
-      <img @click="cancelTmp()" style="width:100%" class="cur" src="../../assets/images/mod.png"/>
+      <img @click="cancelTmp()" style="width:100%" class="cur" :src="tmpItem.src"/>
       </div>
     </el-col>
     <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%;z-index: 1" src="../../assets/images/mod.png"/></el-col>-->
@@ -45,13 +45,7 @@ export default {
       },
       templateTmp:[{
           id:1,
-          src:"../../assets/images/mod.png",
-      },{
-        id:2,
-        src:"../../assets/images/mod.png",
-      },{
-        id:3,
-        src:"../../assets/images/mod.png",
+          src:"../../../static/images/default/prizeTmplate1.jpg",
       }],
     }
   },

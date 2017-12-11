@@ -2,10 +2,20 @@
  * Created by jsb-cpyy on 2017/8/30.
  */
 const OBJ ={
-  TICKET_NAME:"ticket",
-  LOGIN_PAGE_URL:"http://www.baidu.com",
-  IMG_PATH:"http://59.110.14.204:8085",
-  UPLOAD_PATH:"/action/sys/upload",
+  TICKET_NAME:"ticket",  //登录Ticket字段配置
+  LOGIN_PAGE_URL:"http://www.baidu.com", //登录页面地址配置
+  IMG_PATH:"http://img.familyku.com",  //图片访问地址配置
+  UPLOAD_PATH:"/action/sys/upload",  //上传配置
+
+  DEFAULT_IMG:{ //默认图片配置
+    prizeDraw:{
+      default_title:"http://img.familyku.com/data/att/defaultImg/prize_draw_title.png", //标题图片
+      default_bg:"http://img.familyku.com/data/att/defaultImg/prize_draw_bg.png", //背景图片
+      default_share:"http://img.familyku.com/data/att/defaultImg/prize_draw_share.png"  //分享图片
+    },
+  },
+
+
   seckill_order:{
     0:"全部", 1:"待支付",2:"已支付",3:"已取消",4:"退款中",5:"已退款"
   },

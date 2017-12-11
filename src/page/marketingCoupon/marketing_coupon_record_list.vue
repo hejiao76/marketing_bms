@@ -198,8 +198,6 @@
   import VTipMsg from "./../../components/tipMsg.vue";
   import TestData from "./../../util/TestData"
   import $ from "jquery"
-  import ElCol from "element-ui/packages/col/src/col";
-  import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
   export default {
     data() {
       return {
@@ -261,8 +259,6 @@
       }
     },
     components: {
-      ElButton,
-      ElCol,
       VHeader,
       VLeft,
       VConNav,

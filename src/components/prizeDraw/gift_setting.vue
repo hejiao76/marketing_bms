@@ -253,9 +253,14 @@ export default {
         for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
           if(!this.$refs.prizeItem[i].validGiftItem()){
             validPass=false;
-            this.$refs.tipMsgRef.showTipMsg({
-              msg:"奖品设置信息有误",
-              type:"error"
+//            this.$refs.tipMsgRef.showTipMsg({
+//              msg:"奖品设置信息有误",
+//              type:"error"
+//            });
+            this.$message({
+              type:'error',
+              message:'奖品设置信息有误',
+              duration:'1500'
             });
             break;
           }
@@ -267,9 +272,14 @@ export default {
         }
       }else {
         validPass=false
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"请添加至少一个奖品",
-          type:"error"
+//        this.$refs.tipMsgRef.showTipMsg({
+//          msg:"请添加至少一个奖品",
+//          type:"error"
+//        });
+        this.$message({
+          type:'error',
+          message:'请至少添加一个奖品',
+          duration:'1500'
         });
       }
       return validPass;

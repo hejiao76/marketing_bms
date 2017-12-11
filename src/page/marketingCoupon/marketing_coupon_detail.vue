@@ -101,7 +101,6 @@
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
   import TestData from "./../../util/TestData"
-  import ElCol from "element-ui/packages/col/src/col";
   export default {
     data() {
       return {
@@ -114,7 +113,6 @@
       }
     },
     components :{
-      ElCol,
       VHeader,
       VLeft,
       VConNav,

@@ -30,15 +30,14 @@
 
           <el-col :span="8">
             <el-form-item label="分享图片：" prop="imageUrl">
-              <el-upload
-                class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
+              <el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                 <img v-if="activityInfo.imageUrl" :src="activityInfo.imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
+              <!--<el-upload class="avatar-uploader" style="min-width:100px;max-width:60%" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">-->
+                <!--<img v-if="baseItem.shareImg" :src="baseItem.shareImg.includes('http://') ? baseItem.shareImg : Final.IMG_PATH+baseItem.shareImg" class="avatar">-->
+                <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+              <!--</el-upload>-->
             </el-form-item>
           </el-col>
         </el-row>
@@ -249,6 +248,41 @@
         if(this.activityId){
           this.requestData()
         }
+      },
+      shareImgUploadSuccess (res, file, fileList) {
+        if(res.status==true){
+          let img = new Image();
+          let _self=this;
+          img.src=Final.IMG_PATH+res.result.path;
+          img.onload=function(){
+            var imgwidth=img.offsetWidth;
+            var imgheight=img.offsetHeight;
+            if(imgwidth!=50 || imgheight!=50){
+              _self.$message.error('分享图片尺寸必须是50px*50px');
+            }else{
+              _self.baseItem.shareImg=res.result.path;
+              console.log(_self.baseItem.shareImg);
+            }
+
+          };
+
+        }
+      },
+      beforeUpload (file){
+        console.log(file);
+        const isAllowType = ['image/jpeg', 'image/png','image/bmp'].includes(file.type);
+        const isMaxSize = file.size / 1024 < 200; //小于200Kb
+
+        if (!isAllowType) {
+          this.$message.error('上传头像图片只能是 JPG/PNG/BMP格式!');
+        }
+        if (!isMaxSize) {
+          this.$message.error('上传头像图片大小不能超过 200KB!');
+        }
+        return isAllowType && isMaxSize;
+      },
+      shareImgBeforeUpload (file){
+        return this.beforeUpload(file);
       },
       /**
        * 请求秒杀活动详情

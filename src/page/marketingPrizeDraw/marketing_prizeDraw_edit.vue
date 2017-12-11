@@ -42,9 +42,6 @@
   import VPzPrizeDrawSetting from "./../../components/prizeDraw/prize_draw_setting.vue";
   import VPzGiftSetting from "./../../components/prizeDraw/gift_setting.vue";
   import VPzTemplateSetting from "./../../components/prizeDraw/tmplate_setting.vue";
-  //  import ElCol from "element-ui/packages/col/src/col";
-  //  import ElRow from "element-ui/packages/row/src/row";
-  //  import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
   export default {
     data() {
       return {
@@ -67,10 +64,10 @@
       VPzTemplateSetting
     },
     created (){
-
+      this.initPage();
     },
     mounted (){
-      this.initPage();
+
     },
     watch : {
       "$route": function (to, from) {
@@ -163,7 +160,15 @@
             .then(res => {
               if (res.status == true) {
                 console.log(JSON.stringify(res));
-                this.$router.push("/prizeDraw/list");
+                this.$refs.tipMsgRef.showTipMsg({
+                  msg:res.message,
+                  type:"success",
+                  scope:this,
+                  callback:function (){
+                    this.$router.push("/prizeDraw/list");
+                  }
+                });
+
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
@@ -178,6 +183,7 @@
        * 请求抽奖活动详情
        */
       requestData () {
+          console.log("request-----------------------------------");
         if(this.prizeDrawCode){
           let param = {activityCode:this.prizeDrawCode};
 //          Object.assign(this.activityInfo,TestData.sedKill_checked_ticket_data.result);
