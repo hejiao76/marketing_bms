@@ -10,7 +10,7 @@
           <el-form-item label="活动日期:" required>
             <el-col :span="11">
               <el-form-item prop="beginTime">
-                <el-date-picker style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
+                <el-date-picker :disabled="isEdit" style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col class="line" :span="2" style="text-align: center">-</el-col>
@@ -128,7 +128,7 @@
       </el-row>
       <el-row class="margin-bottom-20" style="margin-top:20px;">
         <el-form-item label="活动地区:" required>
-          <V-Treeview  @call="syncArea"></V-Treeview>
+          <V-Treeview  @call="syncArea" :data="baseItem.areaIds"></V-Treeview>
         </el-form-item>
       </el-row>
       <el-row class="margin-bottom-20">
@@ -140,7 +140,7 @@
               v-for="item in seriesList"
               :key="item.id"
               :label="item.serialName"
-              :value="item.id">
+              :value="String(item.id)">
             </el-option>
           </el-select>
           </el-form-item>
@@ -249,6 +249,7 @@ export default {
   },
   watch : {
     prizeDrawDetail (val, oldval) {
+      console.log("watch-----------------base");
       this.cloneTicketInfo();
 
     }
@@ -284,13 +285,6 @@ export default {
           .then(res => {
             if (res.status == true) {
                 this.seriesList=res.result;
-                let _self=this;
-////                console.log("11111111111111111111111111");
-//                window.setTimeout(function(){
-//                  _self.baseItem.serialIds=_self.prizeDrawDetail.serialIds.split(",")// 车系车型JSON串11111111111111111111111111111
-//                },10)
-
-              console.log(res);
             }else {
               this.$refs.tipMsgRef.showTipMsg({
                 msg:res.message,
@@ -369,7 +363,11 @@ export default {
       return validStatus;
     },
     getBaseItem(){
-        return this.baseItem;
+        let newBaseItem = Object.assign({},this.baseItem);
+        newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
+        newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
+        newBaseItem.serialIds = this.baseItem.serialIds.join(",");
+        return newBaseItem;
     },
     /**
      *  下一步 基本信息设置
@@ -377,10 +375,7 @@ export default {
      */
     saveBaseItem(){
         if(this.validBaseItem()){
-              let newBaseItem = Object.assign({},this.baseItem);
-              newBaseItem.beginTime = this.formatDateToString(this.baseItem.beginTime);
-              newBaseItem.endTime = this.formatDateToString(this.baseItem.endTime);
-              newBaseItem.serialIds = this.baseItem.serialIds.join(",");
+              let newBaseItem = this.getBaseItem();
               this.$emit("call",{op:"edit",tag:"base",callData:newBaseItem});
         }
     },

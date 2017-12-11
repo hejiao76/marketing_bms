@@ -21,7 +21,8 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="礼包详情:">
-                  <p v-for="(detailItem,index) in prizeItemForm.details">{{(index+1)+"、"+detailItem.giftName + "x"+detailItem.giftCount}}</p>
+                  <p v-if="prizeItemForm.details.length>0" v-for="(detailItem,index) in prizeItemForm.details">{{detailItem}}</p>
+                  <!--<p v-if="prizeItemForm.details_update.length>0" v-for="(detailItem,index) in prizeItemForm.details_update">{{detailItem}}</p>-->
                   <!--<p>12</p>-->
                   <!--<p>13</p>-->
                 </el-form-item>
@@ -177,10 +178,11 @@ export default {
               if(this.giftList[i].giftGroupId == this.prizeItemForm.giftGroupId){
                 this.prizeItemForm.giftGroupName = this.giftList[i].giftGroupName;
                 this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice;
-                this.prizeItemForm.details=this.giftList[i].giftInfoList;
+                this.prizeItemForm.details=this.formatDetails(this.giftList[i].giftInfoList);
               }
           }
       },
+
       requestGiftList (){
           let param={type:1,pageIndex:1,pageSize:1000,giftGroupName:'礼'}
 //          let param={};
@@ -210,11 +212,14 @@ export default {
           giftGroupId:this.prizeItem.giftGroupId, // 礼包ID
           giftGroupName:this.prizeItem.giftGroupName, //礼包名称
           quantity:this.prizeItem.quantity, //数量
+          giftGroupPrice:this.prizeItem.giftGroupPrice,//礼包价格
+          details:this.prizeItem.details.split("||"),
           level:this.prizeItem.level, //奖项等级
           odds:this.prizeItem.odds,  // 中奖概率
           dayQuantity:this.prizeItem.dayQuantity, //每天投放数量
           ruleList:this.prizeItem.ruleList
         })
+        console.log("clone-----prizeItem",this.prizeItemForm)
       }
     },
     validGiftItem (){
@@ -253,18 +258,25 @@ export default {
       if(this.validGiftItem()){
           let newItem=Object.assign({},this.prizeItemForm);
 //          debugger;
-          newItem.details = this.formatDetailToSubmit();
-          console.log( newItem.details);
+          newItem.details =  this.formatDetailToSubmit();
           return Object.assign({},newItem)
       }
     },
+    formatDetails (giftInfoList){
+      let strArray=[]
+      for(let i =0;i<giftInfoList.length;i++){
+        let detailItem=giftInfoList[i];
+        let str=(i+1)+"、"+detailItem.giftName + "x"+detailItem.giftCount;
+        strArray.push(str);
+      }
+      return strArray;
+    },
     formatDetailToSubmit(){
-        console.log("here--------->",this.prizeItemForm.details);
         let strArray=[];
         let str="";
        for(let i = 0 ; i< this.prizeItemForm.details.length;i++){
            let detailItem = this.prizeItemForm.details[i];
-           strArray.push((i+1)+"、"+detailItem.giftName + "x"+detailItem.giftCount);
+           strArray.push(detailItem);
        }
        str=strArray.join("||");
 

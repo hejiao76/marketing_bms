@@ -47,7 +47,7 @@
       return {
         disabledTab:false,
         isEdit:true,
-        prizeDrawSettingTab:'base', //选项卡默认选中项1111111111111111111111111111
+        prizeDrawSettingTab:'gift', //选项卡默认选中项1111111111111111111111111111
         prizeDrawDetail : {},
         prizeDrawCode:'',
       }
@@ -76,6 +76,7 @@
     },
     methods : {
       initPage () {
+          console.log("initPage----------------");
         this.prizeDrawCode = this.$route.params.prizeDrawCode;
         if(this.prizeDrawCode=='new'){
             this.isEdit=false;
@@ -109,7 +110,7 @@
             this.prizeDrawSettingTab ="gift";
           }else{
             this.prizeDrawDetail =Object.assign(this.prizeDrawDetail,data.callData);
-            this.savePrizeDrawInfo();
+            this.updatePrizeDrawInfo();
           }
         }
 
@@ -124,7 +125,14 @@
             Api.pd_activity_add(param)
               .then(res => {
                 if (res.status == true) {
-                  console.log(JSON.stringify(res));
+                  this.$refs.tipMsgRef.showTipMsg({
+                    msg:res.message,
+                    type:"success",
+                    scope:this,
+                    callback:function (){
+                      this.$router.push("/prizeDraw/list");
+                    }
+                  });
 
                 }else {
                   this.$refs.tipMsgRef.showTipMsg({
@@ -139,7 +147,14 @@
             Api.pd_activity_update(param)
               .then(res => {
                 if (res.status == true) {
-                  console.log(JSON.stringify(res));
+                  this.$refs.tipMsgRef.showTipMsg({
+                    msg:res.message,
+                    type:"success",
+                    scope:this,
+                    callback:function (){
+                      this.$router.push("/prizeDraw/list");
+                    }
+                  });
 
                 }else {
                   this.$refs.tipMsgRef.showTipMsg({

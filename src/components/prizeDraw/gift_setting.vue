@@ -285,7 +285,11 @@ export default {
       return validPass;
     },
     getGiftSetting () {
-        return this.giftSetting;
+      let newGiftSetting = Object.assign({}, this.giftSetting);
+      newGiftSetting.redeemBeginTime = this.formatDateToString(this.giftSetting.redeemBeginTime);
+      newGiftSetting.redeemEndTime = this.formatDateToString(this.giftSetting.redeemEndTime);
+      console.log("数据过来了------->",JSON.stringify(this.giftSetting));
+        return newGiftSetting;
     },
     /**
      *  下一步 保存奖品设置
@@ -293,10 +297,7 @@ export default {
      */
     saveGiftSetting(){
         if(this.validGiftSetting()){
-          let newGiftSetting = Object.assign({}, this.giftSetting);
-          newGiftSetting.redeemBeginTime = this.formatDateToString(this.giftSetting.redeemBeginTime);
-          newGiftSetting.redeemEndTime = this.formatDateToString(this.giftSetting.redeemEndTime);
-          console.log("数据过来了------->",JSON.stringify(this.giftSetting));
+          let newGiftSetting = this.getGiftSetting();
           this.$emit("call", {op: "edit", tag: "gift", callData: newGiftSetting});
         }
 //        if(this.giftSetting.prizeList.length>0){

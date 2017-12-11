@@ -169,7 +169,8 @@ export default {
      * @param
      */
     getPrizeItem(){
-      return this.prizeItem
+      let newPrizeItem = Object.assign({}, this.prizeItem);
+      return newPrizeItem;
     },
     /**
      *  上一步
@@ -184,7 +185,7 @@ export default {
      */
     savePrizeItem(){
         if(this.validPrizeItem()){
-          let newPrizeItem = Object.assign({}, this.prizeItem);
+          let newPrizeItem = this.getPrizeItem();
           this.$emit("call", {op: "new", tag: "prize", callData: newPrizeItem});
         }
 //

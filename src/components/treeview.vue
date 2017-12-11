@@ -99,12 +99,11 @@
 
 <script>
   import Api from "./../fetch/api";
-//  import ElInput from "../../node_modules/element-ui/packages/input/src/input";
 
   export default {
     components: {
-//      ElInput
     },
+    props:["data"],
     data () {
       return{
         showContent:"",
@@ -146,6 +145,25 @@
         parentCheckedMenuName:[],
         childCheckedMenuName:[],
         showTxt:'',
+        allCountry:false,
+      }
+    },
+    watch : {
+      data (val, oldval) {
+          if(val!="全国"){
+              let valArray = val.split(",");
+              console.log(valArray);
+            for(let i =0 ;i <valArray.length;i++){
+                if(valArray[i]<100){
+                    this.parentCheckedMenuCode.push(Number(valArray[i]));
+                }else{
+                    this.childCheckedMenuCode.push(Number(valArray[i]));
+                }
+            }
+            console.log("child---->",this.childCheckedMenuCode);
+          }
+
+
       }
     },
     created () {

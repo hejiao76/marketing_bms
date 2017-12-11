@@ -47,7 +47,7 @@ if(ticket){
   // loadVue();
 }
 
-loadVue();
+// loadVue();
 /**
  * 用户权限验证成功后----初始化VUE
  */
