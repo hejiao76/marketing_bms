@@ -175,7 +175,7 @@
           label="参与活动"
            >
           <template slot-scope="scope">
-            <span v-for="item in scope.row.activityList">{{item}},</span>
+            <span v-for="item in scope.row.activityList">{{item.name}},</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -425,8 +425,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.currentPage = 1;
-              this.totalRow = res.totalPage;
+              this.totalRow = res.dataNumber;
               this.dataNumber = res.dataNumber;
             }else {
               this.resData = [];
