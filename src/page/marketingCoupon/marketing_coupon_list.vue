@@ -15,13 +15,13 @@
                   <el-form-item label="活动日期:">
                     <el-col :span="11">
                       <el-form-item >
-                        <el-date-picker style="width: 100%;" v-model="filterForm.beginTime" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.beginTime" :editable="false" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
                       </el-form-item>
                     </el-col>
                     <el-col class="line" :span="2" style="text-align: center">-</el-col>
                     <el-col :span="11">
                       <el-form-item>
-                        <el-date-picker style="width: 100%;" v-model="filterForm.endTime" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                        <el-date-picker style="width: 100%;" v-model="filterForm.endTime" :editable="false" :picker-options="optionsActivityEnd" type="datetime" placeholder="请输入结束日期"></el-date-picker>
                       </el-form-item>
                     </el-col>
                   </el-form-item>
@@ -38,13 +38,13 @@
               <el-form-item label="创建日期:">
                 <el-col :span="11">
                   <el-form-item>
-                    <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                    <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
                   </el-form-item>
                 </el-col>
                 <el-col class="line" :span="2" style="text-align: center">-</el-col>
                 <el-col :span="11">
                   <el-form-item>
-                    <el-date-picker style="width: 100%;" v-model="filterForm.createTime2" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                    <el-date-picker style="width: 100%;" v-model="filterForm.createTime2" :editable="false" :picker-options="optionsCreateEnd" type="datetime" placeholder="请输入结束日期"></el-date-picker>
                   </el-form-item>
                 </el-col>
               </el-form-item>
@@ -348,6 +348,17 @@
       }
     },
     methods: {
+      /**
+       * 日期转1字符串
+       * @param date
+       */
+      formatDateToString (date){
+        if(typeof date == 'object'){
+          return Util.toFullDateString(date.getTime());
+        }else{
+          return date;
+        }
+      },
       //
       formatterBr(cellValue){
         let arr = cellValue.split(" ");
@@ -435,11 +446,7 @@
        * @returns {}
        */
       addActivity () {
-        this.$router.push("/coupon/edit/1")
-//        this.$refs.tipMsgRef.showTipMsg({
-//          msg:"还在开发! 急什么! 急什么!",
-//          type:"error"
-//        });
+        this.$router.push({name: 'marketing_coupon_edit', params: {couponId: 'new'}})
       },
       /**
        * 获取过滤器参数
@@ -451,16 +458,16 @@
           param.name = this.filterForm.name
         }
         if (this.filterForm.beginTime) {
-          param.beginTime = Util.toDateString(this.filterForm.beginTime.getTime());
+          param.beginTime = this.formatDateToString(this.filterForm.beginTime);
         }
         if (this.filterForm.endTime) {
-          param.endTime = Util.toDateString(this.filterForm.endTime.getTime());
+          param.endTime = this.formatDateToString(this.filterForm.endTime);
         }
         if (this.filterForm.createTime) {
-          param.createTime = Util.toDateString(this.filterForm.createTime.getTime());
+          param.createTime = this.formatDateToString(this.filterForm.createTime);
         }
         if (this.filterForm.createTime2) {
-          param.createTime2 = Util.toDateString(this.filterForm.createTime2.getTime());
+          param.createTime2 = this.formatDateToString(this.filterForm.createTime2);
         }
         if (this.filterForm.provinceObj.provinceName) {
           param.areaNames = this.filterForm.provinceObj.provinceName
@@ -584,7 +591,7 @@
       },
       ///编辑活动
       updatePrize(){
-        this.$router.push("/coupon/edit/1")
+        this.$router.push({name: 'marketing_coupon_edit', params: {couponId: id}})
       }
 
 

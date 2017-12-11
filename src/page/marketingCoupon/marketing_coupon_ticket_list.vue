@@ -53,13 +53,13 @@
             <el-form-item label="活动日期:">
               <el-col :span="11">
                 <el-form-item >
-                  <el-date-picker style="width: 100%;" v-model="filterForm.validity" :editable="false" :picker-options="optionsActivityStart" type="date"  placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.validity" :editable="false" :picker-options="optionsActivityStart" type="datetime"  placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.validity2" :editable="false" :picker-options="optionsActivityEnd"  type="date" placeholder="选择结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.validity2" :editable="false" :picker-options="optionsActivityEnd"  type="datetime" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -68,13 +68,13 @@
             <el-form-item label="创建日期:">
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.createTime2" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="选择结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.createTime2" :editable="false" :picker-options="optionsCreateEnd" type="datetime" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -373,6 +373,17 @@
     },
     methods: {
       /**
+       * 日期转1字符串
+       * @param date
+       */
+      formatDateToString (date){
+        if(typeof date == 'object'){
+          return Util.toFullDateString(date.getTime());
+        }else{
+          return date;
+        }
+      },
+      /**
        * 获取车系
        * @returns
        */
@@ -455,7 +466,7 @@
        * @returns {}
        */
       addActivity () {
-        this.$router.push("/coupon/ticket_edit/1")
+        this.$router.push({name: 'marketing_coupon_ticket_edit', params: {ticketId:'new'}})
       },
       /**
        * 获取过滤器参数
@@ -482,16 +493,16 @@
           param.serialIds = this.filterForm.serialIds
         }
         if (this.filterForm.validity) {
-          param.validity = Util.toDateString(this.filterForm.validity.getTime());
+          param.validity = this.formatDateToString(this.filterForm.validity);
         }
         if (this.filterForm.validity2) {
-          param.validity2 = Util.toDateString(this.filterForm.validity2.getTime());
+          param.validity2 = this.formatDateToString(this.filterForm.validity2);
         }
         if (this.filterForm.createTime) {
-          param.createTime = Util.toDateString(this.filterForm.createTime.getTime());
+          param.createTime = this.formatDateToString(this.filterForm.createTime);
         }
         if (this.filterForm.createTime2) {
-          param.createTime2 = Util.toDateString(this.filterForm.createTime2.getTime());
+          param.createTime2 = this.formatDateToString(this.filterForm.createTime2);
         }
         param.pageNo = this.currentPage;
         param.pageSize = this.pageRecorders;
@@ -560,11 +571,11 @@
       },
       //复制抵扣券
       activeCopy(companyInfoId){
-        this.$router.push({name: 'ticket_edit', params: {ticketId: companyInfoId}})
+        this.$router.push({name: 'marketing_coupon_ticket_edit', params: {type:'copy',ticketId: companyInfoId}})
       },
       //编辑抵扣券
       activeUpdate(companyInfoId){
-        this.$router.push({name: 'ticket_edit', params: {ticketId: companyInfoId}})
+        this.$router.push({name: 'marketing_coupon_ticket_edit', params: {ticketId: companyInfoId}})
       },
       //禁用抵扣券
       activeDisabled(id){
@@ -590,11 +601,11 @@
       },
       //修改抵扣券类型
       checkTicketType(companyInfoId){
-        this.$router.push({name: 'ticket_edit', params: {ticketId: companyInfoId}})
+        this.$router.push({name: 'marketing_coupon_ticket_edit', params: {type:'type',ticketId: companyInfoId}})
       },
       //修改绑定车型
       checkCar(companyInfoId){
-        this.$router.push({name: 'ticket_edit', params: {ticketId: companyInfoId}})
+        this.$router.push({name: 'marketing_coupon_ticket_edit', params: {type:'series',ticketId: companyInfoId}})
       }
 
 

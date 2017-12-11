@@ -39,9 +39,20 @@
               <el-input v-model="filterForm.couponCode" placeholder="请输入抵扣券码"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item label="抵扣金额：">
-              <el-input v-model="filterForm.couponAmount" placeholder="请输入抵扣金额"></el-input>
+              <el-col :span="11">
+                <el-form-item >
+                  <el-input-number v-model="filterForm.couponAmount" :controls="false"></el-input-number>
+                </el-form-item>
+              </el-col>
+              <el-col class="line" :span="2" style="text-align: center">-</el-col>
+              <el-col :span="11">
+                <el-form-item>
+                  <el-input-number v-model="filterForm.couponAmount2" :controls="false"></el-input-number>
+                </el-form-item>
+              </el-col>
+
             </el-form-item>
           </el-col>
 
@@ -51,13 +62,13 @@
             <el-form-item label="领取日期:">
               <el-col :span="11">
                 <el-form-item >
-                  <el-date-picker style="width: 100%;" v-model="filterForm.getTime" :editable="false" :picker-options="optionsGetStartTIme" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.getTime" :editable="false" :picker-options="optionsGetStartTIme" type="datetime" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.getTime2" :editable="false" :picker-options="optionsGetEndTime" type="date" placeholder="选择结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.getTime2" :editable="false" :picker-options="optionsGetEndTime" type="datetime" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -71,13 +82,13 @@
             <el-form-item label="核销日期:">
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.useTime" :editable="false" :picker-options="optionsUsedStartTime" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.useTime" :editable="false" :picker-options="optionsUsedStartTime" type="datetime" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.useTime2" :editable="false" :picker-options="optionsUsedEndTime" type="date" placeholder="选择结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.useTime2" :editable="false" :picker-options="optionsUsedEndTime" type="datetime" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -265,6 +276,17 @@
     },
     methods: {
       /**
+       * 日期转1字符串
+       * @param date
+       */
+      formatDateToString (date){
+        if(typeof date == 'object'){
+          return Util.toFullDateString(date.getTime());
+        }else{
+          return date;
+        }
+      },
+      /**
        * 截取时间
        * @returns
        */
@@ -349,16 +371,16 @@
           param.couponAmount2 = this.filterForm.couponAmount2
         }
         if (this.filterForm.getTime) {
-          param.getTime = Util.toDateString(this.filterForm.getTime.getTime());
+          param.getTime = this.formatDateToString(this.filterForm.getTime);
         }
         if (this.filterForm.getTime2) {
-          param.getTime2 = Util.toDateString(this.filterForm.getTime2.getTime());
+          param.getTime2 = this.formatDateToString(this.filterForm.getTime2);
         }
         if (this.filterForm.useTime) {
-          param.useTime = Util.toDateString(this.filterForm.useTime.getTime());
+          param.useTime = this.formatDateToString(this.filterForm.useTime);
         }
         if (this.filterForm.useTime2) {
-          param.useTime2 = Util.toDateString(this.filterForm.useTime2.getTime());
+          param.useTime2 = this.formatDateToString(this.filterForm.useTime2);
         }
         param.pageNo = this.currentPage;
         param.pageSize = this.pageRecorders;
@@ -371,8 +393,17 @@
        * 搜索
        */
       searchFn () {
-        this.currentPage = 1;
-        this.requestData();
+        if(this.filterForm.couponAmount > this.filterForm.couponAmount2){
+          this.$message({
+            showClose: true,
+            message: '抵扣金额输入错误！',
+            type: 'error'
+          });
+          return false;
+        } else{
+          this.currentPage = 1;
+          this.requestData();
+        }
       },
       /**
        * 重置表单

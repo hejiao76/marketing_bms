@@ -444,10 +444,10 @@
           param.name = this.filterForm.activityName
         }
         if (this.filterForm.provinceObj.provinceName) {
-          param.area = this.filterForm.provinceObj.provinceName
+          param.areaNames = this.filterForm.provinceObj.provinceName
         }
         if (this.filterForm.provinceObj.cityName) {
-          param.area = this.filterForm.provinceObj.cityName
+          param.areaNames = this.filterForm.provinceObj.cityName
         }
         if (this.filterForm.activityStartDate) {
           param.beginTime = Util.toDateString(this.filterForm.activityStartDate.getTime());
@@ -456,10 +456,10 @@
           param.endTime = Util.toDateString(this.filterForm.activityEndDate.getTime());
         }
         if (this.filterForm.createStartDate) {
-          param.createBeginTime   = Util.toDateString(this.filterForm.createStartDate.getTime());
+          param.createBeginTime = Util.toDateString(this.filterForm.createStartDate.getTime());
         }
         if (this.filterForm.createEndDate) {
-          param.createEndTime    = Util.toDateString(this.filterForm.createEndDate.getTime());
+          param.createEndTime = Util.toDateString(this.filterForm.createEndDate.getTime());
         }
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
@@ -505,7 +505,15 @@
             activityStartDate:'',//活动开始时间
             activityEndDate:'', //活动结束时间
             createStartDate:'',//活动创建开始时间
-            createEndDate:''//活动创建结束时间
+            createEndDate:'',//活动创建结束时间
+            provinceObj:{
+              provinceName:'',
+              provinceId:'',
+              cityId:'',
+              cityName:'',
+
+
+            }
         }
         this.searchFn();
       }

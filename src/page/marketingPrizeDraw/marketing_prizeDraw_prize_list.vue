@@ -45,13 +45,13 @@
             <el-form-item label="活动日期:">
               <el-col :span="11">
                 <el-form-item >
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="datetime"  placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date"  placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd"  type="datetime" placeholder="选择结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd"  type="date" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -293,8 +293,8 @@
        * 修改
        * @returns {}
        */
-      updatePrize(){
-        this.$router.push("/prizeDraw/edit/1")
+      updatePrize(id){
+        this.$router.push({name: 'marketing_prizeDraw_edit', params: {prizeDrawCode:id}})
       },
 
       /**
@@ -302,7 +302,7 @@
        * @returns {}
        */
       addActivity () {
-        this.$router.push("/prizeDraw/edit/1")
+        this.$router.push({name: 'marketing_prizeDraw_edit', params: {prizeDrawCode:'new'}})
       },
 
 
@@ -336,10 +336,10 @@
           param.activityArea = this.filterForm.activityArea
         }
         if (this.filterForm.activityStartDate) {
-          param.beginTime = this.formatDateToString(this.filterForm.activityStartDate);
+          param.beginTime = Util.toDateString(this.filterForm.activityStartDate.getTime());
         }
         if (this.filterForm.activityEndDate) {
-          param.endTime = this.formatDateToString(this.filterForm.activityEndDate);
+          param.endTime = Util.toDateString(this.filterForm.activityEndDate.getTime());
         }
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
