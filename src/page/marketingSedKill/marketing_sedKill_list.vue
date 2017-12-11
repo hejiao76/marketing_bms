@@ -48,11 +48,11 @@
         <div style="width:550px;">
           <el-form-item label="活动时间:">
             <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择活动开始日期"></el-date-picker>
+              <el-date-picker v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
             </el-col>
             <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
             <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择活动结束日期"></el-date-picker>
+              <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期"></el-date-picker>
             </el-col>
           </el-form-item>
         </div>
@@ -61,11 +61,11 @@
             <div style="width:550px;">
               <el-form-item label="创建时间:">
                 <el-col :span="11">
-                  <el-date-picker v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择创建开始日期"></el-date-picker>
+                  <el-date-picker v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
                 </el-col>
                 <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
                 <el-col :span="11">
-                  <el-date-picker v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="选择创建结束日期"></el-date-picker>
+                  <el-date-picker v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="选择结束日期"></el-date-picker>
                 </el-col>
               </el-form-item>
             </div>
@@ -92,7 +92,7 @@
           </el-tabs>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">新建活动</el-button>
+          <el-button type="primary" size="small" @click="addActivity()" class="fr mr20 ">新建活动</el-button>
         </el-col>
       </el-row>
       <div><span class="totalTip">共找到以下10条数据</span></div>
@@ -106,12 +106,12 @@
         <el-table-column label="操作" align="center" width="140">
           <template scope="scope">
             <div v-if="activityType==0">
-              <el-button @click="addActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
+              <el-button @click="updateActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
               <el-button @click="upActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
               <el-button @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
             </div>
             <div v-if="activityType==1">
-              <el-button @click="addActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
+              <el-button @click="updateActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
               <el-button @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
             </div>
             <div v-if="activityType==2">
@@ -364,15 +364,18 @@
         });
       },
       /**
+       *编辑活动点击
+       * @returns {}
+       */
+      updateActivity(id){
+        this.$router.push({name: 'marketing_sedKill_edit', params: {sedKillId:id}})
+      },
+      /**
        * 新建活动点击
        * @returns {}
        */
-      addActivity (id) {
-        this.$router.push("/sedkill/edit/"+id)
-       // this.$refs.tipMsgRef.showTipMsg({
-        //  msg:"还在开发! 急什么! 急什么!",
-        //  type:"error"
-       // });
+      addActivity () {
+        this.$router.push({name: 'marketing_sedKill_edit', params: {sedKillId:'new'}})
       },
       /**
        * 已上架
@@ -409,7 +412,7 @@
         return;
       },
       /**
-       * 新建活动点击
+       * 删除点击
        * @returns {}
        */
       deleteActivity (id) {

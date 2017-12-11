@@ -132,21 +132,21 @@
        * @returns {}
        */
       copyTicket (id) {
-        this.$router.push("/sedkill/ticket_edit/"+id)
+        this.$router.push({name: 'marketing_sedKill_ticket_edit', params: {type:'copy',ticketId:id}})
       },
       /**
        * 修改券
        * @returns {}
        */
       updateTicket (id) {
-        this.$router.push("/sedkill/ticket_edit/"+id)
+        this.$router.push({name: 'marketing_sedKill_ticket_edit', params: {ticketId:id}})
       },
       /**
        * 新建券
        * @returns {}
        */
       addTicket () {
-        this.$router.push("/sedkill/ticket_edit/1")
+        this.$router.push({name: 'marketing_sedKill_ticket_edit', params: {ticketId:'new'}})
       },
       /**
        * invalid无效券
