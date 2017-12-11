@@ -53,7 +53,7 @@
 
         </el-row>
       <div style="overflow: auto;">
-        <div class="saleticket-list colorsaletickstyle " v-if="activityInfo.serialType!=1">
+        <div class="saleticket-list colorsaletickstyle " v-if="activityInfo.type!=1">
           <div class="saleticket-list_header">
             <p>抵扣券名称：{{activityInfo.gift.giftGroupName}}</p>
             <span>有效期：{{activityInfo.gift.effectiveDate}}</span>
@@ -69,7 +69,7 @@
                   {{item.giftName}}:
                 </div>
                 <div class="sal-con_txt">
-                  <span>¥1{{item.giftPrice}}X{{item.giftCount}}</span>
+                  <span>¥{{item.giftPrice}}X{{item.giftCount}}</span>
                 </div>
               </li>
             </ul>
@@ -81,48 +81,7 @@
             </div>
             <table>
               <tr>
-                <td>345<em>(礼包金额)</em></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="saleticket-list colorsaletickstyle ">
-          <div class="saleticket-list_header">
-            <p>名称</p>
-            <span>失效时间</span>
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-          </div>
-          <div class="saleticket-content">
-            <ul>
-              <li>
-                <div class="sal-con-tit">
-                  加油卡：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-              <li>
-                <div class="sal-con-tit">
-                  雨伞：
-                </div>
-                <div class="sal-con_txt">
-                  <span>¥100X2</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="saleticket-footer">
-            <div class="headericon">
-              <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
-              <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
-            </div>
-            <table>
-              <tr>
-                <td>345<em>(礼包金额)</em></td>
+                <td>{{activityInfo.gift.groupPrice}}<em>({{activityInfo.gift.giftGroupName}})</em></td>
               </tr>
             </table>
           </div>

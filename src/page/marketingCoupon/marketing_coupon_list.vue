@@ -111,7 +111,7 @@
           <el-button type="primary" size="small" @click="addActivity()" class="fr mr20 ">新建抵扣券活动</el-button>
         </el-col>
       </el-row>
-      <div style="margin-bottom:15px;"><span class="totalTip">共找到以下10条数据</span>
+      <div style="margin-bottom:15px;"><span class="totalTip">共找到以下<span style="padding:0 10px;color: #409eff">{{totalRow}}</span>条数据</span>
         <el-switch
         style="display:inline-block;float: right"
         v-model="isCar"
@@ -313,6 +313,7 @@
           }
 
         },
+        dataNumber:0,
         labelPosition:'left',
         activityType : 0,
         resData : [],
@@ -484,8 +485,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalPage;
-              this.currentPage = 1;
+              this.totalRow = res.dataNumber;
             }else {
               this.resData = [];
             }

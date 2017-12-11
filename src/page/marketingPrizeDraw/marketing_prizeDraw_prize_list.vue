@@ -45,13 +45,13 @@
             <el-form-item label="活动日期:">
               <el-col :span="11">
                 <el-form-item >
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date"  placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="datetime"  placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
                 <el-form-item>
-                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd"  type="date" placeholder="选择结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd"  type="datetime" placeholder="选择结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
             </el-form-item>
@@ -202,12 +202,8 @@
     },
     mounted () {
       this.requestData();
-//      this.getCity();
     },
     watch: {
-      "$route": function (to, from) {
-        this.resetForm();
-      }
     },
     methods: {
       checkCity(provinceId){
@@ -220,6 +216,17 @@
           }
         }
 
+      },
+      /**
+       * 日期转1字符串
+       * @param date
+       */
+      formatDateToString (date){
+        if(typeof date == 'object'){
+          return Util.toFullDateString(date.getTime());
+        }else{
+          return date;
+        }
       },
       /**
        * 获取省市
@@ -320,6 +327,7 @@
        * @returns {{token: (string|null)}}
        */
       getFilterParam () {
+        var reg = new RegExp("\\+","");
         var param = {}
         if (this.filterForm.activityName) {
           param.name = this.filterForm.activityName
@@ -328,10 +336,10 @@
           param.activityArea = this.filterForm.activityArea
         }
         if (this.filterForm.activityStartDate) {
-          param.beginTime = Util.toDateString(this.filterForm.activityStartDate.getTime());
+          param.beginTime = this.formatDateToString(this.filterForm.activityStartDate);
         }
         if (this.filterForm.activityEndDate) {
-          param.endTime = Util.toDateString(this.filterForm.activityEndDate.getTime());
+          param.endTime = this.formatDateToString(this.filterForm.activityEndDate);
         }
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
@@ -351,7 +359,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalPage;
+              this.totalRow = res.dataNumber;
             }else {
               this.resData = [];
               this.currentPage = 1;
