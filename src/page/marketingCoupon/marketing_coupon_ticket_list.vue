@@ -349,7 +349,7 @@
         Final: Final,
         activeStatus:true,
         sortStatus:1,// 排序方式 1：正序 2：倒序
-        sortType:1,// 排序字段 1：活动开始日期 2：活动结束日期 3：领取数量 4：活动PV 5：创建日期
+        sortType:2,// 排序字段 1：活动开始日期 2：活动结束日期 3：领取数量 4：活动PV 5：创建日期
         dataNumber:0,
         carArr:[],
       }
@@ -551,6 +551,13 @@
        */
       changeActivityType (tab, event){
         this.activityType = tab.$attrs.val;
+        this.sortType = 2
+        if(tab.$attrs.val == 0){
+          this.sortStatus = 2
+        }
+        if(tab.$attrs.val == 1){
+          this.sortStatus = 1
+        }
         this.currentPage = 1;
         this.requestData();
       },

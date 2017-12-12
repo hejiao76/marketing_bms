@@ -535,6 +535,22 @@
        */
       changeActivityType (tab, event){
         this.activityType = tab.name;
+        if(tab.name == 0){
+          this.sortType = 5
+          this.sortStatus = 2
+        }
+        if(tab.name == 1){
+          this.sortType = 1
+          this.sortStatus = 1
+        }
+        if(tab.name == 2){
+          this.sortType = 1
+          this.sortStatus = 2
+        }
+        if(tab.name == 3){
+          this.sortType = 2
+          this.sortStatus = 2
+        }
         this.currentPage = 1;
         this.requestData();
       },
