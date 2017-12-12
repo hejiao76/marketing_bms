@@ -184,7 +184,8 @@ export default {
       },
 
       requestGiftList (){
-          let param={type:2,pageIndex:1,pageSize:1000,serialId:this.serialStr || this.prizeDrawDetail.serialIds.join(",")}
+          console.log("-----------request gift list ------------",this.prizeDrawDetail);
+          let param={type:2,pageIndex:1,pageSize:1000,serialId:this.serialStr || this.prizeDrawDetail.serialIds}
 //          let param={};
 //        Api.base_sys_gift_list(param)
         Api.base_sys_gift_list_select(param)
@@ -219,6 +220,9 @@ export default {
           dayQuantity:this.prizeItem.dayQuantity, //每天投放数量
           ruleList:this.prizeItem.ruleList
         })
+        if(this.prizeItemForm.ruleList.length<=0){
+            this.addRuleItem();
+        }
         console.log("clone-----prizeItem",this.prizeItemForm)
       }
     },
