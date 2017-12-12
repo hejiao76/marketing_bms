@@ -12,15 +12,15 @@
             <el-row>
               <el-form-item label="活动时间：" required>
                 <el-col :span="11">
-                  <el-form-item prop="begin_time">
-                    <el-date-picker style="width: 100%;" v-model="activityInfo.begin_time" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始时间"></el-date-picker>
+                  <el-form-item prop="beginTime">
+                    <el-date-picker style="width: 100%;" v-model="activityInfo.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始时间"></el-date-picker>
 
                   </el-form-item>
                 </el-col>
                 <el-col class="line" :span="2" style="text-align: center">-</el-col>
                 <el-col :span="11">
-                  <el-form-item prop="end_time">
-                    <el-date-picker style="width: 100%;" v-model="activityInfo.end_time" :picker-options="optionsActivityEnd" type="datetime" placeholder="请输入结束时间"></el-date-picker>
+                  <el-form-item prop="endTime">
+                    <el-date-picker style="width: 100%;" v-model="activityInfo.endTime" :picker-options="optionsActivityEnd" type="datetime" placeholder="请输入结束时间"></el-date-picker>
                   </el-form-item>
                 </el-col>
               </el-form-item>
@@ -54,11 +54,11 @@
         <!--</el-row>-->
         <el-row>
           <div class="newhd">
-            <el-form-item label="抵扣券" prop="ticketArr">
-             <div class="saleticket-list" v-for="item in activityInfo.ticketArr">
+            <el-form-item label="抵扣券" prop="coupons">
+             <div class="saleticket-list" v-for="item in activityInfo.coupons">
               <div class="saleticket-list_header">
-                <p>抵扣券名称名称名称名</p>
-                <span>有效日期：2017-02-11  00：00：00至2018-09-11  00：00：00</span>
+                <p>{{item.name}}</p>
+                <span>有效日期：{{item.validity}}</span>
                 <div class="headericon">
                   <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
                   <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
@@ -71,7 +71,7 @@
                       抵扣券类型：
                     </div>
                     <div class="sal-con_txt">
-                      <span>抵扣车款  其他权益</span>
+                      <span>{{serialTypeMapping[item.serialType]}}</span>
                     </div>
                   </li>
                   <li>
@@ -79,7 +79,7 @@
                       抵扣金额(元)：
                     </div>
                     <div class="sal-con_txt">
-                      <span>1000</span>
+                      <span>{{item.amount}}</span>
                     </div>
                   </li>
                   <li>
@@ -87,7 +87,7 @@
                       绑定车系：
                     </div>
                     <div class="sal-con_txt">
-                      <span>博越</span>
+                      <span>{{item.serialName}}</span>
                     </div>
                   </li>
                   <li>
@@ -95,7 +95,7 @@
                       抵扣券数量：
                     </div>
                     <div class="sal-con_txt">
-                      asdfasdfads
+                      {{item.tmpCount}}
                     </div>
                   </li>
                   <li>
@@ -103,7 +103,7 @@
                       创建日期：
                     </div>
                     <div class="sal-con_txt">
-                      <span>2017-11-11 10:15:20</span>
+                      <span>{{item.createTime}}</span>
                     </div>
                   </li>
                 </ul>
@@ -120,7 +120,7 @@
                 </table>
               </div>
             </div>
-            </el-form-item>
+
             <div class="saleticket-list newlist cur" @click="openAddList()">
               <div class="saleticket-list_header">
                 <div class="headericon">
@@ -143,6 +143,7 @@
                 </table>
               </div>
             </div>
+            </el-form-item>
           </div>
 
         </el-row>
@@ -153,7 +154,7 @@
       </el-form>
 
     </div>
-    <V-AddcouponTlist @call="addSedKillCallBack" ref="ticketDialog"></V-AddcouponTlist>
+    <V-AddcouponTlist @call="addCouponTCallBack" :activityInfo="activityInfo" ref="ticketDialog"></V-AddcouponTlist>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
   </div>
 
@@ -173,20 +174,21 @@
     data() {
       return {
         uploadParam:{module:"coupon"},
+        serialTypeMapping:{1:"抵扣车款",2:"其他权益",3:"抵扣车款、其他权益"},
         testData:'',
         Final:Final,
         optionsActivityStart :{
           disabledDate:(time) => {
-            if(this.activityInfo.end_time){
-              let d = new Date (this.activityInfo.end_time)
+            if(this.activityInfo.endTime){
+              let d = new Date (this.activityInfo.endTime)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsActivityEnd :{
           disabledDate:(time) => {
-            if(this.activityInfo.begin_time){
-              let d = new Date (this.activityInfo.begin_time)
+            if(this.activityInfo.beginTime){
+              let d = new Date (this.activityInfo.beginTime)
               return time.getTime() <d.getTime();
             }
           }
@@ -194,23 +196,23 @@
         activityInfo: {
           id:'',
           name:'',
-          begin_time:'',
-          end_time:'',
+          beginTime:'',
+          endTime:'',
           coupons:[],
           shareImg:"",
           areaIds:"",
           areaNames:""
         },
-        checked_ticket:[],
+        coupons:[],
         rules: {
           name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
             {  max: 10, message: '活动名称需要小于10个字符', trigger: 'blur' }
           ],
-          begin_time: [
+          beginTime: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          end_time: [
+          endTime: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
           shareImg:[
@@ -219,7 +221,7 @@
           activityCity: [
             { type: 'array', required: true, message: '请至少选择一个地区', trigger: 'change' }
           ],
-          ticketArr: [
+          coupons: [
             { type: 'array', required: true, message: '请至少选择一个抵扣券', trigger: 'change' }
           ],
 
@@ -302,7 +304,7 @@
       requestData () {
         if(this.activityId){
           let param = {activityId:this.activityId};
-//          this.activityInfo=TestData.sedKill_checked_ticket_data.result;
+//          this.activityInfo=TestData.sedKill_coupons_data.result;
           console.log(this.activityInfo);
           return;
           Api.sk_activity_list(param)
@@ -321,7 +323,7 @@
           });
         }
       },
-      getTicketItemByTicketId (ticketId) {
+      getTicketItemByTicketId (id) {
 
       },
       /**
@@ -373,14 +375,14 @@
       },
       /**
        * 编辑/取消编辑 秒杀券基本信息按钮事件触发
-       * @param ticketId
+       * @param id
        * @param status
        */
-      editTicketItem (ticketId,status) {
-        if(ticketId){
-          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
-              let item = this.activityInfo.checked_ticket[i];
+      editTicketItem (id,status) {
+        if(id){
+          for(let i= 0 ; i <this.activityInfo.coupons.length; i ++ ){
+            if(id == this.activityInfo.coupons[i].id){
+              let item = this.activityInfo.coupons[i];
               item.tmp=this.createTmpTicketItem(item);
               console.log("editItem----------->",item);
 //              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
@@ -393,7 +395,7 @@
 //                item.sedKillStartDateObj=new Date(item.sedKillStartDate);
 //              }
               item.editStatus=status;
-              this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
+              this.activityInfo.coupons.splice(i, 1, item); //使用splice
               break;
             }
           }
@@ -401,13 +403,13 @@
       },
       /**
        *  保存 秒杀券基本信息按钮事件触发
-       * @param ticketId
+       * @param id
        */
-      saveTickItem(ticketId){
-        if(ticketId){
-          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
-              let item = this.activityInfo.checked_ticket[i];
+      saveTickItem(id){
+        if(id){
+          for(let i= 0 ; i <this.activityInfo.coupons.length; i ++ ){
+            if(id == this.activityInfo.coupons[i].id){
+              let item = this.activityInfo.coupons[i];
               this.syncTicketItemByTmp(item);
 //              delete item.tmp;
 //              if(item.tmp.signUpStartTime) {
@@ -420,7 +422,7 @@
 //                item.sedKillStartDate=util.toFullDateString(new Date(item.sedKillStartDateObj).getTime())
 //              }
               item.editStatus=0;
-              this.activityInfo.checked_ticket.splice(i, 1, item); //使用splice
+              this.activityInfo.coupons.splice(i, 1, item); //使用splice
               break;
             }
           }
@@ -428,13 +430,13 @@
       },
       /**
        * 删除已选择秒杀券
-       * @param ticketId
+       * @param id
        */
-      removeTicketItem (ticketId){
-        if(ticketId){
-          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
-              this.activityInfo.checked_ticket.splice(i, 1); //使用splice 触发数据更新
+      removeTicketItem (id){
+        if(id){
+          for(let i= 0 ; i <this.activityInfo.coupons.length; i ++ ){
+            if(id == this.activityInfo.coupons[i].id){
+              this.activityInfo.coupons.splice(i, 1); //使用splice 触发数据更新
               break;
             }
           }
@@ -446,32 +448,36 @@
       getExceptTicketId(){
         console.log("getExceptTicketId")
         let ticketIdArray = [];
-        for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-          ticketIdArray.push(this.activityInfo.checked_ticket[i].ticketId);
+        for(let i= 0 ; i <this.activityInfo.coupons.length; i ++ ){
+          ticketIdArray.push(this.activityInfo.coupons[i].id);
         }
         return ticketIdArray;
       },
       /**
        * 打开新增秒杀券模态框
-       * @param ticketId
+       * @param id
        */
       openAddList() {
           console.log("open")
         this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
       },
-      addSedKillCallBack(checkedNewTicketList){
+      /**
+       * 选择抵扣券回调
+       * @param checkedNewTicketList
+       */
+      addCouponTCallBack(checkedNewTicketList){
         console.log("回来了---------->",checkedNewTicketList)
         for(let i = 0;i<checkedNewTicketList.length;i++){
           let item =checkedNewTicketList[i];
-          let newTicketItem ={};
-          newTicketItem.ticketId = item.ticketId;
-          newTicketItem.ticketName = item.name;
-          newTicketItem.begin_time = item.startTime;
-          newTicketItem.end_time = item.endTime;
-          newTicketItem.createDate = item.creatTime;
-          newTicketItem.editStatus=1;
-          newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
-          this.activityInfo.checked_ticket.push(newTicketItem);
+          let newTicketItem=Object.assign({},item)
+//          newTicketItem.id = item.id;
+//          newTicketItem.name = item.name;
+//          newTicketItem.beginTime = item.startTime;
+//          newTicketItem.endTime = item.endTime;
+//          newTicketItem.createDate = item.creatTime;
+//          newTicketItem.editStatus=1;
+//          newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
+          this.activityInfo.coupons.push(newTicketItem);
 
         }
       },

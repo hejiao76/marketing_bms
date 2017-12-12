@@ -106,6 +106,7 @@ import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
 //import ElRow from "element-ui/packages/row/src/row";
 //import ElCol from "element-ui/packages/col/src/col";
 export default {
+  props:["activityInfo"],
   data () {
     return {
         dialogTableVisible:false,
@@ -133,10 +134,11 @@ export default {
      * 选择可选抵扣券
      */
     validSeriesInclude (item){
+        let serialIdsArray=item.serialIds.split(",");
 //      console.log("哈哈，方法 我来了",item);
         let validStatus=true;
-        for(let i=0;i<item.car_ids.length;i++){
-            if(!item.tmpChecked && this.tmpSeriesIds["series_"+item.car_ids[i].id]){
+        for(let i=0;i<serialIdsArray.length;i++){
+            if(!item.tmpChecked && this.tmpSeriesIds["series_"+item[i]]){
                 console.log(this.tmpSeriesIds);
                 validStatus=false;
                 break;
@@ -149,10 +151,11 @@ export default {
      * 选择可选抵扣券
      */
     removeSeriesTmp (item){
-      if(item.car_type == 2){
-        for(let i = 0 ; i< item.car_ids.length ; i ++){
-            console.log("deleteSeriesTmp----",item.car_ids[i].id)
-          delete this.tmpSeriesIds["series_"+item.car_ids[i].id];
+      let itemArray=item.serialIds.split(",");
+      if(item.serialType == 2){
+        for(let i = 0 ; i< itemArray.length ; i ++){
+            console.log("deleteSeriesTmp----",item[i])
+          delete this.tmpSeriesIds["series_"+item[i]];
           console.log("deleteSeriesTmp---after----",this.tmpSeriesIds);
         }
       }
@@ -161,10 +164,10 @@ export default {
      * 添加已选择抵扣券包含车系
      */
     addSeriesTmp (item){
-        console.log('addSeriesTmp',item.car_ids);
-      if(item.car_type == 2){
-        for(let i = 0 ; i< item.car_ids.length ; i ++){
-          this.tmpSeriesIds["series_"+item.car_ids[i].id] = item.car_ids[i].id;
+      let itemArray=item.serialIds.split(",");
+      if(item.serialType == 2){
+        for(let i = 0 ; i< itemArray.length ; i ++){
+          this.tmpSeriesIds["series_"+item[i]] = item[i]
         }
       }
     },
@@ -242,7 +245,7 @@ export default {
 //        this.listObj = this.filterExceptId(resData);
 //      console.log(this.listObj);
 //      return;
-      let param  = {coupon_name:this.ticketName,pageSize:1000}
+      let param  = {coupon_name:this.ticketName,pageSize:1000,activityEndtime:this.activityInfo.endTime}
       Api.cp_activity_filter_coupon(param)
         .then(res => {
           if (res.status == true) {
