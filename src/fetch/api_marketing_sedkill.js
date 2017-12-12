@@ -106,6 +106,13 @@ export default {
   sk_activity_order_detail(params) {
     return fetch.fetch('seckill/getOrderInfo', params,"get");
   },
-
+  /**
+   * 秒杀活动中奖用户
+   * @param params
+   * @returns {*}
+   */
+  sk_activity_winning_list(params) {
+    return fetch.fetch('seckill/getWinningList', params,"get");
+  },
 
 }

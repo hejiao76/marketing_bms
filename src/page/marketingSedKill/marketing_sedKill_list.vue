@@ -120,7 +120,7 @@
               <el-button @click="deleteActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">删除</el-button>
             </div>
             <div v-if="activityType==3">
-              <el-button @click="showPrizeUser" type="text" style="padding-top:0px;padding-bottom:0px;">中奖用户</el-button>
+              <el-button @click="showPrizeUser(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">中奖用户</el-button>
             </div>
           </template>
         </el-table-column>
@@ -140,60 +140,22 @@
         <!-- 具体内容 -->
         <div class="prize-tit">中奖用户</div>
         <div class="pricontent">
-          <div class="pricontent-txt fl">
+          <div class="pricontent-txt fl" v-for="winArr in winningArr">
             <div class="pricontent-body">
               <ul class="namepeople">
                 <li>
-                  <p><em>用户姓名:</em><span>马晓光</span></p>
+                  <p><em>用户姓名:</em><span>{{winArr.userName}}</span></p>
                 </li>
-                <li><p><em>手机号:</em><span>18614086655</span></p></li>
+                <li><p><em>手机号:</em><span>{{winArr.userPhone}}</span></p></li>
               </ul>
               <ul class="prizetxt">
                 <li>
-                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
+                  <p><em>秒杀券名称:</em><span>{{winArr.couponName}}</span></p>
                 </li>
-                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
-                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
-                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
-                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
-              </ul>
-            </div>
-          </div>
-          <div class="pricontent-txt fl">
-            <div class="pricontent-body">
-              <ul class="namepeople">
-                <li>
-                  <p><em>用户姓名:</em><span>马晓光</span></p>
-                </li>
-                <li><p><em>手机号:</em><span>18614086655</span></p></li>
-              </ul>
-              <ul class="prizetxt">
-                <li>
-                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
-                </li>
-                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
-                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
-                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
-                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
-              </ul>
-            </div>
-          </div>
-          <div class="pricontent-txt fl">
-            <div class="pricontent-body">
-              <ul class="namepeople">
-                <li>
-                  <p><em>用户姓名:</em><span>马晓光</span></p>
-                </li>
-                <li><p><em>手机号:</em><span>18614086655</span></p></li>
-              </ul>
-              <ul class="prizetxt">
-                <li>
-                  <p><em>秒杀券名称:</em><span>万元购买豪车</span></p>
-                </li>
-                <li><p><em>秒杀成功时间:</em><span>2017-11-11 10:58</span></p></li>
-                <li><p><em>有效时间:</em><span>2017-11至2017-12</span></p></li>
-                <li><p><em>订单编号:</em><span>MHads1516454856</span></p></li>
-                <li><p><em>适应于:</em><span>大众迈腾</span></p></li>
+                <li><p><em>秒杀成功时间:</em><span>{{winArr.seckillTime}}</span></p></li>
+                <li><p><em>有效时间:</em><span>{{winArr.beginTime}}至{{winArr.beginTime}}</span></p></li>
+                <li><p><em>订单编号:</em><span>{{winArr.orderNum}}</span></p></li>
+                <li><p><em>适应于:</em><span>{{winArr.carTypeName}}</span></p></li>
               </ul>
             </div>
           </div>
@@ -280,6 +242,7 @@
         Final: Final,
         cityArr:[],
         cityVmList:[],
+        winningArr:[],
       }
     },
     components: {
@@ -395,13 +358,23 @@
        * 显示中奖纪录
        * @returns {}
        */
-      showPrizeUser () {
-        $('.prize-pop,.mask').show();
-        return;
-//        this.$refs.tipMsgRef.showTipMsg({
-//          msg:"还在开发! 急什么! 急什么!",
-//          type:"error"
-//        });
+      showPrizeUser (id) {
+
+        Api.sk_activity_winning_list({id:id}).then(res => {
+          if (res.status) {
+            this.winningArr = res.result;
+            $('.prize-pop,.mask').show();
+          }else {
+            this.winningArr= []
+          }
+        }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+
       },
       /**
        * 关闭中奖纪录
@@ -484,7 +457,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalPage;
+              this.totalRow = res.dataNumber;
             }else {
               this.resData =[];
               this.currentPage = 1;

@@ -5,12 +5,12 @@
       <el-form :model="filterForm"  ref="filterForm" label-width="80px" size="small" >
         <el-row>
           <el-col :span=11>
-          <el-form-item label="订单编号:" prop="activityName" >
+          <el-form-item label="订单编号:">
             <el-input   v-model="filterForm.orderNum" placeholder="请输入订单编号" ></el-input>
           </el-form-item>
           </el-col>
           <el-col :span="11">
-            <el-form-item label="活动名称:" prop="activityName">
+            <el-form-item label="活动名称:">
               <el-input   v-model="filterForm.activityName" placeholder="请输入活动名称" ></el-input>
             </el-form-item>
           </el-col>
@@ -18,7 +18,7 @@
 
         <el-row>
           <el-col :span="11">
-            <el-form-item label="客户姓名:" prop="activityName">
+            <el-form-item label="客户姓名:">
               <el-input   v-model="filterForm.userName" placeholder="请输入客户姓名" ></el-input>
             </el-form-item>
           </el-col>
@@ -41,7 +41,7 @@
         <el-row>
           <el-col :span="11">
             <div>
-              <el-form-item label="客户手机:" prop="activityName">
+              <el-form-item label="客户手机:">
                 <el-input   v-model="filterForm.phoneNum" placeholder="请输入活动名称"></el-input>
               </el-form-item>
             </div>
@@ -147,7 +147,6 @@
   export default {
     data() {
       return {
-        orderList:TestData.orderList,
         optionsCreateStart : {
           disabledDate:(time) => {
             if(this.filterForm.createEndDate){
@@ -172,8 +171,8 @@
           userName:'',//客户姓名
           phoneNum:''//客户手机
         },
-        resData : [{status:0},{status:1},{status:2},{status:3},{status:4},{status:5}],
-        pageRecorders: 1,
+        resData : [],
+        pageRecorders: 10,
         Final: Final,
         currentPage: 1,
         totalRow: 10,
@@ -188,11 +187,8 @@
       VOrderDetail,
       VOrderList
     },
-    created (){
-      this.requestData();
-    },
     mounted () {
-      //      this.requestData();
+      this.requestData();
     },
     watch: {
       "$route": function (to, from) {
@@ -219,7 +215,7 @@
       getFilterParam () {
         var param = {}
         if (this.filterForm.activityName) {
-          param.activityName = this.filterForm.activityName
+          param.itemName  = this.filterForm.activityName
         }
         if (this.filterForm.orderNum) {
           param.orderNum = this.filterForm.orderNum
@@ -228,13 +224,13 @@
           param.userName = this.filterForm.userName
         }
         if (this.filterForm.phoneNum) {
-          param.phoneNum = this.filterForm.phoneNum
+          param.userPhone = this.filterForm.phoneNum
         }
         if (this.filterForm.createStartDate) {
-          param.createStartDate = Util.toDateString(this.filterForm.createStartDate.getTime());
+          param.beginTime = Util.toDateString(this.filterForm.createStartDate.getTime());
         }
         if (this.filterForm.createEndDate) {
-          param.createEndDate = Util.toDateString(this.filterForm.createEndDate.getTime());
+          param.endTime = Util.toDateString(this.filterForm.createEndDate.getTime());
         }
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
@@ -255,7 +251,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalPage;
+              this.totalRow = res.dataNumber;
             }else {
               this.resData = [];
               this.currentPage = 1;

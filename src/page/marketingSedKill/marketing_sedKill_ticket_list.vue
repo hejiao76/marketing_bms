@@ -115,11 +115,8 @@
       VConNav,
       VTipMsg
     },
-    created (){
-      this.requestData();
-    },
     mounted () {
-      //      this.requestData();
+      this.requestData();
     },
     watch: {
       "$route": function (to, from) {
@@ -188,13 +185,13 @@
       getFilterParam () {
         var param = {}
         if (this.filterForm.ticketName) {
-          param.ticketName = this.filterForm.ticketName
+          param.name = this.filterForm.ticketName
         }
         if (this.filterForm.activityStartDate) {
-          param.activityStartDate = Util.toDateString(this.filterForm.activityStartDate.getTime());
+          param.beginTime = Util.toDateString(this.filterForm.activityStartDate.getTime());
         }
         if (this.filterForm.activityEndDate) {
-          param.activityEndDate = Util.toDateString(this.filterForm.activityEndDate.getTime());
+          param.endTime = Util.toDateString(this.filterForm.activityEndDate.getTime());
         }
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
@@ -214,7 +211,7 @@
           .then(res => {
             if (res.status) {
               this.resData = res.result;
-              this.totalRow = res.totalPage;
+              this.totalRow = res.dataNumber;
             }else {
               this.resData = [];
               this.currentPage = 1;
