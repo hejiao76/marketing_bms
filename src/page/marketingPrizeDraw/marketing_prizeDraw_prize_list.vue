@@ -37,12 +37,12 @@
       @sort-change="sortTable"
     >
       <el-table-column
-        prop="username"
+        prop="userLoginName"
         label="用户名"
       >
       </el-table-column>
       <el-table-column
-        prop="userLoginName"
+        prop="username"
         label="用户姓名"
       >
       </el-table-column>
@@ -177,6 +177,7 @@
           activityName:'',//活动名称
           userName:'',//用户姓名
         }
+        this.requestData();
       },
       // 翻页
       handleCurrentChange(cpage){
@@ -185,13 +186,18 @@
       },
       // 导出excelbiao
       uploadEx(){
-        let param="?1=1"
+        let param=""
         if (this.filterForm.activityName) {
-          p.acitvityName = this.filterForm.activityName
-          param+="activityName="+this.filterForm.activityName
+          param="?acitvityName="+this.filterForm.activityName
         }
         if (this.filterForm.userName) {
-          param+="userName="+this.filterForm.userName
+          param="?userName="+this.filterForm.userName
+        }
+        if(this.filterForm.activityName && this.filterForm.userName){
+          param="?acitvityName="+this.filterForm.activityName+"&userName="+this.filterForm.userName
+        }
+        if(!this.filterForm.activityName && !this.filterForm.userName){
+          param=""
         }
         window.open(window.location.href.split("#")[0]+'action/lottery/winning/exp'+param);
 
