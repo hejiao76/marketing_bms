@@ -143,7 +143,7 @@ export default {
 //          { validator :this.userValidate().validate_redeemEndTime, trigger: 'change' },
         ],
         quantity: [
-          { required: true, type:"number", message: '请输入奖品数量', trigger: 'blur' },
+          { required: true,min:"0", type:"number", message: '请输入奖品数量', trigger: 'blur' },
         ],
         odds: [
 //          { required: true, type:"number", message: '请输入中奖概率', trigger: 'change' },
@@ -402,7 +402,7 @@ export default {
     userValidate(){
       return {
         validate_odds : (rule, value, callback) => {
-          if (!value ||  value<0) {
+          if (Number.isNaN(value) ||  value<0) {
             return callback(new Error('请输入中奖概率'));
           }else{
             if(value>100){
@@ -413,7 +413,7 @@ export default {
           }
         },
         validate_dayQuantity: (rule, value, callback) => {
-          if (!value ||  value<0) {
+          if (Number.isNaN(value) ||  value<0) {
             return callback(new Error('请输入每天投放个数'));
           }else{
             if(value>this.prizeItemForm.quantity){
