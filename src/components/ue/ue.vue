@@ -26,6 +26,11 @@
         type: String
       },
     },
+    watch  :{
+      defaultMsg (val, oldval) {
+        this.editor.setContent(this.defaultMsg);
+      },
+    },
     mounted() {
       const _this = this;
       this.editor = UE.getEditor(this.id, this.config); // 初始化UE

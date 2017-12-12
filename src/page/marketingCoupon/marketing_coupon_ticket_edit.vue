@@ -163,6 +163,7 @@
         if(this.$refs.baseSetting.validBaseItem() && this.$refs.seriesSetting.validSeriesItem() && this.$refs.typeSetting.validTypeItem()){
           let newCouponDetail = Object.assign({},this.couponDetail,this.$refs.baseSetting.getBaseItem(),this.$refs.seriesSetting.getSeriesItem(),this.$refs.typeSetting.validTypeItem())
           let param = newCouponDetail
+          console.log("updateCouponInfo----------",JSON.stringify(param));
           Api.cp_activity_coupon_save(param)
             .then(res => {
               if (res.status == true) {

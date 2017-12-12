@@ -29,12 +29,12 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="分享图片：" prop="imageUrl">
-              <el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
-                <img v-if="activityInfo.imageUrl" :src="activityInfo.imageUrl" class="avatar">
+            <el-form-item label="分享图片：" prop="shareImg">
+              <el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
+                <img v-if="activityInfo.shareImg" :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg : Final.IMG_PATH+activityInfo.shareImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
-              <!--<el-upload class="avatar-uploader" style="min-width:100px;max-width:60%" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">-->
+              <!--<el-upload class="avatar-uploader" style="mIMG_PATHin-width:100px;max-width:60%" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">-->
                 <!--<img v-if="baseItem.shareImg" :src="baseItem.shareImg.includes('http://') ? baseItem.shareImg : Final.IMG_PATH+baseItem.shareImg" class="avatar">-->
                 <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
               <!--</el-upload>-->
@@ -42,16 +42,16 @@
           </el-col>
         </el-row>
         <el-row>
-            <el-form-item label="活动地区" prop="activityCity">
-
+            <el-form-item label="活动地区">
+              <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
             </el-form-item>
         </el-row>
 
-        <el-row>
-          <el-form-item label="抵扣券">
+        <!--<el-row>-->
+          <!--<el-form-item label="抵扣券">-->
 
-          </el-form-item>
-        </el-row>
+          <!--</el-form-item>-->
+        <!--</el-row>-->
         <el-row>
           <div class="newhd">
             <el-form-item label="抵扣券" prop="ticketArr">
@@ -167,10 +167,12 @@
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
   import VAddcouponTlist from "./../../components/coupon/add_coupon_t_list.vue";
+  import VTreeview from "./../../components/treeview.vue";
   import TestData from "./../../util/TestData"
   export default {
     data() {
       return {
+        uploadParam:{module:"coupon"},
         testData:'',
         Final:Final,
         optionsActivityStart :{
@@ -195,13 +197,15 @@
           begin_time:'',
           end_time:'',
           coupons:[],
-          area:{},
+          shareImg:"",
+          areaIds:"",
+          areaNames:""
         },
         checked_ticket:[],
         rules: {
           name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+            {  max: 10, message: '活动名称需要小于10个字符', trigger: 'blur' }
           ],
           begin_time: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
@@ -209,7 +213,7 @@
           end_time: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          imageUrl:[
+          shareImg:[
             { required: true, message: '请上传图片', trigger: 'change' }
           ],
           activityCity: [
@@ -229,7 +233,8 @@
       VLeft,
       VConNav,
       VTipMsg,
-      VAddcouponTlist
+      VAddcouponTlist,
+      VTreeview
     },
     created (){
 
@@ -245,9 +250,13 @@
     methods : {
       initPage () {
         this.activityId = this.$route.params.couponId;
-        if(this.activityId){
+        if(this.activityId!="new"){
           this.requestData()
         }
+      },
+      syncArea(data){
+        this.activityInfo.areaIds=data.allCode;
+        this.activityInfo.areaNames=data.allName;
       },
       shareImgUploadSuccess (res, file, fileList) {
         if(res.status==true){
@@ -255,14 +264,17 @@
           let _self=this;
           img.src=Final.IMG_PATH+res.result.path;
           img.onload=function(){
-            var imgwidth=img.offsetWidth;
-            var imgheight=img.offsetHeight;
-            if(imgwidth!=50 || imgheight!=50){
-              _self.$message.error('分享图片尺寸必须是50px*50px');
-            }else{
-              _self.baseItem.shareImg=res.result.path;
-              console.log(_self.baseItem.shareImg);
-            }
+
+            _self.activityInfo.shareImg=res.result.path;
+            console.log(_self.activityInfo.shareImg)
+//            var imgwidth=img.offsetWidth;
+//            var imgheight=img.offsetHeight;
+//            if(imgwidth!=50 || imgheight!=50){
+//              _self.$message.error('分享图片尺寸必须是50px*50px');
+//            }else{
+//              _self.baseItem.shareImg=res.result.path;
+//              console.log(_self.baseItem.shareImg);
+//            }
 
           };
 
@@ -290,7 +302,7 @@
       requestData () {
         if(this.activityId){
           let param = {activityId:this.activityId};
-          this.activityInfo=TestData.sedKill_checked_ticket_data.result;
+//          this.activityInfo=TestData.sedKill_checked_ticket_data.result;
           console.log(this.activityInfo);
           return;
           Api.sk_activity_list(param)
@@ -464,7 +476,7 @@
         }
       },
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.shareImg = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';

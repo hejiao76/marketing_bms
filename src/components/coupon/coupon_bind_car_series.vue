@@ -4,19 +4,19 @@
     <el-form :model="seriesItemForm" :rules="rules" ref="seriesItemForm" size="small" label-width="120px" class="demo-ruleForm" label-position="left">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="抵扣车系" prop="car_type">
-            <el-radio-group v-model="seriesItemForm.car_type">
+          <el-form-item label="抵扣车系" prop="serialType">
+            <el-radio-group v-model="seriesItemForm.serialType">
               <el-radio :label="1">全车系</el-radio>
               <el-radio @change="requestSeries" :label="2">指定车系</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="绑定车系" prop="car_ids" v-if="seriesItemForm.car_type==2">
-            <el-checkbox-group v-model="seriesItemForm.car_ids">
-              <el-checkbox v-for="item in seriesList" :label="item.id">{{item.serialName}}</el-checkbox>
+          <el-form-item label="绑定车系" prop="serialIds" v-if="seriesItemForm.serialType==2">
+            <el-checkbox-group v-model="seriesItemForm.serialIds">
+              <el-checkbox v-for="item in seriesList" :label="String(item.id)">{{item.serialName}}</el-checkbox>
             </el-checkbox-group>
-            <!--<el-checkbox v-for="items in seriesItemForm.car_ids">{{items}}</el-checkbox>-->
+            <!--<el-checkbox v-for="items in seriesItemForm.serialIds">{{items}}</el-checkbox>-->
           </el-form-item>
         </el-col>
       </el-row>
@@ -46,15 +46,15 @@ export default {
   data () {
     return {
       seriesItemForm:{
-        car_type:1,
-        car_ids:[]
+        serialType:1,
+        serialIds:[]
       },
       seriesList:[],
       rules: {
-        car_type: [
+        serialType: [
           { required: true, type:'number', message: '请选择抵扣车系', trigger: 'change' }
         ],
-        car_ids:[
+        serialIds:[
           { required: true, type: 'array', message: '请选择绑定车系', trigger: 'change' }
         ]
       },
@@ -115,10 +115,10 @@ export default {
     cloneSeriesInfo() {
       if(this.couponDetail){
         this.seriesItemForm = {
-          car_type:this.couponDetail.carType || 1,
-          car_ids : this.getCarIdsArray()
+          serialType:this.couponDetail.serialType || 1,
+          serialIds : this.couponDetail.serialIds.split(",") || []
         }
-        if(this.seriesItemForm.car_ids){
+        if(this.seriesItemForm.serialIds){
             this.requestSeries();
         }
       }
@@ -140,10 +140,10 @@ export default {
      * 车系ID转成车系Object集合
      */
     carIdsArrayToObject () {
-        if(this.seriesItemForm.car_ids && this.seriesItemForm.car_ids.length>0 && this.seriesList.length>0){
+        if(this.seriesItemForm.serialIds && this.seriesItemForm.serialIds.length>0 && this.seriesList.length>0){
             let objArray = [];
-            for(let i = 0 ;i < this.seriesItemForm.car_ids.length ;i++){
-                let id = this.seriesItemForm.car_ids[i];
+            for(let i = 0 ;i < this.seriesItemForm.serialIds.length ;i++){
+                let id = this.seriesItemForm.serialIds[i];
                 let eqItem=this.seriesList.filter((item) =>{
                     return item.id==id;
                 });
@@ -171,8 +171,8 @@ export default {
     },
     getSeriesItem(){
         let newSeriesItem = Object.assign({},this.seriesItemForm);
-        if(this.seriesItemForm.car_type==2){
-          newSeriesItem.car_ids=this.carIdsArrayToObject();
+        if(this.seriesItemForm.serialType==2){
+          newSeriesItem.serialIds=this.seriesItemForm.serialIds.join(","); //this.carIdsArrayToObject();
         }
         return newSeriesItem;
     },
@@ -182,8 +182,8 @@ export default {
     saveSeriesItem(){
         if(this.validSeriesItem()){
 //              let newSeriesItem = Object.assign({},this.seriesItemForm);
-//              if(this.seriesItemForm.car_type==2){
-//                newSeriesItem.car_ids=this.carIdsArrayToObject();
+//              if(this.seriesItemForm.serialType==2){
+//                newSeriesItem.serialIds=this.carIdsArrayToObject();
 //              }
               this.$emit("call",{op:"edit",tag:"series",callData:this.getSeriesItem()});
         }

@@ -59,7 +59,7 @@
         </el-col>
         <el-col :span="8">
           <span >标题图片：</span>
-          <el-form-item prop="bgImg" label-width="0px;"  class="prizeDrawUpload">
+          <el-form-item prop="titleImg" label-width="0px;"  class="prizeDrawUpload">
             <el-upload class="avatar-uploader" style="min-width:100px;max-width:60%" :on-success="titleImgUploadSuccess" :before-upload="titleImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
               <img v-if="baseItem.titleImg" :src="baseItem.titleImg.includes('http://') ? baseItem.titleImg : Final.IMG_PATH+baseItem.titleImg" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -91,7 +91,7 @@
         <!--</el-col>-->
         <el-col :span="8">
           <span >活动图片：</span>
-          <el-form-item prop="bgImg" label-width="0px;"  class="prizeDrawUpload">
+          <el-form-item prop="shareImg" label-width="0px;"  class="prizeDrawUpload">
             <el-upload class="avatar-uploader" style="min-width:100px;max-width:60%" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
               <img v-if="baseItem.shareImg" :src="baseItem.shareImg.includes('http://') ? baseItem.shareImg : Final.IMG_PATH+baseItem.shareImg" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>

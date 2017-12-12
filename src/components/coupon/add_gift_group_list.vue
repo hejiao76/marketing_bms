@@ -142,8 +142,8 @@ export default {
         console.log("request---gift_-----list");
         let param = {
           giftGroupName:this.giftGroupName || '',
-          type:this.tmpSeriesData.car_type,
-          serialId:JSON.stringify(this.tmpSeriesData.car_ids),
+          type:this.tmpSeriesData.serialType,
+          serialId:this.tmpSeriesData.serialIds.join(","),
           pageIndex:1,
           pageSize:10000
         }

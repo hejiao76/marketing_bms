@@ -161,7 +161,7 @@ export default {
         this.baseSettingForm = {
           name:this.couponDetail.name, //活动名称
           validity:this.couponDetail.validity ? new Date(this.couponDetail.validity) : '', //抵扣券有效期
-          amount:this.couponDetail.description || '', //抵扣金额
+          amount:this.couponDetail.amount || '', //抵扣金额
           description:this.couponDetail.description || '',//抵扣券简介
           details:this.couponDetail.details || '', //抵扣券详情
         }

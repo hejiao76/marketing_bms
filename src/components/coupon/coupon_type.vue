@@ -92,7 +92,7 @@
     </el-form>
     <v-tip-msg ref="tipMsgRef"></v-tip-msg>
     <!--<V-Addcouponlist  ref="ticketDialog"></V-Addcouponlist>-->
-    <v-add-gift-bag-list @call="syncGiftIds" :tmpSeriesData="tmpSeriesDataObj" ref="ticketDialog"></v-add-gift-bag-list>
+    <v-add-gift-bag-list @call="syncGiftIds" :tmpSeriesData="tmpSeriesData" ref="ticketDialog"></v-add-gift-bag-list>
   </div>
 </template>
 
@@ -108,11 +108,11 @@ export default {
   data () {
     return {
       isShowGiftItem:false,
-      tmpSeriesDataObj:{},
+//      tmpSeriesDataObj:{},
       typeItemForm:{
         type:[],
         gift_obj:{},
-        gift_ids:'',
+        giftId:'',
       },
       rules: {
         type: [
@@ -129,13 +129,13 @@ export default {
     couponDetail (val, oldval) {
       this.cloneTypeInfo();
     },
-    tmpSeriesData : {
-        handler(val, oldval){
-          console.log("watch----111111111111111111------tmpSeriesData",this.tmpSeriesData);
-          this.tmpSeriesDataObj=this.tmpSeriesData
-        },
-        deep:true
-    }
+//    tmpSeriesData : {
+//        handler(val, oldval){
+//          console.log("watch----111111111111111111------tmpSeriesData",this.tmpSeriesData);
+//          this.tmpSeriesDataObj=this.tmpSeriesData
+//        },
+//        deep:true
+//    }
   },
   created () {
   },
@@ -153,13 +153,13 @@ export default {
     showGiftItem (checked){
         if(checked){
           this.isShowGiftItem=true;
-          if(this.typeItemForm.gift_ids){
+          if(this.typeItemForm.giftId){
             this.requestGiftItemInfo();
           }
         }else{
           this.isShowGiftItem=false;
           this.typeItemForm.gift_obj={};
-          this.typeItemForm.gift_ids='';
+          this.typeItemForm.giftId='';
         }
 
     },
@@ -167,7 +167,7 @@ export default {
      * 请求礼品包详情
      */
     requestGiftItemInfo (){
-        Api.base_sys_gift_info({giftGroupId:this.typeItemForm.gift_ids})
+        Api.base_sys_gift_info({giftGroupId:this.typeItemForm.giftId})
           .then(res => {
             if (res.status == true) {
               console.log(res);
@@ -189,21 +189,21 @@ export default {
       this.typeItemForm={
         type:[],
         gift_obj:{},
-        gift_ids:'',
+        giftId:'',
       }
       if(this.couponDetail && this.couponDetail.type){
           let type = [];
           if(this.couponDetail.type==3){
               type= [1,2]
-//              if(this.couponDetail.gift_ids){
-//                  this.requestGiftItemInfo(this.couponDetail.gift_ids);
+//              if(this.couponDetail.giftId){
+//                  this.requestGiftItemInfo(this.couponDetail.giftId);
 //              }
           }else{
               type.push(this.couponDetail.type);
           }
          this.typeItemForm.type=type,
-         this.typeItemForm.gift_ids=this.couponDetail.giftIds;
-          if(this.typeItemForm.gift_ids){
+         this.typeItemForm.giftId=this.couponDetail.giftId;
+          if(this.typeItemForm.giftId){
               this.showGiftItem(true);
           }
 
@@ -215,7 +215,7 @@ export default {
     syncGiftIds (data) {
         console.log("选择礼品-----回到父级",JSON.stringify(data));
         if(data && data.giftGroupId){
-            this.typeItemForm.gift_ids =data.giftGroupId;
+            this.typeItemForm.giftId =data.giftGroupId;
             this.requestGiftItemInfo();
         }
     },
@@ -243,7 +243,7 @@ export default {
      * 验证勾选其他权益后是否选择礼包
      */
     validCheckGiftGroup (){
-      if(this.typeItemForm.type.includes(2) && !this.typeItemForm.gift_ids){
+      if(this.typeItemForm.type.includes(2) && !this.typeItemForm.giftId){
 //          this.$refs.tipMsgRef.showTipMsg({
 //            msg:"请添加礼包",
 //            type:"error"
@@ -279,7 +279,7 @@ export default {
     },
 
     addCoupon(){
-        if(this.tmpSeriesData.car_type==2 && this.tmpSeriesData.car_ids.length<=0){
+        if(this.tmpSeriesData.serialType==2 && this.tmpSeriesData.serialIds.length<=0){
           this.$emit("errorTipMsg",{msg:"请先选择车系"});
         }else{
           this.$refs.ticketDialog.showDialog();
