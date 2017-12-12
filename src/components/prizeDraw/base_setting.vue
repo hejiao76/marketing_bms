@@ -22,7 +22,7 @@
           </el-form-item>
           <el-form-item prop="isShowJoinSize" label="参与人数:">
             <el-col :span="24">
-              <el-radio-group v-model="baseItem.isShowJoinSize">
+              <el-radio-group @change="previewCall($event,'isShowJoinSize')" v-model="baseItem.isShowJoinSize">
               <el-radio  :label="1">显示</el-radio>
               <el-radio  :label="0">隐藏</el-radio>
               </el-radio-group>
@@ -34,7 +34,7 @@
           </el-form-item>
           <el-form-item prop="isShowWinningRecord" label="获奖信息:">
             <el-col :span="24">
-              <el-radio-group v-model="baseItem.isShowWinningRecord">
+              <el-radio-group @change="previewCall($event,'isShowWinningRecord')" v-model="baseItem.isShowWinningRecord">
               <el-radio  :label="1">显示</el-radio>
               <el-radio  :label="0">隐藏</el-radio>
               </el-radio-group>
@@ -128,14 +128,14 @@
       </el-row>
       <el-row class="margin-bottom-20" style="margin-top:20px;">
         <el-form-item label="活动地区:" required>
-          <V-Treeview  @call="syncArea" :data="baseItem.areaIds"></V-Treeview>
+          <V-Treeview  @call="syncArea" :code="baseItem.areaIds" :name="baseItem.areaNames"></V-Treeview>
         </el-form-item>
       </el-row>
       <el-row class="margin-bottom-20">
         <el-col :span="14">
           <el-form-item label="车系／车型：" prop="serialIds">
           <!--<span class="span-120"></span>-->
-          <el-select style="width:100%;"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
+          <el-select :disabled="isEdit" style="width:100%;" @change="serialChange"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
             <el-option
               v-for="item in seriesList"
               :key="item.id"
@@ -149,7 +149,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="活动说明:" maxlength="1000" prop="description">
-            <el-input type="textarea" placeholder="填写商家自定义的活动说明" v-model="baseItem.description"></el-input>
+            <el-input @change="previewCall($event,'description')" type="textarea" placeholder="填写商家自定义的活动说明" v-model="baseItem.description"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -264,6 +264,17 @@ export default {
   methods:{
     editSave (){
       this.$emit("editSaveCall");
+    },
+    serialChange (){
+      this.$emit("serialChange",{serialStr : this.baseItem.serialIds.join(",")});
+      console.log(this.baseItem.serialIds)  ;
+    },
+    previewCall($event,key) {
+        let data={};
+        console.log("key",data.key);
+        data[key]=this.baseItem[key];
+        console.log("-------previewCall-----key----",data[key])
+        this.$emit("previewCall",data)
     },
       requsetLocation (){
         Api.base_sys_location({})
@@ -405,6 +416,7 @@ export default {
         console.log(file);
         if(res.status==true){
           this.baseItem.bgImg=res.result.path;
+          this.previewCall("bgImgUpload","bgImg")
           console.log(this.baseItem.bgImg);
 
         }
@@ -412,6 +424,7 @@ export default {
     titleImgUploadSuccess (res, file, fileList) {
       if(res.status==true){
         this.baseItem.titleImg=res.result.path;
+        this.previewCall("titleUpload","titleImg")
         console.log(this.baseItem.titleImg);
       }
     },
@@ -439,8 +452,10 @@ export default {
           this.baseItem.shareImg=Final.DEFAULT_IMG.prizeDraw.default_share;
       }else if(type == "title"){
         this.baseItem.titleImg=Final.DEFAULT_IMG.prizeDraw.default_title;
+        this.previewCall("titleDefault","titleImg")
       }else if(type == "bg"){
         this.baseItem.bgImg=Final.DEFAULT_IMG.prizeDraw.default_bg;
+        this.previewCall("bgDefault","bgImg")
       }
     },
     /**

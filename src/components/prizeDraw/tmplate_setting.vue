@@ -77,13 +77,18 @@ export default {
      * 选择模板
      */
     chooseTmp (tmpId) {
-        this.templateIdTmpObj.templateId=tmpId;
+        if(!this.isEdit){
+          this.templateIdTmpObj.templateId=tmpId;
+        }
+
     },
     /**
      * 取消选择模板
      */
     cancelTmp (){
-      this.templateIdTmpObj.templateId="";
+      if(!this.isEdit){
+        this.templateIdTmpObj.templateId="";
+      }
     },
     /**
      * 上一步按钮操作

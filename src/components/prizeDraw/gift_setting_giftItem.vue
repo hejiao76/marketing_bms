@@ -11,7 +11,7 @@
               <el-collapse-transition>
               <div v-if="isshow">
                 <el-form-item label="礼包名称:" prop="giftGroupId">
-                  <el-select v-model="prizeItemForm.giftGroupId" @change="selectGiftGroup" placeholder="请选择">
+                  <el-select :disabled="isEdit" v-model="prizeItemForm.giftGroupId" @change="selectGiftGroup" placeholder="请选择">
                     <el-option
                       v-for="item in giftList"
                       :key="item.giftGroupId"
@@ -106,7 +106,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
 export default {
-  props:['prizeItem','itemIndex'],
+  props:['prizeDrawDetail','prizeItem','itemIndex','isEdit','serialStr'],
   data () {
     return {
       wordMapping:{
@@ -143,7 +143,7 @@ export default {
 //          { validator :this.userValidate().validate_redeemEndTime, trigger: 'change' },
         ],
         quantity: [
-          { required: true, type:"number", message: '请输入奖品数量', trigger: 'blur' },
+          { required: true,min:"0", type:"number", message: '请输入奖品数量', trigger: 'blur' },
         ],
         odds: [
 //          { required: true, type:"number", message: '请输入中奖概率', trigger: 'change' },
@@ -177,17 +177,18 @@ export default {
           for(let i = 0 ;i<this.giftList.length;i++){
               if(this.giftList[i].giftGroupId == this.prizeItemForm.giftGroupId){
                 this.prizeItemForm.giftGroupName = this.giftList[i].giftGroupName;
-                this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice;
+                this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice || 0;
                 this.prizeItemForm.details=this.formatDetails(this.giftList[i].giftInfoList);
               }
           }
       },
 
       requestGiftList (){
-          let param={type:1,pageIndex:1,pageSize:1000,giftGroupName:'礼'}
+          console.log("-----------request gift list ------------",this.prizeDrawDetail);
+          let param={type:2,pageIndex:1,pageSize:1000,serialId:this.serialStr || this.prizeDrawDetail.serialIds}
 //          let param={};
-        Api.base_sys_gift_list(param)
-//        Api.base_sys_gift_list_select({})
+//        Api.base_sys_gift_list(param)
+        Api.base_sys_gift_list_select(param)
           .then(res => {
             if (res.status == true) {
                 this.giftList=res.result;
@@ -213,12 +214,15 @@ export default {
           giftGroupName:this.prizeItem.giftGroupName, //礼包名称
           quantity:this.prizeItem.quantity, //数量
           giftGroupPrice:this.prizeItem.giftGroupPrice,//礼包价格
-          details:this.prizeItem.details.split("||"),
+          details:this.prizeItem.details ? this.prizeItem.details.split("||") : [], //礼品项明细
           level:this.prizeItem.level, //奖项等级
           odds:this.prizeItem.odds,  // 中奖概率
           dayQuantity:this.prizeItem.dayQuantity, //每天投放数量
           ruleList:this.prizeItem.ruleList
         })
+        if(this.prizeItemForm.ruleList.length<=0){
+            this.addRuleItem();
+        }
         console.log("clone-----prizeItem",this.prizeItemForm)
       }
     },
@@ -398,7 +402,7 @@ export default {
     userValidate(){
       return {
         validate_odds : (rule, value, callback) => {
-          if (!value ||  value<0) {
+          if (Number.isNaN(value) ||  value<0) {
             return callback(new Error('请输入中奖概率'));
           }else{
             if(value>100){
@@ -409,7 +413,7 @@ export default {
           }
         },
         validate_dayQuantity: (rule, value, callback) => {
-          if (!value ||  value<0) {
+          if (Number.isNaN(value) ||  value<0) {
             return callback(new Error('请输入每天投放个数'));
           }else{
             if(value>this.prizeItemForm.quantity){

@@ -69,7 +69,7 @@
           <i class="el-icon-menu"></i>
           <span>抵扣券</span>
         </template>
-        <el-menu-item index="3-1" :route="{path:'/coupon/ticket_edit/1'}">添加抵扣券</el-menu-item>
+        <el-menu-item index="3-1" :route="{path:'/coupon/ticket_edit/new'}">添加抵扣券</el-menu-item>
         <el-menu-item index="3-2" :route="{path:'/coupon/ticket_list'}">抵扣券管理</el-menu-item>
         <el-menu-item index="3-3" :route="{path:'/coupon/record_list'}">抵扣券消耗记录</el-menu-item>
       </el-submenu>
@@ -78,7 +78,7 @@
           <i class="el-icon-menu"></i>
           <span>秒杀活动</span>
         </template>
-        <el-menu-item index="4-1" :route="{path:'/sedkill/edit/1'}">新建活动</el-menu-item>
+        <el-menu-item index="4-1" :route="{path:'/sedkill/edit/new'}">新建活动</el-menu-item>
         <el-menu-item index="4-2" :route="{path:'/sedkill/list'}">活动管理</el-menu-item>
         <el-menu-item index="4-2" :route="{path:'/sedkill/order_list'}">订单管理</el-menu-item>
       </el-submenu>
@@ -87,7 +87,7 @@
           <i class="el-icon-menu"></i>
           <span>秒杀券</span>
         </template>
-        <el-menu-item index="5-1" :route="{path:'/sedkill/ticket_edit/1'}">新建活动</el-menu-item>
+        <el-menu-item index="5-1" :route="{path:'/sedkill/ticket_edit/new'}">新建活动</el-menu-item>
         <el-menu-item index="5-2" :route="{path:'/sedkill/ticket_list'}">秒杀券管理</el-menu-item>
       </el-submenu>
 

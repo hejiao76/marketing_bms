@@ -1,7 +1,20 @@
 <template>
   <div class="con_list" style="display: flex;flex-flow:row;">
-    <div style="width:306px;display: inline-block;padding-right:20px;">
-      <!--<img src="../../assets/images/mod.png" style="width: 100%"/>-->
+    <div style="width:306px;display: inline-block;padding-right:20px;position:relative">
+      <img :src="previewProps.bgImg.includes('http://') ? previewProps.bgImg:Final.IMG_PATH+previewProps.bgImg" style="width: 300px;height:486px;position:absolute"/>
+      <img src="../../assets/images/default/zhuanpan.png" style="width: 260px;position:absolute;left:20px;top:120px;"/>
+      <img :src="previewProps.titleImg.includes('http://') ? previewProps.titleImg:Final.IMG_PATH+previewProps.titleImg" style="width: 260px;height:56px;position:absolute;left:20px;top:20px;"/>
+      <!--<div v-if="this.previewProps.description">{{this.previewProps.description}}</div>-->
+      <div class="raffle_number">您还有 <span>XXX</span> 次抽奖机会</div>
+      <div v-if="previewProps.isShowJoinSize" class="all_number" >已有<span class="number">XXX</span>人参加</div>
+      <div v-if="previewProps.isShowWinningRecord" class="news">
+        <div class="t_news">
+          <ul class="news_li">
+            <li  style="color:#FFFFFF">XX刚刚抽中了<span>一等奖</span>，快来试试你的运气</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
     <div style="display: inline-block;flex:1">
       <el-row>
@@ -9,13 +22,13 @@
           <!--<el-form :model="filterForm"  :rules="rules" ref="filterForm" label-width="120px" size="small" ></el-form>-->
           <el-tabs type="card"   v-model="prizeDrawSettingTab" >
             <el-tab-pane :disabled="this.disabledTab"  label="基础设置" name="base">
-              <v-pz-base-setting ref="baseSetting" @editSaveCall="updatePrizeDrawInfo"  @call="syncPrizeDrawDetail" :isEdit="isEdit" :prizeDrawDetail="prizeDrawDetail"></v-pz-base-setting>
+              <v-pz-base-setting ref="baseSetting" @serialChange="syncSerialStr" @editSaveCall="updatePrizeDrawInfo"  @call="syncPrizeDrawDetail" @previewCall="syncPreviewProps" :isEdit="isEdit" :prizeDrawDetail="prizeDrawDetail"></v-pz-base-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="抽奖设置" name="prize">
               <v-pz-prize-draw-setting ref="prizeDrawSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-prize-draw-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="奖品设置" name="gift">
-              <v-pz-gift-setting ref="giftSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
+              <v-pz-gift-setting ref="giftSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail" :serialStr="serialStr"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="模板选择" name="template">
               <v-pz-template-setting ref="templateSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-template-setting>
@@ -45,11 +58,20 @@
   export default {
     data() {
       return {
+        Final:Final,
         disabledTab:false,
         isEdit:true,
         prizeDrawSettingTab:'base', //选项卡默认选中项1111111111111111111111111111
         prizeDrawDetail : {},
         prizeDrawCode:'',
+        previewProps :{
+            isShowJoinSize:true,
+            isShowWinningRecord:true,
+            bgImg:Final.DEFAULT_IMG.prizeDraw.default_bg,
+            titleImg:Final.DEFAULT_IMG.prizeDraw.default_title,
+            description:""
+        },
+        serialStr:"", //透传车系ID字符串，查询可用礼包
       }
     },
     components :{
@@ -64,10 +86,10 @@
       VPzTemplateSetting
     },
     created (){
-      this.initPage();
+      console.log(Final)
     },
     mounted (){
-
+      this.initPage();
     },
     watch : {
       "$route": function (to, from) {
@@ -86,6 +108,9 @@
           this.disabledTab=false;
           this.requestData()
         }
+      },
+      syncSerialStr (data){
+          this.serialStr = data.serialStr;
       },
       syncPrizeDrawDetail (data) {
         if(data.tag=="base"){
@@ -194,6 +219,31 @@
 
           });
       },
+      syncPreviewProps(data){
+//          isShowJoinSize:true,
+//          isShowWinningRecord:true,
+//          bgImg:"",
+//          titleImg:"",
+//          description:""
+          if(data.isShowJoinSize>-1){
+            this.previewProps.isShowJoinSize =  data.isShowJoinSize == 1? true : false;
+          }
+          if(data.isShowWinningRecord>-1){
+            this.previewProps.isShowWinningRecord =  data.isShowWinningRecord == 1? true : false;
+          }
+          if(data.bgImg){
+            this.previewProps.bgImg= data.bgImg;
+          }
+          if(data.titleImg){
+            this.previewProps.titleImg= data.titleImg;
+          }
+          if(data.description){
+             this.previewProps.description=data.description;
+          }
+          console.log("--------preview----data-----",JSON.stringify(this.previewProps));
+
+
+      },
       /**
        * 请求抽奖活动详情
        */
@@ -208,6 +258,7 @@
               if (res.status == true) {
                 console.log(JSON.stringify(res));
                 this.prizeDrawDetail = res.result;
+                this.syncPreviewProps(this.prizeDrawDetail);
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
@@ -237,6 +288,54 @@
   .margin-bottom-20{
     margin-bottom:20px;
   }
+
+
+  .news {
+    width: 200px;
+    text-align: center;
+    height: 20px;
+    font-size:10px;
+    overflow: hidden;
+    line-height: 20px;
+    background: rgba(0,0,0,.8);
+    margin: 0 auto;
+    border-radius: 10px;
+    color: #ffffff;
+    position:absolute;
+    top:420px;
+    left:50px;
+  }
+  .news .t_news {
+    height:20px;
+    color:#2a2a2a;
+    overflow:hidden;
+    position:relative;
+    width:100%;
+  }
+  .news .news_li {
+    line-height:20px;
+    display:inline-block;
+    position:absolute;
+    top:0;
+    width:100%;
+    left:0;
+    text-align:center;
+    color:#ffffff;
+  }
+  .raffle_number {
+    position:absolute;
+    color: #ffffff;
+    left:75px;
+    top:90px;
+  }
+  .raffle_number>span { font-size: 14px; color: #FAF169; font-weight: bold;}
+  .all_number {
+    position:absolute;
+    color: #ffffff;
+    left:100px;
+    top:393px;
+  }
+  .all_number>span  {font-size: 14px; color: #FAF169; font-weight: bold;}
   /*@import "./../../assets/css/common.css";*/
   /*@import "./../../assets/css/style.css";*/
 </style>
