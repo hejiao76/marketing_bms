@@ -22,13 +22,13 @@
           <!--<el-form :model="filterForm"  :rules="rules" ref="filterForm" label-width="120px" size="small" ></el-form>-->
           <el-tabs type="card"   v-model="prizeDrawSettingTab" >
             <el-tab-pane :disabled="this.disabledTab"  label="基础设置" name="base">
-              <v-pz-base-setting ref="baseSetting" @editSaveCall="updatePrizeDrawInfo"  @call="syncPrizeDrawDetail" @previewCall="syncPreviewProps" :isEdit="isEdit" :prizeDrawDetail="prizeDrawDetail"></v-pz-base-setting>
+              <v-pz-base-setting ref="baseSetting" @serialChange="syncSerialStr" @editSaveCall="updatePrizeDrawInfo"  @call="syncPrizeDrawDetail" @previewCall="syncPreviewProps" :isEdit="isEdit" :prizeDrawDetail="prizeDrawDetail"></v-pz-base-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="抽奖设置" name="prize">
               <v-pz-prize-draw-setting ref="prizeDrawSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-prize-draw-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="奖品设置" name="gift">
-              <v-pz-gift-setting ref="giftSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
+              <v-pz-gift-setting ref="giftSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail" :serialStr="serialStr"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="模板选择" name="template">
               <v-pz-template-setting ref="templateSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-template-setting>
@@ -71,6 +71,7 @@
             titleImg:Final.DEFAULT_IMG.prizeDraw.default_title,
             description:""
         },
+        serialStr:"", //透传车系ID字符串，查询可用礼包
       }
     },
     components :{
@@ -107,6 +108,9 @@
           this.disabledTab=false;
           this.requestData()
         }
+      },
+      syncSerialStr (data){
+          this.serialStr = data.serialStr;
       },
       syncPrizeDrawDetail (data) {
         if(data.tag=="base"){

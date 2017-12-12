@@ -135,7 +135,7 @@
         <el-col :span="14">
           <el-form-item label="车系／车型：" prop="serialIds">
           <!--<span class="span-120"></span>-->
-          <el-select :disabled="isEdit" style="width:100%;"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
+          <el-select :disabled="isEdit" style="width:100%;" @change="serialChange"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
             <el-option
               v-for="item in seriesList"
               :key="item.id"
@@ -264,6 +264,10 @@ export default {
   methods:{
     editSave (){
       this.$emit("editSaveCall");
+    },
+    serialChange (){
+      this.$emit("serialChange",{serialStr : this.baseItem.serialIds.join(",")});
+      console.log(this.baseItem.serialIds)  ;
     },
     previewCall($event,key) {
         let data={};

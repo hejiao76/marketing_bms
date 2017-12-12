@@ -106,7 +106,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
 export default {
-  props:['prizeItem','itemIndex','isEdit'],
+  props:['prizeDrawDetail','prizeItem','itemIndex','isEdit','serialStr'],
   data () {
     return {
       wordMapping:{
@@ -177,17 +177,17 @@ export default {
           for(let i = 0 ;i<this.giftList.length;i++){
               if(this.giftList[i].giftGroupId == this.prizeItemForm.giftGroupId){
                 this.prizeItemForm.giftGroupName = this.giftList[i].giftGroupName;
-                this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice;
+                this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice || 0;
                 this.prizeItemForm.details=this.formatDetails(this.giftList[i].giftInfoList);
               }
           }
       },
 
       requestGiftList (){
-          let param={type:1,pageIndex:1,pageSize:1000,giftGroupName:'礼'}
+          let param={type:2,pageIndex:1,pageSize:1000,serialId:this.serialStr || this.prizeDrawDetail.serialIds.join(",")}
 //          let param={};
-        Api.base_sys_gift_list(param)
-//        Api.base_sys_gift_list_select({})
+//        Api.base_sys_gift_list(param)
+        Api.base_sys_gift_list_select(param)
           .then(res => {
             if (res.status == true) {
                 this.giftList=res.result;
@@ -213,7 +213,7 @@ export default {
           giftGroupName:this.prizeItem.giftGroupName, //礼包名称
           quantity:this.prizeItem.quantity, //数量
           giftGroupPrice:this.prizeItem.giftGroupPrice,//礼包价格
-          details:this.prizeItem.details.split("||"),
+          details:this.prizeItem.details ? this.prizeItem.details.split("||") : [],
           level:this.prizeItem.level, //奖项等级
           odds:this.prizeItem.odds,  // 中奖概率
           dayQuantity:this.prizeItem.dayQuantity, //每天投放数量

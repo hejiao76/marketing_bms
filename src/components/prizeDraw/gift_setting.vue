@@ -26,98 +26,7 @@
         </el-col>
       </el-row>
     </el-form>
-      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem" :isEdit="isEdit" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
-          <!--<el-row v-for="(items,index) in  addPrizeList">-->
-            <!--<el-col :span="24" class="newp-title">-->
-              <!--<span>一等奖</span>-->
-              <!--<img style="cursor: pointer;" src="../../assets/images/del.png"/>-->
-            <!--</el-col>-->
-            <!--<el-col style="border: 1px solid #ccc; padding:0 8px; margin-bottom:10px;">-->
-              <!--<el-collapse-transition>-->
-              <!--<div v-if="items.isshow">-->
-                <!--<el-form-item label="礼包名称:">-->
-                  <!--<el-select v-model="giftSetting.activityName" placeholder="请选择">-->
-                    <!--<el-option-->
-                      <!--v-for="item in giftSetting.activityArea"-->
-                      <!--:key="item.value"-->
-                      <!--:label="item.label"-->
-                      <!--:value="item.value">-->
-                    <!--</el-option>-->
-                  <!--</el-select>-->
-                <!--</el-form-item>-->
-                <!--<el-form-item label="礼包详情:">-->
-                  <!--<p>1</p>-->
-                  <!--<p>12</p>-->
-                  <!--<p>13</p>-->
-                <!--</el-form-item>-->
-                <!--<el-form-item label="奖品数量:" prop="activityName">-->
-                  <!--&lt;!&ndash;<el-input style="width:20%"   v-model="giftSetting.activityName" placeholder="请输入奖品数量" ></el-input>个&ndash;&gt;-->
-                  <!--<el-input-number style="width:20%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>个-->
-                <!--</el-form-item>-->
-                <!--<el-form-item label="中奖概率:" prop="activityName">-->
-                  <!--<el-input style="width:20%"   v-model="giftSetting.activityName" placeholder="中奖概率" ></el-input>%-->
-                <!--</el-form-item>-->
-                <!--<el-form-item label="每天投放个数:" prop="activityName">-->
-                  <!--&lt;!&ndash;<el-input  style="width:20%"  v-model="giftSetting.activityName" placeholder="请输入每天投放个数" ></el-input>个&ndash;&gt;-->
-                  <!--<el-input-number style="width:20%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>个-->
-                <!--</el-form-item>-->
-                <!--<el-form-item label="每天投放时间:">-->
-                  <!--<el-row>-->
-                    <!--<el-col :span="4">-->
-                      <!--<el-form-item prop="activityStartDate">-->
-                        <!--<el-time-select :editable="false" :clearable="false"  style="width:100%"  placeholder="起始时间" v-model="startTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}"></el-time-select>-->
-                      <!--</el-form-item>-->
-                    <!--</el-col>-->
-                    <!--<el-col class="line" :span="1" style="text-align: center">-</el-col>-->
-                    <!--<el-col :span="4">-->
-                      <!--<el-form-item prop="activityEndDate">-->
-                        <!--<el-time-select :editable="false" :clearable="false" style="width:100%" placeholder="结束时间" v-model="endTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: startTime}"></el-time-select>-->
-                      <!--</el-form-item>-->
-                    <!--</el-col>-->
-                    <!--<el-col :span="7">-->
-                      <!--<el-form-item prop="activityStartDate" label="投放个数:" label-width="80px">-->
-                      <!--&lt;!&ndash;<el-input v-model="giftSetting.activityName" placeholder="" style="width:80%"></el-input>&ndash;&gt;-->
-                        <!--<el-input-number style="width:80%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>-->
-                      <!--</el-form-item>-->
-                    <!--</el-col>-->
-                    <!--<el-col :span="7" style="text-align: right;">-->
-                      <!--<el-button>删除</el-button>-->
-                      <!--<el-button type="primary">增加</el-button>-->
-                    <!--</el-col>-->
-                  <!--</el-row>-->
-                  <!--<el-row>-->
-                    <!--<el-col :span="4">-->
-                      <!--<el-form-item prop="activityStartDate">-->
-                        <!--<el-time-select :editable="false" :clearable="false"  style="width:100%"  placeholder="起始时间" v-model="startTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}"></el-time-select>-->
-                      <!--</el-form-item>-->
-                    <!--</el-col>-->
-                    <!--<el-col class="line" :span="1" style="text-align: center">-</el-col>-->
-                    <!--<el-col :span="4">-->
-                      <!--<el-form-item prop="activityEndDate">-->
-                        <!--<el-time-select :editable="false" :clearable="false" style="width:100%" placeholder="结束时间" v-model="endTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: startTime}"></el-time-select>-->
-                      <!--</el-form-item>-->
-                    <!--</el-col>-->
-                    <!--<el-col :span="7">-->
-                      <!--<el-form-item prop="activityStartDate" label="投放个数:" label-width="80px">-->
-                        <!--&lt;!&ndash;<el-input v-model="giftSetting.activityName" placeholder="" style="width:80%"></el-input>&ndash;&gt;-->
-                        <!--<el-input-number style="width:80%" v-model="giftSetting.userLotteryLimit" :controls="false" :min="0"></el-input-number>-->
-                      <!--</el-form-item>-->
-                    <!--</el-col>-->
-                    <!--<el-col :span="7" style="text-align: right;">-->
-                      <!--<el-button>删除</el-button>-->
-                      <!--<el-button type="primary">增加</el-button>-->
-                    <!--</el-col>-->
-                  <!--</el-row>-->
-                <!--</el-form-item>-->
-              <!--</div>-->
-              <!--</el-collapse-transition>-->
-              <!--<el-col :span="24" style="text-align: center">-->
-                <!--<el-button v-if="items.isshow" @click="closePrizeBox(index)">收起</el-button>-->
-                <!--<el-button v-if="!items.isshow"@click="closePrizeBox(index)">展开</el-button>-->
-              <!--</el-col>-->
-            <!--</el-col>-->
-          <!--</el-row>-->
-
+      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem"  :prizeDrawDetail="prizeDrawDetail" :serialStr="serialStr" :isEdit="isEdit" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
     <el-row>
       <el-col :span="24" style="text-align: right;">
         <el-button v-if="giftSetting.prizeList.length<5" :disabled="isEdit" @click="addGiftItem"  type="primary">增加奖项</el-button>
@@ -146,7 +55,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import VGiftSettingItem from "./gift_setting_giftItem.vue"
 export default {
-  props:['prizeDrawDetail',"isEdit"],
+  props:['prizeDrawDetail',"isEdit","serialStr"],
   data () {
     return {
       startTime: '',
