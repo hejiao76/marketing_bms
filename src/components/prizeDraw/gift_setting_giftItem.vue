@@ -214,7 +214,7 @@ export default {
           giftGroupName:this.prizeItem.giftGroupName, //礼包名称
           quantity:this.prizeItem.quantity, //数量
           giftGroupPrice:this.prizeItem.giftGroupPrice,//礼包价格
-          details:this.prizeItem.details ? this.prizeItem.details.split("||") : [],
+          details:this.prizeItem.details ? this.prizeItem.details.split("||") : [], //礼品项明细
           level:this.prizeItem.level, //奖项等级
           odds:this.prizeItem.odds,  // 中奖概率
           dayQuantity:this.prizeItem.dayQuantity, //每天投放数量
