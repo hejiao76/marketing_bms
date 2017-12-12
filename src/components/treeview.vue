@@ -46,7 +46,7 @@
                 <el-row style="width: 100%;" class="city-footer">
                   <el-col :span="12"> <el-checkbox @change="allChecked($event)" class="fw">全选</el-checkbox></el-col>
                   <el-col :span="12" class="col-md-8 text-right">
-                    <el-button size="small" class="fr mr20 " style="margin-top:3px;" @click="cityBoxhide()">取消</el-button>
+                    <!--<el-button size="small" class="fr mr20 " style="margin-top:3px;" @click="cityBoxhide()">取消</el-button>-->
                     <el-button type="primary" size="small" @click="checkedCity()" class="fr mr20 " style="margin-right:20px;margin-top:3px;">确认</el-button>
                   </el-col>
                 </el-row>
@@ -55,42 +55,6 @@
           </div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!--<el-dropdown size="small">-->
-        <!--<el-button type="primary" style="padding:10px 50px;background:none;">-->
-        <!--省份选择<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-        <!--</el-button>-->
-        <!--<el-dropdown-menu slot="dropdown" placement="bottom" style="width: 180px;height: 300px;overflow-y: auto">-->
-        <!--<el-dropdown-item><el-checkbox @change="allChecked($event)" class="fw">全选</el-checkbox></el-dropdown-item>-->
-        <!--<el-dropdown-item v-for="item in userData.optionalMenusTree">-->
-        <!--<el-checkbox v-model="checkedMenuCodeArray"  @change="handleCheckAllChange($event,item.menucode,item.children)" :label="item.menucode" :key="item.menucode" class="fw">{{item.menuName}}</el-checkbox>-->
-        <!--<span @click="linkchild(item.children,item.menucode)"><i class="el-icon-caret-right"></i></span>-->
-        <!--</el-dropdown-item>-->
-        <!--</el-dropdown-menu>-->
-        <!--</el-dropdown>-->
-        <!--</el-col>-->
-        <!--<el-col :span="12">-->
-        <!--<ul style="width: 180px;height: 300px;overflow-y: auto;" v-if="childItems.length>0">-->
-        <!--<li><el-checkbox v-model="isAllChild" @change="allChildrenChecked($event)" class="fw">全选</el-checkbox></li>-->
-        <!--<li  v-for="childItem in childItems" >-->
-        <!--<el-checkbox  v-model="checkedMenuCodeArray" @change="handleCheckedChildChange($event,thismenucode)" :label="childItem.menucode" :key="childItem.menucode">{{childItem.menuName}}</el-checkbox>-->
-        <!--</li>-->
-        <!--</ul>-->
       </el-col>
     </el-row>
 
@@ -103,7 +67,7 @@
   export default {
     components: {
     },
-    props:["data"],
+    props:["code"],
     data () {
       return{
         showContent:"",
@@ -149,10 +113,12 @@
       }
     },
     watch : {
-      data (val, oldval) {
-          if(val!="全国"){
+      code (val, oldval) {
+
+          if(val!="0"){
               let valArray = val.split(",");
               console.log(valArray);
+              console.log("看看有没有CityTree",this.cityTree);
             for(let i =0 ;i <valArray.length;i++){
                 if(valArray[i]<100){
                     this.parentCheckedMenuCode.push(Number(valArray[i]));
@@ -164,11 +130,27 @@
           }
 
 
-      }
+      },
+//      name (val, oldval) {
+//        if(val!="全国"){
+//          let valArray = val.split(",");
+//          console.log(valArray);
+//          for(let i =0 ;i <valArray.length;i++){
+//            if(valArray[i]<100){
+//              this.parentCheckedMenuName.push(Number(valArray[i]));
+//            }else{
+//              this.childCheckedMenuName.push(Number(valArray[i]));
+//            }
+//          }
+//          console.log("child---->",this.childCheckedMenuCode);
+//        }
+//
+//
+//      }
     },
     created () {
       console.log('>>>>>>>>>>>>>>>树形模板')
-
+      this.initPage();
 //      this.cityTree=res.result;
 
 //      this.parentCheckedMenuCode[]
@@ -179,7 +161,7 @@
 
     },
     mounted(){
-      this.initPage();
+
 
 //      let _self=this;
 //      document.getElementById('box').onblur = function(){
@@ -212,11 +194,33 @@
           .then(res => {
             if (res.status == true) {
                 this.cityTree=res.result;
+                this.editInitMenuName();
 //              this.userData.optionalMenus=res.result;
             }else {}
           }).catch(err => {
 
         });
+      },
+      editInitMenuName (){
+        if(this.parentCheckedMenuCode.length>0){
+          let parentCheckedMenuNameSet = new Set (this.parentCheckedMenuName);
+          let childCheckedMenuNameSet = new Set (this.childCheckedMenuName);
+          for(let i = 0 ; i<this.cityTree.length;i++){
+            let item=this.cityTree[i];
+            if(this.parentCheckedMenuCode.includes(item.provinceId)){
+              parentCheckedMenuNameSet.add(item.provinceName);
+              for(let j = 0; j<item.cityVmList.length;j++){
+                let childItem = item.cityVmList[j];
+                if(this.childCheckedMenuCode.includes(childItem.cityId)){
+                  childCheckedMenuNameSet.add(childItem.cityName)
+                }
+              }
+            }
+          }
+          this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
+          this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
+          this.showTxtFn();
+        }
       },
       boxIsShow1(){
         this.ifShow = true;
@@ -278,8 +282,8 @@
 
           this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
           this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
-          this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
-          this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
+//          this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
+//          this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
           this.showTxtFn();
 //          console.log('1111111',this.checkedMenuCodeArray);
           console.log("checkParent---parentCode--11111111111--",JSON.stringify(this.parentCheckedMenuCode));
@@ -363,32 +367,61 @@
         }
       },
       allChecked(event){
-        let checked=event;
-        let checkedMenuCodeArraySet = new Set (this.checkedMenuCodeArray);
-        if(checked){
-          for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
-            let item=this.userData.optionalMenusTree[i];
-            checkedMenuCodeArraySet.add(item.menucode);
-            for(let x = 0 ; x<this.userData.optionalMenus.length;x++){
-              let val=this.userData.optionalMenus[x];
-              if(val.parentMenuCode==item.menucode){
-                checkedMenuCodeArraySet.add(val.menucode);
-              }
+
+          console.log("all-----start--------->");
+          let checked=event;
+          let parentCheckedMenuCodeSet = new Set (this.parentCheckedMenuCode);
+          let childCheckedMenuCodeSet = new Set (this.childCheckedMenuCode);
+          let parentCheckedMenuNameSet = new Set (this.parentCheckedMenuName);
+          let childCheckedMenuNameSet = new Set (this.childCheckedMenuName);
+
+          console.log("all-----start-----checked---->",checked);
+          for(let i = 0 ; i<this.cityTree.length;i++){
+            let item=this.cityTree[i];
+            checked==true ? parentCheckedMenuCodeSet.add(item.provinceId) : parentCheckedMenuCodeSet.delete(item.provinceId);
+            checked==true ? parentCheckedMenuNameSet.add(item.provinceName) : parentCheckedMenuNameSet.delete(item.provinceName);
+            for(let j = 0; j<item.cityVmList.length;j++){
+              let childItem = item.cityVmList[j];
+              console.log("all-----start-----childItem---->",childItem);
+              checked==true ? childCheckedMenuCodeSet.add(childItem.cityId) : childCheckedMenuCodeSet.delete(childItem.cityId);
+              checked==true ? childCheckedMenuNameSet.add(childItem.cityName) : childCheckedMenuNameSet.delete(childItem.cityName);
+
             }
           }
-        }else{
-          for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
-            let item=this.userData.optionalMenusTree[i];
-            checkedMenuCodeArraySet.delete(item.menucode)
-            for(let x = 0 ; x<this.userData.optionalMenus.length;x++){
-              let val=this.userData.optionalMenus[x];
-              if(val.parentMenuCode==item.menucode){
-                checkedMenuCodeArraySet.delete(val.menucode);
-              }
-            }
-          }
-        }
-        this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
+          this.childCheckedMenuCode=Array.from(childCheckedMenuCodeSet);
+          this.parentCheckedMenuCode=Array.from(parentCheckedMenuCodeSet);
+          this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
+          this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
+//          this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
+//          this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
+          this.showTxtFn();
+
+//        let checked=event;
+//        let checkedMenuCodeArraySet = new Set (this.checkedMenuCodeArray);
+//        if(checked){
+//          for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
+//            let item=this.userData.optionalMenusTree[i];
+//            checkedMenuCodeArraySet.add(item.menucode);
+//            for(let x = 0 ; x<this.userData.optionalMenus.length;x++){
+//              let val=this.userData.optionalMenus[x];
+//              if(val.parentMenuCode==item.menucode){
+//                checkedMenuCodeArraySet.add(val.menucode);
+//              }
+//            }
+//          }
+//        }else{
+//          for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
+//            let item=this.userData.optionalMenusTree[i];
+//            checkedMenuCodeArraySet.delete(item.menucode)
+//            for(let x = 0 ; x<this.userData.optionalMenus.length;x++){
+//              let val=this.userData.optionalMenus[x];
+//              if(val.parentMenuCode==item.menucode){
+//                checkedMenuCodeArraySet.delete(val.menucode);
+//              }
+//            }
+//          }
+//        }
+//        this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
       },
       checkedCity(){
         let allCodeArray = this.parentCheckedMenuCode.concat(this.childCheckedMenuCode);

@@ -26,7 +26,7 @@
         </el-col>
       </el-row>
     </el-form>
-      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
+      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem" :isEdit="isEdit" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
           <!--<el-row v-for="(items,index) in  addPrizeList">-->
             <!--<el-col :span="24" class="newp-title">-->
               <!--<span>一等奖</span>-->
@@ -120,7 +120,7 @@
 
     <el-row>
       <el-col :span="24" style="text-align: right;">
-        <el-button v-if="giftSetting.prizeList.length<5" @click="addGiftItem"  type="primary">增加奖项</el-button>
+        <el-button v-if="giftSetting.prizeList.length<5" :disabled="isEdit" @click="addGiftItem"  type="primary">增加奖项</el-button>
       </el-col>
     </el-row>
       <el-row>
