@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-dialog class="choose-hd" center title="添加活动抵扣券" :visible.sync="dialogTableVisible" >
+    <el-dialog class="choose-hd" center title="添加活动抵扣券" :visible.sync="dialogTableVisible" width="60%" >
       <el-form  size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
       <el-form-item label="抵扣券名称：">
         <!--<el-input v-model="activityName" placeholder="请输商品名称"></el-input>-->
@@ -50,21 +50,21 @@
                             <div class="sal-con-tit">
                               绑定车系：
                             </div>
-                            <div v-if="item.type!=1" class="sal-con_txt" >
-                              <span  v-for="(seriesItem,itemIndex) in item.car_ids">{{item.car_ids.length==itemIndex+1 ?seriesItem.cx:seriesItem.cx+"、"}}</span>
+                            <div v-if="item.type!=1" class="sal-con_txt" style="white-space: nowrap;width:160px;overflow: hidden;text-overflow: ellipsis;" >
+                              <span >{{item.serialName}}</span>
                               <span></span>
                             </div>
                             <div v-else class="sal-con_txt">
                               <span>全系</span>
                             </div>
                           </li>
-                          <li  style="clear:both;">
+                          <li>
                             <div class="sal-con-tit">
                               抵扣券数量：
                             </div>
                             <div class="sal-con_txt">
-                              <!--<el-input v-model="item.tmpCount" ></el-input>-->
-                              <el-input-number :controls="false" v-model="item.tmpCount" label="请输入秒杀券数量"></el-input-number>
+                              <!--<el-input v-model="item.num" ></el-input>-->
+                              <el-input-number :controls="false" v-model="item.num" label="请输入抵扣券数量"></el-input-number>
                             </div>
                           </li>
                           <li>
@@ -72,7 +72,7 @@
                               创建日期：
                             </div>
                             <div class="sal-con_txt">
-                              <span>{{item.create_time}}</span>
+                              <span>{{item.createTime}}</span>
                             </div>
                           </li>
                         </ul>
@@ -102,9 +102,6 @@ import Api from "./../../fetch/api"
 import Final from "./../../util/Final"
 import VTipMsg from "./..//tipMsg.vue";
 import TestData from "./../../util/TestData"
-import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
-//import ElRow from "element-ui/packages/row/src/row";
-//import ElCol from "element-ui/packages/col/src/col";
 export default {
   props:["activityInfo"],
   data () {
@@ -116,12 +113,10 @@ export default {
         labelPosition:'left',
         testData:[{ischecked:false,id:12},{ischecked:false,id:23},{ischecked:false,id:34}],
         tmpSeriesIds:{}, //已选择车系ID
+        maxTicketCount:3 //最大可选抵扣券数量
     }
   },
   components :{
-//    ElCol,
-//    ElRow,
-    ElInput,
     VTipMsg
   },
   created () {
@@ -148,7 +143,7 @@ export default {
 
     },
     /**
-     * 选择可选抵扣券
+     * 移除已选择抵扣券包含车系
      */
     removeSeriesTmp (item){
       let itemArray=item.serialIds.split(",");
@@ -182,7 +177,7 @@ export default {
      * @param exceptIdArray
      */
     showDialog (exceptIdArray) {
-//        this.exceptIdArray=exceptIdArray;
+        this.exceptIdArray=exceptIdArray;
 //        this.requestAddTicketList();
         this.dialogTableVisible=true;
     },
@@ -249,7 +244,8 @@ export default {
       Api.cp_activity_filter_coupon(param)
         .then(res => {
           if (res.status == true) {
-            this.listObj = res.result;
+//            this.listObj = res.result;
+            this.listObj = this.filterExceptId(res.result);
             this.addTmpCountForTicketList();
           }else {
             this.$refs.tipMsgRef.showTipMsg({
@@ -263,7 +259,7 @@ export default {
     },
     addTmpCountForTicketList (){
         for(let i = 0 ;i<this.listObj.length;i++){
-            this.listObj[i].tmpCount=0;
+            this.listObj[i].num=0;
         }
         console.log(this.listObj);
     },
@@ -271,6 +267,7 @@ export default {
      * 获取已选择的抵扣券列表
      */
     getCheckedTicket(){
+        console.log("getCheckedTicket------",this.listObj)
       let checkedTicketArray = [];
       for(let i=0;i<this.listObj.length;i++){
         if(this.listObj[i].tmpChecked){
@@ -279,6 +276,31 @@ export default {
       }
       return checkedTicketArray;
     },
+    validTickRule (checkedTicketArray){
+        let msg=""
+        if(checkedTicketArray.length<=0){
+            msg = "请选择抵扣券"
+        }else if(checkedTicketArray.length+this.exceptIdArray.length>this.maxTicketCount){
+            msg="活动绑定的抵扣券数量已经超过10个"
+        }else{
+          for(let i = 0 ; i<checkedTicketArray.length;i++){
+              if(checkedTicketArray[i].num<=0){
+                msg="已选择抵扣券未填写抵扣券数量"; //111111111111
+                break;
+              }
+            }
+        }
+        if(msg){
+          this.$message({
+            type:'error',
+            message:msg,
+            duration:'1500'
+          });
+          return false;
+        }else {
+            return true;
+        }
+    },
     /**
      * 确认选择
      */
@@ -286,16 +308,43 @@ export default {
       console.log("save");
       let checkedTicketArray=this.getCheckedTicket();
       console.log(checkedTicketArray);
-      if(checkedTicketArray.length+this.exceptIdArray.length<=3){
-            this.$emit("call",checkedTicketArray)
-            this.dialogTableVisible=false;
-            this.listObj=[];
-      }else{
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"活动绑定的抵扣券数量已经超过10个",
-          type:"error"
-        });
-      }
+
+        if(this.validTickRule(checkedTicketArray)){
+          this.$emit("call",checkedTicketArray);
+          this.dialogTableVisible=false;
+          this.listObj=[];
+        }
+//      if(checkedTicketArray.length+this.exceptIdArray.length<=this.maxTicketCount){
+//            let msg="";
+//            for(let i = 0 ; i<checkedTicketArray.length;i++){
+//              if(checkedTicketArray.num<=0){
+//                msg="已选择抵扣券未填写抵扣券数量";
+//                break;
+//              }
+//            }
+//            if(msg){
+//              this.$message({
+//                type:'error',
+//                message:msg,
+//                duration:'1500'
+//              });
+//            }else{
+//              this.$emit("call",checkedTicketArray)
+//              this.dialogTableVisible=false;
+//              this.listObj=[];
+//            }
+//
+//      }else{
+////        this.$refs.tipMsgRef.showTipMsg({
+////          msg:"活动绑定的抵扣券数量已经超过10个",
+////          type:"error"
+////        });
+//        this.$message({
+//          type:'error',
+//          message:"活动绑定的抵扣券数量已经超过10个",
+//          duration:'1500'
+//        });
+//      }
     },
     /**
      * 取消选择
@@ -316,11 +365,22 @@ export default {
  .choose-hd .el-dialog--center .el-dialog__header {
    padding-top:10px;
  }
- .el-dialog{
-   width: 59%;
+ /*.el-dialog{*/
+   /*width: 59%;*/
+ /*}*/
+
+ /*.saleticket-list:nth-child(3n+0)*/
+ /*{*/
+   /*margin-right:0;*/
+ /*}*/
+  .saleticket-content .el-input-number .el-input{
+      width:110px;
+    line-height:20px;
+  }
+ .saleticket-content .el-input-number .el-input input{
+   border-radius:0px;
  }
- .saleticket-list:nth-child(3n+0)
- {
-   margin-right:0;
- }
+</style>
+<style>
+
 </style>

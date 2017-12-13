@@ -86,8 +86,8 @@
                     <div class="sal-con-tit">
                       绑定车系：
                     </div>
-                    <div class="sal-con_txt">
-                      <span>{{item.serialName}}</span>
+                    <div class="sal-con_txt" style="white-space: nowrap;width:160px;overflow: hidden;text-overflow: ellipsis;">
+                      <span>{{item.serialName || "全系"}}</span>
                     </div>
                   </li>
                   <li>
@@ -95,7 +95,7 @@
                       抵扣券数量：
                     </div>
                     <div class="sal-con_txt">
-                      {{item.tmpCount}}
+                      {{item.num}}
                     </div>
                   </li>
                   <li>
@@ -115,7 +115,7 @@
                 </div>
                 <table>
                   <tr>
-                    <td><a href="javascript:;">删除</a></td>
+                    <td><a href="javascript:;" @click="removeTicketItem(item.id)">删除</a></td>
                   </tr>
                 </table>
               </div>
@@ -148,8 +148,9 @@
 
         </el-row>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('activityInfo')">立即创建</el-button>
-          <el-button>取消</el-button>
+          <el-button v-if="isEdit" type="primary" @click="submitForm('activityInfo')">保存</el-button>
+          <el-button v-else type="primary" @click="submitForm('activityInfo')">立即创建</el-button>
+          <el-button @click="returnList()">取消</el-button>
         </el-form-item>
       </el-form>
 
@@ -176,6 +177,7 @@
         uploadParam:{module:"coupon"},
         serialTypeMapping:{1:"抵扣车款",2:"其他权益",3:"抵扣车款、其他权益"},
         testData:'',
+        isEdit:true,
         Final:Final,
         optionsActivityStart :{
           disabledDate:(time) => {
@@ -221,12 +223,12 @@
           activityCity: [
             { type: 'array', required: true, message: '请至少选择一个地区', trigger: 'change' }
           ],
-          coupons: [
-            { type: 'array', required: true, message: '请至少选择一个抵扣券', trigger: 'change' }
-          ],
+//          coupons: [
+//            { type: 'array', required: true, message: '请至少选择一个抵扣券', trigger: 'change' }
+//          ],
 
         },
-        activityId:'', //秒杀活动ID
+        activityId:'', //抵扣券活动ID
 //        activityInfo:{},
       }
     },
@@ -254,6 +256,8 @@
         this.activityId = this.$route.params.couponId;
         if(this.activityId!="new"){
           this.requestData()
+        }else{
+          this.isEdit=false;
         }
       },
       syncArea(data){
@@ -299,19 +303,24 @@
         return this.beforeUpload(file);
       },
       /**
-       * 请求秒杀活动详情
+       * 请求抵扣券活动详情
        */
       requestData () {
         if(this.activityId){
-          let param = {activityId:this.activityId};
-//          this.activityInfo=TestData.sedKill_coupons_data.result;
-          console.log(this.activityInfo);
-          return;
-          Api.sk_activity_list(param)
+          let param = {id:this.activityId};
+          Api.cp_activity_detail(param)
             .then(res => {
               if (res.status == 1) {
-                this.activityInfo = res.result;
-                this.totalRow = res.totalRow;
+                this.activityInfo = Object.assign({},{
+                  id:res.result.id,
+                  name:res.result.name,
+                  beginTime:new Date(res.result.beginTime),
+                  endTime:new Date(res.result.endTime),
+                  coupons:this.formartInitCoupons(res.result.couponList),
+                  shareImg:res.result.shareImg,
+                  areaIds:res.result.areaIds,
+                  areaNames:res.result.areaNames
+                })
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
@@ -322,6 +331,15 @@
 
           });
         }
+      },
+      formartInitCoupons (coupons){
+          let newCoupons=[]
+          for(let i = 0;i<coupons.length;i++){
+              newCoupons.push(Object.assign({},coupons[i],{
+                num:coupons[i].maxCount
+              }))
+          }
+          return newCoupons
       },
       getTicketItemByTicketId (id) {
 
@@ -337,44 +355,44 @@
           return date;
         }
       },
-      createTmpTicketItem(item){
-        let tmpTickItem = {};
-        if(item){
-          tmpTickItem.ticketCount=item.ticketCount || 1;
-          tmpTickItem.maxPayCount=item.maxPayCount || '';
-          tmpTickItem.sedkillMoney=item.sedkillMoney || 1;
-          tmpTickItem.signUpStartTime=item.signUpStartTime ? new Date(item.signUpStartTime) : '';
-          tmpTickItem.signUpEndTime=item.signUpEndTime ? new Date(item.signUpEndTime) : '';
-          tmpTickItem.sedKillStartDate=item.sedKillStartDate ? new Date(item.sedKillStartDate) : '';
-        }
-        return tmpTickItem;
-      },
-      syncTicketItemByTmp (item){
-        console.log("syncItem",item)
-        if(item && item.tmp){
-          if(item.tmp.ticketCount){
-            item.ticketCount=item.tmp.ticketCount;
-          }
-          if(item.tmp.maxPayCount){
-            item.maxPayCount=item.tmp.maxPayCount;
-          }
-          if(item.tmp.sedkillMoney){
-            item.sedkillMoney=item.tmp.sedkillMoney;
-          }
-          if(item.tmp.signUpStartTime){
-            item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTime).getTime())
-          }
-          if(item.tmp.signUpEndTime){
-            item.signUpEndTime=util.toFullDateString(new Date(item.tmp.signUpEndTime).getTime())
-          }
-          if(item.tmp.sedKillStartDate){
-            item.sedKillStartDate=util.toFullDateString(new Date(item.tmp.sedKillStartDate).getTime())
-          }
-        }
-        return item;
-      },
+//      createTmpTicketItem(item){
+//        let tmpTickItem = {};
+//        if(item){
+//          tmpTickItem.ticketCount=item.ticketCount || 1;
+//          tmpTickItem.maxPayCount=item.maxPayCount || '';
+//          tmpTickItem.sedkillMoney=item.sedkillMoney || 1;
+//          tmpTickItem.signUpStartTime=item.signUpStartTime ? new Date(item.signUpStartTime) : '';
+//          tmpTickItem.signUpEndTime=item.signUpEndTime ? new Date(item.signUpEndTime) : '';
+//          tmpTickItem.sedKillStartDate=item.sedKillStartDate ? new Date(item.sedKillStartDate) : '';
+//        }
+//        return tmpTickItem;
+//      },
+//      syncTicketItemByTmp (item){
+//        console.log("syncItem",item)
+//        if(item && item.tmp){
+//          if(item.tmp.ticketCount){
+//            item.ticketCount=item.tmp.ticketCount;
+//          }
+//          if(item.tmp.maxPayCount){
+//            item.maxPayCount=item.tmp.maxPayCount;
+//          }
+//          if(item.tmp.sedkillMoney){
+//            item.sedkillMoney=item.tmp.sedkillMoney;
+//          }
+//          if(item.tmp.signUpStartTime){
+//            item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTime).getTime())
+//          }
+//          if(item.tmp.signUpEndTime){
+//            item.signUpEndTime=util.toFullDateString(new Date(item.tmp.signUpEndTime).getTime())
+//          }
+//          if(item.tmp.sedKillStartDate){
+//            item.sedKillStartDate=util.toFullDateString(new Date(item.tmp.sedKillStartDate).getTime())
+//          }
+//        }
+//        return item;
+//      },
       /**
-       * 编辑/取消编辑 秒杀券基本信息按钮事件触发
+       * 编辑/取消编辑 抵扣券券基本信息按钮事件触发
        * @param id
        * @param status
        */
@@ -383,7 +401,7 @@
           for(let i= 0 ; i <this.activityInfo.coupons.length; i ++ ){
             if(id == this.activityInfo.coupons[i].id){
               let item = this.activityInfo.coupons[i];
-              item.tmp=this.createTmpTicketItem(item);
+//              item.tmp=this.createTmpTicketItem(item);
               console.log("editItem----------->",item);
 //              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
 //                  item.signUpStartTimeObj=new Date(item.siginUpStartTime);
@@ -402,7 +420,7 @@
         }
       },
       /**
-       *  保存 秒杀券基本信息按钮事件触发
+       *  保存 抵扣券券基本信息按钮事件触发
        * @param id
        */
       saveTickItem(id){
@@ -429,7 +447,7 @@
         }
       },
       /**
-       * 删除已选择秒杀券
+       * 删除已选择抵扣券券
        * @param id
        */
       removeTicketItem (id){
@@ -443,7 +461,7 @@
         }
       },
       /**
-       * 获取已选择秒杀券ID
+       * 获取已选择抵扣券券ID
        */
       getExceptTicketId(){
         console.log("getExceptTicketId")
@@ -454,12 +472,19 @@
         return ticketIdArray;
       },
       /**
-       * 打开新增秒杀券模态框
+       * 打开新增抵扣券券模态框
        * @param id
        */
       openAddList() {
           console.log("open")
-        this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
+        if(this.activityInfo.beginTime && this.activityInfo.beginTime) {
+          this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
+        }else{
+          this.$refs.tipMsgRef.showTipMsg({
+            msg:"请先填写活动时间",
+            type:"error"
+          });
+        }
       },
       /**
        * 选择抵扣券回调
@@ -496,17 +521,65 @@
         }
         return isJPG && isLt2M;
       },
+      validTicketItems (){
+        if(this.activityInfo.coupons.length<=0){
+          this.$message({
+            type:'error',
+            message:'请至少添加一个抵扣券',
+            duration:'1500'
+          });
+          return false;
+        }
+        return true;
+      },
+      saveActivity (){
+        let param= Object.assign({},this.activityInfo);
+        param.beginTime=this.formatDateToString(this.activityInfo.beginTime);
+        param.endTime=this.formatDateToString(this.activityInfo.endTime);
+        console.log("before---------->");
+        console.log(JSON.stringify(param))
+        Api.cp_activity_save(param)
+          .then(res => {
+            if (res.status == true) {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:"操作成功",
+                type:"success",
+                scope:this,
+                callback:function (){
+                  this.$router.push("/coupon/list");
+                }
+              });
+            }else {
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(err => {
+
+        });
+      },
       //提交表单
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+              if(this.validTicketItems()){
+                this.saveActivity();
+              }
+//            alert('submit!');
           } else {
-            console.log('error submit!!');
+            this.$message({
+              type:'error',
+              message:'活动信息填写有误',
+              duration:'1500'
+            });
             return false;
           }
         });
       },
+      returnList (){
+          this.$router.push("/coupon/list");
+      }
     }
   }
 </script>

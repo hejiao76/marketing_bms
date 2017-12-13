@@ -166,11 +166,11 @@ export default {
 //              msg:"奖品设置信息有误",
 //              type:"error"
 //            });
-            this.$message({
-              type:'error',
-              message:'奖品设置信息有误',
-              duration:'1500'
-            });
+//            this.$message({
+//              type:'error',
+//              message:'奖品设置信息有误',
+//              duration:'1500'
+//            });
             break;
           }
         }
