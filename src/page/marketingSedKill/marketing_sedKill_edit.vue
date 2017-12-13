@@ -36,16 +36,11 @@
             </el-col>
 
             <el-col :span="8">
-              <el-form-item label="分享图片：" prop="imageUrl">
-              <el-upload
-                class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
-                <img v-if="activityInfo.imageUrl" :src="activityInfo.imageUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
+              <el-form-item label="分享图片：" prop="shareImg">
+                <el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
+                  <img v-if="activityInfo.shareImg" :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg : Final.IMG_PATH+activityInfo.shareImg" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
               </el-form-item>
             </el-col>
           </el-row>
@@ -61,7 +56,7 @@
             <div v-for="(checkedTicketItem,index) in activityInfo.checked_ticket">
                 <v-sedkill-select-ticket-item :key="checkedTicketItem.ticketId" @call="syncTickItem" :activityStratTime="activityInfo.activityStartDate" :ticketItem="checkedTicketItem" :index="index"></v-sedkill-select-ticket-item>
             </div>
-            <div class="newhds-list new-list" @click="openAddList">
+            <div class="newhds-list new-list cur" @click="openAddList">
               <div class="newhd-header">
                 <div class="icon-left">
                   <img src="../../assets/images/zsks_o_l.png" alt="">
@@ -113,7 +108,10 @@
   export default {
     data() {
       return {
+        isEdit:true,
         testData:'',
+        uploadParam:{module:"sedKill"},
+        Final:Final,
         optionsActivityStart :{
           disabledDate:(time) => {
             if(this.activityInfo.activityEndDate){
@@ -135,12 +133,12 @@
           activityName: '',
           activityStartDate:'',//活动1开始时间
           activityEndDate:'', //活动结束时间
-          imageUrl: ''
+          shareImg: ''
         },
         rules: {
           activityName: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
-            {max: 15, message: '活动名称必须小于20个字', trigger: 'blur' }
+            {max: 20, message: '活动名称必须小于20个字', trigger: 'blur' }
           ],
           activityStartDate: [
             { type: 'string', required: true, message: '请选择日期', trigger: 'blur' }
@@ -148,7 +146,7 @@
           activityEndDate: [
             { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          imageUrl:[
+          shareImg:[
             { required: true, message: '请上传图片', trigger: 'blur' }
           ]
         },
@@ -178,9 +176,14 @@
     methods : {
       initPage () {
           this.activityId = this.$route.params.sedKillId;
-          if(this.activityId){
-              this.requestData()
+          if(this.activityId=="new"){
+              this.isEdit=false;
+//              this.requestData()
+          }else if(this.activityId){
+            this.isEdit=true;
+            this.requestData()
           }
+
       },
       validPostCheckedTicketParam (){
         let valid=true;
@@ -383,26 +386,39 @@
 
           }
       },
-      /**
-       * 上传图片成功回调
-       * @param res
-       * @param file
-       */
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+      shareImgUploadSuccess (res, file, fileList) {
+        if(res.status==true){
+          let img = new Image();
+          let _self=this;
+          img.src=Final.IMG_PATH+res.result.path;
+          img.onload=function(){
+          _self.activityInfo.shareImg=res.result.path;
+            console.log(_self.activityInfo.shareImg)
+//            var imgwidth=img.offsetWidth;
+//            var imgheight=img.offsetHeight;
+//            if(imgwidth!=50 || imgheight!=50){
+//              _self.$message.error('分享图片尺寸必须是50px*50px');
+//            }else{
+//              _self.baseItem.shareImg=res.result.path;
+//              console.log(_self.baseItem.shareImg);
+//            }
+          };
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
         }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
+      },
+      beforeUpload (file){
+        console.log(file);
+        const isAllowType = ['image/jpeg', 'image/png','image/bmp'].includes(file.type);
+        const isMaxSize = file.size / 1024 < 200; //小于200Kb
+
+        if (!isAllowType) {
+          this.$message.error('上传分享图片只能是 JPG/PNG/BMP格式!');
         }
-        return isJPG && isLt2M;
-      }
+        if (!isMaxSize) {
+          this.$message.error('上传分享图片大小不能超过 200KB!');
+        }
+        return isAllowType && isMaxSize;
+      },
     },
   }
 </script>
