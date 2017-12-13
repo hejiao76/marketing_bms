@@ -605,7 +605,7 @@
         this.$refs.couponDialog.showDialog(url);
       },
       ///编辑活动
-      updatePrize(){
+      updatePrize(id){
         this.$router.push({name: 'marketing_coupon_edit', params: {couponId: id}})
       }
 
