@@ -95,7 +95,7 @@
           <el-button type="primary" size="small" @click="addActivity()" class="fr mr20 ">新建活动</el-button>
         </el-col>
       </el-row>
-      <div><span class="totalTip">共找到以下10条数据</span></div>
+      <div style="margin-bottom:15px;"><span class="totalTip">共找到以下 <span style="padding:0 10px;color: #409eff">{{totalRow}}</span>条数据</span></div>
       <el-table class="table_min_height mt10" :data="resData" ref="singleTable">
         <el-table-column prop="name" label="活动名称" align="center" min-width="90" ></el-table-column>
         <el-table-column  label="活动时间" align="center" min-width="80"> <template scope="scope">{{scope.row.beginTime}}至{{scope.row.endTime}}</template></el-table-column>

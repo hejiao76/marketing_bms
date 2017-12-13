@@ -68,7 +68,7 @@
       <el-table
         :data="resData"
         style="width: 100%"
-        :default-sort = "{prop: 'date', order: 'descending'}"
+        @sort-change="sortTable"
       >
         <el-table-column
           prop="orderNum"
@@ -89,7 +89,7 @@
         <el-table-column
           prop="createTime"
           label="创建时间"
-          sortable
+          sortable="custom"
         >
         </el-table-column>
         <el-table-column
@@ -177,6 +177,7 @@
         currentPage: 1,
         totalRow: 10,
         activityType:0,
+        sortType:1,
       }
     },
     components: {
@@ -196,7 +197,19 @@
       }
     },
     methods: {
-
+      /**
+       * table排序
+       * @returns
+       */
+      sortTable(obj){
+        console.log('obj.order', obj);
+        if(obj.order == 'descending'){
+          this.sortType = 2
+        }else{
+          this.sortType = 1
+        }
+        this.requestData();
+      },
 
       /**
        * 选项卡点击事件触发
@@ -235,6 +248,7 @@
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
         param.pageSize = this.pageRecorders;
+        param.sortType = this.sortType
         console.log("查询提交参数:",param);
         return param;
       },
