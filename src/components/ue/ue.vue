@@ -11,6 +11,7 @@
   export default {
     name: 'UE',
     data () {
+//      props:["defaultMsg","config","id"]
       return {
         editor: null
       }
@@ -28,7 +29,7 @@
     },
     watch  :{
       defaultMsg (val, oldval) {
-        this.editor.setContent(this.defaultMsg);
+//        this.editor.setContent(val || "");
       },
     },
     mounted() {

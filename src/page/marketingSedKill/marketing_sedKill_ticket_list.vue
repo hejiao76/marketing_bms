@@ -143,7 +143,7 @@
        * @returns {}
        */
       copyTicket (id) {
-        this.$router.push({name: 'marketing_sedKill_ticket_edit', params: {type:'copy',ticketId:id}})
+        this.$router.push({name: 'marketing_sedKill_ticket_copy', params: {type:'copy',ticketId:id}})
       },
       /**
        * 修改券

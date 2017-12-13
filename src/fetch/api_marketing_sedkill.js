@@ -24,7 +24,7 @@ export default {
    * @returns {*}
    */
   sk_activity_ticket_add(params) {
-    return fetch.fetch('seckill/addCoupon', params);
+    return fetch.fetch('seckill/addCoupon', params,'post',"json");
   },
   /**
    * 编辑秒杀券
@@ -32,7 +32,7 @@ export default {
    * @returns {*}
    */
   sk_activity_ticket_update(params) {
-    return fetch.fetch('seckill/updateCoupon', params);
+    return fetch.fetch('seckill/updateCoupon', params,'post',"json");
   },
   /**
    * 查询秒杀券详情
@@ -40,7 +40,7 @@ export default {
    * @returns {*}
    */
   sk_activity_ticket_detail(params) {
-    return fetch.fetch('seckill/getCoupon', params);
+    return fetch.fetch('seckill/getCoupon', params,'get');
   },
   /**
    * 设置秒杀券是否有效
@@ -48,7 +48,7 @@ export default {
    * @returns {*}
    */
   sk_activity_ticket_update_status(params) {
-    return fetch.fetch('seckill/updateCouponStatus', params);
+    return fetch.fetch('seckill/updateCouponStatus', params,'post',"json");
   },
   /**
    * 获取秒杀活动列表
@@ -64,7 +64,7 @@ export default {
    * @returns {*}
    */
   sk_activity_add(params) {
-    return fetch.fetch('seckill/addActivity', params);
+    return fetch.fetch('seckill/addActivity', params,'post',"json");
   },
   /**
    * 秒杀活动新增
@@ -72,7 +72,7 @@ export default {
    * @returns {*}
    */
   sk_activity_update(params) {
-    return fetch.fetch('seckill/updateActivity', params);
+    return fetch.fetch('seckill/updateActivity', params,'post',"json");
   },
   /**
    * 秒杀活动详情
@@ -80,7 +80,7 @@ export default {
    * @returns {*}
    */
   sk_activity_detail(params) {
-    return fetch.fetch('seckill/getActivity', params);
+    return fetch.fetch('seckill/getActivity', params,'get');
   },
   /**
    * 秒杀活动上下架
@@ -88,7 +88,7 @@ export default {
    * @returns {*}
    */
   sk_activity_update_status(params) {
-    return fetch.fetch('seckill/updateActivityStatus', params);
+    return fetch.fetch('seckill/updateActivityStatus', params,'post',"json");
   },
   /**
    * 秒杀活动订单列表

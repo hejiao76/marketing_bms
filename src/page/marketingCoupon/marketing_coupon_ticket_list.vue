@@ -574,7 +574,7 @@
       },
       //复制抵扣券
       activeCopy(companyInfoId){
-        this.$router.push({name: 'marketing_coupon_ticket_edit', params: {type:'copy',ticketId: companyInfoId}})
+        this.$router.push({name: 'marketing_coupon_ticket_copy', params: {type:'copy',ticketId: companyInfoId}})
       },
       //编辑抵扣券
       activeUpdate(companyInfoId){

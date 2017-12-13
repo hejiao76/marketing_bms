@@ -33,8 +33,8 @@ const routerConfig = [{
       component:marketing_sedKill_ticket_edit
     },
     {
-      path:'ticket_edit/:type/:ticketId',//秒杀券编辑
-      name:"marketing_sedKill_ticket_edit",
+      path:'ticket_edit/:type/:ticketId',//秒杀券复制
+      name:"marketing_sedKill_ticket_copy",
       component:marketing_sedKill_ticket_edit
     },
     {
