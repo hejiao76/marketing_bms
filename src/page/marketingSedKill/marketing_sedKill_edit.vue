@@ -53,7 +53,7 @@
         </el-form>
         <el-row>
           <div class="newhd">
-            <div v-for="(checkedTicketItem,index) in activityInfo.checked_ticket">
+            <div v-for="(checkedTicketItem,index) in activityInfo.itemList">
                 <v-sedkill-select-ticket-item :key="checkedTicketItem.ticketId" @call="syncTickItem" :activityStratTime="activityInfo.activityStartDate" :ticketItem="checkedTicketItem" :index="index"></v-sedkill-select-ticket-item>
             </div>
             <div class="newhds-list new-list cur" @click="openAddList">
@@ -133,7 +133,9 @@
           activityName: '',
           activityStartDate:'',//活动1开始时间
           activityEndDate:'', //活动结束时间
-          shareImg: ''
+          shareImg: '',
+          itemList:[],
+
         },
         rules: {
           activityName: [
@@ -187,11 +189,11 @@
       },
       validPostCheckedTicketParam (){
         let valid=true;
-        if(!this.activityInfo.checked_ticket|| this.activityInfo.checked_ticket.length<=0){
+        if(!this.activityInfo.itemList|| this.activityInfo.itemList.length<=0){
           valid =false;
         }
-        for(let i =0; i<this.activityInfo.checked_ticket.length;i++){
-            let item = this.activityInfo.checked_ticket[i];
+        for(let i =0; i<this.activityInfo.itemList.length;i++){
+            let item = this.activityInfo.itemList[i];
             if(item.editStatus>0){
                 valid = false;
             }
@@ -257,7 +259,7 @@
       requestData () {
         if(this.activityId){
           let param = {activityId:this.activityId};
-          Object.assign(this.activityInfo,TestData.sedKill_checked_ticket_data.result);
+          Object.assign(this.activityInfo,TestData.sedKill_itemList_data.result);
           console.log(this.activityInfo);
           return;
           Api.sk_activity_list(param)
@@ -317,10 +319,10 @@
       },
       editTicketItem(ticketItem){
         if(ticketItem && ticketItem.ticketId){
-          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-            if(ticketItem.ticketId == this.activityInfo.checked_ticket[i].ticketId){
-//              let item = this.activityInfo.checked_ticket[i];
-              this.activityInfo.checked_ticket.splice(i, 1, ticketItem); //使用splice 触发数据更新
+          for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
+            if(ticketItem.ticketId == this.activityInfo.itemList[i].ticketId){
+//              let item = this.activityInfo.itemList[i];
+              this.activityInfo.itemList.splice(i, 1, ticketItem); //使用splice 触发数据更新
               this.activityInfo = Object.assign({},this.activityInfo);
               break;
             }
@@ -334,10 +336,10 @@
       removeTicketItem (ticketId){
           console.log("delete----------method---------------",ticketId);
         if(ticketId){
-          for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-            if(ticketId == this.activityInfo.checked_ticket[i].ticketId){
+          for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
+            if(ticketId == this.activityInfo.itemList[i].ticketId){
               console.log("eq---------------",ticketId);
-              this.activityInfo.checked_ticket.splice(i, 1); //使用splice 触发数据更新
+              this.activityInfo.itemList.splice(i, 1); //使用splice 触发数据更新
               this.activityInfo = Object.assign({},this.activityInfo);
               console.log("MLGB--->",JSON.stringify(this.activityInfo))
               break;
@@ -350,8 +352,8 @@
        */
       getExceptTicketId(){
         let ticketIdArray = [];
-        for(let i= 0 ; i <this.activityInfo.checked_ticket.length; i ++ ){
-          ticketIdArray.push(this.activityInfo.checked_ticket[i].ticketId);
+        for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
+          ticketIdArray.push(this.activityInfo.itemList[i].ticketId);
         }
         return ticketIdArray;
       },
@@ -381,7 +383,7 @@
             newTicketItem.createDate = item.creatTime;
             newTicketItem.editStatus=1;
 //            newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
-            this.activityInfo.checked_ticket.push(newTicketItem);
+            this.activityInfo.itemList.push(newTicketItem);
             this.activityInfo = Object.assign({},this.activityInfo);
 
           }

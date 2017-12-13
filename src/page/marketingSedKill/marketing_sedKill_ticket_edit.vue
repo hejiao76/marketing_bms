@@ -146,7 +146,7 @@
             { required: true,type:"number", message: '请选择秒杀券适用车系', trigger: 'blur' }
           ],
           amount: [
-            { required: true, message: '单个秒杀券金额', trigger: 'blur' },
+            { required: true, type:"number", message: '单个秒杀券金额', trigger: 'blur' },
           ],
           description: [
             { required: true, message: '秒杀券说明', trigger: 'blur' },
