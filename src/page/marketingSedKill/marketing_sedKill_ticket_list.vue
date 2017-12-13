@@ -43,17 +43,17 @@
           <el-button type="primary" size="small" @click="addTicket()" class="fr mr20 ">新建秒杀券</el-button>
         </el-col>
       </el-row>
-      <div><span class="totalTip">共找到以下10条数据</span></div>
-      <el-table class="table_min_height mt10" :data="resData" ref="singleTable" >
+      <div style="margin-bottom:15px;"><span class="totalTip">共找到以下 <span style="padding:0 10px;color: #409eff">{{totalRow}}</span>条数据</span></div>
+      <el-table class="table_min_height mt10" :data="resData" ref="singleTable" @sort-change="sortTable">
         <el-table-column prop="name" label="秒杀券名称" align="center"></el-table-column>
         <el-table-column label="秒杀券状态" align="center"> <template slot-scope="scope">{{Final.seckill_ticket[scope.row.status]}}</template></el-table-column>
-        <el-table-column align="center" label="秒杀券有效期" sortable><template scope="scope">{{scope.row.beginTime}}至{{scope.row.endTime}}</template></el-table-column>
+        <el-table-column align="center" label="秒杀券有效期" sortable="custom"><template scope="scope">{{scope.row.beginTime}}至{{scope.row.endTime}}</template></el-table-column>
         <el-table-column prop="carTypeCode" align="center" label="秒杀券适用车系" ></el-table-column>
-        <el-table-column prop="amount" align="center" sortable label="单个秒杀券金额"></el-table-column>
+        <el-table-column prop="amount" align="center"  label="单个秒杀券金额"></el-table-column>
         <el-table-column label="操作" align="center">
           <template scope="scope">
-            <el-button type="text" @click="updateTicket(scope.row.id)">编辑</el-button>
-            <el-button v-if="scope.row.id==1" type="text" @click="invalidTicket(scope.row.id)">无效</el-button>
+            <el-button type="text" v-if="scope.row.id==2" @click="updateTicket(scope.row.id)">编辑</el-button>
+            <el-button v-if="scope.row.id==2" type="text" @click="invalidTicket(scope.row.id)">无效</el-button>
             <el-button type="text" @click="copyTicket(scope.row.id)">复制</el-button>
           </template>
         </el-table-column>
@@ -107,6 +107,8 @@
         totalRow: 0,
         pageRecorders: 10,
         Final: Final,
+        dataNumber:'',
+        sortType:1,
       }
     },
     components: {
@@ -124,6 +126,18 @@
       }
     },
     methods: {
+      /**
+       * table排序
+       * @returns
+       */
+      sortTable(obj){
+        if(obj.order == 'descending'){
+          this.sortType = 2
+        }else{
+          this.sortType = 1
+        }
+        this.requestData();
+      },
       /**
        * 复制券
        * @returns {}
@@ -196,6 +210,7 @@
         param.status = this.activityType;
         param.pageIndex = this.currentPage;
         param.pageSize = this.pageRecorders;
+        param.sortType = this.sortType
         return param;
       },
       searchFn () {
