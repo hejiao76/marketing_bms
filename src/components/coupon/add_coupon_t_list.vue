@@ -100,7 +100,8 @@
 <script>
 import Api from "./../../fetch/api"
 import Final from "./../../util/Final"
-import VTipMsg from "./..//tipMsg.vue";
+import VTipMsg from "./../tipMsg.vue";
+import * as util from "./../../util/util"
 import TestData from "./../../util/TestData"
 export default {
   props:["activityInfo"],
@@ -231,6 +232,17 @@ export default {
         return newListObjArray;
     },
     /**
+     * 日期转1字符串
+     * @param date
+     */
+    formatDateToString (date){
+      if(typeof date == 'object'){
+        return util.toFullDateString(date.getTime());
+      }else{
+        return date;
+      }
+    },
+    /**
      * 请求可选抵扣券列表
      */
     requestAddTicketList () {
@@ -240,7 +252,7 @@ export default {
 //        this.listObj = this.filterExceptId(resData);
 //      console.log(this.listObj);
 //      return;
-      let param  = {coupon_name:this.ticketName,pageSize:1000,activityEndtime:this.activityInfo.endTime}
+      let param  = {coupon_name:this.ticketName,pageSize:1000,activityEndtime:this.formatDateToString(this.activityInfo.endTime)}
       Api.cp_activity_filter_coupon(param)
         .then(res => {
           if (res.status == true) {
