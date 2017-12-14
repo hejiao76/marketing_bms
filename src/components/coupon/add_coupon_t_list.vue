@@ -252,7 +252,7 @@ export default {
 //        this.listObj = this.filterExceptId(resData);
 //      console.log(this.listObj);
 //      return;
-      let param  = {coupon_name:this.ticketName,pageSize:1000,activityEndtime:this.formatDateToString(this.activityInfo.endTime)}
+      let param  = {couponName:this.ticketName,pageSize:1000,activityEndtime:this.formatDateToString(this.activityInfo.endTime)}
       Api.cp_activity_filter_coupon(param)
         .then(res => {
           if (res.status == true) {

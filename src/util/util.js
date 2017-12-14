@@ -35,6 +35,42 @@ export function getPostParam (data,paramHead){
   return newPostData;
 }
 /**
+ * 日期类型转换成时间(yyyy-MM-dd)
+ */
+export function dateObjToString(date) {
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  // var hour = date.getHours();
+  // var minute = date.getMinutes();
+  // var second = date.getSeconds();
+
+  month = month < 10 ? "0" + month : month;
+  day = day < 10 ? "0" + day : day;
+  // hour = hour < 10 ? "0" + hour : hour;
+  // minute = minute < 10 ? "0" + minute : minute;
+  // second = second < 10 ? "0" + second : second;
+  return ( year+"-"+month + "-" + day);
+}
+/**
+ * 日期转换成时间(yyyy-MM-dd hh:mm:ss)
+ */
+export function dateObjToFullString(date) {
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var hour = date.getHours();
+  var minute = date.getMinutes();
+  var second = date.getSeconds();
+
+  month = month < 10 ? "0" + month : month;
+  day = day < 10 ? "0" + day : day;
+  hour = hour < 10 ? "0" + hour : hour;
+  minute = minute < 10 ? "0" + minute : minute;
+  second = second < 10 ? "0" + second : second;
+  return ( year+"-"+month + "-" + day + " " + hour + ":" + minute+":"+second);
+}
+/**
  * 长整型转换成时间(yyyy-MM-dd)
  */
 export function toDateString(l_date) {
