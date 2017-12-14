@@ -322,7 +322,7 @@
         Final: Final,
         cityArr:[],
         cityVmList:[],
-        sortStatus:1,// 排序方式 1：正序 2：倒序
+        sortStatus:2,// 排序方式 1：正序 2：倒序
         sortType:5,// 排序字段 1：活动开始日期 2：活动结束日期 3：领取数量 4：活动PV 5：创建日期
       }
     },
