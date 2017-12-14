@@ -38,7 +38,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="抵扣券说明：" prop="description">
+            <el-form-item label="抵扣券简介：" prop="description">
               <el-input type="textarea" v-model="baseSettingForm.description"></el-input>
             </el-form-item>
           </el-col>

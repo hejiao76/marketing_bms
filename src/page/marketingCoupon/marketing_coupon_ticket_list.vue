@@ -35,7 +35,7 @@
                 <el-option
                   v-for="item in carArr"
                   :key="item.id"
-                  :label="item.brandName"
+                  :label="item.serialName"
                   :value="item.id">
                 </el-option>
               </el-select>
@@ -50,7 +50,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="活动日期:">
+            <el-form-item label="有效期:">
               <el-col :span="11">
                 <el-form-item >
                   <el-date-picker style="width: 100%;" v-model="filterForm.validity" :editable="false" :picker-options="optionsActivityStart" type="datetime"  placeholder="选择开始日期"></el-date-picker>
@@ -148,7 +148,7 @@
           label="抵扣类型"
            width="100">
           <template slot-scope="scope">
-            <span>{{Final.COUPON_TYPE[scope.row.serialType]}}</span>
+            <span>{{Final.COUPON_TYPE[scope.row.type]}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -158,9 +158,13 @@
           >
         </el-table-column>
         <el-table-column
-          prop="dealersName"
           label="绑定车系"
           >
+          <template slot-scope="scope">
+            <span v-if="scope.row.serialType==1">全车系</span>
+            <span v-if="scope.row.serialType!=1">{{scope.row.serialName}}</span>
+          </template>
+
         </el-table-column>
         <el-table-column
           label="有效期"
@@ -217,7 +221,7 @@
                       抵扣券类型：
                     </div>
                     <div class="sal-con_txt">
-                      <span>{{item.serialType}}</span>
+                      <span>{{Final.COUPON_TYPE[item.type]}}</span>
                     </div>
                   </li>
                   <li>
@@ -229,15 +233,16 @@
                     </div>
                   </li>
                   <li>
-                    <div class="sal-con-tit">
+                    <div class="sal-con-tit" style="width: 30%;">
                       绑定车系：
                     </div>
-                    <div class="sal-con_txt">
-                      <span>{{item.serialName}}</span>
+                    <div class="sal-con_txt" style="text-overflow:ellipsis;width: 70%;height: 24px;float:left;">
+                       <span v-if="item.serialType==1">全车系</span>
+                       <span v-if="item!=1">{{item.serialName}}</span>
                     </div>
                   </li>
                   <li>
-                    <el-button type="text">此抵扣券参与{{item.activityCount}}个活动</el-button>
+                    <el-button type="text" @click="toDetail(item.id)">此抵扣券参与{{item.activityCount}}个活动</el-button>
                   </li>
                   <li>
                     <div class="sal-con-tit">
@@ -582,25 +587,44 @@
       },
       //禁用抵扣券
       activeDisabled(id){
-        Api.cp_activity_coupon_forbidden({id:id})
-          .then(res => {
-            if (res.status) {
-              this.currentPage = 1;
-              this.requestData();
-            }else {
-              this.resData = [];
-              this.currentPage = 0;
-              this.totalRow = 0;
-              this.dataNumber = 0;
-            }
-          }).catch(err => {
-          console.log(err);
-          this.$message({
-            showClose: true,
-            message: '数据请求失败！',
-            type: 'error'
-          });
-        });
+        this.$confirm('确认禁用该有效券吗？','提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        })
+          .then(() => {
+            Api.cp_activity_coupon_forbidden({id:id})
+              .then(res => {
+                if (res.status) {
+                  this.$message({
+                    showClose: true,
+                    message: '禁用成功！',
+                    type: 'success'
+                  });
+                  this.currentPage = 1;
+                  this.requestData();
+                }else {
+                  this.$message({
+                    showClose: true,
+                    message:res.message,
+                    type: 'error'
+                  });
+                  this.resData = [];
+                  this.currentPage = 0;
+                  this.totalRow = 0;
+                  this.dataNumber = 0;
+                }
+              }).catch(err => {
+              console.log(err);
+              this.$message({
+                showClose: true,
+                message: '数据请求失败！',
+                type: 'error'
+              });
+            });
+          })
+
       },
       //修改抵扣券类型
       checkTicketType(companyInfoId){
