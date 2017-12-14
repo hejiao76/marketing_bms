@@ -12,7 +12,7 @@
       </el-form>
       <div class="choose-copntent">
         <div class="choose-copntent_body" style="height:350px;overflow-y: scroll">
-            <el-row class="this_box_wrop">
+            <el-row class="this_box_wrop" style="padding-top: 20px;">
                 <!--<el-col style=" width: 260px;" >-->
                     <div class="saleticket-list"v-for="(item,index) in listObj">
                       <div v-if="validSeriesInclude(item)" class="isfill">

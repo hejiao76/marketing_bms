@@ -10,7 +10,7 @@
         </el-input>
       </el-form-item>
       </el-form>
-      <div class="choose-copntent" style="min-height:180px;">
+      <div class="choose-copntent" style="min-height:180px;padding-top: 20px;">
         <div class="choose-copntent_body" >
             <el-row class="this_box_wrop">
                 <!--<el-col style=" width: 260px;" >-->
@@ -27,7 +27,7 @@
                         <img src="./../../assets/images/saleticketsright.png" class="iconright" alt="">
                       </div>
                     </div>
-                    <div class="saleticket-content">
+                    <div class="saleticket-content" style="height: 88px;overflow-y: auto;">
                       <ul>
                         <li v-for="giftItem in item.giftInfoList">
                           <div class="sal-con-tit">
@@ -207,8 +207,5 @@ export default {
  .el-dialog{
    width: 59%;
  }
- .saleticket-list:nth-child(3n+0)
- {
-   margin-right:0;
- }
+
 </style>
