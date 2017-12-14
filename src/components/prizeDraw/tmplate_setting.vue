@@ -36,7 +36,7 @@ import Final from "./../../util/Final";
 import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 export default {
-  props:["prizeDrawDetail","isEdit"],
+  props:["prizeDrawDetail","isEdit","isHaveInHand"],
   data () {
     return {
       templateIdTmp:1,
@@ -77,7 +77,7 @@ export default {
      * 选择模板
      */
     chooseTmp (tmpId) {
-        if(!this.isEdit){
+        if(!this.isHaveInHand){
           this.templateIdTmpObj.templateId=tmpId;
         }
 
@@ -86,7 +86,7 @@ export default {
      * 取消选择模板
      */
     cancelTmp (){
-      if(!this.isEdit){
+      if(!this.isHaveInHand){
         this.templateIdTmpObj.templateId="";
       }
     },

@@ -22,16 +22,16 @@
           <!--<el-form :model="filterForm"  :rules="rules" ref="filterForm" label-width="120px" size="small" ></el-form>-->
           <el-tabs type="card"   v-model="prizeDrawSettingTab" >
             <el-tab-pane :disabled="this.disabledTab"  label="基础设置" name="base">
-              <v-pz-base-setting ref="baseSetting" @serialChange="syncSerialStr" @editSaveCall="updatePrizeDrawInfo"  @call="syncPrizeDrawDetail" @previewCall="syncPreviewProps" :isEdit="isEdit" :prizeDrawDetail="prizeDrawDetail"></v-pz-base-setting>
+              <v-pz-base-setting ref="baseSetting" @serialChange="syncSerialStr" @editSaveCall="updatePrizeDrawInfo"  @call="syncPrizeDrawDetail" @previewCall="syncPreviewProps" :isEdit="isEdit" :prizeDrawDetail="prizeDrawDetail" :isHaveInHand="isHaveInHand"></v-pz-base-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="抽奖设置" name="prize">
-              <v-pz-prize-draw-setting ref="prizeDrawSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-prize-draw-setting>
+              <v-pz-prize-draw-setting ref="prizeDrawSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail" :isHaveInHand="isHaveInHand"></v-pz-prize-draw-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="奖品设置" name="gift">
-              <v-pz-gift-setting ref="giftSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail" :serialStr="serialStr"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-gift-setting>
+              <v-pz-gift-setting ref="giftSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail" :serialStr="serialStr"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail" :isHaveInHand="isHaveInHand"></v-pz-gift-setting>
             </el-tab-pane>
             <el-tab-pane :disabled="this.disabledTab"  label="模板选择" name="template">
-              <v-pz-template-setting ref="templateSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail"></v-pz-template-setting>
+              <v-pz-template-setting ref="templateSetting" @editSaveCall="updatePrizeDrawInfo" @call="syncPrizeDrawDetail"  :isEdit="isEdit"  :prizeDrawDetail="prizeDrawDetail" :isHaveInHand="isHaveInHand"></v-pz-template-setting>
             </el-tab-pane>
           </el-tabs>
         </el-col>
@@ -60,7 +60,8 @@
       return {
         Final:Final,
         disabledTab:false,
-        isEdit:true,
+        isEdit:true, //是否编辑状态
+        isHaveInHand:false, //活动是会否进行中
         prizeDrawSettingTab:'base', //选项卡默认选中项1111111111111111111111111111
         prizeDrawDetail : {},
         prizeDrawCode:'',
@@ -91,9 +92,14 @@
     mounted (){
       this.initPage();
     },
-    watch : {
-      "$route": function (to, from) {
-//        this.resetForm();
+//    beforeRouteUpdate (){
+//        console.log("cool-----------here");
+////      this.initPage();
+//    },
+    watch: {
+      '$route' (to, from) {
+//        alert("route");
+        this.initPage();
       }
     },
     methods : {
@@ -219,6 +225,9 @@
 
           });
       },
+      /**
+       * 同步预览信息
+       */
       syncPreviewProps(data){
 //          isShowJoinSize:true,
 //          isShowWinningRecord:true,
@@ -244,6 +253,27 @@
 
 
       },
+      validIsHaveHand (){
+          if(!this.prizeDrawDetail.status){
+            let beginTime = new Date(this.prizeDrawDetail.beginTime).getTime();
+            let endTime = new Date(this.prizeDrawDetail.endTime).getTime();
+            let currentTime = new Date().getTime();
+            if(beginTime<currentTime && currentTime<endTime){
+                console.log("...........true.......");
+              this.isHaveInHand =true;
+            }else {
+              this.isHaveInHand = false;
+               console.log("...........false.......");
+            }
+          }else{
+            if(this.prizeDrawDetail.status==2){
+                this.isHaveInHand=true;
+            }else {
+                this.isHaveInHand=false;
+            }
+          }
+
+      },
       /**
        * 请求抽奖活动详情
        */
@@ -259,6 +289,7 @@
                 console.log(JSON.stringify(res));
                 this.prizeDrawDetail = res.result;
                 this.syncPreviewProps(this.prizeDrawDetail);
+                this.validIsHaveHand()
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,

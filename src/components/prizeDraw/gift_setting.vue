@@ -26,10 +26,10 @@
         </el-col>
       </el-row>
     </el-form>
-      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem"  :prizeDrawDetail="prizeDrawDetail" :serialStr="serialStr" :isEdit="isEdit" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
+      <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem"  :prizeDrawDetail="prizeDrawDetail" :serialStr="serialStr" :isEdit="isEdit" :isHaveInHand="isHaveInHand" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
     <el-row>
       <el-col :span="24" style="text-align: right;">
-        <el-button v-if="giftSetting.prizeList.length<5" :disabled="isEdit" @click="addGiftItem"  type="primary">增加奖项</el-button>
+        <el-button v-if="giftSetting.prizeList.length<5" :disabled="isHaveInHand" @click="addGiftItem"  type="primary">增加奖项</el-button>
       </el-col>
     </el-row>
       <el-row>
@@ -55,7 +55,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import VGiftSettingItem from "./gift_setting_giftItem.vue"
 export default {
-  props:['prizeDrawDetail',"isEdit","serialStr"],
+  props:['prizeDrawDetail',"isEdit","serialStr","isHaveInHand"],
   data () {
     return {
       startTime: '',
