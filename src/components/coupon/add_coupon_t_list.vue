@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-dialog class="choose-hd" center title="添加活动抵扣券" :visible.sync="dialogTableVisible" width="60%" >
+    <el-dialog class="choose-hd" center title="添加活动抵扣券" :visible.sync="dialogTableVisible" width="931px" >
       <el-form  size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
       <el-form-item label="抵扣券名称：">
         <!--<el-input v-model="activityName" placeholder="请输商品名称"></el-input>-->
