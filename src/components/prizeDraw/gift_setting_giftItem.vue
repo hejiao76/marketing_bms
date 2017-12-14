@@ -11,7 +11,7 @@
               <el-collapse-transition>
               <div v-if="isshow">
                 <el-form-item label="礼包名称:" prop="giftGroupId">
-                  <el-select :disabled="isEdit" v-model="prizeItemForm.giftGroupId" @change="selectGiftGroup" placeholder="请选择">
+                  <el-select :disabled="isHaveInHand" v-model="prizeItemForm.giftGroupId" @change="selectGiftGroup" placeholder="请选择">
                     <el-option
                       v-for="item in giftList"
                       :key="item.giftGroupId"
@@ -106,7 +106,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
 export default {
-  props:['prizeDrawDetail','prizeItem','itemIndex','isEdit','serialStr'],
+  props:['prizeDrawDetail','prizeItem','itemIndex','isEdit','serialStr',"isHaveInHand"],
   data () {
     return {
       wordMapping:{

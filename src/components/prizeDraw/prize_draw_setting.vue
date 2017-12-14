@@ -96,7 +96,7 @@ import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 export default {
-  props:['prizeDrawDetail',"isEdit"],
+  props:['prizeDrawDetail',"isEdit","isHaveInHand"],
   data () {
     return {
       prizeItem:{

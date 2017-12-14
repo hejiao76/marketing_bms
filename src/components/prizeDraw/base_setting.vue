@@ -10,7 +10,7 @@
           <el-form-item label="活动日期:" required>
             <el-col :span="11">
               <el-form-item prop="beginTime">
-                <el-date-picker :disabled="isEdit" style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
+                <el-date-picker :disabled="isHaveInHand" style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col class="line" :span="2" style="text-align: center">-</el-col>
@@ -135,7 +135,7 @@
         <el-col :span="14">
           <el-form-item label="车系／车型：" prop="serialIds">
           <!--<span class="span-120"></span>-->
-          <el-select :disabled="isEdit" style="width:100%;" @change="serialChange"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
+          <el-select :disabled="isHaveInHand" style="width:100%;" @change="serialChange"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
             <el-option
               v-for="item in seriesList"
               :key="item.id"
@@ -148,8 +148,8 @@
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="活动说明:" maxlength="1000" prop="description">
-            <el-input @change="previewCall($event,'description')" type="textarea" placeholder="填写商家自定义的活动说明" v-model="baseItem.description"></el-input>
+          <el-form-item label="活动说明:" prop="description">
+            <el-input  :maxlength="1000" @change="previewCall($event,'description')" type="textarea" placeholder="填写商家自定义的活动说明" v-model="baseItem.description"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -175,7 +175,7 @@ import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import VTreeview from "./../../components/treeview.vue";
 export default {
-  props:['prizeDrawDetail',"isEdit"],
+  props:['prizeDrawDetail',"isEdit","isHaveInHand"],
   data () {
     return {
       Final:Final,
@@ -326,9 +326,9 @@ export default {
           name:this.prizeDrawDetail.name, //活动名称
           beginTime:new Date(this.prizeDrawDetail.beginTime), //活动开始时间
           endTime:new Date(this.prizeDrawDetail.endTime), //活动结束时间
-          isShowJoinSize:this.prizeDrawDetail.isShowJoinSize || 1, //是否显示参与人数
+          isShowJoinSize:this.prizeDrawDetail.isShowJoinSize, //是否显示参与人数
           addJoinSize:this.prizeDrawDetail.addJoinSize || 0, //添加参与人数
-          isShowWinningRecord:this.prizeDrawDetail.isShowWinningRecord || 1, //是否显示中奖记录
+          isShowWinningRecord:this.prizeDrawDetail.isShowWinningRecord, //是否显示中奖记录
           bgImg:this.prizeDrawDetail.bgImg,//背景图片地址,
           titleImg:this.prizeDrawDetail.titleImg, //标题图片地址,
           shareImg:this.prizeDrawDetail.shareImg,//分享图片地址
