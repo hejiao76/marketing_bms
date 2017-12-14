@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-dialog class="choose-hd" center title="选择秒杀券" :visible.sync="dialogTableVisible" width="900px">
+    <el-dialog class="choose-hd" center title="选择秒杀券" :visible.sync="dialogTableVisible" width="931px">
       <div class="choose-copntent">
         <div class="choose-copntent_body">
           <ul>

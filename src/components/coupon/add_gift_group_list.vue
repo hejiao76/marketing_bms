@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-dialog class="choose-hd" center title="添加礼品包" :visible.sync="dialogTableVisible" >
+    <el-dialog class="choose-hd" center title="添加礼品包" :visible.sync="dialogTableVisible" width="930px" >
       <el-form  size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" label-position="left">
       <el-form-item label="礼品包名称：">
         <!--<el-input v-model="activityName" placeholder="请输商品名称"></el-input>-->
