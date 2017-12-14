@@ -4,7 +4,7 @@
       <div class="verify-txt">
         <ul>
           <li>活动名称：{{details.name}}</li>
-          <li>活动状态：{{details.status}}</li>
+          <li>活动状态：{{Final.COUPON_STATUS[details.status]}}</li>
           <li>活动时间：{{details.beginTime}}&nbsp;至&nbsp;{{details.endTime}}</li>
           <li>参与人数：{{details.joinSize}}人</li>
         </ul>
@@ -41,6 +41,7 @@ export default {
     return {
       dialogTableVisible : false,
       details:'',
+      Final:Final
     }
   },
   created () {

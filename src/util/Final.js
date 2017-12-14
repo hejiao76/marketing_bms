@@ -25,6 +25,9 @@ const OBJ ={
   COUPON_STATUS:{
     1:"待上线" ,2:"进行中" , 3:"已结束"
   },
+  PRIZE_STATUS:{
+    1:"未开启",2:"进行中",3:"已结束"
+  },
   seckill_ticket:{
    1:"有效",2:"无效"
   },

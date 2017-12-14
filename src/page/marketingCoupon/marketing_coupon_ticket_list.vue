@@ -236,9 +236,11 @@
                     <div class="sal-con-tit" style="width: 30%;">
                       绑定车系：
                     </div>
-                    <div class="sal-con_txt" style="text-overflow:ellipsis;width: 70%;height: 24px;float:left;">
-                       <span v-if="item.serialType==1">全车系</span>
-                       <span v-if="item!=1">{{item.serialName}}</span>
+                    <div v-if="item.serialType==1" class="sal-con_txt" style="text-overflow:ellipsis;width: 70%;height: 24px;float:left;">
+                       全车系
+                    </div>
+                    <div v-if="item.serialType!=1" class="sal-con_txt" style="text-overflow:ellipsis;width: 70%;height: 24px;float:left;white-space: nowrap">
+                      {{item.serialName}}
                     </div>
                   </li>
                   <li>

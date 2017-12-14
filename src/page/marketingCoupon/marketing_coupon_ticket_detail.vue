@@ -55,7 +55,7 @@
       <div style="overflow: auto;">
         <div class="saleticket-list colorsaletickstyle " v-if="activityInfo.type!=1">
           <div class="saleticket-list_header">
-            <p>抵扣券名称：{{activityInfo.gift.giftGroupName}}</p>
+            <p>{{activityInfo.gift.giftGroupName}}</p>
             <span>有效期：{{activityInfo.gift.effectiveDate}}</span>
             <div class="headericon">
               <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
