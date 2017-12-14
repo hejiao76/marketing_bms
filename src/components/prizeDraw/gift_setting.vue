@@ -29,7 +29,7 @@
       <v-gift-setting-item v-for="(prizeItem,index) in giftSetting.prizeList" ref='prizeItem' @callRemove="removeGiftItem"  :prizeDrawDetail="prizeDrawDetail" :serialStr="serialStr" :isEdit="isEdit" :isHaveInHand="isHaveInHand" :itemIndex="index"  :key="prizeItem.prizeId" :prizeItem="prizeItem"></v-gift-setting-item>
     <el-row>
       <el-col :span="24" style="text-align: right;">
-        <el-button v-if="giftSetting.prizeList.length<5" :disabled="isHaveInHand" @click="addGiftItem"  type="primary">增加奖项</el-button>
+        <el-button v-if="giftSetting.prizeList.length<5" :disabled="isEdit" @click="addGiftItem"  type="primary">增加奖项</el-button>
       </el-col>
     </el-row>
       <el-row>

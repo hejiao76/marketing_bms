@@ -27,9 +27,12 @@
         type: String
       },
     },
+
     watch  :{
       defaultMsg (val, oldval) {
-//        this.editor.setContent(val || "");
+       if(this.editor){
+         this.editor.setContent(this.defaultMsg);
+       }
       },
     },
     mounted() {
@@ -38,6 +41,10 @@
       this.editor.addListener("ready", function () {
         _this.editor.setContent(_this.defaultMsg); // 确保UE加载完成后，放入内容。
       });
+    },
+    beforeRouteLeave (to, from, next) {
+      console.log("destroyed");
+      this.destroyed;
     },
     methods: {
       getUEContent() { // 获取内容方法

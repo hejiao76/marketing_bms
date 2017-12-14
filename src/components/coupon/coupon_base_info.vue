@@ -38,7 +38,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="抵扣券简介：" prop="description">
+            <el-form-item label="简介：" prop="description">
               <el-input type="textarea" v-model="baseSettingForm.description"></el-input>
             </el-form-item>
           </el-col>
@@ -48,7 +48,7 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="抵扣券券详情：" prop="remarks">
+            <el-form-item label="抵扣券说明：" prop="remarks">
               <UE ref="ueRef" :defaultMsg=baseSettingForm.details :config=config :id=ue1></UE>
             </el-form-item>
           </el-col>
@@ -158,6 +158,7 @@ export default {
     },
     cloneBaseInfo() {
       if(this.couponDetail){
+          console.log("clone---base--info",this.couponDetail);
         this.baseSettingForm = {
           name:this.couponDetail.name, //活动名称
           validity:this.couponDetail.validity ? new Date(this.couponDetail.validity) : '', //抵扣券有效期
@@ -186,7 +187,12 @@ export default {
 //            msg:"基础信息填写有误",
 //            type:"error"
 //          });
-          this.$emit("errorTipMsg",{msg:"基础信息填写有误"});
+//          this.$emit("errorTipMsg",{msg:"基本信息填写有误"});
+          this.$message({
+            type:'error',
+            message:'基本信息填写有误',
+            duration:'1500'
+          });
           validStatus=false;
           return false;
         }else {
@@ -223,7 +229,7 @@ export default {
 //           msg:"请填写抵扣券详情",
 //           type:"error"
 //         });
-         this.$emit("errorTipMsg",{msg:"请填写抵扣券详情"});
+         this.$emit("errorTipMsg",{msg:"请填写抵扣券说明"});
            return false;
        }
     },

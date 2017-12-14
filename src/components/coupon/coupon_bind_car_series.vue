@@ -162,7 +162,12 @@ export default {
 //            msg:"抵扣车系信息填写有误",
 //            type:"error"
 //          });
-          this.$emit("errorTipMsg",{msg:"抵扣车系信息填写有误"});
+//          this.$emit("errorTipMsg",{msg:"抵扣车系信息填写有误"});
+          this.$message({
+            type:'error',
+            message:'抵扣车系信息填写有误',
+            duration:'1500'
+          });
           validStatus=false;
           return false;
         }

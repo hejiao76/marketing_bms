@@ -14,7 +14,7 @@
       </el-row>
       <el-row v-if="isShowGiftItem ">
         <div v-if="typeItemForm.gift_obj.giftGroupId" class="saleticket-list colorsaletickstyle">
-          <div class="isfill">
+          <div class="isfill cur">
             <span @click="removeGiftGroup" style="display:block;width: 20px;height: 20px;background: #fff;text-align: center;line-height: 20px;border: 1px solid #ccc;color: #ccc;border-radius: 11px;">X</span>
           </div>
           <div class="saleticket-list_header">

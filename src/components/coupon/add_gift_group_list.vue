@@ -15,7 +15,7 @@
             <el-row class="this_box_wrop">
                 <!--<el-col style=" width: 260px;" >-->
                   <div class="saleticket-list colorsaletickstyle" v-for="item in listObj">
-                    <div class="isfill">
+                    <div class="isfill cur">
                       <img v-if="item.giftGroupId!=tmpGiftGroupId" @click="checkGiftGroup(item.giftGroupId)"   src="./../../assets/images/fillnone.png" alt="">
                       <img v-else  @click="cancelCheckGiftGroup" src="./../../assets/images/fillin.png" alt="">
                     </div>

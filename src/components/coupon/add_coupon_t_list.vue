@@ -114,7 +114,7 @@ export default {
         labelPosition:'left',
         testData:[{ischecked:false,id:12},{ischecked:false,id:23},{ischecked:false,id:34}],
         tmpSeriesIds:{}, //已选择车系ID
-        maxTicketCount:3 //最大可选抵扣券数量
+        maxTicketCount:10 //最大可选抵扣券数量
     }
   },
   components :{
