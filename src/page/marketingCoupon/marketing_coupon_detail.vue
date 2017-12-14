@@ -10,7 +10,7 @@
             <el-form-item label="活动日期：">
               <div  style="width: 70%;">{{activityInfo.beginTime}}至{{activityInfo.endTime}}</div>
             </el-form-item>
-            <el-form-item label="活动地区：">
+            <el-form-item label="活动地区：" v-if="activityInfo.area">
               <div  style="width: 70%;"><span v-for="item in activityInfo.area.list">{{item.city}}&nbsp;&nbsp;,</span></div>
             </el-form-item>
           </el-col>
