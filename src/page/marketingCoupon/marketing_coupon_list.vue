@@ -146,6 +146,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="endTime"
           label="活动结束日期"
           sortable="custom"
           >
@@ -173,6 +174,7 @@
         </el-table-column>
         <el-table-column
           label="创建日期"
+          prop="createTime"
           sortable="custom">
           <template slot-scope="scope">
             <span v-html="formatterBr(scope.row.createTime)"></span>
@@ -181,7 +183,7 @@
         <el-table-column label="操作" >
             <template slot-scope="scope">
               <el-button type="text" @click="openDetail(scope.row.id)">查看</el-button>
-              <el-button type="text" @click="updatePrize(scope.row.id)">编辑</el-button>
+              <el-button v-if="!scope.row.status==3" type="text" @click="updatePrize(scope.row.id)">编辑</el-button>
               <el-button type="text" v-if="scope.row.status==1" @click="deletePrize(scope.row.id)">删除</el-button>
               <el-button type="text" v-if="scope.row.status==2" @click="activeCouEnd(scope.row.id)">结束活动</el-button>
               <el-button type="text" @click="couponLink(scope.row.shareUrl)">活动链接</el-button>
@@ -216,7 +218,7 @@
               <div class="active-footer">
                 <table>
                   <tr>
-                    <td><a href="javascript:void(0)" @click="updatePrize(item.id)">编辑</a></td>
+                    <td v-if="!item.status==3"><a href="javascript:void(0)" @click="updatePrize(item.id)">编辑</a></td>
                     <td v-if="item.status==1"><a href="javascript:void(0)" @click="deletePrize(item.id)">删除</a></td>
                     <td v-if="item.status==2"><a href="javascript:void(0)" @click="activeCouEnd(item.id)">结束活动</a></td>
                     <td><a href="javascript:void(0)"  @click="couponLink(item.shareUrl)"> 活动链接</a></td>
@@ -375,7 +377,9 @@
        }else if(obj.prop == 'createTime'){
          this.sortType = 5
        }
-       if(obj.order == 'descending'){
+        console.log('obj.prop', obj.prop);
+        console.log('obj.order', obj.order);
+        if(obj.order == 'descending'){
          this.sortStatus = 2
        }else{
          this.sortStatus = 1
@@ -426,11 +430,6 @@
             break;
           }
         }
-      },
-
-      ////table排序　
-      formatter(row, column) {
-        return row.address;
       },
       ////卡片切换
       changeCar(){
@@ -568,37 +567,75 @@
       },
       //结束活动
       activeCouEnd(id){
-        Api.cp_activity_stop({id:id})
-          .then(res => {
-            if (res.status) {
-              this.requestData();
-            }else {
+        this.$confirm('确认结束该活动吗？','提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        })
+          .then(() => {
+            Api.cp_activity_stop({id:id})
+              .then(res => {
+                if (res.status) {
+                  this.$message({
+                    showClose: true,
+                    message: '结束成功！',
+                    type: 'success'
+                  });
+                  this.requestData();
+                  this.currentPage = 1;
+                }else {
+                  this.$message({
+                    showClose: true,
+                    message: res.message,
+                    type: 'error'
+                  });
+                }
+              }).catch(err => {
+              console.log(err);
+              this.$message({
+                showClose: true,
+                message: '数据请求失败！',
+                type: 'error'
+              });
+            });
+          })
 
-            }
-          }).catch(err => {
-          this.$message({
-            showClose: true,
-            message: '数据请求失败！',
-            type: 'error'
-          });
-        });
       },
       ///删除活动
       deletePrize(id){
-        Api.cp_activity_car_series_del({id:id})
-          .then(res => {
-            if (res.status) {
-              this.requestData();
-            }else {
-
-            }
-          }).catch(err => {
-          this.$message({
-            showClose: true,
-            message: '数据请求失败！',
-            type: 'error'
-          });
-        });
+        this.$confirm('确认删除该活动吗？','提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        })
+          .then(() => {
+            Api.cp_activity_car_series_del({id:id})
+              .then(res => {
+                if (res.status) {
+                  this.$message({
+                    showClose: true,
+                    message: '结束成功！',
+                    type: 'success'
+                  });
+                  this.requestData();
+                  this.currentPage = 1;
+                }else {
+                  this.$message({
+                    showClose: true,
+                    message: res.message,
+                    type: 'error'
+                  });
+                }
+              }).catch(err => {
+              this.$message({
+                showClose: true,
+                message: '数据请求失败！',
+                type: 'error'
+              });
+            });
+          })
       },
       //活动链接
       couponLink(url){

@@ -415,6 +415,8 @@
        * @returns
        */
       sortTable(obj){
+        console.log('obj.prop', obj.prop);
+        console.log('obj.order', obj.order);
         if(obj.prop == 'amount'){
           this.sortType = 1
         }else if(obj.prop == 'validity'){

@@ -105,22 +105,12 @@
         <el-table-column prop="shareUrl" align="center" min-width="140" label="活动链接"></el-table-column>
         <el-table-column label="操作" align="center" width="140">
           <template scope="scope">
-            <div v-if="activityType==0">
-              <el-button @click="updateActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="upActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
-              <el-button @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
-            </div>
-            <div v-if="activityType==1">
-              <el-button @click="updateActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
-            </div>
-            <div v-if="activityType==2">
-              <el-button @click="addActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
-              <el-button @click="upActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
-              <el-button @click="deleteActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">删除</el-button>
-            </div>
-            <div v-if="activityType==3">
-              <el-button @click="showPrizeUser(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">中奖用户</el-button>
+            <div>
+              <el-button v-if="scope.row.status !=3 || scope.row.status !=4" @click="updateActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
+              <el-button v-if="scope.row.status ==1" @click="upActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
+              <el-button v-if="scope.row.status ==2" @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
+              <el-button v-if="scope.row.status ==2" @click="deleteActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">删除</el-button>
+              <el-button v-if="scope.row.status ==3" @click="showPrizeUser(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">中奖用户</el-button>
             </div>
           </template>
         </el-table-column>
@@ -310,21 +300,33 @@
        * 上架，下架，删除公用方法
        * @returns {}
        */
-      publicFun(dataId,statusId){
-        Api.sk_activity_update_status({id:dataId,status:statusId}).then(res => {
-          if (res.status) {
-            this.currentPage = 1;
-            this.requestData();
-          }else {
-
-          }
-        }).catch(err => {
-          this.$message({
-            showClose: true,
-            message: '数据请求失败！',
-            type: 'error'
-          });
-        });
+      publicFun(dataId,statusId,msg){
+        this.$confirm(msg,'提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        })
+          .then(() => {
+            Api.sk_activity_update_status({id:dataId,status:statusId}).then(res => {
+              if (res.status) {
+                this.currentPage = 1;
+                this.requestData();
+              }else {
+                this.$message({
+                  showClose: true,
+                  message: res.message,
+                  type: 'error'
+                });
+              }
+            }).catch(err => {
+              this.$message({
+                showClose: true,
+                message: '数据请求失败！',
+                type: 'error'
+              });
+            });
+          })
       },
       /**
        *编辑活动点击
@@ -345,14 +347,14 @@
        * @returns {}
        */
       upActivity (id) {
-        this.publicFun(id,1)
+        this.publicFun(id,1,'确定要上架吗？')
       },
       /**
        * 已下架
        * @returns {}
        */
       downActivity (id) {
-        this.publicFun(id,2)
+        this.publicFun(id,2,'确定要下架吗？')
       },
       /**
        * 显示中奖纪录
@@ -389,7 +391,7 @@
        * @returns {}
        */
       deleteActivity (id) {
-        this.publicFun(id,4)
+        this.publicFun(id,4,'确定要删除吗？')
       },
 
       /**

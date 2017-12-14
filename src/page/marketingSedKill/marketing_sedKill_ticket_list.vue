@@ -52,8 +52,8 @@
         <el-table-column prop="amount" align="center"  label="单个秒杀券金额"></el-table-column>
         <el-table-column label="操作" align="center">
           <template scope="scope">
-            <el-button type="text" v-if="scope.row.id==2" @click="updateTicket(scope.row.id)">编辑</el-button>
-            <el-button v-if="scope.row.id==2" type="text" @click="invalidTicket(scope.row.id)">无效</el-button>
+            <el-button type="text" v-if="scope.row.status==2" @click="updateTicket(scope.row.id)">编辑</el-button>
+            <el-button v-if="scope.row.status==2" type="text" @click="invalidTicket(scope.row.id)">无效</el-button>
             <el-button type="text" @click="copyTicket(scope.row.id)">复制</el-button>
           </template>
         </el-table-column>
@@ -164,20 +164,38 @@
        * @returns {}
        */
       invalidTicket (id) {
-        Api.sk_activity_ticket_update_status({id:id,status:2})
-          .then(res => {
-            if (res.status) {
-              this.requestData();
-            }else {
-
-            }
-          }).catch(err => {
-          this.$message({
-            showClose: true,
-            message: '数据请求失败！',
-            type: 'error'
-          });
-        });
+        this.$confirm('确认设置无效吗？','提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        })
+          .then(() => {
+            Api.sk_activity_ticket_update_status({id:id,status:2})
+              .then(res => {
+                if (res.status) {
+                  this.currentPage = 1;
+                  this.requestData();
+                  this.$message({
+                    showClose: true,
+                    message: '设置无效成功！',
+                    type: 'success'
+                  });
+                }else {
+                  this.$message({
+                    showClose: true,
+                    message: res.message,
+                    type: 'error'
+                  });
+                }
+              }).catch(err => {
+              this.$message({
+                showClose: true,
+                message: '数据请求失败！',
+                type: 'error'
+              });
+            });
+          })
       },
 
       changeActivityType (tab, event){
