@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog class="choose-hd" center title="订单详情" :visible.sync="dialogTableVisible" :before-close="handleClose">
+    <el-dialog class="choose-hd" center title="活动详情" :visible.sync="dialogTableVisible" :before-close="handleClose">
       <div class="verify-txt">
         <ul>
           <li>活动名称：{{details.name}}</li>

@@ -44,15 +44,11 @@
           <el-col :span="12">
             <el-form-item label="活动日期:">
               <el-col :span="11">
-                <el-form-item >
                   <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date"  placeholder="选择开始日期"></el-date-picker>
-                </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
-                <el-form-item>
                   <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd"  type="date" placeholder="选择结束日期"></el-date-picker>
-                </el-form-item>
               </el-col>
             </el-form-item>
           </el-col>

@@ -66,9 +66,11 @@
       >
       </el-table-column>
       <el-table-column
-        prop="acitvityName"
         label="活动名称"
       >
+        <template slot-scope="scope">
+          <el-button type="text"  @click="openDetail(scope.row.acitvityCode)"> {{scope.row.acitvityName}}</el-button>
+        </template>
       </el-table-column>
     </el-table >
 
@@ -76,6 +78,7 @@
     <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
                    :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
                    :total="totalRow"></el-pagination>
+    <V-Pldetail ref="prizeDetailDialog"></V-Pldetail>
 
   </div>
 </template>
@@ -88,7 +91,8 @@
   import Api from "./../../fetch/api";
   import * as Util from "./../../util/util";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import TestData from "./../../util/TestData"
+  import TestData from "./../../util/TestData";
+  import VPldetail from "./../../components/prize_list_detail.vue";
   import $ from "jquery"
   export default {
     data() {
@@ -109,7 +113,8 @@
       VHeader,
       VLeft,
       VConNav,
-      VTipMsg
+      VTipMsg,
+      VPldetail
     },
 
     mounted () {
@@ -121,6 +126,10 @@
       }
     },
     methods: {
+      //查看详情
+      openDetail(code){
+        this.$refs.prizeDetailDialog.showDialog(code);
+      },
       /**
        * table排序
        * @returns

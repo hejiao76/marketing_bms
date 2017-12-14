@@ -52,30 +52,22 @@
           <el-col :span="12">
             <el-form-item label="有效期:">
               <el-col :span="11">
-                <el-form-item >
                   <el-date-picker style="width: 100%;" v-model="filterForm.validity" :editable="false" :picker-options="optionsActivityStart" type="datetime"  placeholder="选择开始日期"></el-date-picker>
-                </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
-                <el-form-item>
                   <el-date-picker style="width: 100%;" v-model="filterForm.validity2" :editable="false" :picker-options="optionsActivityEnd"  type="datetime" placeholder="选择结束日期"></el-date-picker>
-                </el-form-item>
               </el-col>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="创建日期:">
               <el-col :span="11">
-                <el-form-item>
                   <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
-                </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
-                <el-form-item>
                   <el-date-picker style="width: 100%;" v-model="filterForm.createTime2" :editable="false" :picker-options="optionsCreateEnd" type="datetime" placeholder="选择结束日期"></el-date-picker>
-                </el-form-item>
               </el-col>
             </el-form-item>
           </el-col>

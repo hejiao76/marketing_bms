@@ -52,8 +52,8 @@
         <el-table-column prop="amount" align="center"  label="单个秒杀券金额"></el-table-column>
         <el-table-column label="操作" align="center">
           <template scope="scope">
-            <el-button type="text" v-if="scope.row.status==2" @click="updateTicket(scope.row.id)">编辑</el-button>
-            <el-button v-if="scope.row.status==2" type="text" @click="invalidTicket(scope.row.id)">无效</el-button>
+            <el-button type="text" v-if="scope.row.status==1" @click="updateTicket(scope.row.id)">编辑</el-button>
+            <el-button v-if="scope.row.status==1" type="text" @click="invalidTicket(scope.row.id)">无效</el-button>
             <el-button type="text" @click="copyTicket(scope.row.id)">复制</el-button>
           </template>
         </el-table-column>
