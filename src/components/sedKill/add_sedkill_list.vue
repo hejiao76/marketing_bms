@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-dialog class="choose-hd" center title="选择秒杀券" :visible.sync="dialogTableVisible">
+    <el-dialog class="choose-hd" center title="选择秒杀券" :visible.sync="dialogTableVisible" width="900px">
       <div class="choose-copntent">
         <div class="choose-copntent_body">
           <ul>
@@ -9,13 +9,13 @@
               <div class="newhd-header">
                 <p class="newhd-tit">{{item.name}}</p>
                 <div class="newhd-time">
-                  <p>有效时间：{{item.starTime}}至{{item.endTime}}</p>
-                  <p>创建时间：{{item.creatTime}}</p>
+                  <p>有效时间：{{item.beginTime}}至{{item.endTime}}</p>
+                  <p>创建时间：{{item.createTime}}</p>
                 </div>
               </div>
               <div class="newhd-content">
-                <a v-if="!item.tmpChecked" @click="checkTicket(item.ticketId,true)" href="javascript:;">选择绑定</a>
-                <a v-if="item.tmpChecked" @click="checkTicket(item.ticketId,false)" href="javascript:;">已选择</a>
+                <a v-if="!item.tmpChecked" @click="checkTicket(item.couponId,true)" href="javascript:;">选择绑定</a>
+                <a v-if="item.tmpChecked" @click="checkTicket(item.couponId,false)" href="javascript:;">已选择</a>
               </div>
             </li>
           </ul>
@@ -40,7 +40,7 @@
                   <!--<div class="newhd-header">-->
                     <!--<p class="newhd-tit">{{item.name}}</p>-->
                     <!--<div class="newhd-time">-->
-                      <!--<p>有效时间：{{item.starTime}}至{{item.endTime}}</p>-->
+                      <!--<p>有效时间：{{item.beginTime}}至{{item.endTime}}</p>-->
                       <!--<p>创建时间：{{item.creatTime}}</p>-->
                     <!--</div>-->
                   <!--</div>-->
@@ -65,13 +65,15 @@
 </template>
 
 <script>
-import Api from "./../fetch/api"
-import Final from "./../util/Final"
-import VTipMsg from "./tipMsg.vue";
-import TestData from "./../util/TestData"
+import Api from "../../fetch/api"
+import Final from "../../util/Final"
+import VTipMsg from "../tipMsg.vue";
+import TestData from "../../util/TestData"
+import * as util from "./../../util/util"
 export default {
   data () {
     return {
+        Final:Final,
         dialogTableVisible:false,
         exceptIdArray:[],
         listObj:[]
@@ -84,23 +86,32 @@ export default {
 
   },
   methods:{
+      formartLongTimeToString (l_time){
+          if(l_time){
+            return util.toDateString(l_time);
+          }
+
+      },
     /**
      * 显示新增秒杀券模态框
      * @param exceptIdArray
      */
-    showDialog (exceptIdArray) {
+    showDialog (exceptIdArray,beginTime,endTime) {
         this.exceptIdArray=exceptIdArray;
+        this.beginTime=beginTime;
+        this.endTime=endTime;
         this.requestAddTicketList();
         this.dialogTableVisible=true;
     },
     /**
      * 选择秒杀券
-     * @param ticketId
+     * @param couponId
      */
-    checkTicket (ticketId,checked){
-        if(ticketId){
+    checkTicket (couponId,checked){
+        console.log(couponId)
+        if(couponId){
           for(let i=0;i<this.listObj.length;i++){
-            if(this.listObj[i].ticketId==ticketId){
+            if(this.listObj[i].couponId==couponId){
                 this.listObj[i].tmpChecked = checked;
                 this.listObj.splice(i,1,this.listObj[i]);
                 console.log("find--->", this.listObj[i].tmpChecked)
@@ -117,7 +128,8 @@ export default {
     filterExceptId (listObj) {
         let newListObjArray = [] ;
         for(let i=0;i<listObj.length;i++){
-            if(!this.exceptIdArray.includes(listObj[i].ticketId)){
+
+            if(!this.exceptIdArray.includes(listObj[i].couponId)){
                 newListObjArray.push(Object.assign({},listObj[i]));
             }
         }
@@ -127,17 +139,25 @@ export default {
      * 请求可选秒杀券列表
      */
     requestAddTicketList () {
-//      let param = {activityId:this.activityId};
+      let param = {status:1,sortType:2,beginTime:this.beginTime,endTime:this.endTime,pageIndex:1,pageSize:1000};
 //      this.activityInfo=TestData.sedKill_checked_ticket_data.result;
-        let resData = TestData.sedKill_newTicket_data;
-        this.listObj = this.filterExceptId(resData);
-      console.log(this.listObj);
-      return;
-      Api.sk_activity_list(param)
+
+//        let resData = TestData.sedKill_newTicket_data;
+//        this.listObj = this.filterExceptId(resData);
+//      console.log(this.listObj);
+//      return;
+      Api.sk_activity_ticket_list(param)
         .then(res => {
           if (res.status == 1) {
-            this.activityInfo = res.result;
-            this.totalRow = res.totalRow;
+            for(let i=0;i<res.result.length;i++){
+                res.result[i].couponId=res.result[i].id;
+                res.result[i].beginTime=util.dateObjToString(new Date(res.result[i].beginTime));
+                res.result[i].endTime=util.dateObjToString(new Date(res.result[i].endTime));
+                res.result[i].createTime=util.dateObjToString(new Date(res.result[i].createTime));
+            }
+            console.log(res);
+            this.listObj = this.filterExceptId(res.result);
+//            this.totalRow = res.totalRow;
           }else {
             this.$refs.tipMsgRef.showTipMsg({
               msg:res.message,

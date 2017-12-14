@@ -4,10 +4,10 @@
       <!--编辑模块--->
       <div v-if="checkedTicketItemForm.editStatus==1" class="newhds-list">
         <div class="newhd-header">
-          <p class="newhd-tit">{{checkedTicketItemForm.ticketName}}</p>
+          <p class="newhd-tit">{{checkedTicketItemForm.name}}</p>
           <div class="newhd-time">
-            <p>有效时间：{{checkedTicketItemForm.validityStartDate}}至{{checkedTicketItemForm.validityEndDate}}</p>
-            <p>创建时间：{{checkedTicketItemForm.createDate}}</p>
+            <p>有效时间：{{checkedTicketItemForm.beginTime}}至{{checkedTicketItemForm.endTime}}</p>
+            <p>创建时间：{{checkedTicketItemForm.createTime}}</p>
           </div>
         </div>
         <div class="newhd-content">
@@ -15,19 +15,19 @@
             <li>
               <span class="newhd-txt">秒杀券个数：</span>
               <div class="edit-txt">
-                <el-form-item prop="ticketCount">
-                  <el-input v-model="checkedTicketItemForm.ticketCount"></el-input>
+                <el-form-item prop="maxCount">
+                  <el-input v-model="checkedTicketItemForm.maxCount"></el-input>
                 </el-form-item>
-                <!--<input  v-model="checkedTicketItemForm.ticketCount" type="text">-->
+                <!--<input  v-model="checkedTicketItemForm.maxCount" type="text">-->
                 <em class="edit-unit">个</em>
               </div>
             </li>
             <li>
               <span class="newhd-txt">最大支付数：</span>
               <div class="edit-txt">
-                <el-form-item prop="maxPayCount">
-                  <!--<input v-model="checkedTicketItemForm.maxPayCount" type="text">-->
-                  <el-input  v-model="checkedTicketItemForm.maxPayCount"></el-input>
+                <el-form-item prop="payCount">
+                  <!--<input v-model="checkedTicketItemForm.payCount" type="text">-->
+                  <el-input  v-model="checkedTicketItemForm.payCount"></el-input>
                 </el-form-item>
                 <em class="edit-unit">个</em>
               </div>
@@ -35,9 +35,9 @@
             <li>
               <span class="newhd-txt">秒杀支付金额：</span>
               <div class="edit-txt mlq0">
-                <el-form-item prop="sedkillMoney">
-                  <!--<input v-model="checkedTicketItemForm.sedkillMoney" type="text">-->
-                  <el-input v-model="checkedTicketItemForm.sedkillMoney"></el-input>
+                <el-form-item prop="amount">
+                  <!--<input v-model="checkedTicketItemForm.amount" type="text">-->
+                  <el-input v-model="checkedTicketItemForm.amount"></el-input>
                 </el-form-item>
 
                 <em class="edit-unit">元</em>
@@ -47,17 +47,17 @@
               <span class="newhd-txt">秒杀开始时间：</span>
               <!-- <div class="newhd-inf">2017-11-15</div> -->
               <div class="edit-txt">
-                <el-form-item prop="sedKillStartDate">
-                <el-date-picker v-model="checkedTicketItemForm.sedKillStartDate" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                <el-form-item prop="seckillTime">
+                  <el-date-picker v-model="checkedTicketItemForm.seckillTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                 </el-form-item>
-                  <!--<em class="index-icon icon-hdtime"></em>-->
+                <!--<em class="index-icon icon-hdtime"></em>-->
               </div>
             </li>
             <li>
               <span class="newhd-txt">报名开始时间：</span>
               <div class="edit-txt">
-                <el-form-item prop="signUpStartTime">
-                <el-date-picker v-model="checkedTicketItemForm.signUpStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                <el-form-item prop="enrollStartTime">
+                <el-date-picker v-model="checkedTicketItemForm.enrollStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                 </el-form-item>
               </div>
             </li>
@@ -65,8 +65,8 @@
               <span class="newhd-txt">报名结束时间：</span>
               <!-- <div class="newhd-inf">2017-11-15</div> -->
               <div class="edit-txt">
-                <el-form-item prop="signUpEndTime">
-                  <el-date-picker v-model="checkedTicketItemForm.signUpEndTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                <el-form-item prop="enrollEndTime">
+                  <el-date-picker v-model="checkedTicketItemForm.enrollEndTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                 </el-form-item>
                   <!--<em class="index-icon icon-hdtime"></em>-->
               </div>
@@ -83,8 +83,8 @@
                 <!--<td style="text-align:right"><a href="javascript:;" class="btn-edit">编辑</a></td>-->
                 <!--<td id="cancleedit" style="display: block;"><a href="javascript:;" class="btn-other">取消编辑</a></td>-->
                 <!--<td style="text-align:left;"><a href="javascript:;" class="btn-other">取消绑定</a></td>-->
-                <td><button @click="saveTicketItem(checkedTicketItemForm.ticketId)" type="button" class=" btn_bass btn_b">保存</button></td>
-                <!--<td><button @click="editTicketItem(checkedTicketItemForm.ticketId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>-->
+                <td><button @click="saveTicketItem(checkedTicketItemForm.couponId)" type="button" class=" btn_bass btn_b">保存</button></td>
+                <!--<td><button @click="editTicketItem(checkedTicketItemForm.couponId,0)"  type="button" class=" btn_b_line">取消编辑</button></td>-->
                 <td><button @click="removeTicketItem" type="button" class=" btn_b_line">取消绑定</button></td>
               </tr>
               </tbody>
@@ -101,37 +101,37 @@
       <!---列表状态--->
       <div v-else class="newhds-list">
         <div class="newhd-header">
-          <p class="newhd-tit">{{checkedTicketItemForm.ticketName}}</p>
+          <p class="newhd-tit">{{checkedTicketItemForm.name}}</p>
           <div class="newhd-time">
-            <p>有效时间：{{checkedTicketItemForm.validityStartDate}}至{{checkedTicketItemForm.validityEndDate}}</p>
-            <p>创建时间：{{checkedTicketItemForm.createDate}}</p>
+            <p>有效时间：{{checkedTicketItemForm.beginTime}}至{{checkedTicketItemForm.endTime}}</p>
+            <p>创建时间：{{checkedTicketItemForm.createTime}}</p>
           </div>
         </div>
         <div class="newhd-content">
           <ul>
             <li>
               <span class="newhd-txt">秒杀券个数：</span>
-              <div class="newhd-inf">{{checkedTicketItemForm.ticketCount}}个</div>
+              <div class="newhd-inf">{{checkedTicketItemForm.maxCount}}个</div>
             </li>
             <li>
               <span class="newhd-txt">最大支付数：</span>
-              <div class="newhd-inf">{{checkedTicketItemForm.maxPayCount}}个</div>
+              <div class="newhd-inf">{{checkedTicketItemForm.payCount}}个</div>
             </li>
             <li>
               <span class="newhd-txt">秒杀支付金额：</span>
-              <div class="newhd-inf">{{checkedTicketItemForm.sedkillMoney}}元</div>
+              <div class="newhd-inf">{{checkedTicketItemForm.amount}}元</div>
             </li>
             <li>
               <span class="newhd-txt">秒杀开始时间：</span>
-              <div class="newhd-inf">{{formatDateToString(checkedTicketItemForm.sedKillStartDate)}}</div>
+              <div class="newhd-inf">{{formatDateToString(checkedTicketItemForm.seckillTime)}}</div>
             </li>
             <li>
               <span class="newhd-txt">报名开始时间：</span>
-              <div class="newhd-inf">{{formatDateToString(checkedTicketItemForm.signUpStartTime)}}</div>
+              <div class="newhd-inf">{{formatDateToString(checkedTicketItemForm.enrollStartTime)}}</div>
             </li>
             <li>
               <span class="newhd-txt">报名结束时间：</span>
-              <div class="newhd-inf">{{formatDateToString(checkedTicketItemForm.signUpEndTime)}}</div>
+              <div class="newhd-inf">{{formatDateToString(checkedTicketItemForm.enrollEndTime)}}</div>
             </li>
 
           </ul>
@@ -141,7 +141,7 @@
             <table class="mt20">
               <tbody>
               <tr>
-                <td><button @click="editTicketItem(checkedTicketItemForm.ticketId,1)" type="button" class=" btn_bass btn_b">编辑</button></td>
+                <td><button @click="editTicketItem(checkedTicketItemForm.couponId,1)" type="button" class=" btn_bass btn_b">编辑</button></td>
                 <td><button @click="removeTicketItem" type="button" class=" btn_b_line">取消绑定</button></td>
               </tr>
               </tbody>
@@ -173,126 +173,40 @@ import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
 export default {
   props:['ticketItem','ticketIndex','activityStartDate'],
   data () {
-//    var validate_ticketCount = (rule, value, callback) => {
-//      value=parseInt(value);
-//      if (!value) {
-//        return callback(new Error('请输入秒杀券个数'));
-//      }else if (!Number.isInteger(value)) {
-//        callback(new Error('秒杀券个数须是数字'));
-//      } else {
-//        if (value > 9999) {
-//          callback(new Error('秒杀券个数最多9999个'));
-//        } else if(value<1) {
-//          callback(new Error('秒杀券个数至少1个'));
-//        }
-//        callback();
-//      }
-//    };
-//    var validate_maxPayCount =(rule, value, callback) => {
-//      value=parseInt(value);
-//      if (!value) {
-//        return callback(new Error('请输入最大支付数'));
-//      }else if (!Number.isInteger(value)) {
-//          callback(new Error('最大支付数须是数字'));
-//      } else {
-//        if(!this.checkedTicketItemForm.ticketCount){
-//          callback(new Error('请先输入秒杀券个数'));
-//        }
-//        if (value > this.checkedTicketItemForm.ticketCount*5) {
-//          callback(new Error('最大支付数不能超过5倍秒杀券个数'));
-//        } else if(value<this.checkedTicketItemForm.ticketCount) {
-//          callback(new Error('最大支付数不能小于秒杀券个数'));
-//        }
-//        callback();
-//      }
-//    };
-//    var validate_sedkillMoney =(rule, value, callback) => {
-//      value=parseInt(value);
-//      if (!value) {
-//        return callback(new Error('请输入秒杀金额'));
-//      }else if (!/^[1-9]\d*$/.test(value)) {
-//        callback(new Error('秒杀金额须是数字且大于0'));
-//      } else{
-//        callback();
-//      }
-//    };
-//    var validate_sedKillStartDate = (rule, value, callback) => {
-//      if (!value) {
-//        return callback(new Error('请输入秒杀开始时间'));
-//      }else if (!this.checkedTicketItemForm.validityStartDate || isNaN(new Date(this.checkedTicketItemForm.validityStartDate).getTime())) {
-//        callback(new Error('有效期时间无效'));
-//      } else {
-//        if(value.getTime()>(new Date(this.checkedTicketItemForm.validityEndDate).getTime()+3600*24*1000-1)){
-//          callback(new Error('秒杀开始时间须小于有效期开始日期'));
-//        }else if (value.getTime() < (new Date(this.checkedTicketItemForm.validityStartDate).getTime())){
-//          callback(new Error('秒杀开始时间须大于有效期开始日期'));
-//        }else{
-//          callback();
-//        }
-//      }
-//    }
-//    var validate_signUpStartTime = (rule, value, callback) => {
-//      if (!value) {
-//        return callback(new Error('请输入报名开始时间'));
-//      }else if (!this.checkedTicketItemForm.sedKillStartDate || isNaN(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime())) {
-//        callback(new Error('请先填写秒杀开始时间'));
-//      } else {
-//        if(value.getTime()>(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime()-(3600*1000))){
-//          callback(new Error('报名开始时间须小于秒杀开始1小时'));
-//        }else{
-//          callback();
-//        }
-//      }
-//    }
-//    var validate_signUpEndTime = (rule, value, callback) => {
-//      if (!value) {
-//        return callback(new Error('请输入报名结束时间'));
-//      }else if (!this.checkedTicketItemForm.signUpEndTime || isNaN(new Date(this.checkedTicketItemForm.signUpEndTime).getTime())) {
-//        callback(new Error('请先填写秒杀开始时间'));
-//      } else {
-//        if(value.getTime()>(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime()-(60*5*1000))){
-//          callback(new Error('报名结束时间须小于秒杀开始5分钟'));
-//        }else if (value.getTime()<(new Date(this.checkedTicketItemForm.signUpEndTime).getTime()+(60*30*1000))){
-//          callback(new Error('报名结束时间须大于报名开始时间30分钟'));
-//        }else{
-//          callback();
-//        }
-//      }
-//    }
     return {
       checkedTicketItemForm:{
-        ticketId:'', //秒杀券ID
-        ticketName:'',//秒杀券名称
-        signUpStartTime:'',//报名开始日期
-        signUpEndTime:'',//报名截止日期
-        validityStartDate:'',//有效期开始时间
-        validityEndDate:'',//有效期结束日期
-        createDate:'', //创建日期
+        couponId:'', //秒杀券ID
+        name:'',//秒杀券名称
+        enrollStartTime:'',//报名开始日期
+        enrollEndTime:'',//报名截止日期
+        beginTime:'',//有效期开始时间
+        endTime:'',//有效期结束日期
+        createTime:'', //创建日期
         applyCar:'',
-        sedkillMoney:'',//秒杀金额
-        sedKillStartDate:'',//秒杀开始日期
-        ticketCount:'', //秒杀券数量
-        maxPayCount:'', //最大支付数
+        amount:'',//秒杀金额
+        seckillTime:'',//秒杀开始日期
+        maxCount:'', //秒杀券数量
+        payCount:'', //最大支付数
         editStatus:0, //当前是否处于1编辑状态
       },
       ticketRules: {
-        ticketCount: [
-          { validator :this.userValidate().validate_ticketCount, trigger: 'blur' }
+        maxCount: [
+          { validator :this.userValidate().validate_maxCount, trigger: 'blur' }
         ],
-        maxPayCount: [
-          { validator :this.userValidate().validate_maxPayCount, trigger: 'blur' }
+        payCount: [
+          { validator :this.userValidate().validate_payCount, trigger: 'blur' }
         ],
-        sedkillMoney: [
-          { validator :this.userValidate().validate_sedkillMoney, trigger: 'blur' }
+        amount: [
+          { validator :this.userValidate().validate_amount, trigger: 'blur' }
         ],
-        sedKillStartDate: [
-          { validator :this.userValidate().validate_sedKillStartDate, trigger: 'blur' }
+        seckillTime: [
+          { validator :this.userValidate().validate_seckillTime, trigger: 'blur' }
         ],
-        signUpStartTime:[
-          { validator :this.userValidate().validate_signUpStartTime, trigger: 'blur' }
+        enrollStartTime:[
+          { validator :this.userValidate().validate_enrollStartTime, trigger: 'blur' }
         ],
-        signUpEndTime:[
-          { validator :this.userValidate().validate_signUpEndTime, trigger: 'blur' }
+        enrollEndTime:[
+          { validator :this.userValidate().validate_enrollEndTime, trigger: 'blur' }
         ]
       },
     }
@@ -302,11 +216,18 @@ export default {
     VTipMsg
   },
   created () {
-    console.log("11111111111------",this.ticketItem)
+    console.log("11111111111--created----",this.ticketItem)
     this.cloneTicketInfo();
   },
   mounted () {
 
+  },
+  watch : {
+    ticketItem (val, oldval) {
+        console.log("watch");
+//      this.tmpGiftGroupId = this.giftGroupId;
+      this.cloneTicketInfo();
+    }
   },
   methods:{
 //    submitForm(formName) {
@@ -323,19 +244,24 @@ export default {
 //      this.$refs[formName].resetFields();
 //    },
     cloneTicketInfo() {
+        console.log("clone-----ticketInfo",)
       this.checkedTicketItemForm = Object.assign({},this.checkedTicketItemForm,this.ticketItem);
-      if(this.checkedTicketItemForm.signUpStartTime){
-          this.checkedTicketItemForm.signUpStartTime = new Date(this.checkedTicketItemForm.signUpStartTime)
+      this.checkedTicketItemForm.beginTime=util.dateObjToString(new Date(this.checkedTicketItemForm.beginTime));
+      this.checkedTicketItemForm.endTime=util.dateObjToString(new Date(this.checkedTicketItemForm.endTime))
+      this.checkedTicketItemForm.createTime=util.dateObjToString(new Date(this.checkedTicketItemForm.createTime));
+
+      if(this.checkedTicketItemForm.enrollStartTime){
+          this.checkedTicketItemForm.enrollStartTime = new Date(this.checkedTicketItemForm.enrollStartTime)
       }
-      if(this.checkedTicketItemForm.signUpEndTime){
-        this.checkedTicketItemForm.signUpEndTime = new Date(this.checkedTicketItemForm.signUpEndTime)
+      if(this.checkedTicketItemForm.enrollEndTime){
+        this.checkedTicketItemForm.enrollEndTime = new Date(this.checkedTicketItemForm.enrollEndTime)
       }
-      if(this.checkedTicketItemForm.sedKillStartDate){
-        this.checkedTicketItemForm.sedKillStartDate = new Date(this.checkedTicketItemForm.sedKillStartDate)
+      if(this.checkedTicketItemForm.seckillTime){
+        this.checkedTicketItemForm.seckillTime = new Date(this.checkedTicketItemForm.seckillTime)
       }
     },
     test () {
-        console.log("blur------>",this.checkedTicketItemForm.maxPayCount);
+        console.log("blur------>",this.checkedTicketItemForm.payCount);
     },
     /**
      * 日期转1字符串
@@ -344,48 +270,52 @@ export default {
     formatDateToString (date){
       if(typeof date == 'object'){
         return util.toFullDateString(date.getTime());
-      }else{
+      }
+//      else if (typeof date== 'number'){
+//         return util.toFullDateString(date);
+//      }
+      else{
         return date;
       }
     },
     /**
      * 编辑/取消编辑 秒杀券基本信息按钮事件触发
-     * @param ticketId
+     * @param couponId
      * @param status
      */
-    editTicketItem (ticketId,status) {
-      if(ticketId){
+    editTicketItem (couponId,status) {
+      if(couponId){
           this.checkedTicketItemForm.editStatus=status;
           console.log("edit~~~~",JSON.stringify(this.checkedTicketItemForm))
       }
     },
     removeTicketItem () {
-        console.log("到哪儿去了------------11111",this.checkedTicketItemForm.ticketId);
-      if(this.checkedTicketItemForm.ticketId){
-          console.log(this.ticketId);
-        this.$emit("call",{op:"delete",callData:this.checkedTicketItemForm.ticketId});
+        console.log("到哪儿去了------------11111",this.checkedTicketItemForm.couponId);
+      if(this.checkedTicketItemForm.couponId){
+          console.log(this.couponId);
+        this.$emit("call",{op:"delete",callData:this.checkedTicketItemForm.couponId});
       }
     },
     /**
      *  保存 秒杀券基本信息按钮事件触发
-     * @param ticketId
+     * @param couponId
      */
-    saveTicketItem(ticketId){
-      if(ticketId){
+    saveTicketItem(couponId){
+      if(couponId){
         this.$refs['checkedTicketItemForm'].validate((valid) => {
           if (valid) {
             let newItem ={};
             this.checkedTicketItemForm.editStatus=0;
             Object.assign(newItem,this.checkedTicketItemForm);
             console.log("~~~~",JSON.stringify(newItem));
-            if(this.checkedTicketItemForm.signUpStartTime){
-              newItem.signUpStartTime = this.formatDateToString(this.checkedTicketItemForm.signUpStartTime)
+            if(this.checkedTicketItemForm.enrollStartTime){
+              newItem.enrollStartTime = this.formatDateToString(this.checkedTicketItemForm.enrollStartTime)
             }
-            if(this.checkedTicketItemForm.signUpEndTime){
-              newItem.signUpEndTime = this.formatDateToString(this.checkedTicketItemForm.signUpEndTime)
+            if(this.checkedTicketItemForm.enrollEndTime){
+              newItem.enrollEndTime = this.formatDateToString(this.checkedTicketItemForm.enrollEndTime)
             }
-            if(this.checkedTicketItemForm.sedKillStartDate){
-              newItem.sedKillStartDate = this.formatDateToString(this.checkedTicketItemForm.sedKillStartDate)
+            if(this.checkedTicketItemForm.seckillTime){
+              newItem.seckillTime = this.formatDateToString(this.checkedTicketItemForm.seckillTime)
             }
             delete newItem.editStatus;
             this.$emit("call",{op:"edit",callData:newItem});
@@ -398,11 +328,11 @@ export default {
     },
     /**
      * 自定义验证规则
-     * @returns {{validate_ticketCount: (function(*, *=, *)), validate_maxPayCount: (function(*, *=, *)), validate_sedkillMoney: (function(*, *=, *)), validate_sedKillStartDate: (function(*, *=, *)), validate_signUpStartTime: (function(*, *=, *)), validate_signUpEndTime: (function(*, *=, *))}}
+     * @returns {{validate_maxCount: (function(*, *=, *)), validate_payCount: (function(*, *=, *)), validate_amount: (function(*, *=, *)), validate_seckillTime: (function(*, *=, *)), validate_enrollStartTime: (function(*, *=, *)), validate_enrollEndTime: (function(*, *=, *))}}
      */
     userValidate (){
         return {
-          validate_ticketCount : (rule, value, callback) => {
+          validate_maxCount : (rule, value, callback) => {
             value=parseInt(value);
             if (!value) {
               return callback(new Error('请输入秒杀券个数'));
@@ -417,25 +347,25 @@ export default {
               callback();
             }
           },
-            validate_maxPayCount : (rule, value, callback) => {
+            validate_payCount : (rule, value, callback) => {
               value=parseInt(value);
               if (!value) {
                 return callback(new Error('请输入最大支付数'));
               }else if (!Number.isInteger(value)) {
                 callback(new Error('最大支付数须是数字'));
               } else {
-                if(!this.checkedTicketItemForm.ticketCount){
+                if(!this.checkedTicketItemForm.maxCount){
                   callback(new Error('请先输入秒杀券个数'));
                 }
-                if (value > this.checkedTicketItemForm.ticketCount*5) {
+                if (value > this.checkedTicketItemForm.maxCount*5) {
                   callback(new Error('最大支付数不能超过5倍秒杀券个数'));
-                } else if(value<this.checkedTicketItemForm.ticketCount) {
+                } else if(value<this.checkedTicketItemForm.maxCount) {
                   callback(new Error('最大支付数不能小于秒杀券个数'));
                 }
                 callback();
               }
           },
-          validate_sedkillMoney :(rule, value, callback) => {
+          validate_amount :(rule, value, callback) => {
             value=parseInt(value);
             if (!value) {
               return callback(new Error('请输入秒杀金额'));
@@ -445,43 +375,43 @@ export default {
               callback();
             }
           },
-          validate_sedKillStartDate : (rule, value, callback) => {
+          validate_seckillTime : (rule, value, callback) => {
             if (!value) {
               return callback(new Error('请输入秒杀开始时间'));
-            }else if (!this.checkedTicketItemForm.validityStartDate || isNaN(new Date(this.checkedTicketItemForm.validityStartDate).getTime())) {
+            }else if (!this.checkedTicketItemForm.beginTime || isNaN(new Date(this.checkedTicketItemForm.beginTime).getTime())) {
               callback(new Error('有效期时间无效'));
             } else {
-              if(value.getTime()>(new Date(this.checkedTicketItemForm.validityEndDate).getTime()+3600*24*1000-1)){
+              if(value.getTime()>(new Date(this.checkedTicketItemForm.endTime).getTime()+3600*24*1000-1)){
                 callback(new Error('秒杀开始时间须小于有效期开始日期'));
-              }else if (value.getTime() < (new Date(this.checkedTicketItemForm.validityStartDate).getTime())){
+              }else if (value.getTime() < (new Date(this.checkedTicketItemForm.beginTime).getTime())){
                 callback(new Error('秒杀开始时间须大于有效期开始日期'));
               }else{
                 callback();
               }
             }
           },
-          validate_signUpStartTime : (rule, value, callback) => {
+          validate_enrollStartTime : (rule, value, callback) => {
             if (!value) {
               return callback(new Error('请输入报名开始时间'));
-            }else if (!this.checkedTicketItemForm.sedKillStartDate || isNaN(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime())) {
+            }else if (!this.checkedTicketItemForm.seckillTime || isNaN(new Date(this.checkedTicketItemForm.seckillTime).getTime())) {
               callback(new Error('请先填写秒杀开始时间'));
             } else {
-              if(value.getTime()>(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime()-(3600*1000))){
+              if(value.getTime()>(new Date(this.checkedTicketItemForm.seckillTime).getTime()-(3600*1000))){
                 callback(new Error('报名开始时间须小于秒杀开始1小时'));
               }else{
                 callback();
               }
             }
           },
-          validate_signUpEndTime :(rule, value, callback) => {
+          validate_enrollEndTime :(rule, value, callback) => {
             if (!value) {
               return callback(new Error('请输入报名结束时间'));
-            }else if (!this.checkedTicketItemForm.signUpEndTime || isNaN(new Date(this.checkedTicketItemForm.signUpEndTime).getTime())) {
+            }else if (!this.checkedTicketItemForm.enrollEndTime || isNaN(new Date(this.checkedTicketItemForm.enrollEndTime).getTime())) {
               callback(new Error('请先填写秒杀开始时间'));
             } else {
-              if(value.getTime()>(new Date(this.checkedTicketItemForm.sedKillStartDate).getTime()-(60*5*1000))){
+              if(value.getTime()>(new Date(this.checkedTicketItemForm.seckillTime).getTime()-(60*5*1000))){
                 callback(new Error('报名结束时间须小于秒杀开始5分钟'));
-              }else if (value.getTime()<(new Date(this.checkedTicketItemForm.signUpStartTime).getTime()+(60*30*1000))){
+              }else if (value.getTime()<(new Date(this.checkedTicketItemForm.enrollStartTime).getTime()+(60*30*1000))){
                 callback(new Error('报名结束时间须大于报名开始时间30分钟'));
               }else{
                 callback();

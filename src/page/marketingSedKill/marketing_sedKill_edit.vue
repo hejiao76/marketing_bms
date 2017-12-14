@@ -12,22 +12,22 @@
           <el-row :gutter="20">
             <el-col :span="16">
               <el-row>
-                <el-form-item label="活动名称：" prop="activityName">
-                  <el-input v-model="activityInfo.activityName"></el-input>
+                <el-form-item label="活动名称：" prop="name">
+                  <el-input v-model="activityInfo.name"></el-input>
                 </el-form-item>
               </el-row>
               <el-row>
                 <el-form-item label="活动时间：" required>
                   <el-col :span="11">
-                    <el-form-item prop="activityStartDate">
-                      <el-date-picker value-format="yyyy-MM-dd" :editable="false" style="width: 100%;" v-model="activityInfo.activityStartDate" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                    <el-form-item prop="beginTime">
+                      <el-date-picker  :editable="false" style="width: 100%;" v-model="activityInfo.beginTime" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
 
                     </el-form-item>
                   </el-col>
                   <el-col class="line" :span="2" style="text-align: center">-</el-col>
                   <el-col :span="11">
-                    <el-form-item prop="activityEndDate">
-                      <el-date-picker value-format="yyyy-MM-dd" :editable="false"  style="width: 100%;" v-model="activityInfo.activityEndDate" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
+                    <el-form-item prop="endTime">
+                      <el-date-picker :editable="false"  style="width: 100%;" v-model="activityInfo.endTime" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
                     </el-form-item>
                   </el-col>
                 </el-form-item>
@@ -44,6 +44,11 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <el-form-item label="活动地区">
+              <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
+            </el-form-item>
+          </el-row>
           <!--<el-row>-->
             <!--<el-form-item label="秒杀1券绑定">-->
 
@@ -54,7 +59,7 @@
         <el-row>
           <div class="newhd">
             <div v-for="(checkedTicketItem,index) in activityInfo.itemList">
-                <v-sedkill-select-ticket-item :key="checkedTicketItem.ticketId" @call="syncTickItem" :activityStratTime="activityInfo.activityStartDate" :ticketItem="checkedTicketItem" :index="index"></v-sedkill-select-ticket-item>
+                <v-sedkill-select-ticket-item :key="checkedTicketItem.couponId" @call="syncTickItem" :activityStratTime="activityInfo.beginTime" :ticketItem="checkedTicketItem" :index="index"></v-sedkill-select-ticket-item>
             </div>
             <div class="newhds-list new-list cur" @click="openAddList">
               <div class="newhd-header">
@@ -85,7 +90,8 @@
       </div>
       <el-row>
         <el-col :span="24" style="text-align: center">
-          <el-button type="primary" @click="submitActivityInfo('ruleForm')">创建</el-button>
+          <el-button v-if="isEdit" type="primary" @click="submitActivityInfo('ruleForm')">保存</el-button>
+          <el-button v-if="!isEdit" type="primary" @click="submitActivityInfo('ruleForm')">创建</el-button>
           <el-button @click="cancelSubmit('ruleForm')">取消</el-button>
         </el-col>
       </el-row>
@@ -102,9 +108,10 @@
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";
-  import VAddSedkillList from "./../../components/add_sedkill_list.vue";
+  import VAddSedkillList from "../../components/sedKill/add_sedkill_list.vue";
   import VSedkillSelectTicketItem from "./../../components/sedKill/select_ticket_item.vue"
   import TestData from "./../../util/TestData"
+  import VTreeview from "./../../components/treeview.vue";
   export default {
     data() {
       return {
@@ -112,41 +119,44 @@
         testData:'',
         uploadParam:{module:"sedKill"},
         Final:Final,
+        util:util,
         optionsActivityStart :{
           disabledDate:(time) => {
-            if(this.activityInfo.activityEndDate){
-              let d = new Date (this.activityInfo.activityEndDate)
+            if(this.activityInfo.endTime){
+              let d = new Date (this.activityInfo.endTime)
               return time.getTime() >d.getTime();
             }
           }
         },
         optionsActivityEnd :{
           disabledDate:(time) => {
-            if(this.activityInfo.activityStartDate){
-              let d = new Date (this.activityInfo.activityStartDate)
+            if(this.activityInfo.beginTime){
+              let d = new Date (this.activityInfo.beginTime)
               return time.getTime() <d.getTime();
             }
           }
         },
         labelPosition:'left',
         activityInfo: {
-          activityName: '',
-          activityStartDate:'',//活动1开始时间
-          activityEndDate:'', //活动结束时间
+          name: '',
+          beginTime:'',//活动1开始时间
+          endTime:'', //活动结束时间
           shareImg: '',
+          areaIds:'',
+          areaNames:'',
           itemList:[],
 
         },
         rules: {
-          activityName: [
+          name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
             {max: 20, message: '活动名称必须小于20个字', trigger: 'blur' }
           ],
-          activityStartDate: [
-            { type: 'string', required: true, message: '请选择日期', trigger: 'blur' }
+          beginTime: [
+            { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
           ],
-          activityEndDate: [
-            { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
+          endTime: [
+            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
           shareImg:[
             { required: true, message: '请上传图片', trigger: 'blur' }
@@ -162,7 +172,8 @@
       VConNav,
       VTipMsg,
       VAddSedkillList,
-      VSedkillSelectTicketItem
+      VSedkillSelectTicketItem,
+      VTreeview
     },
     created (){
 
@@ -187,6 +198,10 @@
           }
 
       },
+      syncArea(data){
+        this.activityInfo.areaIds=data.allCode;
+        this.activityInfo.areaNames=data.allName;
+      },
       validPostCheckedTicketParam (){
         let valid=true;
         if(!this.activityInfo.itemList|| this.activityInfo.itemList.length<=0){
@@ -200,52 +215,95 @@
         }
         return valid
       },
-      submitActivityInfo(ruleForm) {
+      validBeforeSubmit(){
+        let msg = "";
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-
+            if(!this.validPostCheckedTicketParam()){
+                msg="请添加或完善抵扣券信息"
+            }
           } else {
-            console.log('error submit!!');
+            msg="活动基本信息填写有误";
             return false;
           }
         });
-          console.log("111111111111111----------------->");
-          if(!this.validPostCheckedTicketParam()){
-            this.$refs.tipMsgRef.showTipMsg({
-              msg:"请添加或者完善抵扣券信息",
-              type:"error"
+        if(msg){
+          this.$message({
+            type:'error',
+            message:msg,
+            duration:'1500'
+          });
+        }else{
+            return true;
+        }
+      },
+      submitActivityInfo(ruleForm) {
+          if(this.validBeforeSubmit()){
+            let param = Object.assign({},this.activityInfo,{
+                beginTime:this.formatDateToString(this.activityInfo.beginTime),
+                endTime:this.formatDateToString(this.activityInfo.endTime),
             });
-          }else  {
-            this.$refs.tipMsgRef.showTipMsg({
-              msg:"保存成功",
-              type:"success"
-            });
-          }
-        console.log("提交参数------->",JSON.stringify(this.activityInfo))
-        return;
-        Api.sk_activity_list(param)
-          .then(res => {
-            if (res.status == 1) {
-              this.activityInfo = res.result;
-              this.totalRow = res.totalRow;
+            console.log(JSON.stringify(param));
+            if(this.isEdit){
+              Api.sk_activity_update(param)
+                .then(res => {
+                  if (res.status == true) {
+                    this.$refs.tipMsgRef.showTipMsg({
+                      msg:"操作成功",
+                      type:"success",
+                      scope:this,
+                      callback:function(){
+                          this.$router.push("/sedKill/list");
+                      },
+                    });
+                  }else {
+                    this.$refs.tipMsgRef.showTipMsg({
+                      msg:res.message,
+                      type:"error"
+                    });
+                  }
+                }).catch(err => {
+
+              });
             }else {
-              this.$refs.tipMsgRef.showTipMsg({
-                msg:res.message,
-                type:"error"
+
+              Api.sk_activity_add(param)
+                .then(res => {
+                  if (res.status == true) {
+                    this.$refs.tipMsgRef.showTipMsg({
+                      msg:"操作成功",
+                      type:"success",
+                      scope:this,
+                      callback:function(){
+                        this.$router.push("/sedKill/list");
+                      },
+                    });
+                  }else {
+                    this.$refs.tipMsgRef.showTipMsg({
+                      msg:res.message,
+                      type:"error"
+                    });
+                  }
+                }).catch(err => {
+
               });
             }
-          }).catch(err => {
 
-        });
-          return;
-        this.$refs['ruleForm'].validate((valid) => {
-          if (valid) {
-
-          } else {
-            console.log('error submit!!');
-            return false;
           }
-        });
+//          console.log("111111111111111----------------->");
+//          if(!this.validPostCheckedTicketParam()){
+//            this.$refs.tipMsgRef.showTipMsg({
+//              msg:"请添加或者完善抵扣券信息",
+//              type:"error"
+//            });
+//          }else  {
+//            this.$refs.tipMsgRef.showTipMsg({
+//              msg:"保存成功",
+//              type:"success"
+//            });
+//          }
+//        console.log("提交参数------->",JSON.stringify(this.activityInfo))
+        return;
       },
       cancelSubmit (){
         this.$refs.tipMsgRef.showTipMsg({
@@ -258,15 +316,23 @@
        */
       requestData () {
         if(this.activityId){
-          let param = {activityId:this.activityId};
-          Object.assign(this.activityInfo,TestData.sedKill_itemList_data.result);
-          console.log(this.activityInfo);
-          return;
-          Api.sk_activity_list(param)
+          let param = {id:this.activityId};
+//          Object.assign(this.activityInfo,TestData.sedKill_itemList_data.result);
+//          console.log(this.activityInfo);
+//          return;
+          Api.sk_activity_detail(param)
             .then(res => {
-              if (res.status == 1) {
-                this.activityInfo = res.result;
-                this.totalRow = res.totalRow;
+              if (res.status == true) {
+                this.activityInfo = Object.assign({},{
+                  id:res.result.id,
+                  name:res.result.name,
+                  beginTime:new Date(res.result.beginTime),
+                  endTime:new Date(res.result.endTime),
+                  itemList:this.formartInitCoupons(res.result.itemList),
+                  shareImg:res.result.shareImg,
+                  areaIds:res.result.areaIds,
+                  areaNames:res.result.areaNames
+                })
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
@@ -278,7 +344,30 @@
           });
         }
       },
-      getTicketItemByTicketId (ticketId) {
+      formartInitCoupons (coupons){
+        let newCoupons=[]
+        for(let i = 0;i<coupons.length;i++){
+//          newCoupons.push({
+//            couponId:coupons[i].couponId,
+//            amount:coupons[i].amount,
+//            amount:coupons[i].amount,
+//            amount:coupons[i].amount,
+//            amount:coupons[i].amount,
+//            amount:coupons[i].amount,
+//          });
+          newCoupons.push(Object.assign({},coupons[i],{
+            seckillTime:util.dateObjToFullString(new Date(coupons[i].beginTime)),  //秒杀时间
+            beginTime:util.dateObjToString(new Date(coupons[i].couponBeginTime)), //有效期开始时间
+            endTime:util.dateObjToString(new Date(coupons[i].couponEndTime)), //有效期结束时间
+            enrollStartTime:util.dateObjToFullString(new Date(coupons[i].enrollStartTime)),//报名开始时间
+            enrollEndTime:util.dateObjToFullString(new Date(coupons[i].enrollEndTime)), //报名结束数据
+            createTime:util.dateObjToString(new Date(coupons[i].couponCreateTime))
+          }))
+        }
+        console.log("格式化时间-------",newCoupons);
+        return newCoupons
+      },
+      getTicketItemByTicketId (couponId) {
 
       },
       /**
@@ -318,9 +407,9 @@
         }
       },
       editTicketItem(ticketItem){
-        if(ticketItem && ticketItem.ticketId){
+        if(ticketItem && ticketItem.couponId){
           for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
-            if(ticketItem.ticketId == this.activityInfo.itemList[i].ticketId){
+            if(ticketItem.couponId == this.activityInfo.itemList[i].couponId){
 //              let item = this.activityInfo.itemList[i];
               this.activityInfo.itemList.splice(i, 1, ticketItem); //使用splice 触发数据更新
               this.activityInfo = Object.assign({},this.activityInfo);
@@ -331,14 +420,14 @@
       },
       /**
        * 删除已选择秒杀券
-       * @param ticketId
+       * @param couponId
        */
-      removeTicketItem (ticketId){
-          console.log("delete----------method---------------",ticketId);
-        if(ticketId){
+      removeTicketItem (couponId){
+          console.log("delete----------method---------------",couponId);
+        if(couponId){
           for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
-            if(ticketId == this.activityInfo.itemList[i].ticketId){
-              console.log("eq---------------",ticketId);
+            if(couponId == this.activityInfo.itemList[i].couponId){
+              console.log("eq---------------",couponId);
               this.activityInfo.itemList.splice(i, 1); //使用splice 触发数据更新
               this.activityInfo = Object.assign({},this.activityInfo);
               console.log("MLGB--->",JSON.stringify(this.activityInfo))
@@ -351,19 +440,19 @@
        * 获取已选择秒杀券ID
        */
       getExceptTicketId(){
-        let ticketIdArray = [];
+        let couponIdArray = [];
         for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
-          ticketIdArray.push(this.activityInfo.itemList[i].ticketId);
+          couponIdArray.push(this.activityInfo.itemList[i].couponId);
         }
-        return ticketIdArray;
+        return couponIdArray;
       },
       /**
        * 打开新增秒杀券模态框
-       * @param ticketId
+       * @param couponId
        */
       openAddList() {
-        if(this.activityInfo.activityStartDate && this.activityInfo.activityEndDate){
-          this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
+        if(this.activityInfo.beginTime && this.activityInfo.endTime){
+          this.$refs.ticketDialog.showDialog(this.getExceptTicketId(),this.formatDateToString(this.activityInfo.beginTime),this.formatDateToString(this.activityInfo.endTime),);
         }else{
           this.$refs.tipMsgRef.showTipMsg({
             msg:"请先填写活动时间",
@@ -376,11 +465,11 @@
           for(let i = 0;i<checkedNewTicketList.length;i++){
             let item =checkedNewTicketList[i];
             let newTicketItem ={};
-            newTicketItem.ticketId = item.ticketId;
-            newTicketItem.ticketName = item.name;
-            newTicketItem.activityStartDate = item.startTime;
-            newTicketItem.activityEndDate = item.endTime;
-            newTicketItem.createDate = item.creatTime;
+            newTicketItem.couponId = item.id;
+            newTicketItem.name = item.name;
+            newTicketItem.beginTime = item.beginTime;
+            newTicketItem.endTime = item.endTime;
+            newTicketItem.createTime = item.createTime;
             newTicketItem.editStatus=1;
 //            newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
             this.activityInfo.itemList.push(newTicketItem);

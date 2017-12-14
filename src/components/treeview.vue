@@ -114,8 +114,8 @@
     },
     watch : {
       code (val, oldval) {
-
-          if(val!="0"){
+          console.log("11111111");
+          if(val  && val!="0"){
               let valArray = val.split(",");
               console.log(valArray);
               console.log("看看有没有CityTree",this.cityTree);
@@ -131,22 +131,6 @@
 
 
       },
-//      name (val, oldval) {
-//        if(val!="全国"){
-//          let valArray = val.split(",");
-//          console.log(valArray);
-//          for(let i =0 ;i <valArray.length;i++){
-//            if(valArray[i]<100){
-//              this.parentCheckedMenuName.push(Number(valArray[i]));
-//            }else{
-//              this.childCheckedMenuName.push(Number(valArray[i]));
-//            }
-//          }
-//          console.log("child---->",this.childCheckedMenuCode);
-//        }
-//
-//
-//      }
     },
     created () {
       console.log('>>>>>>>>>>>>>>>树形模板')
