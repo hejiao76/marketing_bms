@@ -52,7 +52,7 @@
             </div>
             <table>
               <tr>
-                <td>345<em>(礼包金额)</em></td>
+                <td>{{typeItemForm.gift_obj.groupPrice}}<em>(礼包金额)</em></td>
               </tr>
             </table>
           </div>
