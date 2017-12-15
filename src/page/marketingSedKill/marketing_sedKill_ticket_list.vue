@@ -47,8 +47,8 @@
       <el-table class="table_min_height mt10" :data="resData" ref="singleTable" @sort-change="sortTable">
         <el-table-column prop="name" label="秒杀券名称" align="center"></el-table-column>
         <el-table-column label="秒杀券状态" align="center"> <template slot-scope="scope">{{Final.seckill_ticket[scope.row.status]}}</template></el-table-column>
-        <el-table-column align="center" label="秒杀券有效期" sortable="custom"><template scope="scope">{{scope.row.beginTime}}至{{scope.row.endTime}}</template></el-table-column>
-        <el-table-column prop="carTypeCode" align="center" label="秒杀券适用车系" ></el-table-column>
+        <el-table-column align="center" label="秒杀券有效期" sortable="custom"><template scope="scope">{{getMoment(scope.row.beginTime)}}至<br/>{{getMoment(scope.row.endTime)}}</template></el-table-column>
+        <el-table-column prop="carTypeName" align="center" label="秒杀券适用车系" ></el-table-column>
         <el-table-column prop="amount" align="center"  label="单个秒杀券金额"></el-table-column>
         <el-table-column label="操作" align="center">
           <template scope="scope">
@@ -126,6 +126,13 @@
       }
     },
     methods: {
+      /**
+       * 格式化时间
+       * @returns {}
+       */
+      getMoment(val){
+        return this.$moment(val).format('YYYY-MM-DD');
+      },
       /**
        * table排序
        * @returns

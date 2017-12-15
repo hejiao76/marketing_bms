@@ -91,6 +91,7 @@
           label="创建时间"
           sortable="custom"
         >
+          <template slot-scope="scope">{{getMoment(scope.row.createTime)}}</template>
         </el-table-column>
         <el-table-column
           prop="userName"
@@ -197,6 +198,13 @@
       }
     },
     methods: {
+      /**
+       * 格式化时间
+       * @returns {}
+       */
+      getMoment(val){
+        return this.$moment(val).format('YYYY-MM-DD');
+      },
       /**
        * table排序
        * @returns
