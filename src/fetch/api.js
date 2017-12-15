@@ -12,6 +12,9 @@ const base = {
       return fetch.fetch('/wuliu-web-user/audit/sys/loginUser.action', params);
     },
 
+    /**
+     * 校验用户是否登录
+     */
     base_checkLogin (params){
       return fetch.fetch('/admin/veifyToken.action?tag='+new Date().getTime(),params);
     },
@@ -22,10 +25,10 @@ const base = {
       return fetch.fetch('/users/api/userRegist', params)
     },
     /**
-     * 退出
+     * 获取用户菜单
      */
-    base_loginOut(params) {
-      return fetch.fetch('/wuliu-web-user/wuliu/audit/logout.action', params)
+    base_menus_resource (params){
+      return fetch.fetch('/admin/resource',params,'get');
     },
 
     /**

@@ -101,9 +101,9 @@
 
 </template>
 <script>
-  import VHeader from "./../../components/header";
-  import VLeft from "./../../components/left";
-  import VConNav from "./../../components/con_nav";
+//  import VHeader from "./../../components/header";
+//  import VLeft from "./../../components/left";
+//  import VConNav from "./../../components/con_nav";
   import Final from "./../../util/Final";
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
@@ -167,9 +167,9 @@
       }
     },
     components :{
-      VHeader,
-      VLeft,
-      VConNav,
+//      VHeader,
+//      VLeft,
+//      VConNav,
       VTipMsg,
       VAddSedkillList,
       VSedkillSelectTicketItem,

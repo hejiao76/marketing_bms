@@ -10,26 +10,67 @@
   import api from "./fetch/api"
   import * as util from "./util/util"
   import Final from "./util/Final"
+  import TestData from "./util/TestData"
 export default {
   name: 'app',
+   data(){
+      return {
+        roleMenus:""
+      }
+   },
   created (){
-    this.checkLogin();
+    this.initApp();
   },
   components :{
   },
   methods : {
-      checkLogin(){
-//          console.log(window.location.href);
-//            let ticket=util.getUrlParam(window.location.href,"ticket");
-//            console.log("url------>",ticket);
-//            api.base_checkLogin({ticket:ticket})
-//              .then(res =>{
-//                console.log(res);
-//            }).catch(error => {
-//              window.location.href=Final.LOGIN_PAGE_URL;
-//            })
+      initApp (){
+        api.base_menus_resource({})
+          .then(res =>{
+            if(res.status==true){
+              this.roleMenus=res.result;
+              this.roleMenus=TestData.left_menu_data;
+              let treeObj={parentId:-1,resourceId:0,resourceName:"根节点",children:[]};
+              this.buildRolesMenuTree(treeObj,this.roleMenus);
+              localStorage.setItem("roleMenusTree",JSON.stringify(treeObj));
+              console.log("build-----true----success",treeObj);
+            }else{
+              this.$refs.tipMsgRef.showTipMsg({
+                msg:res.message,
+                type:"error"
+              });
+            }
+          }).catch(error =>{
 
-      }
+        });
+      },
+      buildRolesMenuTree  (pnode,roleMenus) {
+        if(pnode && roleMenus.length>0) {
+          for (let i = 0; i < roleMenus.length; i++) {
+            if (roleMenus[i].parentId == pnode.resourceId) {
+              if(roleMenus[i].resourceUrl){
+                if (pnode.children) {
+                  pnode.children.push(roleMenus[i]);
+                } else {
+                  pnode.children = [];
+                  pnode.children.push(roleMenus[i]);
+                  if (roleMenus[i].path) {
+                    pnode.resourceUrl = roleMenus[i].path;  //为父级节点 重新配置path
+                    console.log(pnode.resourceUrl);
+                  }
+                }
+                this.buildRolesMenuTree(roleMenus[i], roleMenus, this);
+              }
+            }
+          }
+          if (pnode.children) {
+            pnode.children.sort(function (a, b) {
+              return a["orderNum"] - b["orderNum"];
+            });
+          }
+        }
+      },
+
   }
 }
 </script>

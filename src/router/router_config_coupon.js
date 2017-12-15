@@ -12,7 +12,7 @@ const marketing_coupon_ticket_detail = r => require.ensure([], () => r(require('
 const routerConfig = [{
   path: '/coupon',
   component:marketing_coupon,
-   redirect:'/marketing_coupon/marketing_coupon_list',  //根据实际业务 重定向到之路由
+   redirect:'/coupon/list',  //根据实际业务 重定向到之路由
   children: [//二级路由  path不加 '/'  path 不加 '/'  path 不加 '/'  重要的事情说三遍  加了 '/' 代表根级
     {
       path:'list',//优惠券活动列表  抵扣券活动列表

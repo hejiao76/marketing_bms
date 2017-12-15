@@ -2,6 +2,161 @@
  * Created by jsb-cpyy on 2017/8/30.
  */
 const OBJ ={
+  left_menu_data : [
+   /*************抽奖活动**************/
+    {
+      "orderNum": 1,
+      "parentId": 0,
+      "resourceId": 1,
+      "resourceKey": "1",
+      "resourceName": "抽奖活动",
+      "resourceUrl": "/prizeDraw"
+    },
+    {
+      "orderNum": 101,
+      "parentId": 1,
+      "resourceId": 101,
+      "resourceKey": "101",
+      "resourceName": "新增抽奖活动",
+      "resourceUrl": "/prizeDraw/edit/new"
+    },
+    {
+      "orderNum": 102,
+      "parentId": 1,
+      "resourceId": 102,
+      "resourceKey": "102",
+      "resourceName": "抽奖活动管理",
+      "resourceUrl": "/prizeDraw/list"
+    },
+    {
+      "orderNum": 103,
+      "parentId": 1,
+      "resourceId": 103,
+      "resourceKey": "103",
+      "resourceName": "中奖记录",
+      "resourceUrl": "/prizeDraw/prize_list"
+    },
+
+    /*************抵扣券活动**************/
+    {
+      "orderNum": 2,
+      "parentId": 0,
+      "resourceId": 2,
+      "resourceKey": "2",
+      "resourceName": "抵扣券活动",
+      "resourceUrl": "/coupon"
+    },
+    {
+      "orderNum":201,
+      "parentId": 2,
+      "resourceId": 201,
+      "resourceKey": "201",
+      "resourceName": "添加抵扣券活动",
+      "resourceUrl": "/coupon/edit/new"
+    },
+    {
+      "orderNum": 202,
+      "parentId": 2,
+      "resourceId": 202,
+      "resourceKey": "102",
+      "resourceName": "抵扣券活动管理",
+      "resourceUrl": "/coupon/list"
+    },
+
+    /*************抵扣券**************/
+    {
+      "orderNum": 3,
+      "parentId": 0,
+      "resourceId": 3,
+      "resourceKey": "3",
+      "resourceName": "抵扣券",
+      "resourceUrl": "/coupon"
+    },
+    {
+      "orderNum": 301,
+      "parentId": 3,
+      "resourceId": 301,
+      "resourceKey": "301",
+      "resourceName": "添加抵扣券",
+      "resourceUrl": "/coupon/ticket_edit/new"
+    },
+    {
+      "orderNum": 302,
+      "parentId": 3,
+      "resourceId": 302,
+      "resourceKey": "302",
+      "resourceName": "抵扣券管理",
+      "resourceUrl": "/coupon/ticket_list"
+    },
+    {
+      "orderNum": 303,
+      "parentId": 3,
+      "resourceId": 303,
+      "resourceKey": "303",
+      "resourceName": "抵扣券消费记录",
+      "resourceUrl": "/coupon/record_list"
+    },
+
+
+    /*************秒杀活动**************/
+    {
+      "orderNum": 4,
+      "parentId": 0,
+      "resourceId": 4,
+      "resourceKey": "4",
+      "resourceName": "秒杀活动",
+      "resourceUrl": "/sedkill"
+    },
+    {
+      "orderNum": 401,
+      "parentId": 4,
+      "resourceId": 401,
+      "resourceKey": "401",
+      "resourceName": "添加秒杀活动",
+      "resourceUrl": "/sedkill/edit/new"
+    },
+    {
+      "orderNum": 402,
+      "parentId":4,
+      "resourceId": 402,
+      "resourceKey": "402",
+      "resourceName": "秒杀活动管理",
+      "resourceUrl": "/sedkill/list"
+    },
+    {
+      "orderNum": 403,
+      "parentId": 4,
+      "resourceId": 403,
+      "resourceKey": "403",
+      "resourceName": "订单管理",
+      "resourceUrl": "/sedkill/order_list"
+    },
+    /*************秒杀券**************/
+    {
+      "orderNum":5,
+      "parentId": 0,
+      "resourceId": 5,
+      "resourceKey": "5",
+      "resourceName": "秒杀券",
+      "resourceUrl": "/sedkill"
+    },
+    {
+      "orderNum": 501,
+      "parentId": 5,
+      "resourceId": 501,
+      "resourceKey": "501",
+      "resourceName": "添加秒杀券",
+      "resourceUrl": "/sedkill/ticket_edit/new"
+    },
+    {
+      "orderNum": 502,
+      "parentId": 5,
+      "resourceId": 502,
+      "resourceKey": "502",
+      "resourceName": "秒杀券管理",
+      "resourceUrl": "/sedkill/ticket_list"
+    }
+  ],
   /**
    * 秒杀活动选择秒杀券列表数据
    */

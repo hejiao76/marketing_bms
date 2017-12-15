@@ -100,23 +100,23 @@ export default {
     }
   },
   created () {
-      console.log("--------------------------------->>>>>>>>>header Created");
-      let roleMenus=localStorage.getItem("roleMenus") ?  JSON.parse(localStorage.getItem("roleMenus")): [];
-      if(roleMenus.children && roleMenus.children.length>0){
-          let mainMenusArray=[];
-          for(let i=0;i<roleMenus.children.length;i++){
-              if(roleMenus.children[i].parentMenuCode==0){
-//                  let newMenuObj={};
-//                  Object.assign(newMenuObj,roleMenus.children[i],Final.MENU_ROUTER_MAPPING[roleMenus.children[i].menucode]);
-//                mainMenusArray.push(newMenuObj);
-                mainMenusArray.push(roleMenus.children[i]);
-              }
-          }
-          mainMenusArray.sort(function (a,b){
-             return a["sort"]-b["sort"]
-          });
-          this.mainMenus=mainMenusArray;
-      }
+//      console.log("--------------------------------->>>>>>>>>header Created");
+//      let roleMenus=localStorage.getItem("roleMenus") ?  JSON.parse(localStorage.getItem("roleMenus")): [];
+//      if(roleMenus.children && roleMenus.children.length>0){
+//          let mainMenusArray=[];
+//          for(let i=0;i<roleMenus.children.length;i++){
+//              if(roleMenus.children[i].parentMenuCode==0){
+////                  let newMenuObj={};
+////                  Object.assign(newMenuObj,roleMenus.children[i],Final.MENU_ROUTER_MAPPING[roleMenus.children[i].menucode]);
+////                mainMenusArray.push(newMenuObj);
+//                mainMenusArray.push(roleMenus.children[i]);
+//              }
+//          }
+//          mainMenusArray.sort(function (a,b){
+//             return a["sort"]-b["sort"]
+//          });
+//          this.mainMenus=mainMenusArray;
+//      }
   },
   methods:{
       saveMainMenuCode (menuCode) {
