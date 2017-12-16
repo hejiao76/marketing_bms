@@ -224,19 +224,22 @@
 }
 
 .active-footer table tr td a {
-  color: #517BDA;
   font-size: 12px;
   display: inline-block;
   width: 60px;
   height: 27px;
   line-height: 27px;
   text-align: center;
-  border: 1px solid #517BDA;
+  border: 1px solid #6D99FE ;
+  border-radius: 2px;
+  color:#6D99FE;
   text-decoration: none
 }
 
 .active-footer table tr td a:hover {
-  text-decoration: none
+  text-decoration: none;
+  background: #5A7FF6;
+  color:#fff;
 }
 
 .verify {
@@ -392,7 +395,8 @@
 }
 .newp-title{
   line-height:34px;
-  background: #cccccc;
+  background: #F6F7FB;
+  border-radius: 1px;
   text-align: right;
   padding-right:20px;
 

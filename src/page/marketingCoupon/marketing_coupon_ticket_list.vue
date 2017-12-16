@@ -198,7 +198,7 @@
         <el-row :gutter="10" >
           <el-col  :xs="12" :sm="12" :md="8" :lg="8" :xl="6" v-for="item in resData" style="margin-bottom:20px;">
             <div class="saleticket-list" v-bind:class="{ graysaletickstyle: item.status==0 }">
-              <div class="saleticket-list_header" >
+              <div class="saleticket-list_header" style="border-radius: 8px;" >
                 <p>{{item.name}}</p>
                 <span>有效日期：{{item.validity}}</span>
                 <div class="headericon">
@@ -481,7 +481,7 @@
           param.amount2 = this.filterForm.amount2
         }
         if (this.filterForm.activeOption) {
-          param.serialType = this.filterForm.activeOption
+          param.type = this.filterForm.activeOption
         }
         if (this.filterForm.serialIds) {
           param.serialIds = this.filterForm.serialIds

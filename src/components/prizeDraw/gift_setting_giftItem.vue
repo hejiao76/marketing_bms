@@ -4,10 +4,10 @@
     <el-form :model="prizeItemForm"  :rules="rules" ref="prizeItemForm" label-width="120px" size="small" >
           <el-row>
             <el-col :span="24" class="newp-title">
-              <span>{{wordMapping[itemIndex+1]}}等奖</span>
+              <span style="float:left;margin-left:10px;">{{wordMapping[itemIndex+1]}}等奖</span>
               <img @click="removePrizeItem" style="cursor: pointer;" src="../../assets/images/del.png"/>
             </el-col>
-            <el-col style="border: 1px solid #ccc; padding:0 8px; margin-bottom:10px;">
+            <el-col style="border: 1px solid #ccc; padding:15px 15px; margin-bottom:10px;">
               <el-collapse-transition>
               <div v-if="isshow">
                 <el-form-item label="礼包名称:" prop="giftGroupId">
@@ -56,7 +56,10 @@
                         <el-input-number style="width:80%" v-model="ruleItem.quantity" :controls="false" :min="0"></el-input-number>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="7" style="text-align: right;">
+                    <el-col :span="1">
+                      个
+                    </el-col>
+                    <el-col :span="6" style="text-align: right;">
                       <el-button @click="addRuleItem" v-if="index==prizeItemForm.ruleList.length-1 && prizeItemForm.ruleList.length<5" type="primary">增加</el-button>
                       <el-button @click="removeRuleItem(index)" v-if=" prizeItemForm.ruleList.length>1" >删除</el-button>
                     </el-col>
@@ -87,8 +90,8 @@
                 </el-form-item>
               </div>
               </el-collapse-transition>
-              <el-col :span="24" style="text-align: center">
-                <el-button size="mini" @click="isshow=!isshow">{{isshow ? "收起" : "展开"}}</el-button>
+              <el-col :span="24" style="text-align: center;">
+                <el-button style="padding:8px 50px;" size="mini" @click="isshow=!isshow">{{isshow ? "收起" : "展开"}}</el-button>
                 <!--<el-button @click="saveGiftItem">验证</el-button>-->
               </el-col>
             </el-col>

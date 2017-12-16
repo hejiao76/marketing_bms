@@ -22,12 +22,12 @@
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item>
+          <div style="text-align: center">
             <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
             <el-button v-if="!isEdit" type="primary" @click="saveSeriesItem">上一步</el-button>
             <el-button v-if="!isEdit" type="primary" @click="saveSeriesItem">下一步</el-button>
             <el-button @click="resetForm('ruleForm')">取消</el-button>
-          </el-form-item>
+          </div>
         </el-col>
       </el-row>
     </el-form>

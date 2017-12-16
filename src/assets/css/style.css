@@ -12,6 +12,9 @@ header{
   /*box-shadow: 0 6px 17px 0px rgba(197, 195, 195, 0.5);*/
   box-shadow: 0 5px 9px 0 rgba(31,31,31,0.05);
 }
+body,div{
+ color: #8C94AC;;
+}
 header .logo{
   margin-left: 29px;
   line-height: 56px;
@@ -474,4 +477,22 @@ html,body{
 }
 .active-content a:before, .body-layout, .header-right .header-right_icon, .header-right .header-right_icon span.message .prompt, .header-right .header-right_icon:first-child .prompt, .saleticket-list .isfill, .saleticket-list .saleticket-footer .headericon img, .saleticket-list .saleticket-list_header .headericon img, .saleticket-list.graysaletickstyle .saleticket-content .salemore-txt a:before, a.header-left {
   position: absolute;
+}
+.active-footer table tr td a {
+  font-size: 12px;
+  display: inline-block;
+  width: 60px;
+  height: 27px;
+  line-height: 27px;
+  text-align: center;
+  border: 1px solid #6D99FE ;
+  border-radius: 2px;
+  color:#6D99FE;
+  text-decoration: none
+}
+
+.active-footer table tr td a:hover {
+  text-decoration: none;
+  background: #5A7FF6;
+  color:#fff;
 }

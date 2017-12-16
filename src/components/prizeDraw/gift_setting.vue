@@ -6,7 +6,7 @@
         <el-col :span="24" class="">
           <el-form-item label="兑奖时间:" label-width="80px;" prop="activityName">
             <el-row>
-            <el-col :span="10">
+            <el-col :span="6">
               <el-form-item prop="redeemBeginTime">
                 <el-date-picker :clearable="false" :editable="false"  style="width: 100%;" type="datetime" v-model="giftSetting.redeemBeginTime"
                                 :picker-options="optionsActivityStart"
@@ -14,7 +14,7 @@
               </el-form-item>
             </el-col>
             <el-col class="line" :span="1" style="text-align: center">-</el-col>
-            <el-col :span="10">
+            <el-col :span="6">
               <el-form-item prop="redeemEndTime">
                 <el-date-picker :clearable="false" :editable="false"  style="width: 100%;" type="datetime" v-model="giftSetting.redeemEndTime"
                                 :picker-options="optionsActivityEnd"

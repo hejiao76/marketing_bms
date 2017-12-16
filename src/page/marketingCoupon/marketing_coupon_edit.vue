@@ -42,7 +42,7 @@
           </el-col>
         </el-row>
         <el-row>
-            <el-form-item label="活动地区">
+            <el-form-item label="活动地区:">
               <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
             </el-form-item>
         </el-row>
@@ -54,9 +54,9 @@
         <!--</el-row>-->
         <el-row>
           <div class="newhd">
-            <el-form-item label="抵扣券" prop="coupons">
+            <el-form-item label="抵扣券:" prop="coupons">
              <div class="saleticket-list" v-for="item in activityInfo.coupons">
-              <div class="saleticket-list_header">
+              <div class="saleticket-list_header" style="border-radius: 8px;">
                 <p>{{item.name}}</p>
                 <span>有效日期：{{item.validity}}</span>
                 <div class="headericon">
@@ -122,14 +122,14 @@
             </div>
 
             <div class="saleticket-list newlist cur" @click="openAddList()">
-              <div class="saleticket-list_header">
-                <div class="headericon">
+              <div class="saleticket-list_header" style="border-bottom: 1px dashed #ccc;">
+                <div class="headericon" >
                   <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
                   <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
                 </div>
               </div>
               <div class="saleticket-content" style="height: 165px;">
-                <p ><img src="../../assets/images/jia.png" alt="" >添加抵扣券</p>
+                <p style="margin-top:50px;"><img src="../../assets/images/jia.png" alt="" >添加抵扣券</p>
               </div>
               <div class="saleticket-footer">
                 <div class="headericon">
@@ -147,11 +147,11 @@
           </div>
 
         </el-row>
-        <el-form-item>
+        <div style="text-align: center;">
           <el-button v-if="isEdit" type="primary" @click="submitForm('activityInfo')">保存</el-button>
           <el-button v-else type="primary" @click="submitForm('activityInfo')">立即创建</el-button>
           <el-button @click="returnList()">取消</el-button>
-        </el-form-item>
+        </div>
       </el-form>
 
     </div>

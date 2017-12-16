@@ -190,7 +190,7 @@
       <div v-if="isCar">
         <el-row :gutter="20" >
           <el-col :xs="11" :sm="6" v-for="item in resData" style="margin-bottom:20px;">
-            <div class="active-box">
+            <div class="active-box" style="border: 1px solid #EFF0F5;border-radius: 6px;box-shadow: rgb(183, 183, 183) 0px 3px 4px;">
               <div class="active-header">
                 <p class="ah-title">{{item.name}}</p>
                 <div class="ah-time">
@@ -205,7 +205,7 @@
               </div>
               <div class="active-content">
                 <p>活动PV:{{item.pvCount}}</p>
-                <p class="ah-title">已发放/总数量：<span>{{item.couponGet}}/{{item.couponTotal}}</span></p>
+                <p class="ah-title">已发放/总数量：<span style="color: #527EFE">{{item.couponGet}}/{{item.couponTotal}}</span></p>
                 <p class="ah-title">剩余数量：<span>{{item.couponTotal-item.couponGet}}</span></p>
                 <p class="ah-title">创建日期：<span>{{item.createTime}}</span></p>
                 <p class="ah-notes">（此活动包含{{item.couponCount}}个抵扣券）</p>

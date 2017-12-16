@@ -111,3 +111,9 @@ color: #8C94AC;
 .el-pager{
   margin-top:3px;
 }
+.el-dialog--center .el-dialog__header{
+  height: 50px;
+  padding:0;
+  line-height:54px;
+  background: #F6F7FB;
+}

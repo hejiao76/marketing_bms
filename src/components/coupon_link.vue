@@ -1,10 +1,10 @@
 <template>
     <div>
-      <el-dialog class="choose-hd" center title="活动链接" :visible.sync="dialogTableVisible">
+      <el-dialog class="choose-hd" center title="活动链接" :visible.sync="dialogTableVisible" :show-close="false">
         <div  style="text-align: center">链接：<span id="foo">{{activeUrl}}</span></div>
         <span slot="footer" class="dialog-footer">
-    <el-button @click="closeLink()">取 消</el-button>
     <el-button type="primary"  class="btn" data-clipboard-target="#foo" @click="copyLink()">复制链接</el-button>
+           <el-button @click="closeLink()">关 闭</el-button>
   </span>
       </el-dialog>
 

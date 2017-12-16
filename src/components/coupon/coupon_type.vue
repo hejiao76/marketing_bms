@@ -12,12 +12,12 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="isShowGiftItem ">
+      <el-row v-if="isShowGiftItem " style="padding:10px;">
         <div v-if="typeItemForm.gift_obj.giftGroupId" class="saleticket-list colorsaletickstyle">
           <div class="isfill cur">
             <span @click="removeGiftGroup" style="display:block;width: 20px;height: 20px;background: #fff;text-align: center;line-height: 20px;border: 1px solid #ccc;color: #ccc;border-radius: 11px;">X</span>
           </div>
-          <div class="saleticket-list_header">
+          <div class="saleticket-list_header" style="border-radius: 8px;">
             <p>{{typeItemForm.gift_obj.giftGroupName}}</p>
             <span>有效日期：{{typeItemForm.gift_obj.effectiveDate}}</span>
             <div class="headericon">
@@ -58,14 +58,14 @@
           </div>
         </div>
         <div v-else class="saleticket-list newlist cur"  @click="addCoupon">
-          <div class="saleticket-list_header">
+          <div class="saleticket-list_header" style="border-bottom: 1px dashed #ccc;border-radius: 8px;">
             <div class="headericon">
               <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
               <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">
             </div>
           </div>
           <div class="saleticket-content">
-            <p data-toggle="modal" data-target="#aaa"><img src="../../assets/images/jia.png" alt="">添加礼品包</p>
+            <p data-toggle="modal" data-target="#aaa" style="margin-top:15px;"><img src="../../assets/images/jia.png" alt="">添加礼品包</p>
           </div>
           <div class="saleticket-footer">
             <div class="headericon">
@@ -82,11 +82,11 @@
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item>
+          <div style="text-align: center">
             <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
             <el-button v-if="!isEdit" type="primary" @click="saveBaseItem()">创建</el-button>
             <el-button @click="resetForm('ruleForm')">取消</el-button>
-          </el-form-item>
+          </div>
         </el-col>
       </el-row>
     </el-form>
