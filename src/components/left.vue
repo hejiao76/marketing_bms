@@ -163,76 +163,10 @@
 //
 //            });
         },
-//        buildRolesMenuTree  (pnode,roleMenus) {
-//          if(pnode && roleMenus.length>0) {
-//            for (let i = 0; i < roleMenus.length; i++) {
-//              if (roleMenus[i].parentId == pnode.resourceId) {
-//                if(roleMenus[i].resourceUrl){
-//                  if (pnode.children) {
-//                    pnode.children.push(roleMenus[i]);
-//                  } else {
-//                    pnode.children = [];
-//                    pnode.children.push(roleMenus[i]);
-//                    if (roleMenus[i].path) {
-//                      pnode.resourceUrl = roleMenus[i].path;  //为父级节点 重新配置path
-//                      console.log(pnode.resourceUrl);
-//                    }
-//                  }
-//                  this.buildRolesMenuTree(roleMenus[i], roleMenus, this);
-//                }
-//              }
-//            }
-//            if (pnode.children) {
-//              pnode.children.sort(function (a, b) {
-//                return a["orderNum"] - b["orderNum"];
-//              });
-//            }
-//          }
-//        },
         colClick () {
             console.log("click");
           this.isCollapse ==true ? this.isCollapse = false : this.isCollapse = true;
         },
-//      /**
-//       * 如果当前页面未在权限树中体现，左侧菜单适配
-//       * @param currentPath
-//       * @param fromRoute
-//       * @returns {*}
-//       */
-//        getCurrentPath (currentPath,fromRoute) {
-//            if(Final.PATH_MAPPING.includes(this.$route.name)){
-//              if(fromRoute){
-//                if(!Final.PATH_MAPPING.includes(fromRoute.name)){
-//                  currentPath=fromRoute.path;
-//                  let tmpPathMap = {name:this.$route.name,pathMap:fromRoute.path};
-//                  localStorage.setItem("tmpPathMap",JSON.stringify(tmpPathMap));
-//                }else {
-//
-//                }
-//              }else {
-//                  let tmpPathMapString = localStorage.getItem("tmpPathMap");
-//                  if(tmpPathMapString){
-//                    currentPath=JSON.parse(tmpPathMapString).pathMap;
-//                  }else {
-//                    let defaultPathMap=Final.PATH_MAPPING_OBJ[this.$route.name];
-//                    if(defaultPathMap){
-//                        currentPath=defaultPathMap.defaultPathMap;
-//                    }
-//                  }
-//              }
-//            }
-//            return currentPath;
-//        },
-//        initLeftNav (currentPath) {
-//            let roleMenus = JSON.parse(localStorage.getItem("roleMenus"));
-//            this.getCurrentMenuNode(currentPath,roleMenus);
-//            this.roleMenusObj = roleMenus;
-//            this.navList.push(this.currentNode);
-//            this.getParentNode(this.currentNode,this.roleMenusObj);
-//            this.navList.reverse();
-//            this.mainNode=this.navList[0];
-//            this.childNodes=this.navList[0].children || [];
-//        },
         getCurrentMenuNode (path,node) {
             if(node.resourceUrl==path){
                 this.currentNode= node;

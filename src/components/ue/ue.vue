@@ -43,7 +43,7 @@
       });
     },
     beforeRouteLeave (to, from, next) {
-      this.destroyed;
+      this.destroyed();
     },
     methods: {
       getUEContent() { // 获取内容方法
