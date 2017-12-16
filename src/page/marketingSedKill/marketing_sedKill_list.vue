@@ -99,7 +99,7 @@
       <el-table class="table_min_height mt10" :data="resData" ref="singleTable">
         <el-table-column prop="name" label="活动名称" align="center" min-width="90" ></el-table-column>
         <el-table-column  label="活动时间" align="center" min-width="80"> <template scope="scope">{{getMoment(scope.row.beginTime)}}至<br/>{{getMoment(scope.row.endTime)}}</template></el-table-column>
-        <el-table-column  align="center" label="创建时间"  min-width="100"><template scope="scope">{{scope.row.createTime}}</template></el-table-column>
+        <el-table-column  align="center" label="创建时间"  min-width="100"><template scope="scope">{{getMoment(scope.row.createTime)}}</template></el-table-column>
         <el-table-column prop="enrollCount" align="center" label="领取数量"></el-table-column>
         <el-table-column prop="pvCount" align="center" label="活动pv"></el-table-column>
         <el-table-column prop="shareUrl" align="center" min-width="140" label="活动链接"></el-table-column>

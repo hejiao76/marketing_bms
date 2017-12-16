@@ -17,13 +17,13 @@
         <ul>
           <li>订单编号：{{result.orderNum}}</li>
           <li >活动名称：{{result.itemName}}</li>
-          <li>订单创建时间：{{result.createTime}}</li>
+          <li>订单创建时间：{{getMoment(result.createTime)}}</li>
           <li>订单状态：{{Final.seckill_order[result.status]}}</li>
           <li>活动支付金额：{{result.amount}}</li>
           <li>核销码：{{result.verifyCode}}</li>
-          <li>支付完成时间：{{result.payTime}}</li>
-          <li>取消时间：{{result.cancelTime}}</li>
-          <li>退款完成时间：{{result.refundTime}}</li>
+          <li>支付完成时间：{{getMoment(result.payTime)}}</li>
+          <li>取消时间：{{getMoment(result.cancelTime)}}</li>
+          <li>退款完成时间：{{getMoment(result.refundTime)}}</li>
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -52,6 +52,18 @@ export default {
 
   },
   methods:{
+    /**
+     * 格式化时间
+     * @returns {}
+     */
+    getMoment(val){
+      if(val){
+        return this.$moment(val).format('YYYY-MM-DD');
+      }else{
+        return "";
+      }
+
+    },
     handleClose(){
       this.dialogTableVisible = false
     },
