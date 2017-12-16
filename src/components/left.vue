@@ -106,16 +106,18 @@
     },
     watch:{
       "$route": function(to,from) {
-//          return;
-//        let currentPath=to.path;
-//        currentPath=this.getCurrentMenuNode(to.path,from);
-//        this.getCurrentMenuNode(currentPath,this.roleMenusTreeObj);
+       console.log("watch----left---route",to.path);
+        let currentPath=to.path;
+        currentPath=this.getCurrentMenuNode(to.path,from);
+        this.getCurrentMenuNode(currentPath,this.roleMenusTreeObj);
+        console.log("left---created---change--路由地址",currentPath);
       }
     },
     created () {
+        console.log(this.$route);
       let currentPath=this.$route.path;
       this.initPage(currentPath);
-      console.log("left---created");
+      console.log("left---created-----路由地址",currentPath);
       return;
 //      let currentPath=this.$route.path;
 //      currentPath=this.getCurrentPath(currentPath);
@@ -232,7 +234,8 @@
 //            this.childNodes=this.navList[0].children || [];
 //        },
         getCurrentMenuNode (path,node) {
-            console.log(node.resourceUrl,"~~~~~~~~~~~~~"+path);
+            console.log(node,"~~~~~~~~~~~~~"+path);
+            console.log("看戏的")
             if(node.resourceUrl==path){
                 this.currentNode= node;
                 console.log("--------",this.currentNode.resourceUrl);

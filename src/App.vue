@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <!--<img src="./assets/logo.png">-->
-    <router-view></router-view>
+    <!--<v-header></v-header>-->
+    <!--<div class="con_main">-->
+      <!--<v-left></v-left>-->
+      <router-view></router-view>
+    <!--</div>-->
     <!--<v-tip-msg></v-tip-msg>-->
   </div>
 </template>
@@ -11,6 +15,8 @@
   import * as util from "./util/util"
   import Final from "./util/Final"
   import TestData from "./util/TestData"
+//  import VHeader from ".components/header";
+//  import VLeft from "./components/left";
 export default {
   name: 'app',
    data(){
@@ -22,6 +28,9 @@ export default {
     this.initApp();
   },
   components :{
+//    VHeader,
+//    VLeft
+
   },
   methods : {
       initApp (){
