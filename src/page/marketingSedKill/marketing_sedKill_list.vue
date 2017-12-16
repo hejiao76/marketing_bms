@@ -106,7 +106,7 @@
         <el-table-column label="操作" align="center" width="140">
           <template scope="scope">
             <div>
-              <el-button v-if="scope.row.status !=3 || scope.row.status !=4" @click="updateActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
+              <el-button v-if="scope.row.status !=3 && scope.row.status !=4" @click="updateActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">编辑</el-button>
               <el-button v-if="scope.row.status ==2" @click="upActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">上架</el-button>
               <el-button v-if="scope.row.status ==1" @click="downActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">下架</el-button>
               <el-button v-if="scope.row.status ==2" @click="deleteActivity(scope.row.id)" type="text" style="padding-top:0px;padding-bottom:0px;">删除</el-button>
