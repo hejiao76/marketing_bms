@@ -16,7 +16,7 @@
         <ul>
           <li v-for="item in details.prizeList">
             <div class="verify-txt-left">
-              {{item.level}}：
+              {{wordMapping[item.level]}}等奖：
             </div>
             <div class="verify-txt-right">
               <p class="verify-txt-title">{{item.giftGroupName}}（{{item.prizeCount}}/{{item.surplusQuantity}}）</p>
@@ -41,7 +41,14 @@ export default {
     return {
       dialogTableVisible : false,
       details:'',
-      Final:Final
+      Final:Final,
+      wordMapping:{
+        1:"一",
+        2:"二",
+        3:"三",
+        4:"四",
+        5:"五",
+      },
     }
   },
   created () {
