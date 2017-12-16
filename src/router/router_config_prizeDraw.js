@@ -13,7 +13,8 @@ const routerConfig = [{
     {
       path:'list',//抽奖活动列表
       name:"marketing_prizeDraw_list",
-      component:marketing_prizeDraw_list
+      component:marketing_prizeDraw_list,
+      meta: { keepAlive: true }
     },
     {
       path:'edit/:prizeDrawCode',//新建/编辑抽奖活动
@@ -23,7 +24,8 @@ const routerConfig = [{
     {
       path:'prize_list',//中奖列表
       name:"marketing_prizeDraw_prize_list",
-      component:marketing_prizeDraw_prize_list
+      component:marketing_prizeDraw_prize_list,
+      meta: { keepAlive: true }
     }
   ]
 }];

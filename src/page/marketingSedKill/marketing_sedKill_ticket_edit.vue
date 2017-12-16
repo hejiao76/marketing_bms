@@ -235,7 +235,7 @@
        */
       updateActivity (){
         let param =this.getParameter();
-        Api.sk_activity_update(param)
+        Api.sk_activity_ticket_update(param)
           .then(res => {
             if (res.status == 1) {
               this.$refs.tipMsgRef.showTipMsg({
@@ -328,7 +328,6 @@
       returnList(formName) {
         this.$router.push("/sedkill/ticket_list");
       }
-
     }
   }
 </script>

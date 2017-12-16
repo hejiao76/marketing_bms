@@ -15,7 +15,8 @@ const routerConfig = [{
     {
       path:'list',//秒杀活动列表
       name:"marketing_sedKill_list",
-      component:marketing_sedKill_list
+      component:marketing_sedKill_list,
+      meta: { keepAlive: true }
     },
     {
       path:'edit/:sedKillId',//秒杀活动编辑
@@ -25,7 +26,8 @@ const routerConfig = [{
     {
       path:'ticket_list',//秒杀券列表
       name:"marketing_sedKill_ticket_list",
-      component:marketing_sedKill_ticket_list
+      component:marketing_sedKill_ticket_list,
+      meta: { keepAlive: true }
     },
     {
       path:'ticket_edit/:ticketId',//秒杀券编辑
@@ -40,7 +42,8 @@ const routerConfig = [{
     {
       path:'order_list',//秒杀订单列表
       name:"marketing_sedKill_order_list",
-      component:marketing_sedKill_order_list
+      component:marketing_sedKill_order_list,
+      meta: { keepAlive: true }
     },
   ]
 }];

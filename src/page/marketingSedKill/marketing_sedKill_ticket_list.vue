@@ -122,7 +122,7 @@
     },
     watch: {
       "$route": function (to, from) {
-        this.resetForm();
+//        this.resetForm();
       }
     },
     methods: {
