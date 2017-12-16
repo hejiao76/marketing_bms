@@ -6,7 +6,10 @@
       <section class="con_main_r">
         <v-con-nav></v-con-nav>
         <section class="con_tab">
-          <router-view></router-view>
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
         </section>
       </section>
     </div>

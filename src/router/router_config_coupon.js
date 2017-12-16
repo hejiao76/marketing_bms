@@ -17,7 +17,8 @@ const routerConfig = [{
     {
       path:'list',//优惠券活动列表  抵扣券活动列表
       name:"marketing_coupon_list",
-      component:marketing_coupon_list
+      component:marketing_coupon_list,
+      meta: { keepAlive: true }
     },
     {
       path:'edit/:couponId',//优惠券活动编辑
@@ -27,7 +28,8 @@ const routerConfig = [{
     {
       path:'ticket_list',//优惠券券列表 抵扣券列表抵扣券活动
       name:"marketing_coupon_ticket_list",
-      component:marketing_coupon_ticket_list
+      component:marketing_coupon_ticket_list,
+      meta: { keepAlive: true }
     },
     {
       path:'ticket_edit/:ticketId',//优惠券券编辑    添加抵扣券活动
@@ -42,7 +44,8 @@ const routerConfig = [{
     {
       path:'record_list/',//优惠券订单列表   消耗记录
       name:"marketing_coupon_record_list",
-      component:marketing_coupon_record_list
+      component:marketing_coupon_record_list,
+      meta: { keepAlive: true }
     },
     {
       path:'datail/:couponId',//抵扣券活动详情

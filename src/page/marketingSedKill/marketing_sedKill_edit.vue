@@ -183,7 +183,7 @@
     },
     watch : {
       "$route": function (to, from) {
-        this.resetForm();
+//        this.resetForm();
       }
     },
     methods : {
@@ -311,11 +311,12 @@
                   name:res.result.name,
                   beginTime:new Date(res.result.beginTime),
                   endTime:new Date(res.result.endTime),
-                  itemList:this.formartInitCoupons(res.result.itemList),
+                  itemList: this.formartInitCoupons(res.result.itemList) || [],
                   shareImg:res.result.shareImg,
                   areaIds:res.result.areaIds,
                   areaNames:res.result.areaNames
                 })
+
               }else {
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
@@ -329,23 +330,17 @@
       },
       formartInitCoupons (coupons){
         let newCoupons=[]
-        for(let i = 0;i<coupons.length;i++){
-//          newCoupons.push({
-//            couponId:coupons[i].couponId,
-//            amount:coupons[i].amount,
-//            amount:coupons[i].amount,
-//            amount:coupons[i].amount,
-//            amount:coupons[i].amount,
-//            amount:coupons[i].amount,
-//          });
-          newCoupons.push(Object.assign({},coupons[i],{
-            seckillTime:util.dateObjToFullString(new Date(coupons[i].beginTime)),  //秒杀时间
-            beginTime:util.dateObjToString(new Date(coupons[i].couponBeginTime)), //有效期开始时间
-            endTime:util.dateObjToString(new Date(coupons[i].couponEndTime)), //有效期结束时间
-            enrollStartTime:util.dateObjToFullString(new Date(coupons[i].enrollStartTime)),//报名开始时间
-            enrollEndTime:util.dateObjToFullString(new Date(coupons[i].enrollEndTime)), //报名结束数据
-            createTime:util.dateObjToString(new Date(coupons[i].couponCreateTime))
-          }))
+        if(coupons){
+          for(let i = 0;i<coupons.length;i++){
+            newCoupons.push(Object.assign({},coupons[i],{
+              seckillTime:util.dateObjToFullString(new Date(coupons[i].beginTime)),  //秒杀时间
+              beginTime:util.dateObjToString(new Date(coupons[i].couponBeginTime)), //有效期开始时间
+              endTime:util.dateObjToString(new Date(coupons[i].couponEndTime)), //有效期结束时间
+              enrollStartTime:util.dateObjToFullString(new Date(coupons[i].enrollStartTime)),//报名开始时间
+              enrollEndTime:util.dateObjToFullString(new Date(coupons[i].enrollEndTime)), //报名结束数据
+              createTime:util.dateObjToString(new Date(coupons[i].couponCreateTime))
+            }))
+          }
         }
         return newCoupons
       },
@@ -368,7 +363,6 @@
        * @param object
        */
       syncTickItem(param){
-          console.log(param.op);
         if(param.op=="edit"){
           let ticketItem = param.callData
           this.editTicketItem(ticketItem);
