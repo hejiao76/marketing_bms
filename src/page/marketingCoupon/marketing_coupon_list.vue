@@ -125,13 +125,14 @@
         <el-table-column
           prop="name"
           label="活动名称"
+           min-width="150px"
           >
         </el-table-column>
         <el-table-column
           prop="beginTime"
           label="活动开始日期"
           sortable="custom"
-          width="120"
+          width="150px"
            >
           <template slot-scope="scope">
             <span v-html="formatterBr(scope.row.beginTime)"></span>
@@ -141,6 +142,7 @@
           prop="endTime"
           label="活动结束日期"
           sortable="custom"
+          width="150px"
           >
           <template slot-scope="scope">
             <span v-html="formatterBr(scope.row.endTime)"></span>
@@ -149,17 +151,18 @@
         <el-table-column
           prop="couponGet"
           label="领取数量"
-          sortable="custom" width="80">
+          width="130px"
+          sortable="custom">
         </el-table-column>
         <el-table-column
           prop="pvCount"
           label="活动pv"
-          sortable="custom" width="100">
+          sortable="custom" min-width="100">
         </el-table-column>
         <el-table-column
           prop="status"
           label="状态"
-           width="100">
+           min-width="100">
           <template slot-scope="scope">
             {{Final.COUPON_STATUS[scope.row.status]}}
           </template>
@@ -167,12 +170,13 @@
         <el-table-column
           label="创建日期"
           prop="createTime"
+          width="150px"
           sortable="custom">
           <template slot-scope="scope">
             <span v-html="formatterBr(scope.row.createTime)"></span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" >
+        <el-table-column label="操作" min-width="180px">
             <template slot-scope="scope">
               <el-button type="text" @click="openDetail(scope.row.id)">查看</el-button>
               <el-button v-if="!scope.row.status==3" type="text" @click="updatePrize(scope.row.id)">编辑</el-button>
