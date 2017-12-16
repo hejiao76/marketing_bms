@@ -75,10 +75,7 @@
         serialStr:"", //透传车系ID字符串，查询可用礼包
       }
     },
-    beforeRouteLeave(to, from, next){
-        console.log("-------before route leve");
-        next();
-    },
+
     components :{
       VHeader,
       VLeft,
@@ -90,26 +87,23 @@
       VPzGiftSetting,
       VPzTemplateSetting
     },
-    created (){
-      console.log(Final)
+    beforeRouteLeave(to, from, next){
+      console.log("-------before route leve");
+      next();
     },
-    mounted (){
-      this.initPage();
-    },
-//    beforeRouteUpdate (){
-//        console.log("cool-----------here");
-////      this.initPage();
-//    },
     watch: {
       '$route' (to, from) {
-
         console.log("prize-----watch----router---------",to.path);
         this.initPage();
       }
     },
+    created (){
+    },
+    mounted (){
+      this.initPage();
+    },
     methods : {
       initPage () {
-          console.log("initPage----------------");
         this.prizeDrawCode = this.$route.params.prizeDrawCode;
         if(this.prizeDrawCode=='new'){
             this.isEdit=false;
@@ -149,15 +143,13 @@
             this.updatePrizeDrawInfo();
           }
         }
-
-        console.log("updateObject-------------->",this.prizeDrawDetail);
       },
       updatePrizeDrawInfo(){
         if(this.$refs.baseSetting.validBaseItem() && this.$refs.prizeDrawSetting.validPrizeItem() && this.$refs.giftSetting.validGiftSetting() && this.$refs.templateSetting.validTemplateInfo()){
           let newPrizeDrawDetail = Object.assign({},this.prizeDrawDetail,this.$refs.baseSetting.getBaseItem(),this.$refs.prizeDrawSetting.getPrizeItem(),this.$refs.giftSetting.getGiftSetting(),this.$refs.templateSetting.getTemplateInfo())
           let param = {jsonData : JSON.stringify(newPrizeDrawDetail)}
           console.log(this.prizeDrawCode);
-          if(this.prizeDrawCode=="new"){ //111111111111111111111111
+          if(this.prizeDrawCode=="new"){
             Api.pd_activity_add(param)
               .then(res => {
                 if (res.status == true) {
@@ -210,7 +202,6 @@
           Api.pd_activity_add(param)
             .then(res => {
               if (res.status == true) {
-                console.log(JSON.stringify(res));
                 this.$refs.tipMsgRef.showTipMsg({
                   msg:res.message,
                   type:"success",
@@ -254,8 +245,6 @@
           if(data.description){
              this.previewProps.description=data.description;
           }
-          console.log("--------preview----data-----",JSON.stringify(this.previewProps));
-
 
       },
       validIsHaveHand (){
@@ -264,11 +253,9 @@
             let endTime = new Date(this.prizeDrawDetail.endTime).getTime();
             let currentTime = new Date().getTime();
             if(beginTime<currentTime && currentTime<endTime){
-                console.log("...........true.......");
               this.isHaveInHand =true;
             }else {
               this.isHaveInHand = false;
-               console.log("...........false.......");
             }
           }else{
             if(this.prizeDrawDetail.status==2){
@@ -283,11 +270,8 @@
        * 请求抽奖活动详情
        */
       requestData () {
-          console.log("request-----------------------------------");
         if(this.prizeDrawCode){
           let param = {activityCode:this.prizeDrawCode};
-//          Object.assign(this.activityInfo,TestData.sedKill_checked_ticket_data.result);
-//          console.log(this.activityInfo);
           Api.pd_activity_toedit(param)
             .then(res => {
               if (res.status == true) {

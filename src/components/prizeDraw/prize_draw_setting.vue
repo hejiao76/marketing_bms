@@ -188,17 +188,6 @@ export default {
           let newPrizeItem = this.getPrizeItem();
           this.$emit("call", {op: "new", tag: "prize", callData: newPrizeItem});
         }
-//
-//      this.$refs['prizeItem'].validate((valid) => {
-//        if (valid) {
-//          let newPrizeItem = Object.assign({}, this.prizeItem);
-//          this.$emit("call", {op: "edit", tag: "prize", callData: newPrizeItem});
-//          console.log("success");
-//        } else {
-//          console.log('error submit!!');
-//          return false;
-//        }
-//      });
     }
   }
 }

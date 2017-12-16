@@ -216,7 +216,6 @@ export default {
     VTipMsg
   },
   created () {
-    console.log("11111111111--created----",this.ticketItem)
     this.cloneTicketInfo();
   },
   mounted () {
@@ -224,27 +223,11 @@ export default {
   },
   watch : {
     ticketItem (val, oldval) {
-        console.log("watch");
-//      this.tmpGiftGroupId = this.giftGroupId;
       this.cloneTicketInfo();
     }
   },
   methods:{
-//    submitForm(formName) {
-//      this.$refs[formName].validate((valid) => {
-//        if (valid) {
-//          alert('submit!');
-//        } else {
-//          console.log('error submit!!');
-//          return false;
-//        }
-//      });
-//    },
-//    resetForm(formName) {
-//      this.$refs[formName].resetFields();
-//    },
     cloneTicketInfo() {
-        console.log("clone-----ticketInfo",)
       this.checkedTicketItemForm = Object.assign({},this.checkedTicketItemForm,this.ticketItem);
       this.checkedTicketItemForm.beginTime=util.dateObjToString(new Date(this.checkedTicketItemForm.beginTime));
       this.checkedTicketItemForm.endTime=util.dateObjToString(new Date(this.checkedTicketItemForm.endTime))
@@ -260,9 +243,6 @@ export default {
         this.checkedTicketItemForm.seckillTime = new Date(this.checkedTicketItemForm.seckillTime)
       }
     },
-    test () {
-        console.log("blur------>",this.checkedTicketItemForm.payCount);
-    },
     /**
      * 日期转1字符串
      * @param date
@@ -271,9 +251,6 @@ export default {
       if(typeof date == 'object'){
         return util.toFullDateString(date.getTime());
       }
-//      else if (typeof date== 'number'){
-//         return util.toFullDateString(date);
-//      }
       else{
         return date;
       }
@@ -286,13 +263,9 @@ export default {
     editTicketItem (couponId,status) {
       if(couponId){
           this.checkedTicketItemForm.editStatus=status;
-          console.log("edit~~~~",JSON.stringify(this.checkedTicketItemForm))
       }
     },
     removeTicketItem () {
-        console.log("到哪儿去了------------11111",this.checkedTicketItemForm.couponId);
-      if(this.checkedTicketItemForm.couponId){
-          console.log(this.couponId);
         this.$emit("call",{op:"delete",callData:this.checkedTicketItemForm.couponId});
       }
     },
@@ -307,7 +280,6 @@ export default {
             let newItem ={};
             this.checkedTicketItemForm.editStatus=0;
             Object.assign(newItem,this.checkedTicketItemForm);
-            console.log("~~~~",JSON.stringify(newItem));
             if(this.checkedTicketItemForm.enrollStartTime){
               newItem.enrollStartTime = this.formatDateToString(this.checkedTicketItemForm.enrollStartTime)
             }
@@ -320,7 +292,6 @@ export default {
             delete newItem.editStatus;
             this.$emit("call",{op:"edit",callData:newItem});
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
@@ -419,7 +390,6 @@ export default {
             }
           }
       }
-    },
   }
 }
 </script>

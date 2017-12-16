@@ -42,63 +42,7 @@
         isCopy:false,
         couponSettingTab:'base', //选项卡默认选中项
         couponDetail : {},
-        couponCode:'',
-//        optionsActivityStart :{
-//          disabledDate:(time) => {
-//            if(this.filterForm.activityEndDate){
-//              let d = new Date (this.filterForm.activityEndDate)
-//              return time.getTime() >d.getTime();
-//            }
-//          }
-//        },
-//        optionsActivityEnd :{
-//          disabledDate:(time) => {
-//            if(this.filterForm.activityStartDate){
-//              let d = new Date (this.filterForm.activityStartDate)
-//              return time.getTime() <d.getTime();
-//            }
-//          }
-//        },
-//        labelPosition:'left',
-//        defaultMsg: '这里是UE测试',
-//        config: {
-//          initialFrameWidth: null,
-//          initialFrameHeight: 350
-//        },
-//        ue1: "ue1", // 不同编辑器必须不同的id
-//        ue2: "ue2",
-//        filterForm: {
-//          ticketName: '',
-//          activityStartDate:'',//活动开始时间
-//          activityEndDate:'', //活动结束时间
-//          applyCar:'',
-//          remarks:'',
-//          radio:'1',
-//          carList:['博越','远景','帝豪','博越','博越',],
-//          dikouType:true,//抵扣车型
-//          otherWay:false,// 其他权益
-//
-//        },
-//        rules: {
-//          ticketName: [
-//            { required: true, message: '请输入活动名称', trigger: 'blur' },
-//            { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
-//          ],
-//          activityStartDate: [
-//            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-//          ],
-//          activityEndDate: [
-//            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-//          ],
-//          applyCar: [
-//            { required: true, message: '秒杀券适用车系', trigger: 'blur' },
-//            { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
-//          ],
-//          remarks: [
-//            { required: true, message: '秒杀券说明', trigger: 'blur' },
-//            { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
-//          ],
-//        }
+        couponCode:''
       };
     },
     components :{
@@ -157,13 +101,11 @@
             this.saveCouponInfo();
           }
         }
-        console.log("updateObject-------------->",this.couponDetail);
       },
       updateCouponInfo(){
         if(this.$refs.baseSetting.validBaseItem() && this.$refs.seriesSetting.validSeriesItem() && this.$refs.typeSetting.validTypeItem()){
           let newCouponDetail = Object.assign({},this.couponDetail,this.$refs.baseSetting.getBaseItem(),this.$refs.seriesSetting.getSeriesItem(),this.$refs.typeSetting.getTypeItem())
           let param = newCouponDetail
-          console.log("updateCouponInfo----------",JSON.stringify(param));
           Api.cp_activity_coupon_save(param)
             .then(res => {
               if (res.status == true) {
@@ -188,21 +130,6 @@
       },
       saveCouponInfo(){
           this.updateCouponInfo();
-//        let param = {jsonData : JSON.stringify(this.couponDetail)}
-//        Api.pd_activity_update(param)
-//          .then(res => {
-//            if (res.status == true) {
-//              console.log(JSON.stringify(res));
-//
-//            }else {
-//              this.$refs.tipMsgRef.showTipMsg({
-//                msg:res.message,
-//                type:"error"
-//              });
-//            }
-//          }).catch(err => {
-//
-//        });
       },
       /**
        * 请求抵扣券详情
@@ -213,7 +140,6 @@
           Api.cp_activity_coupon_info(param)
             .then(res => {
               if (res.status == true) {
-                console.log(JSON.stringify(res));
                 this.couponDetail = res.result;
                 if(this.isCopy ){
                   delete this.couponDetail.id;
@@ -234,49 +160,14 @@
         }
       },
       getTmpSeriesData(data){
-//          console.log("parent------>",this.tmpSeriesData);
           this.tmpSeriesData =  Object.assign({},data);
-        console.log("parent------>",this.tmpSeriesData);
       },
       showChildTipMsg (data) {
         this.$refs.tipMsgRef.showTipMsg({
           msg:data.msg,
           type:"error"
         });
-      },
-//      getUEContent() {
-//        let content = this.$refs.ue.getUEContent(); // 调用子组件方法
-//        this.$notify({
-//          title: '获取成功，可在控制台查看！',
-//          message: content,
-//          type: 'success'
-//        });
-//        console.log(content)
-//      },
-//      submitForm(formName) {
-//        this.$refs[formName].validate((valid) => {
-//          if (valid) {
-//            alert('submit!');
-//          } else {
-//            console.log('error submit!!');
-//            return false;
-//          }
-//        });
-//      },
-//      resetForm(formName) {
-//        this.$refs[formName].resetFields();
-//      },
-//      /**
-//       * 选项卡点击事件触发
-//       * @returns {}
-//       */
-//      changeActivityType (tab, event){
-//        this.activityType = tab.name;
-//      },
-//      addCoupon(){
-//        '1111'.log
-//        this.$refs.ticketDialog.showDialog();
-//      }
+      }
 
     }
   }

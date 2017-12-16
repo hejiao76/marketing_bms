@@ -43,7 +43,6 @@
       });
     },
     beforeRouteLeave (to, from, next) {
-      console.log("destroyed");
       this.destroyed;
     },
     methods: {

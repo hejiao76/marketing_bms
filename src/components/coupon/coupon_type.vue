@@ -128,14 +128,7 @@ export default {
   watch : {
     couponDetail (val, oldval) {
       this.cloneTypeInfo();
-    },
-//    tmpSeriesData : {
-//        handler(val, oldval){
-//          console.log("watch----111111111111111111------tmpSeriesData",this.tmpSeriesData);
-//          this.tmpSeriesDataObj=this.tmpSeriesData
-//        },
-//        deep:true
-//    }
+    }
   },
   created () {
   },

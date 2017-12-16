@@ -452,7 +452,6 @@
         param.pageIndex = this.currentPage;
         param.pageSize = this.pageRecorders;
 
-        console.log("查询提交参数:",param);
         return param;
       },
       searchFn () {

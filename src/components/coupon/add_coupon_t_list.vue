@@ -131,11 +131,9 @@ export default {
      */
     validSeriesInclude (item){
         let serialIdsArray=item.serialIds.split(",");
-//      console.log("哈哈，方法 我来了",item);
         let validStatus=true;
         for(let i=0;i<serialIdsArray.length;i++){
             if(!item.tmpChecked && this.tmpSeriesIds["series_"+item[i]]){
-                console.log(this.tmpSeriesIds);
                 validStatus=false;
                 break;
             }
@@ -150,9 +148,7 @@ export default {
       let itemArray=item.serialIds.split(",");
       if(item.serialType == 2){
         for(let i = 0 ; i< itemArray.length ; i ++){
-            console.log("deleteSeriesTmp----",item[i])
           delete this.tmpSeriesIds["series_"+item[i]];
-          console.log("deleteSeriesTmp---after----",this.tmpSeriesIds);
         }
       }
     },
@@ -187,7 +183,6 @@ export default {
      * @param id
      */
     checkTicket (item,checked){
-        console.log(item,checked);
         if(item.id){
           let id =item.id;
           if(!checked){
@@ -199,19 +194,8 @@ export default {
               if(checked) {
                 this.addSeriesTmp(this.listObj[i]);
               }
-//                if(this.listObj[i].car_ids.length>0){
-////                    console.log("怎么了........",this.listObj[i].car_ids)
-////                    for(let j = 0;j<this.listObj[i].car_ids.length;j++){
-////                        if(checked){
-////                          let series = this.listObj[i].car_ids[j];
-////                          this.tmpSeriesIds[series.id] =series.id;
-////                        }
-////
-////                    }
-//                }
                 this.listObj[i].tmpChecked = checked;
                 this.listObj.splice(i,1,this.listObj[i]);
-                console.log("find--->", this.listObj[i].tmpChecked)
                 break;
             }
           }
@@ -246,12 +230,6 @@ export default {
      * 请求可选抵扣券列表
      */
     requestAddTicketList () {
-//      let param = {activityId:this.activityId};
-//      this.activityInfo=TestData.sedKill_checked_ticket_data.result;
-//        let resData = TestData.sedKill_newTicket_data;
-//        this.listObj = this.filterExceptId(resData);
-//      console.log(this.listObj);
-//      return;
       let param  = {couponName:this.ticketName,pageSize:1000,activityEndtime:this.formatDateToString(this.activityInfo.endTime)}
       Api.cp_activity_filter_coupon(param)
         .then(res => {
@@ -273,13 +251,11 @@ export default {
         for(let i = 0 ;i<this.listObj.length;i++){
             this.listObj[i].num=0;
         }
-        console.log(this.listObj);
     },
     /**
      * 获取已选择的抵扣券列表
      */
     getCheckedTicket(){
-        console.log("getCheckedTicket------",this.listObj)
       let checkedTicketArray = [];
       for(let i=0;i<this.listObj.length;i++){
         if(this.listObj[i].tmpChecked){
@@ -317,53 +293,19 @@ export default {
      * 确认选择
      */
     sureSelect () {
-      console.log("save");
       let checkedTicketArray=this.getCheckedTicket();
-      console.log(checkedTicketArray);
-
         if(this.validTickRule(checkedTicketArray)){
           this.$emit("call",checkedTicketArray);
           this.dialogTableVisible=false;
           this.listObj=[];
         }
-//      if(checkedTicketArray.length+this.exceptIdArray.length<=this.maxTicketCount){
-//            let msg="";
-//            for(let i = 0 ; i<checkedTicketArray.length;i++){
-//              if(checkedTicketArray.num<=0){
-//                msg="已选择抵扣券未填写抵扣券数量";
-//                break;
-//              }
-//            }
-//            if(msg){
-//              this.$message({
-//                type:'error',
-//                message:msg,
-//                duration:'1500'
-//              });
-//            }else{
-//              this.$emit("call",checkedTicketArray)
-//              this.dialogTableVisible=false;
-//              this.listObj=[];
-//            }
-//
-//      }else{
-////        this.$refs.tipMsgRef.showTipMsg({
-////          msg:"活动绑定的抵扣券数量已经超过10个",
-////          type:"error"
-////        });
-//        this.$message({
-//          type:'error',
-//          message:"活动绑定的抵扣券数量已经超过10个",
-//          duration:'1500'
-//        });
-//      }
     },
     /**
      * 取消选择
      */
     cancelSelect(){
-//      this.dialogTableVisible=false;
-//      this.listObj=[];
+      this.dialogTableVisible=false;
+      this.listObj=[];
     },
     clearTmpStatus(){
 

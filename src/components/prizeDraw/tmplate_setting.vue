@@ -8,13 +8,6 @@
       <img @click="cancelTmp()" style="width:100%" class="cur" :src="tmpItem.src"/>
       </div>
     </el-col>
-    <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%;z-index: 1" src="../../assets/images/mod.png"/></el-col>-->
-    <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%" src="../../assets/images/mod.png"/></el-col>-->
-    <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%" src="../../assets/images/mod.png"/></el-col>-->
-    <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%" src="../../assets/images/mod.png"/></el-col>-->
-    <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%" src="../../assets/images/mod.png"/></el-col>-->
-    <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%" src="../../assets/images/mod.png"/></el-col>-->
-    <!--<el-col :lg="8" :xl="6" :span="8" class="mb20"><img  style="width:100%" src="../../assets/images/mod.png"/></el-col>-->
     </el-row>
     <el-row>
       <el-col :span="24" style="text-align: center;">

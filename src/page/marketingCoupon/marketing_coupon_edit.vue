@@ -272,7 +272,6 @@
           img.onload=function(){
 
             _self.activityInfo.shareImg=res.result.path;
-            console.log(_self.activityInfo.shareImg)
 //            var imgwidth=img.offsetWidth;
 //            var imgheight=img.offsetHeight;
 //            if(imgwidth!=50 || imgheight!=50){
@@ -287,7 +286,6 @@
         }
       },
       beforeUpload (file){
-        console.log(file);
         const isAllowType = ['image/jpeg', 'image/png','image/bmp'].includes(file.type);
         const isMaxSize = file.size / 1024 < 200; //小于200Kb
 
@@ -355,42 +353,6 @@
           return date;
         }
       },
-//      createTmpTicketItem(item){
-//        let tmpTickItem = {};
-//        if(item){
-//          tmpTickItem.ticketCount=item.ticketCount || 1;
-//          tmpTickItem.maxPayCount=item.maxPayCount || '';
-//          tmpTickItem.sedkillMoney=item.sedkillMoney || 1;
-//          tmpTickItem.signUpStartTime=item.signUpStartTime ? new Date(item.signUpStartTime) : '';
-//          tmpTickItem.signUpEndTime=item.signUpEndTime ? new Date(item.signUpEndTime) : '';
-//          tmpTickItem.sedKillStartDate=item.sedKillStartDate ? new Date(item.sedKillStartDate) : '';
-//        }
-//        return tmpTickItem;
-//      },
-//      syncTicketItemByTmp (item){
-//        console.log("syncItem",item)
-//        if(item && item.tmp){
-//          if(item.tmp.ticketCount){
-//            item.ticketCount=item.tmp.ticketCount;
-//          }
-//          if(item.tmp.maxPayCount){
-//            item.maxPayCount=item.tmp.maxPayCount;
-//          }
-//          if(item.tmp.sedkillMoney){
-//            item.sedkillMoney=item.tmp.sedkillMoney;
-//          }
-//          if(item.tmp.signUpStartTime){
-//            item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTime).getTime())
-//          }
-//          if(item.tmp.signUpEndTime){
-//            item.signUpEndTime=util.toFullDateString(new Date(item.tmp.signUpEndTime).getTime())
-//          }
-//          if(item.tmp.sedKillStartDate){
-//            item.sedKillStartDate=util.toFullDateString(new Date(item.tmp.sedKillStartDate).getTime())
-//          }
-//        }
-//        return item;
-//      },
       /**
        * 编辑/取消编辑 抵扣券券基本信息按钮事件触发
        * @param id
@@ -401,17 +363,6 @@
           for(let i= 0 ; i <this.activityInfo.coupons.length; i ++ ){
             if(id == this.activityInfo.coupons[i].id){
               let item = this.activityInfo.coupons[i];
-//              item.tmp=this.createTmpTicketItem(item);
-              console.log("editItem----------->",item);
-//              if(item.signUpStartTime && typeof item.signUpStartTime !='object') {
-//                  item.signUpStartTimeObj=new Date(item.siginUpStartTime);
-//              }
-//              if(item.signUpEndTime && typeof item.signUpEndTime !='object') {
-//                item.signUpEndTimeObj=new Date(item.signUpEndTime);
-//              }
-//              if(item.sedKillStartDate && typeof item.sedKillStartDate !='object') {
-//                item.sedKillStartDateObj=new Date(item.sedKillStartDate);
-//              }
               item.editStatus=status;
               this.activityInfo.coupons.splice(i, 1, item); //使用splice
               break;
@@ -429,16 +380,6 @@
             if(id == this.activityInfo.coupons[i].id){
               let item = this.activityInfo.coupons[i];
               this.syncTicketItemByTmp(item);
-//              delete item.tmp;
-//              if(item.tmp.signUpStartTime) {
-//                item.signUpStartTime=util.toFullDateString(new Date(item.tmp.signUpStartTimeObj).getTime())
-//              }
-//              if(item.signUpEndTimeObj) {
-//                item.signUpEndTime=util.toFullDateString(new Date(item.signUpEndTimeObj).getTime())
-//              }
-//              if(item.sedKillStartDateObj) {
-//                item.sedKillStartDate=util.toFullDateString(new Date(item.sedKillStartDateObj).getTime())
-//              }
               item.editStatus=0;
               this.activityInfo.coupons.splice(i, 1, item); //使用splice
               break;
@@ -464,7 +405,6 @@
        * 获取已选择抵扣券券ID
        */
       getExceptTicketId(){
-        console.log("getExceptTicketId")
         let ticketIdArray = [];
         for(let i= 0 ; i <this.activityInfo.coupons.length; i ++ ){
           ticketIdArray.push(this.activityInfo.coupons[i].id);
@@ -476,7 +416,6 @@
        * @param id
        */
       openAddList() {
-          console.log("open")
         if(this.activityInfo.beginTime && this.activityInfo.beginTime) {
           this.$refs.ticketDialog.showDialog(this.getExceptTicketId());
         }else{
@@ -491,17 +430,9 @@
        * @param checkedNewTicketList
        */
       addCouponTCallBack(checkedNewTicketList){
-        console.log("回来了---------->",checkedNewTicketList)
         for(let i = 0;i<checkedNewTicketList.length;i++){
           let item =checkedNewTicketList[i];
           let newTicketItem=Object.assign({},item)
-//          newTicketItem.id = item.id;
-//          newTicketItem.name = item.name;
-//          newTicketItem.beginTime = item.startTime;
-//          newTicketItem.endTime = item.endTime;
-//          newTicketItem.createDate = item.creatTime;
-//          newTicketItem.editStatus=1;
-//          newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
           this.activityInfo.coupons.push(newTicketItem);
 
         }
@@ -536,8 +467,6 @@
         let param= Object.assign({},this.activityInfo);
         param.beginTime=this.formatDateToString(this.activityInfo.beginTime);
         param.endTime=this.formatDateToString(this.activityInfo.endTime);
-        console.log("before---------->");
-        console.log(JSON.stringify(param))
         Api.cp_activity_save(param)
           .then(res => {
             if (res.status == true) {

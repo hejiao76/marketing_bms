@@ -287,7 +287,6 @@
        * @returns
        */
       sortTable(obj){
-        console.log(obj);
         if(obj.prop == 'couponAmount'){
           this.sortType = 1
         }else if(obj.prop == 'getTime'){
@@ -374,7 +373,6 @@
         param.pageSize = this.pageRecorders;
         param.sortStatus = this.sortStatus;
         param.sortType = this.sortType
-        console.log("查询提交参数:",param);
         return param;
       },
       /**

@@ -249,7 +249,6 @@ export default {
   },
   watch : {
     prizeDrawDetail (val, oldval) {
-      console.log("watch-----------------base");
       this.cloneTicketInfo();
 
     }
@@ -267,20 +266,16 @@ export default {
     },
     serialChange (){
       this.$emit("serialChange",{serialStr : this.baseItem.serialIds.join(",")});
-      console.log(this.baseItem.serialIds)  ;
     },
     previewCall($event,key) {
         let data={};
-        console.log("key",data.key);
         data[key]=this.baseItem[key];
-        console.log("-------previewCall-----key----",data[key])
         this.$emit("previewCall",data)
     },
       requsetLocation (){
         Api.base_sys_location({})
           .then(res => {
             if (res.status == true) {
-              console.log(res);
             }else {
               this.$refs.tipMsgRef.showTipMsg({
                 msg:res.message,
@@ -306,21 +301,7 @@ export default {
 
         });
       },
-//    submitForm(formName) {
-//      this.$refs[formName].validate((valid) => {
-//        if (valid) {
-//          alert('submit!');
-//        } else {
-//          console.log('error submit!!');
-//          return false;
-//        }
-//      });
-//    },
-//    resetForm(formName) {
-//      this.$refs[formName].resetFields();
-//    },
     cloneTicketInfo() {
-          console.log("clone---->base---",this.prizeDrawDetail);
       if(this.prizeDrawDetail && this.prizeDrawDetail.name){
         this.baseItem = {
           name:this.prizeDrawDetail.name, //活动名称
@@ -391,7 +372,6 @@ export default {
         }
     },
     beforeUpload (file){
-        console.log(file);
       const isAllowType = ['image/jpeg', 'image/png','image/bmp'].includes(file.type);
       const isMaxSize = file.size / 1024 < 200; //小于200Kb
 
@@ -413,19 +393,15 @@ export default {
       return this.beforeUpload(file);
     },
     bgImgUploadSuccess (res, file, fileList) {
-        console.log(file);
         if(res.status==true){
           this.baseItem.bgImg=res.result.path;
           this.previewCall("bgImgUpload","bgImg")
-          console.log(this.baseItem.bgImg);
-
         }
     },
     titleImgUploadSuccess (res, file, fileList) {
       if(res.status==true){
         this.baseItem.titleImg=res.result.path;
         this.previewCall("titleUpload","titleImg")
-        console.log(this.baseItem.titleImg);
       }
     },
     shareImgUploadSuccess (res, file, fileList) {
@@ -440,7 +416,6 @@ export default {
             _self.$message.error('分享图片尺寸必须是50px*50px');
           }else{
             _self.baseItem.shareImg=res.result.path;
-            console.log(_self.baseItem.shareImg);
           }
 
         };

@@ -210,7 +210,6 @@
        * @returns
        */
       sortTable(obj){
-        console.log('obj.order', obj);
         if(obj.order == 'descending'){
           this.sortType = 2
         }else{
@@ -257,7 +256,6 @@
         param.pageIndex = this.currentPage;
         param.pageSize = this.pageRecorders;
         param.sortType = this.sortType
-        console.log("查询提交参数:",param);
         return param;
       },
       searchFn () {
