@@ -6,7 +6,7 @@
         <el-row>
           <el-col :span="13">
             <el-form-item label="秒杀券名称:" prop="activityName">
-              <el-input   v-model="filterForm.activityName" placeholder="请输入商品名称" style="width: 92%;"></el-input>
+              <el-input   v-model="filterForm.ticketName" placeholder="请输入商品名称" style="width: 92%;"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

@@ -108,7 +108,7 @@
         activeId:'',
         Final:Final,
         activityInfo:{
-          area:[]
+          shareImg:''
         }
       }
     },
@@ -130,11 +130,23 @@
       /**
        * 数据初始化
        */
+      //areaIds
+        //areaNames
       requestData(){
         Api.cp_activity_detail({id:this.activeId})
           .then(res => {
             if (res.status) {
+              let newAreaIds = res.result.areaIds.split(",");
+              let newAreaNames = res.result.areaNames.split(",");
+              let newArr = [];
+              for(var i = 0;i < newAreaIds.length;i++){
+                if(newAreaIds[i]>99){
+                  newArr.push(newAreaNames[i]);
+                }
+
+              }
               this.activityInfo = res.result;
+              this.activityInfo.areaNames = newArr.join(',');
             }else {
               this.activityInfo = '';
             }
