@@ -4,8 +4,8 @@
     <el-row class="tac left_bgColor">
       <el-col :span="24">
         <div style="width:100%;text-align: right;line-height: 36px;color:#878d99;border-bottom: solid 1px #676C81;"><i class="el-icon-menu el-icon-tickets pr20 mr5 cur" style="color:#878d99" @click="colClick"></i></div>
-        <el-menu v-if="roleMenusTreeObj.children" :default-active="String(currentNode.resourceId)" :unique-opened="true" :router="true"  class="el-menu-vertical-demo"  background-color="#555A6E" text-color="#FFFFFF" style="border:0">
-          <div v-for="(item,index) in roleMenusTreeObj.children">
+        <el-menu v-if="roleMenusObj.children" :default-active="String(currentNode.resourceId)" :unique-opened="true" :router="true"  class="el-menu-vertical-demo"  background-color="#555A6E" text-color="#FFFFFF" style="border:0">
+          <div v-for="(item,index) in roleMenusObj.children">
             <el-menu-item v-if="!item.children" :route="{path:item.resourceUrl}" :index="String(item.resourceId)">{{item.resourceName}}</el-menu-item>
             <el-submenu v-if="item.children" :index="String(item.resourceId)">
               <template slot="title">
@@ -100,7 +100,7 @@
         mainNode:'',
         navList:[],
         navCodeList:[],
-        roleMenusTreeObj:'',
+        roleMenusObj:'',
         roleMenus:[],
       }
     },
@@ -109,7 +109,7 @@
        console.log("watch----left---route",to.path);
         let currentPath=to.path;
         currentPath=this.getCurrentMenuNode(to.path,from);
-        this.getCurrentMenuNode(currentPath,this.roleMenusTreeObj);
+        this.getCurrentMenuNode(currentPath,this.roleMenusObj);
         console.log("left---created---change--路由地址",currentPath);
       }
     },
@@ -122,9 +122,9 @@
 //      let currentPath=this.$route.path;
 //      currentPath=this.getCurrentPath(currentPath);
 //      this.$store.commit('updateTmpFromPath', currentPath);
-////      let roleMenusTree = JSON.parse(localStorage.getItem("roleMenus"));
-////      this.getCurrentMenuNode(currentPath,roleMenusTree);
-////      this.mainNode=this.getMainNode(this.currentNode,roleMenusTree);
+////      let roleMenus = JSON.parse(localStorage.getItem("roleMenus"));
+////      this.getCurrentMenuNode(currentPath,roleMenus);
+////      this.mainNode=this.getMainNode(this.currentNode,roleMenus);
 //      this.navList=[];
 //      this.initLeftNav(currentPath)
     },
@@ -136,13 +136,13 @@
           this.requestMenuResource(currentPath);
         },
         requestMenuResource (currentPath){
-          let roleMenusTree = JSON.parse(localStorage.getItem("roleMenusTree"));
-          this.roleMenusTreeObj=roleMenusTree;
-          console.log(JSON.stringify(this.roleMenusTreeObj))
-          this.getCurrentMenuNode(currentPath,this.roleMenusTreeObj);
-          this.childNodes=this.roleMenusTreeObj.children;
+          let roleMenus = JSON.parse(localStorage.getItem("roleMenus"));
+          this.roleMenusObj=roleMenus;
+          console.log(JSON.stringify(this.roleMenusObj))
+          this.getCurrentMenuNode(currentPath,this.roleMenusObj);
+          this.childNodes=this.roleMenusObj.children;
           console.log("current----path-------",currentPath);
-          console.log("build-----true----success",this.roleMenusTreeObj);
+          console.log("build-----true----success",this.roleMenusObj);
 //          Api.base_menus_resource({})
 //            .then(res =>{
 //              if(res.status==true){
@@ -150,8 +150,8 @@
 //                  this.roleMenus=TestData.left_menu_data;
 //                  let treeObj={parentId:-1,resourceId:0,resourceName:"根节点",children:[]};
 //                  this.buildRolesMenuTree(treeObj,this.roleMenus);
-//                  this.roleMenusTreeObj=treeObj;
-//                  this.getCurrentMenuNode(currentPath,this.roleMenusTreeObj);
+//                  this.roleMenusObj=treeObj;
+//                  this.getCurrentMenuNode(currentPath,this.roleMenusObj);
 //                  console.log("build-----true----success",treeObj);
 //              }else{
 //                this.$refs.tipMsgRef.showTipMsg({
@@ -224,18 +224,16 @@
 //            return currentPath;
 //        },
 //        initLeftNav (currentPath) {
-//            let roleMenusTree = JSON.parse(localStorage.getItem("roleMenus"));
-//            this.getCurrentMenuNode(currentPath,roleMenusTree);
-//            this.roleMenusTreeObj = roleMenusTree;
+//            let roleMenus = JSON.parse(localStorage.getItem("roleMenus"));
+//            this.getCurrentMenuNode(currentPath,roleMenus);
+//            this.roleMenusObj = roleMenus;
 //            this.navList.push(this.currentNode);
-//            this.getParentNode(this.currentNode,this.roleMenusTreeObj);
+//            this.getParentNode(this.currentNode,this.roleMenusObj);
 //            this.navList.reverse();
 //            this.mainNode=this.navList[0];
 //            this.childNodes=this.navList[0].children || [];
 //        },
         getCurrentMenuNode (path,node) {
-            console.log(node,"~~~~~~~~~~~~~"+path);
-            console.log("看戏的")
             if(node.resourceUrl==path){
                 this.currentNode= node;
                 console.log("--------",this.currentNode.resourceUrl);
@@ -253,7 +251,7 @@
 //              if(node.parentMenuCode== item.menucode){
 //                this.navList.push(item);
 //                this.navCodeList.push(item.menucode);
-//                this.getParentNode(item,this.roleMenusTreeObj);
+//                this.getParentNode(item,this.roleMenusObj);
 //                break;
 //              }else if(item.children){
 //                this.getParentNode(node,item);
@@ -262,8 +260,8 @@
 //          }
 //
 //        },
-//        getMainNode (childNode,roleMenusTree) {
-//          let mainMenuArray=roleMenusTree.children;
+//        getMainNode (childNode,roleMenus) {
+//          let mainMenuArray=roleMenus.children;
 //          let childPath=childNode.path;
 //          if(childPath){
 //            let childPathArray=childPath.split("/");

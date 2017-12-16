@@ -75,6 +75,10 @@
         serialStr:"", //透传车系ID字符串，查询可用礼包
       }
     },
+    beforeRouteLeave(to, from, next){
+        console.log("-------before route leve");
+        next();
+    },
     components :{
       VHeader,
       VLeft,
@@ -98,7 +102,8 @@
 //    },
     watch: {
       '$route' (to, from) {
-//        alert("route");
+
+        console.log("prize-----watch----router---------",to.path);
         this.initPage();
       }
     },

@@ -183,7 +183,7 @@ export default {
         endTime:'',//有效期结束日期
         createTime:'', //创建日期
         applyCar:'',
-        amount:'',//秒杀金额
+        amount:1,//秒杀金额
         seckillTime:'',//秒杀开始日期
         maxCount:'', //秒杀券数量
         payCount:'', //最大支付数

@@ -41,7 +41,7 @@ export default {
               this.roleMenus=TestData.left_menu_data;
               let treeObj={parentId:-1,resourceId:0,resourceName:"根节点",children:[]};
               this.buildRolesMenuTree(treeObj,this.roleMenus);
-              localStorage.setItem("roleMenusTree",JSON.stringify(treeObj));
+              localStorage.setItem("roleMenus",JSON.stringify(treeObj));
               console.log("build-----true----success",treeObj);
             }else{
               this.$refs.tipMsgRef.showTipMsg({

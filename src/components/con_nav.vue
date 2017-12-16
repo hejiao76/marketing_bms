@@ -4,7 +4,7 @@
     <img  src="./../assets/img/house.png" class="vm">
     <!--<span class="vm">您的当前位置 : <span class="f_blue">开始-&#45;&#45;工作</span></span>-->
     <span class="vm">您的当前位置 :
-      <span v-for="(menuObj,index) in navList"  disabled="true">{{menuObj.name}}<span v-if="index!=(navList.length-1)"> / </span>
+      <span v-for="(menuObj,index) in navList"  disabled="true">{{menuObj.resourceName}}<span v-if="index!=(navList.length-1)"> > </span>
 
       <!--<el-tabs v-model="activeName" @tab-click="handleClick">-->
         <!--<el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>-->
@@ -37,13 +37,12 @@ export default {
   },
   watch:{
     "$route": function(to,from) {
-        return;
+//        return;
       this.navList=[];
       this.initNav(to.path);
     }
   },
   created () {
-      return;
     let currentPath=this.$route.path;
     this.navList=[];
     this.initNav(currentPath)
@@ -53,7 +52,7 @@ export default {
       initNav (currentPath) {
         let roleMenusTree = JSON.parse(localStorage.getItem("roleMenus"));
         this.getCurrentMenuNode(currentPath,roleMenusTree);
-        this.mainNode=this.getMainNode(this.currentNode,roleMenusTree);
+//        this.mainNode=this.getMainNode(this.currentNode,roleMenusTree);
         this.roleMenusTreeObj = roleMenusTree;
         this.navList.push(this.currentNode);
         this.getParentNode(this.currentNode,this.roleMenusTreeObj);
@@ -63,9 +62,9 @@ export default {
         if( pnode.children){
           for(let i = 0 ; i < pnode.children.length;i++){
               let item =  pnode.children[i];
-              if(node.parentMenuCode== item.menucode){
+              if(node.parentId== item.resourceId){
                   this.navList.push(item);
-                  this.navCodeList.push(item.menucode);
+                  this.navCodeList.push(item.resourceId);
                   this.getParentNode(item,this.roleMenusTreeObj);
                   break;
               }else if(item.children){
@@ -76,7 +75,7 @@ export default {
 
     },
     getCurrentMenuNode (path,node) {
-      if(node.path==path){
+      if(node.resourceUrl==path){
         this.currentNode= node;
       }
       if(node.children){
