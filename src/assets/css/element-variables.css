@@ -36,9 +36,78 @@
 /*}*/
 /*******----------------tab选项卡---------------******/
 .el-tabs__item {
-  color:#404C73
+  color:#404C73;
+  min-width:128px;
+  height: 38px;
+  text-align: center;
+  border-radius: 3px;
 }
 /*******----------------tab选项卡---------------******/
 .el-table .cell {
   color:#404C73
+}
+
+.left_bgColor .el-menu-item.is-active{
+  color: #fff;
+}
+.el-table__header tr{
+  background: #F6F7FB;
+  color: #404C73;
+}
+.el-table__body-wrapper .cell{
+color: #8C94AC;
+}
+.el-pagination .number{
+  width: 24px;
+  height: 24px;
+  background: #FAFAFA;
+  border: 1px solid #E3E5E8;
+  border-radius: 2px;
+  line-height: 24px;
+  margin:0px 3px;
+}
+.el-pagination .btn-next{
+  height: 24px;
+  background: #FAFAFA;
+  border: 1px solid #E3E5E8;
+  border-radius: 2px;
+  line-height: 24px;
+  margin:0px 3px;
+  margin-top:3px;
+}
+.el-pagination .btn-pre{
+  height: 24px;
+  background: #FAFAFA;
+  border: 1px solid #E3E5E8;
+  border-radius: 2px;
+  line-height: 24px;
+  margin:0px 3px;
+  margin-top:3px;
+}
+.el-pager li.active+li{
+  border: 1px solid #E3E5E8;
+}
+.el-pagination button.disabled{
+  width: 24px;
+  height: 24px;
+  background: #FAFAFA;
+  border: 1px solid #E3E5E8;
+  border-radius: 2px;
+  line-height: 24px;
+  margin:0px 3px;
+  margin-top:3px;
+}
+.el-pager li.btn-quicknext, .el-pager li.btn-quickprev {
+  width: 24px;
+  height: 24px;
+  background: #FAFAFA;
+  border: 1px solid #E3E5E8;
+  border-radius: 2px;
+  line-height: 24px;
+  margin:0px 3px;
+  color: #2d2f33;
+
+}
+.el-pager{
+  margin-top:3px;
 }

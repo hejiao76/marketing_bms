@@ -16,7 +16,7 @@
               <!--</div>-->
               <div class="city-box">
                 <div class="city">
-                  <div class="city-title">
+                  <div class="city-title" style="padding-left:17px;">
                     城市列表
                   </div>
                   <div class="city-body">
@@ -34,8 +34,8 @@
                   </div>
                 </div>
                 <div class="city-sidebar">
-                  <div class="col-md-12 city-title">
-                    已选城市
+                  <div class="city-title" >
+                    已选城市({{childCheckedMenuName.length}})
                   </div>
                   <div class="city-body">
                     <div class="city-body-title" v-for="item in childCheckedMenuName">

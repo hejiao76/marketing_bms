@@ -45,30 +45,31 @@
             </el-row>
           </el-col>
         </el-row>
-        <div style="width:550px;">
-          <el-form-item label="活动时间:">
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
-            </el-col>
-            <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
-            <el-col :span="11">
-              <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期"></el-date-picker>
-            </el-col>
-          </el-form-item>
-        </div>
         <el-row>
-          <el-col :span="16">
-            <div style="width:550px;">
+          <el-col :span="12">
+            <el-form-item label="活动时间:">
+              <el-col :span="11">
+                <el-date-picker style="width: 100%;" v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
+              </el-col>
+              <el-col class="line" :span="2" style="text-align: center">-</el-col>
+              <el-col :span="11">
+                <el-date-picker style="width: 100%;" v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期"></el-date-picker>
+              </el-col>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+        <el-row>
+          <el-col :span="12">
               <el-form-item label="创建时间:">
                 <el-col :span="11">
-                  <el-date-picker v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.createStartDate" :editable="false" :picker-options="optionsCreateStart" type="date" placeholder="选择开始日期"></el-date-picker>
                 </el-col>
-                <el-col class="line ml5" :span="1" style="text-align: center;width:30px;">-</el-col>
+                <el-col class="line" :span="2" style="text-align: center">-</el-col>
                 <el-col :span="11">
-                  <el-date-picker v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="选择结束日期"></el-date-picker>
+                  <el-date-picker style="width: 100%;" v-model="filterForm.createEndDate" :editable="false" :picker-options="optionsCreateEnd" type="date" placeholder="选择结束日期"></el-date-picker>
                 </el-col>
               </el-form-item>
-            </div>
           </el-col>
           <el-col :span="8">
             <el-form-item class="fr">
@@ -117,7 +118,7 @@
       </el-table>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
-                     :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+                     :current-page="currentPage" :page-size="1" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
 
       <!-- 中奖用户弹出层 -->
@@ -228,7 +229,7 @@
         resData : [],
         currentPage: 1,
         totalRow: 0,
-        pageRecorders: 10,
+        pageRecorders: 1,
         Final: Final,
         cityArr:[],
         cityVmList:[],
@@ -246,11 +247,6 @@
       this.getCity();
     },
     watch: {
-      "$route": function (to, from) {
-        this.resetForm();
-
-
-      }
     },
     methods: {
       /**

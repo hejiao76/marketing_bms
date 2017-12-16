@@ -4,22 +4,26 @@
     <el-form :model="baseItem"  :rules="rules" ref="baseItem" label-width="120px" size="small" :label-position="labelPosition">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="活动名称:" prop="name">
-            <el-input :maxlength="10"   v-model="baseItem.name" placeholder="请输入活动名称" ></el-input>
-          </el-form-item>
-          <el-form-item label="活动日期:" required>
-            <el-col :span="11">
-              <el-form-item prop="beginTime">
-                <el-date-picker :disabled="isHaveInHand" style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col class="line" :span="2" style="text-align: center">-</el-col>
-            <el-col :span="11">
-              <el-form-item prop="endTime">
-                <el-date-picker style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.endTime" :picker-options="optionsActivityEnd" type="datetime" placeholder="请输入结束日期"></el-date-picker>
-              </el-form-item>
-            </el-col>
-          </el-form-item>
+          <el-col :span="24">
+            <el-form-item label="活动名称:" prop="name" style="width: 56%;">
+              <el-input :maxlength="10"   v-model="baseItem.name" placeholder="请输入活动名称" ></el-input>
+            </el-form-item>
+          </el-col>
+         <el-col :span="24">
+           <el-form-item label="活动日期:" required>
+             <el-col :span="11">
+               <el-form-item prop="beginTime">
+                 <el-date-picker :disabled="isHaveInHand" style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
+               </el-form-item>
+             </el-col>
+             <el-col class="line" :span="2" style="text-align: center">-</el-col>
+             <el-col :span="11">
+               <el-form-item prop="endTime">
+                 <el-date-picker style="width: 100%;" :clearable="false" :editable="false" v-model="baseItem.endTime" :picker-options="optionsActivityEnd" type="datetime" placeholder="请输入结束日期"></el-date-picker>
+               </el-form-item>
+             </el-col>
+           </el-form-item>
+         </el-col>
           <el-form-item prop="isShowJoinSize" label="参与人数:">
             <el-col :span="24">
               <el-radio-group @change="previewCall($event,'isShowJoinSize')" v-model="baseItem.isShowJoinSize">
@@ -127,13 +131,13 @@
         <!--</el-col>-->
       </el-row>
       <el-row class="margin-bottom-20" style="margin-top:20px;">
-        <el-form-item label="活动地区:" required>
+        <el-form-item label="活动地区:" required >
           <V-Treeview  @call="syncArea" :code="baseItem.areaIds" :name="baseItem.areaNames"></V-Treeview>
         </el-form-item>
       </el-row>
       <el-row class="margin-bottom-20">
-        <el-col :span="14">
-          <el-form-item label="车系／车型：" prop="serialIds">
+        <el-col :span="24">
+          <el-form-item label="车系／车型：" prop="serialIds" >
           <!--<span class="span-120"></span>-->
           <el-select :disabled="isHaveInHand" style="width:100%;" @change="serialChange"  v-model="baseItem.serialIds" placeholder="请选择车系" size="small" multiple >
             <el-option
@@ -174,6 +178,7 @@ import * as util from "./../../util/util";
 import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 import VTreeview from "./../../components/treeview.vue";
+import ElCol from "element-ui/packages/col/src/col";
 export default {
   props:['prizeDrawDetail',"isEdit","isHaveInHand"],
   data () {
@@ -244,6 +249,7 @@ export default {
     }
   },
   components :{
+    ElCol,
     VTreeview,
     VTipMsg
   },

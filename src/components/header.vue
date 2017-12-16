@@ -1,6 +1,6 @@
 <template>
   <header>
-    <el-row  style="width: 100%;">
+    <el-row  style="width: 100%;-moz-box-shadow: 0px 1px 8px #888888;box-shadow: 0px 1px 8px #888888;">
         <el-col :span="6">
           <div class="logo">
             <!--<img class="vm" src="./../assets/img/small_logo.png"/>-->
@@ -22,7 +22,7 @@
         <el-col :span="6" style="padding-right:30px;text-align: right;line-height:60px;">
             <img src="../assets/images/jia.png" alt="" style="width: 30px;height: 30px;border-radius: 15px;background: #62d84c;margin-right: 20px;">
             <el-dropdown @command="handleCommand">
-              <span class="el-dropdown-link">
+              <span class="el-dropdown-link" style="color: #404c73">
                 我是超级用户<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">

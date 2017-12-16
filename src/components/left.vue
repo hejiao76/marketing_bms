@@ -3,18 +3,36 @@
   <aside class="left_bgColor">
     <el-row class="tac left_bgColor">
       <el-col :span="24">
-        <div style="width:100%;text-align: right;line-height: 36px;color:#878d99;border-bottom: solid 1px #676C81;"><i class="el-icon-menu el-icon-tickets pr20 mr5 cur" style="color:#878d99" @click="colClick"></i></div>
-        <el-menu v-if="roleMenusObj.children" :default-active="String(currentNode.resourceId)" :unique-opened="true" :router="true"  class="el-menu-vertical-demo"  background-color="#555A6E" text-color="#FFFFFF" style="border:0">
-          <div v-for="(item,index) in roleMenusObj.children">
-            <el-menu-item v-if="!item.children" :route="{path:item.resourceUrl}" :index="String(item.resourceId)">{{item.resourceName}}</el-menu-item>
-            <el-submenu v-if="item.children" :index="String(item.resourceId)">
-              <template slot="title">
+        <div style="width:100%;text-align: right;line-height: 36px;border-bottom: solid 1px #676C81;">
+          <i class="el-icon-menu el-icon-tickets pr20 mr5 cur" style="" @click="colClick"></i>
+        </div>
+        <el-menu v-if="roleMenusObj.children"
+                 :default-active="String(currentNode.resourceId)"
+                 :unique-opened="true" :router="true"
+                 class="el-menu-vertical-demo"
+                 background-color="#555A6E"
+                 style="border:0"
+                 text-color="#999EB0"
+                 :collapse="isCollapse">
+          <template v-for="(item,index) in roleMenusObj.children">
+            <el-menu-item v-if="!item.children" :route="{path:item.resourceUrl}"
+                          :index="String(item.resourceId)">
+              {{item.resourceName}}
+            </el-menu-item>
+            <el-submenu v-if="item.children"
+                        :index="String(item.resourceId)">
+              <template slot="title" >
                 <i class="el-icon-menu"></i>
                 <span>{{item.resourceName}}</span>
               </template>
-              <el-menu-item  v-for="(childItem,childIndex) in item.children" :route="{path:childItem.resourceUrl}" :index="String(childItem.resourceId)">{{childItem.resourceName}}</el-menu-item>
+              <el-menu-item
+                v-for="(childItem,childIndex) in item.children"
+                :route="{path:childItem.resourceUrl}"
+                :index="String(childItem.resourceId)">
+                {{childItem.resourceName}}
+              </el-menu-item>
             </el-submenu>
-          </div>
+          </template>
         </el-menu>
       </el-col>
     </el-row>
@@ -224,9 +242,20 @@
   }
 </style>
  <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
   .left_bgColor {
-    background-color:#555A6E;
+    background-color:#555A6E ;
+  }
+  .left_bgColor .el-menu-item{
+    padding-left:53px !important;
+
+  }
+  .left_bgColor .is-opened .el-submenu__title{
+    color: rgb(255, 255, 255) !important;
+    background: #45495E !important;
+  }
+  .left_bgColor .el-menu-item{
+    background: #4B4F65 !important;
   }
   /*.f-n-style{*/
     /*font-size:16px;*/
