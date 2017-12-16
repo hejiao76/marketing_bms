@@ -33,7 +33,7 @@
                 <el-option
                   v-for="item in carSerialsList"
                   :key="item.id"
-                  :label="item.brandName"
+                  :label="item.serialName"
                   :value="item.id">
                 </el-option>
               </el-select>
