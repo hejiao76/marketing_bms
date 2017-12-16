@@ -179,7 +179,7 @@
         <el-table-column label="操作" min-width="180px">
             <template slot-scope="scope">
               <el-button type="text" @click="openDetail(scope.row.id)">查看</el-button>
-              <el-button v-if="!scope.row.status==3" type="text" @click="updatePrize(scope.row.id)">编辑</el-button>
+              <el-button v-if="scope.row.status!=3" type="text" @click="updatePrize(scope.row.id)">编辑</el-button>
               <el-button type="text" v-if="scope.row.status==1" @click="deletePrize(scope.row.id)">删除</el-button>
               <el-button type="text" v-if="scope.row.status==2" @click="activeCouEnd(scope.row.id)">结束活动</el-button>
               <el-button type="text" @click="couponLink(scope.row.shareUrl)">活动链接</el-button>
@@ -214,7 +214,7 @@
               <div class="active-footer">
                 <table>
                   <tr>
-                    <td v-if="!item.status==3"><a href="javascript:void(0)" @click="updatePrize(item.id)">编辑</a></td>
+                    <td v-if="item.status!=3"><a href="javascript:void(0)" @click="updatePrize(item.id)">编辑</a></td>
                     <td v-if="item.status==1"><a href="javascript:void(0)" @click="deletePrize(item.id)">删除</a></td>
                     <td v-if="item.status==2"><a href="javascript:void(0)" @click="activeCouEnd(item.id)">结束活动</a></td>
                     <td><a href="javascript:void(0)"  @click="couponLink(item.shareUrl)"> 活动链接</a></td>

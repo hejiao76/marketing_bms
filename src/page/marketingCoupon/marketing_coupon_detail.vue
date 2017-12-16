@@ -10,13 +10,13 @@
             <el-form-item label="活动日期：">
               <div  style="width: 70%;">{{activityInfo.beginTime}}至{{activityInfo.endTime}}</div>
             </el-form-item>
-            <el-form-item label="活动地区：" v-if="activityInfo.area">
-              <div  style="width: 70%;"><span v-for="item in activityInfo.area.list">{{item.city}}&nbsp;&nbsp;,</span></div>
+            <el-form-item label="活动地区：" v-if="activityInfo.areaNames">
+              <div  style="width: 70%;">{{activityInfo.areaNames}}</div>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="分享图片：">
-              <img :src="activityInfo.shareImg" alt="" style="width: 130px;height: 130px;">
+              <img :src="activityInfo.shareImg.includes('http://') ? previewProps.bgImg:Final.IMG_PATH+activityInfo.shareImg" alt="" style="width: 130px;height: 130px; border: 1px solid #e6e6e6;">
             </el-form-item>
           </el-col>
         </el-row>

@@ -21,13 +21,12 @@
         </el-col>
         <el-col :span="6" style="padding-right:30px;text-align: right;line-height:60px;">
             <img src="../assets/images/jia.png" alt="" style="width: 30px;height: 30px;border-radius: 15px;background: #62d84c;margin-right: 20px;">
-            <el-dropdown>
+            <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
                 我是超级用户<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>退出1</el-dropdown-item>
-                <el-dropdown-item>退出2</el-dropdown-item>
+                <el-dropdown-item  command="loginout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
 
@@ -91,34 +90,25 @@
 export default {
   components: {
     ElCol,
-    ElRow},
-  name: 'header',
+    ElRow,
+    name: 'header',
+  },
   data () {
     return {
       mainMenus:[],
-      menuCode:''
+      menuCode:'',
+      Final:Final,
     }
   },
   created () {
-//      console.log("--------------------------------->>>>>>>>>header Created");
-//      let roleMenus=localStorage.getItem("roleMenus") ?  JSON.parse(localStorage.getItem("roleMenus")): [];
-//      if(roleMenus.children && roleMenus.children.length>0){
-//          let mainMenusArray=[];
-//          for(let i=0;i<roleMenus.children.length;i++){
-//              if(roleMenus.children[i].parentMenuCode==0){
-////                  let newMenuObj={};
-////                  Object.assign(newMenuObj,roleMenus.children[i],Final.MENU_ROUTER_MAPPING[roleMenus.children[i].menucode]);
-////                mainMenusArray.push(newMenuObj);
-//                mainMenusArray.push(roleMenus.children[i]);
-//              }
-//          }
-//          mainMenusArray.sort(function (a,b){
-//             return a["sort"]-b["sort"]
-//          });
-//          this.mainMenus=mainMenusArray;
-//      }
   },
   methods:{
+      handleCommand(command){
+          if(command == 'loginout'){
+            let url = Final.LOGIN_PAGE_URL
+            window.location.href = url
+          }
+      },
       saveMainMenuCode (menuCode) {
           if(menuCode){
               this.menuCode=menuCode;
@@ -126,19 +116,6 @@ export default {
               console.log("header-------"+menuCode);
           }
       },
-      loginout () {
-          var param={token:localStorage.getItem("token")}
-          Api.base_loginOut(param).then(res => {
-              if(res.status==1){
-                  localStorage.removeItem("token");
-                  this.$router.replace("/login");
-              } else {
-                console.log("server error");
-              }
-          }).catch(error => {
-              console.log("error");
-          });
-      }
   }
 }
 </script>
