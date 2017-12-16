@@ -3,7 +3,7 @@
     <div style="display:inline-block;float:left;" >
     <img  src="./../assets/img/house.png" class="vm">
     <!--<span class="vm">您的当前位置 : <span class="f_blue">开始-&#45;&#45;工作</span></span>-->
-    <span class="vm">您的当前位置 :
+    <span class="vm" style="color: #8C94AC">您的当前位置 :
       <span v-for="(menuObj,index) in navList"  disabled="true">{{menuObj.resourceName}}<span v-if="index!=(navList.length-1)"> > </span>
 
       <!--<el-tabs v-model="activeName" @tab-click="handleClick">-->

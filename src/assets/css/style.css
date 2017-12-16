@@ -174,7 +174,7 @@ nav span .f_blue{
   min-height: calc(100vh - 155px);
   margin:0px 20px 0;
   padding:30px 40px 20px;
-  background: #fff;
+  background: #FAFAFA;
   /*max-width:1600px;*/
   /*max-width: -webkit-calc(100vw - 270px);*/
   /*max-width: calc(100vw - 270px);*/
@@ -461,6 +461,7 @@ html,body{
   border-left:none;
   margin-right:10px;
   border-bottom: 1px solid #dfe4ed;
+  color: #404c73;
 }
 .el-tabs--card>.el-tabs__header .el-tabs__item.is-active{
   border-left: 1px solid #dfe4ed;
