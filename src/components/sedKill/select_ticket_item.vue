@@ -57,7 +57,7 @@
               <span class="newhd-txt">报名开始时间：</span>
               <div class="edit-txt">
                 <el-form-item prop="enrollStartTime">
-                <el-date-picker v-model="checkedTicketItemForm.enrollStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                  <el-date-picker v-model="checkedTicketItemForm.enrollStartTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                 </el-form-item>
               </div>
             </li>
@@ -68,7 +68,7 @@
                 <el-form-item prop="enrollEndTime">
                   <el-date-picker v-model="checkedTicketItemForm.enrollEndTime" size="mini" type="datetime" placeholder="选择日期时间"></el-date-picker>
                 </el-form-item>
-                  <!--<em class="index-icon icon-hdtime"></em>-->
+                <!--<em class="index-icon icon-hdtime"></em>-->
               </div>
               <!--<div class="error-txt">时间错误时间误时间错误时错误</div>-->
             </li>
@@ -164,144 +164,151 @@
 </template>
 
 <script>
-import Api from "./../../fetch/api"
-import Final from "./../../util/Final";
-import * as util from "./../../util/util";
-import VTipMsg from "./../tipMsg.vue";
-import TestData from "./../../util/TestData"
-import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
-export default {
-  props:['ticketItem','ticketIndex','activityStartDate'],
-  data () {
-    return {
-      checkedTicketItemForm:{
-        couponId:'', //秒杀券ID
-        name:'',//秒杀券名称
-        enrollStartTime:'',//报名开始日期
-        enrollEndTime:'',//报名截止日期
-        beginTime:'',//有效期开始时间
-        endTime:'',//有效期结束日期
-        createTime:'', //创建日期
-        applyCar:'',
-        amount:1,//秒杀金额
-        seckillTime:'',//秒杀开始日期
-        maxCount:'', //秒杀券数量
-        payCount:'', //最大支付数
-        editStatus:0, //当前是否处于1编辑状态
-      },
-      ticketRules: {
-        maxCount: [
-          { validator :this.userValidate().validate_maxCount, trigger: 'blur' }
-        ],
-        payCount: [
-          { validator :this.userValidate().validate_payCount, trigger: 'blur' }
-        ],
-        amount: [
-          { validator :this.userValidate().validate_amount, trigger: 'blur' }
-        ],
-        seckillTime: [
-          { validator :this.userValidate().validate_seckillTime, trigger: 'blur' }
-        ],
-        enrollStartTime:[
-          { validator :this.userValidate().validate_enrollStartTime, trigger: 'blur' }
-        ],
-        enrollEndTime:[
-          { validator :this.userValidate().validate_enrollEndTime, trigger: 'blur' }
-        ]
-      },
-    }
-  },
-  components :{
-    ElInput,
-    VTipMsg
-  },
-  created () {
-    this.cloneTicketInfo();
-  },
-  mounted () {
-
-  },
-  watch : {
-    ticketItem (val, oldval) {
+  import Api from "./../../fetch/api"
+  import Final from "./../../util/Final";
+  import * as util from "./../../util/util";
+  import VTipMsg from "./../tipMsg.vue";
+  import TestData from "./../../util/TestData"
+  import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
+  export default {
+    props:['ticketItem','ticketIndex','activityStartDate'],
+    data () {
+      return {
+        checkedTicketItemForm:{
+          couponId:'', //秒杀券ID
+          name:'',//秒杀券名称
+          enrollStartTime:'',//报名开始日期
+          enrollEndTime:'',//报名截止日期
+          beginTime:'',//有效期开始时间
+          endTime:'',//有效期结束日期
+          createTime:'', //创建日期
+          applyCar:'',
+          amount:1,//秒杀金额
+          seckillTime:'',//秒杀开始日期
+          maxCount:'', //秒杀券数量
+          payCount:'', //最大支付数
+          editStatus:0, //当前是否处于1编辑状态
+        },
+        ticketRules: {
+          maxCount: [
+            { validator :this.userValidate().validate_maxCount, trigger: 'blur' }
+          ],
+          payCount: [
+            { validator :this.userValidate().validate_payCount, trigger: 'blur' }
+          ],
+          amount: [
+            { validator :this.userValidate().validate_amount, trigger: 'blur' }
+          ],
+          seckillTime: [
+            { validator :this.userValidate().validate_seckillTime, trigger: 'blur' }
+          ],
+          enrollStartTime:[
+            { validator :this.userValidate().validate_enrollStartTime, trigger: 'blur' }
+          ],
+          enrollEndTime:[
+            { validator :this.userValidate().validate_enrollEndTime, trigger: 'blur' }
+          ]
+        },
+      }
+    },
+    components :{
+      ElInput,
+      VTipMsg
+    },
+    created () {
       this.cloneTicketInfo();
-    }
-  },
-  methods:{
-    cloneTicketInfo() {
-      this.checkedTicketItemForm = Object.assign({},this.checkedTicketItemForm,this.ticketItem);
-      this.checkedTicketItemForm.beginTime=util.dateObjToString(new Date(this.checkedTicketItemForm.beginTime));
-      this.checkedTicketItemForm.endTime=util.dateObjToString(new Date(this.checkedTicketItemForm.endTime))
-      this.checkedTicketItemForm.createTime=util.dateObjToString(new Date(this.checkedTicketItemForm.createTime));
+    },
+    mounted () {
 
-      if(this.checkedTicketItemForm.enrollStartTime){
+    },
+    watch : {
+      ticketItem (val, oldval) {
+        this.cloneTicketInfo();
+      }
+    },
+    methods:{
+      cloneTicketInfo() {
+        this.checkedTicketItemForm = Object.assign({},this.checkedTicketItemForm,this.ticketItem);
+        this.checkedTicketItemForm.beginTime=util.dateObjToString(new Date(this.checkedTicketItemForm.beginTime));
+        this.checkedTicketItemForm.endTime=util.dateObjToString(new Date(this.checkedTicketItemForm.endTime))
+        this.checkedTicketItemForm.createTime=util.dateObjToString(new Date(this.checkedTicketItemForm.createTime));
+
+        if(this.checkedTicketItemForm.enrollStartTime){
           this.checkedTicketItemForm.enrollStartTime = new Date(this.checkedTicketItemForm.enrollStartTime)
-      }
-      if(this.checkedTicketItemForm.enrollEndTime){
-        this.checkedTicketItemForm.enrollEndTime = new Date(this.checkedTicketItemForm.enrollEndTime)
-      }
-      if(this.checkedTicketItemForm.seckillTime){
-        this.checkedTicketItemForm.seckillTime = new Date(this.checkedTicketItemForm.seckillTime)
-      }
-    },
-    /**
-     * 日期转1字符串
-     * @param date
-     */
-    formatDateToString (date){
-      if(typeof date == 'object'){
-        return util.toFullDateString(date.getTime());
-      }
-      else{
-        return date;
-      }
-    },
-    /**
-     * 编辑/取消编辑 秒杀券基本信息按钮事件触发
-     * @param couponId
-     * @param status
-     */
-    editTicketItem (couponId,status) {
-      if(couponId){
+        }
+        if(this.checkedTicketItemForm.enrollEndTime){
+          this.checkedTicketItemForm.enrollEndTime = new Date(this.checkedTicketItemForm.enrollEndTime)
+        }
+        if(this.checkedTicketItemForm.seckillTime){
+          this.checkedTicketItemForm.seckillTime = new Date(this.checkedTicketItemForm.seckillTime)
+        }
+      },
+      test () {},
+      /**
+       * 日期转1字符串
+       * @param date
+       */
+      formatDateToString (date){
+        if(typeof date == 'object'){
+          return util.toFullDateString(date.getTime());
+        }
+        else{
+          return date;
+        }
+      },
+      /**
+       * 编辑/取消编辑 秒杀券基本信息按钮事件触发
+       * @param couponId
+       * @param status
+       */
+      editTicketItem (couponId,status) {
+        if(couponId){
           this.checkedTicketItemForm.editStatus=status;
-      }
-    },
-    removeTicketItem () {
-        this.$emit("call",{op:"delete",callData:this.checkedTicketItemForm.couponId});
-      }
-    },
-    /**
-     *  保存 秒杀券基本信息按钮事件触发
-     * @param couponId
-     */
-    saveTicketItem(couponId){
-      if(couponId){
-        this.$refs['checkedTicketItemForm'].validate((valid) => {
-          if (valid) {
-            let newItem ={};
-            this.checkedTicketItemForm.editStatus=0;
-            Object.assign(newItem,this.checkedTicketItemForm);
-            if(this.checkedTicketItemForm.enrollStartTime){
-              newItem.enrollStartTime = this.formatDateToString(this.checkedTicketItemForm.enrollStartTime)
+          console.log("edit~~~~",JSON.stringify(this.checkedTicketItemForm))
+        }
+      },
+      removeTicketItem () {
+        console.log("到哪儿去了------------11111",this.checkedTicketItemForm.couponId);
+        if(this.checkedTicketItemForm.couponId){
+          console.log(this.couponId);
+          this.$emit("call",{op:"delete",callData:this.checkedTicketItemForm.couponId});
+        }
+      },
+      /**
+       *  保存 秒杀券基本信息按钮事件触发
+       * @param couponId
+       */
+      saveTicketItem(couponId){
+        if(couponId){
+          this.$refs['checkedTicketItemForm'].validate((valid) => {
+            if (valid) {
+              let newItem ={};
+              this.checkedTicketItemForm.editStatus=0;
+              Object.assign(newItem,this.checkedTicketItemForm);
+              console.log("~~~~",JSON.stringify(newItem));
+              if(this.checkedTicketItemForm.enrollStartTime){
+                newItem.enrollStartTime = this.formatDateToString(this.checkedTicketItemForm.enrollStartTime)
+              }
+              if(this.checkedTicketItemForm.enrollEndTime){
+                newItem.enrollEndTime = this.formatDateToString(this.checkedTicketItemForm.enrollEndTime)
+              }
+              if(this.checkedTicketItemForm.seckillTime){
+                newItem.seckillTime = this.formatDateToString(this.checkedTicketItemForm.seckillTime)
+              }
+              delete newItem.editStatus;
+              this.$emit("call",{op:"edit",callData:newItem});
+            } else {
+              console.log('error submit!!');
+              return false;
             }
-            if(this.checkedTicketItemForm.enrollEndTime){
-              newItem.enrollEndTime = this.formatDateToString(this.checkedTicketItemForm.enrollEndTime)
-            }
-            if(this.checkedTicketItemForm.seckillTime){
-              newItem.seckillTime = this.formatDateToString(this.checkedTicketItemForm.seckillTime)
-            }
-            delete newItem.editStatus;
-            this.$emit("call",{op:"edit",callData:newItem});
-          } else {
-            return false;
-          }
-        });
-      }
-    },
-    /**
-     * 自定义验证规则
-     * @returns {{validate_maxCount: (function(*, *=, *)), validate_payCount: (function(*, *=, *)), validate_amount: (function(*, *=, *)), validate_seckillTime: (function(*, *=, *)), validate_enrollStartTime: (function(*, *=, *)), validate_enrollEndTime: (function(*, *=, *))}}
-     */
-    userValidate (){
+          });
+        }
+      },
+      /**
+       * 自定义验证规则
+       * @returns {{validate_maxCount: (function(*, *=, *)), validate_payCount: (function(*, *=, *)), validate_amount: (function(*, *=, *)), validate_seckillTime: (function(*, *=, *)), validate_enrollStartTime: (function(*, *=, *)), validate_enrollEndTime: (function(*, *=, *))}}
+       */
+      userValidate (){
         return {
           validate_maxCount : (rule, value, callback) => {
             value=parseInt(value);
@@ -318,23 +325,23 @@ export default {
               callback();
             }
           },
-            validate_payCount : (rule, value, callback) => {
-              value=parseInt(value);
-              if (!value) {
-                return callback(new Error('请输入最大支付数'));
-              }else if (!Number.isInteger(value)) {
-                callback(new Error('最大支付数须是数字'));
-              } else {
-                if(!this.checkedTicketItemForm.maxCount){
-                  callback(new Error('请先输入秒杀券个数'));
-                }
-                if (value > this.checkedTicketItemForm.maxCount*5) {
-                  callback(new Error('最大支付数不能超过5倍秒杀券个数'));
-                } else if(value<this.checkedTicketItemForm.maxCount) {
-                  callback(new Error('最大支付数不能小于秒杀券个数'));
-                }
-                callback();
+          validate_payCount : (rule, value, callback) => {
+            value=parseInt(value);
+            if (!value) {
+              return callback(new Error('请输入最大支付数'));
+            }else if (!Number.isInteger(value)) {
+              callback(new Error('最大支付数须是数字'));
+            } else {
+              if(!this.checkedTicketItemForm.maxCount){
+                callback(new Error('请先输入秒杀券个数'));
               }
+              if (value > this.checkedTicketItemForm.maxCount*5) {
+                callback(new Error('最大支付数不能超过5倍秒杀券个数'));
+              } else if(value<this.checkedTicketItemForm.maxCount) {
+                callback(new Error('最大支付数不能小于秒杀券个数'));
+              }
+              callback();
+            }
           },
           validate_amount :(rule, value, callback) => {
             value=parseInt(value);
@@ -389,51 +396,53 @@ export default {
               }
             }
           }
+        }
       }
+
+    }
   }
-}
 </script>
 
 <!-- Add1111 "scoped" attribute to limit CSS to this component only -->
 <style >
-.newhd-content {
+  .newhd-content {
 
-}
-.edit-txt .el-form-item {
-  display: inline-block;
-  width:110px;
-}
-.edit-txt .el-form-item__content{
-  line-height: 21px;
-}
-.edit-txt .el-input {
-  /*width:110px;*/
-}
-.edit-txt .el-input .el-input__inner {
-  widht:100%;
-  height:20px;
-}
+  }
+  .edit-txt .el-form-item {
+    display: inline-block;
+    width:110px;
+  }
+  .edit-txt .el-form-item__content{
+    line-height: 21px;
+  }
+  .edit-txt .el-input {
+    /*width:110px;*/
+  }
+  .edit-txt .el-input .el-input__inner {
+    widht:100%;
+    height:20px;
+  }
   .edit-txt .el-form-item__error {
     width:220px;
     left:-80px;
   }
-.edit-txt .el-date-editor{
-  width:120px;
-}
-.edit-txt .el-input__prefix {
-  left:auto;
-  right:-27px;
-}
-.edit-txt .el-input__prefix i {
-  color:#9384e3;
-}
-.edit-txt .el-icon-time {
-  line-height:22px;
-}
-.edit-txt .el-input__suffix {
-  right:9px;
-}
-.edit-txt .el-input__suffix .el-input__icon {
-  line-height:22px;
-}
+  .edit-txt .el-date-editor{
+    width:120px;
+  }
+  .edit-txt .el-input__prefix {
+    left:auto;
+    right:-27px;
+  }
+  .edit-txt .el-input__prefix i {
+    color:#9384e3;
+  }
+  .edit-txt .el-icon-time {
+    line-height:22px;
+  }
+  .edit-txt .el-input__suffix {
+    right:9px;
+  }
+  .edit-txt .el-input__suffix .el-input__icon {
+    line-height:22px;
+  }
 </style>
