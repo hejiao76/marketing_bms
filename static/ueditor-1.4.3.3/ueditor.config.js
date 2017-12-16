@@ -29,9 +29,10 @@
 
         //为编辑器实例添加一个路径，这个不能被注释
         UEDITOR_HOME_URL: URL
-
+          // UEDITOR_HOME_URL: "http://192.168.1.159:8280"
         // 服务器统一请求接口路径
-        , serverUrl: URL + "jsp/controller.jsp"
+        // , serverUrl: URL + "jsp/controller.jsp"
+      , serverUrl: "/action/ueditor/upload"
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         , toolbars: [[
