@@ -70,7 +70,6 @@ export default {
     },
     seriesItemForm :{
         handler(val,oldval){
-          console.log("watch --- tmpseries----",Object.assign({},this.seriesItemForm));
           this.$emit("getTmpSeriesData",Object.assign({},this.seriesItemForm));
         },
         deep:true
@@ -99,19 +98,6 @@ export default {
 
         });
       },
-//    submitForm(formName) {
-//      this.$refs[formName].validate((valid) => {
-//        if (valid) {
-//          alert('submit!');
-//        } else {
-//          console.log('error submit!!');
-//          return false;
-//        }
-//      });
-//    },
-//    resetForm(formName) {
-//      this.$refs[formName].resetFields();
-//    },
     cloneSeriesInfo() {
       if(this.couponDetail){
         this.seriesItemForm = {

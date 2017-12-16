@@ -216,7 +216,6 @@
                       beginTime:new Date(res.result.beginTime),
                       endTime:new Date(res.result.endTime)
                     });
-                    console.log(this.sedKillFormItem);
                     if(this.isCopy){
                         delete this.sedKillFormItem.id;
                     }
@@ -231,15 +230,6 @@
             });
           }
       },
-//      getUEContent() {
-//        let content = this.$refs.ue.getUEContent(); // 调用子组件方法
-//        this.$notify({
-//          title: '获取成功，可在控制台查看！',
-//          message: content,
-//          type: 'success'
-//        });
-//        console.log(content)
-//      },
       /**
        * 修改秒杀券信息
        */
@@ -331,13 +321,11 @@
               message:'秒杀券信息填写有误',
               duration:'1500'
             });
-            console.log('error submit!!');
             return false;
           }
         });
       },
       returnList(formName) {
-//        this.$refs[formName].resetFields();
         this.$router.push("/sedkill/ticket_list");
       }
 

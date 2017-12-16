@@ -108,7 +108,6 @@ export default {
      * 选择礼包，只能选择一个
      */
     checkGiftGroup (tmpId){
-        console.log("checkGiftGroup------",tmpId)
         this.tmpGiftGroupId=tmpId
     },
     /**
@@ -121,7 +120,6 @@ export default {
      * 搜索可选礼包
      */
     searchGiftGroup () {
-//        console.log("车系缓存1111111111111信息----------",this.tmpSeriesData);
         this.requestGiftList();
     },
     /**
@@ -129,17 +127,12 @@ export default {
      * @param exceptIdArray
      */
     showDialog (exceptIdArray) {
-//      console.log("request---gift_-----list",);
-//        this.exceptIdArray=exceptIdArray;
-//        this.requestAddTicketList();
         this.dialogTableVisible=true;
-//        this.requestGiftList();
     },
     /**
      * 请求可选礼包
      */
     requestGiftList (){
-        console.log("request---gift_-----list");
         let param = {
           giftGroupName:this.giftGroupName || '',
           type:this.tmpSeriesData.serialType,
@@ -171,18 +164,6 @@ export default {
           this.tmpGiftGroupId='';
           this.listObj=[];
         }
-//      console.log("save");
-//      let checkedTicketArray=this.getCheckedTicket();
-//      if(checkedTicketArray.length+this.exceptIdArray.length<=3){
-//            this.$emit("call",checkedTicketArray)
-//            this.dialogTableVisible=false;
-//            this.listObj=[];
-//      }else{
-//        this.$refs.tipMsgRef.showTipMsg({
-//          msg:"活动绑定的秒杀券数量已经超过101个",
-//          type:"error"
-//        });
-//      }
     },
     /**
      * 取消选择

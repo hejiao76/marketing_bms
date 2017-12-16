@@ -243,7 +243,6 @@
                 beginTime:this.formatDateToString(this.activityInfo.beginTime),
                 endTime:this.formatDateToString(this.activityInfo.endTime),
             });
-            console.log(JSON.stringify(param));
             if(this.isEdit){
               Api.sk_activity_update(param)
                 .then(res => {
@@ -290,19 +289,6 @@
             }
 
           }
-//          console.log("111111111111111----------------->");
-//          if(!this.validPostCheckedTicketParam()){
-//            this.$refs.tipMsgRef.showTipMsg({
-//              msg:"请添加或者完善抵扣券信息",
-//              type:"error"
-//            });
-//          }else  {
-//            this.$refs.tipMsgRef.showTipMsg({
-//              msg:"保存成功",
-//              type:"success"
-//            });
-//          }
-//        console.log("提交参数------->",JSON.stringify(this.activityInfo))
         return;
       },
       cancelSubmit (){
@@ -317,9 +303,6 @@
       requestData () {
         if(this.activityId){
           let param = {id:this.activityId};
-//          Object.assign(this.activityInfo,TestData.sedKill_itemList_data.result);
-//          console.log(this.activityInfo);
-//          return;
           Api.sk_activity_detail(param)
             .then(res => {
               if (res.status == true) {
@@ -364,7 +347,6 @@
             createTime:util.dateObjToString(new Date(coupons[i].couponCreateTime))
           }))
         }
-        console.log("格式化时间-------",newCoupons);
         return newCoupons
       },
       getTicketItemByTicketId (couponId) {
@@ -381,18 +363,6 @@
               return date;
           }
       },
-//      createTmpTicketItem(item){
-//        let tmpTickItem = {};
-//        if(item){
-//          tmpTickItem.ticketCount=item.ticketCount || 1;
-//          tmpTickItem.maxPayCount=item.maxPayCount || '';
-//          tmpTickItem.sedkillMoney=item.sedkillMoney || 1;
-//          tmpTickItem.signUpStartTime=item.signUpStartTime ? new Date(item.signUpStartTime) : '';
-//          tmpTickItem.signUpEndTime=item.signUpEndTime ? new Date(item.signUpEndTime) : '';
-//          tmpTickItem.sedKillStartDate=item.sedKillStartDate ? new Date(item.sedKillStartDate) : '';
-//        }
-//        return tmpTickItem;
-//      },
       /**
        *  同步秒杀券信息1111111111s
        * @param object
@@ -410,7 +380,6 @@
         if(ticketItem && ticketItem.couponId){
           for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
             if(ticketItem.couponId == this.activityInfo.itemList[i].couponId){
-//              let item = this.activityInfo.itemList[i];
               this.activityInfo.itemList.splice(i, 1, ticketItem); //使用splice 触发数据更新
               this.activityInfo = Object.assign({},this.activityInfo);
               break;
@@ -423,14 +392,11 @@
        * @param couponId
        */
       removeTicketItem (couponId){
-          console.log("delete----------method---------------",couponId);
         if(couponId){
           for(let i= 0 ; i <this.activityInfo.itemList.length; i ++ ){
             if(couponId == this.activityInfo.itemList[i].couponId){
-              console.log("eq---------------",couponId);
               this.activityInfo.itemList.splice(i, 1); //使用splice 触发数据更新
               this.activityInfo = Object.assign({},this.activityInfo);
-              console.log("MLGB--->",JSON.stringify(this.activityInfo))
               break;
             }
           }
@@ -461,7 +427,6 @@
         }
       },
       addSedKillCallBack(checkedNewTicketList){
-          console.log("回来了---------->",checkedNewTicketList)
           for(let i = 0;i<checkedNewTicketList.length;i++){
             let item =checkedNewTicketList[i];
             let newTicketItem ={};
@@ -471,7 +436,6 @@
             newTicketItem.endTime = item.endTime;
             newTicketItem.createTime = item.createTime;
             newTicketItem.editStatus=1;
-//            newTicketItem.tmp=this.createTmpTicketItem(newTicketItem);;
             this.activityInfo.itemList.push(newTicketItem);
             this.activityInfo = Object.assign({},this.activityInfo);
 
@@ -483,16 +447,7 @@
           let _self=this;
           img.src=Final.IMG_PATH+res.result.path;
           img.onload=function(){
-          _self.activityInfo.shareImg=res.result.path;
-            console.log(_self.activityInfo.shareImg)
-//            var imgwidth=img.offsetWidth;
-//            var imgheight=img.offsetHeight;
-//            if(imgwidth!=50 || imgheight!=50){
-//              _self.$message.error('分享图片尺寸必须是50px*50px');
-//            }else{
-//              _self.baseItem.shareImg=res.result.path;
-//              console.log(_self.baseItem.shareImg);
-//            }
+            _self.activityInfo.shareImg=res.result.path;
           };
 
         }

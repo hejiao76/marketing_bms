@@ -162,7 +162,6 @@ export default {
   },
   watch : {
     prizeItem (val, oldval) {
-      console.log("prizeItem-------->watch")
       this.cloneGiftSettingInfo();
     }
   },
@@ -184,15 +183,11 @@ export default {
       },
 
       requestGiftList (){
-          console.log("-----------request gift list ------------",this.prizeDrawDetail);
-          let param={type:2,pageIndex:1,pageSize:1000,serialId:this.serialStr || this.prizeDrawDetail.serialIds}
-//          let param={};
-//        Api.base_sys_gift_list(param)
+        let param={type:2,pageIndex:1,pageSize:1000,serialId:this.serialStr || this.prizeDrawDetail.serialIds}
         Api.base_sys_gift_list_select(param)
           .then(res => {
             if (res.status == true) {
                 this.giftList=res.result;
-                console.log(res);
             }else {
               this.$refs.tipMsgRef.showTipMsg({
                 msg:res.message,
@@ -223,7 +218,6 @@ export default {
         if(this.prizeItemForm.ruleList.length<=0){
             this.addRuleItem();
         }
-        console.log("clone-----prizeItem",this.prizeItemForm)
       }
     },
     validGiftItem (){
@@ -306,8 +300,6 @@ export default {
      * 删除礼品项
      */
     removePrizeItem (){
-        console.log("delete---PrizeItem--------");
-//        this.$emit(call,this.prizeItem);
       this.$emit("callRemove",{index:this.itemIndex});
     },
     /**
@@ -373,11 +365,7 @@ export default {
         }else {
           startTimeArray = startTimeArray.sort((a, b) => a - b);
           endTimeArray = endTimeArray.sort((a, b) => a - b);
-          console.log("start------>",startTimeArray)
-          console.log("end------>",endTimeArray)
           for(let i =1 ; i < startTimeArray.length;i++){
-              console.log(startTimeArray[i],endTimeArray[i-1])
-              console.log(startTimeArray[i]<endTimeArray[i-1])
               if(startTimeArray[i]-endTimeArray[i-1]<0){
                   errorMsg="时间段范围有重复";
                   break;
@@ -385,16 +373,12 @@ export default {
           }
         }
         if(errorMsg){
-//          this.$refs.tipMsgRef.showTipMsg({
-//            msg:this.wordMapping[this.prizeItemForm.level]+"等奖中"+errorMsg,
-//            type:"error"
-//          });
           this.$message({
             type:'error',
             message:this.wordMapping[this.prizeItemForm.level]+"等奖中"+errorMsg,
             duration:'1500'
           });
-            return false;
+          return false;
         }else {
             return true;
         }

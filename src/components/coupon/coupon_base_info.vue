@@ -158,7 +158,6 @@ export default {
     },
     cloneBaseInfo() {
       if(this.couponDetail){
-          console.log("clone---base--info",this.couponDetail);
         this.baseSettingForm = {
           name:this.couponDetail.name, //活动名称
           validity:this.couponDetail.validity ? new Date(this.couponDetail.validity) : '', //抵扣券有效期
@@ -183,11 +182,6 @@ export default {
       let validStatus=true;
       this.$refs['baseSettingForm'].validate((valid) => {
         if (!valid) {
-//          this.$refs.tipMsgRef.showTipMsg({
-//            msg:"基础信息填写有误",
-//            type:"error"
-//          });
-//          this.$emit("errorTipMsg",{msg:"基本信息填写有误"});
           this.$message({
             type:'error',
             message:'基本信息填写有误',
@@ -214,8 +208,6 @@ export default {
      */
     saveBaseItem(){
         if(this.validBaseItem()){
-//              let newBaseItem = Object.assign({},this.baseSettingForm);
-//              newBaseItem.validity = this.formatDateToString(this.baseSettingForm.validity);
               this.$emit("call",{tag:"base",callData:this.getBaseItem()});
         }
     },
@@ -225,10 +217,6 @@ export default {
            this.baseSettingForm.details=details;
            return true;
        }else{
-//         this.$refs.tipMsgRef.showTipMsg({
-//           msg:"请填写抵扣券详情",
-//           type:"error"
-//         });
          this.$emit("errorTipMsg",{msg:"请填写抵扣券说明"});
            return false;
        }

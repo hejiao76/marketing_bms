@@ -95,7 +95,6 @@ export default {
   },
   watch : {
     prizeDrawDetail (val, oldval) {
-        console.log("gift_setting_watch");
       this.cloneGiftSettingInfo();
     }
   },
@@ -116,7 +115,6 @@ export default {
           redeemEndTime:this.prizeDrawDetail.redeemEndTime ? new Date(this.prizeDrawDetail.redeemEndTime) : new Date(new Date().setDate(new Date().getDate()+7)),
           prizeList:this.prizeDrawDetail.prizeList
         })
-        console.log(this.giftSetting.prizeList);
       }
     },
     addGiftItem () {
@@ -137,10 +135,7 @@ export default {
         });
     },
     removeGiftItem (callData) {
-        console.log(callData);
-      console.log("数据会不会还原 MLGB");
       this.giftSetting.prizeList.splice(callData.index,1)
-//        console.log(this.giftSetting.prizeList.splice(index,1));
     },
     /**
      * 日期转字符串
@@ -197,8 +192,7 @@ export default {
       let newGiftSetting = Object.assign({}, this.giftSetting);
       newGiftSetting.redeemBeginTime = this.formatDateToString(this.giftSetting.redeemBeginTime);
       newGiftSetting.redeemEndTime = this.formatDateToString(this.giftSetting.redeemEndTime);
-      console.log("数据过来了------->",JSON.stringify(this.giftSetting));
-        return newGiftSetting;
+      return newGiftSetting;
     },
     /**
      *  下一步 保存奖品设置
@@ -209,41 +203,6 @@ export default {
           let newGiftSetting = this.getGiftSetting();
           this.$emit("call", {op: "edit", tag: "gift", callData: newGiftSetting});
         }
-//        if(this.giftSetting.prizeList.length>0){
-//          let validPass=true;
-//          for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
-//            if(!this.$refs.prizeItem[i].validGiftItem()){
-//                validPass=false;
-//                break;
-//            }
-//          }
-//          if(validPass){
-//            for(let i =0 ; i< this.giftSetting.prizeList.length;i++){
-//              this.giftSetting.prizeList.splice(i,1,this.$refs.prizeItem[i].getGiftItem());
-//            }
-//          }
-//          let newGiftSetting = Object.assign({}, this.giftSetting);
-//          console.log("数据过来了------->",JSON.stringify(this.giftSetting));
-//          this.$emit("call", {op: "edit", tag: "gift", callData: newGiftSetting});
-//        }else {
-//            this.$refs.tipMsg.showTipMsg({
-//              msg:"请添加至少一个奖品",
-//              type:"error"
-//            });
-//        }
-        return
-      this.$refs['giftSetting'].validate((valid) => {
-        if (valid) {
-          let newGiftSetting = Object.assign({}, this.giftSetting);
-          newGiftSetting.beginTime = this.formatDateToString(this.giftSetting.beginTime);
-          newGiftSetting.endTime = this.formatDateToString(this.giftSetting.endTime);
-          this.$emit("call", {op: "edit", tag: "base", callData: newGiftSetting});
-          console.log("success");
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
     },
     userValidate () {
         return {

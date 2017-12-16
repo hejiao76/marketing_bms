@@ -32,65 +32,14 @@
 
         </el-col>
     </el-row>
-
-
-
-
-    <!--<ul class="fl">-->
-      <!--<router-link v-for="item in mainMenus" @click.native="saveMainMenuCode(item.menucode)" :to="{path:item.path}" tag="li">-->
-        <!--<span :class="['h_icon' ,item.icon]"></span>-->
-        <!--<p>{{item.name}}</p>-->
-      <!--</router-link>-->
-      <!--&lt;!&ndash;<router-link to="/startwork" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon01"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>开始工作</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--&lt;!&ndash;<router-link to="/lgtcheck" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon02"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>物流审核</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--&lt;!&ndash;<router-link to="/datasearch" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon03"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>数据查询</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--&lt;!&ndash;<router-link to="/logsearch" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon04"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>日志查询</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--&lt;!&ndash;<router-link to="/lgtssetting" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon05"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>物流商配置</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--&lt;!&ndash;<router-link to="/approval" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon09"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>审批</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--&lt;!&ndash;<router-link to="/setting" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon06"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>设置</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-
-      <!--&lt;!&ndash;<router-link to="/setting" tag="li">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="h_icon h_icon07"></span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<p class="name_e">总部客服：张三</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;</router-link>&ndash;&gt;-->
-      <!--<li v-on:click="loginout">-->
-        <!--<span class="h_icon h_icon08"></span>-->
-        <!--<p>退出</p>-->
-      <!--</li>-->
-    <!--</ul>-->
   </header>
 </template>
 
 <script>
   import Api from "./../fetch/api"
   import Final from "./../util/Final"
-  import ElRow from "element-ui/packages/row/src/row";
-  import ElCol from "element-ui/packages/col/src/col";
 export default {
   components: {
-    ElCol,
-    ElRow,
     name: 'header',
   },
   data () {
@@ -108,14 +57,7 @@ export default {
             let url = Final.LOGIN_PAGE_URL
             window.location.href = url
           }
-      },
-      saveMainMenuCode (menuCode) {
-          if(menuCode){
-              this.menuCode=menuCode;
-              localStorage.setItem("mainMenuCode",menuCode);
-              console.log("header-------"+menuCode);
-          }
-      },
+      }
   }
 }
 </script>

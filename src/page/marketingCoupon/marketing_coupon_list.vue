@@ -373,8 +373,6 @@
        }else if(obj.prop == 'createTime'){
          this.sortType = 5
        }
-        console.log('obj.prop', obj.prop);
-        console.log('obj.order', obj.order);
         if(obj.order == 'descending'){
          this.sortStatus = 2
        }else{
@@ -474,7 +472,6 @@
         param.pageSize = this.pageRecorders;
         param.sortStatus = this.sortStatus;
         param.sortType = this.sortType
-        console.log("查询提交参数:",param);
         return param;
       },
       /**
@@ -588,7 +585,6 @@
                   });
                 }
               }).catch(err => {
-              console.log(err);
               this.$message({
                 showClose: true,
                 message: '数据请求失败！',

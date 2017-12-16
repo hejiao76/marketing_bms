@@ -407,8 +407,6 @@
        * @returns
        */
       sortTable(obj){
-        console.log('obj.prop', obj.prop);
-        console.log('obj.order', obj.order);
         if(obj.prop == 'amount'){
           this.sortType = 1
         }else if(obj.prop == 'validity'){
@@ -442,7 +440,6 @@
               this.dataNumber = 0;
             }
           }).catch(err => {
-            console.log(err);
           this.$message({
             showClose: true,
             message: '数据请求失败！',
@@ -507,7 +504,6 @@
         param.sortType = this.sortType;
         param.status = this.activityType;
 
-        console.log("查询提交参数:",param);
         return param;
       },
       /**
@@ -612,7 +608,6 @@
                   this.dataNumber = 0;
                 }
               }).catch(err => {
-              console.log(err);
               this.$message({
                 showClose: true,
                 message: '数据请求失败！',

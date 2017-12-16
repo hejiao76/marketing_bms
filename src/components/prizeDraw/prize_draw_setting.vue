@@ -68,7 +68,7 @@
             <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
             <el-input-number style="width:10%" v-model="prizeItem.ipDynamicLotteryLimit" :controls="false" :min="0"></el-input-number>
             次,
-            动态IP允许参与活动人数上限:
+            单个IP总抽奖次数:
             <!--<el-input style="width: 10%" v-model="prizeItem.activityName" placeholder="1"></el-input>-->
             <el-input-number style="width:10%" v-model="prizeItem.ipLotteryLimit" :controls="false" :min="0"></el-input-number>
             次
@@ -188,17 +188,6 @@ export default {
           let newPrizeItem = this.getPrizeItem();
           this.$emit("call", {op: "new", tag: "prize", callData: newPrizeItem});
         }
-//
-//      this.$refs['prizeItem'].validate((valid) => {
-//        if (valid) {
-//          let newPrizeItem = Object.assign({}, this.prizeItem);
-//          this.$emit("call", {op: "edit", tag: "prize", callData: newPrizeItem});
-//          console.log("success");
-//        } else {
-//          console.log('error submit!!');
-//          return false;
-//        }
-//      });
     }
   }
 }

@@ -112,7 +112,7 @@ const OBJ ={
       "parentId": 4,
       "resourceId": 401,
       "resourceKey": "401",
-      "resourceName": "添加秒杀活动",
+      "resourceName": "新建活动",
       "resourceUrl": "/sedkill/edit/new"
     },
     {
@@ -120,7 +120,7 @@ const OBJ ={
       "parentId":4,
       "resourceId": 402,
       "resourceKey": "402",
-      "resourceName": "秒杀活动管理",
+      "resourceName": "活动管理",
       "resourceUrl": "/sedkill/list"
     },
     {
@@ -145,7 +145,7 @@ const OBJ ={
       "parentId": 5,
       "resourceId": 501,
       "resourceKey": "501",
-      "resourceName": "添加秒杀券",
+      "resourceName": "新建秒杀券",
       "resourceUrl": "/sedkill/ticket_edit/new"
     },
     {
