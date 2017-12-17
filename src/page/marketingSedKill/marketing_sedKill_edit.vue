@@ -290,10 +290,11 @@
         return;
       },
       cancelSubmit (){
-        this.$refs.tipMsgRef.showTipMsg({
-          msg:"取消操作",
-          type:"error"
-        });
+          this.$router.push("/sedkill/list")
+//        this.$refs.tipMsgRef.showTipMsg({
+//          msg:"取消操作",
+//          type:"error"
+//        });
       },
       /**
        * 请求秒杀活动详情
