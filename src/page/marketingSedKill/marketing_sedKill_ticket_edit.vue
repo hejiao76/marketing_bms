@@ -191,7 +191,7 @@
       requestCarTypeList () {
         Api.base_sys_car_serials({})
           .then(res => {
-            if (res.status == 1) {
+            if (res.status == true) {
               this.carSerialsList = res.result
             }else {
               this.$refs.tipMsgRef.showTipMsg({
@@ -237,7 +237,7 @@
         let param =this.getParameter();
         Api.sk_activity_ticket_update(param)
           .then(res => {
-            if (res.status == 1) {
+            if (res.status == true) {
               this.$refs.tipMsgRef.showTipMsg({
                 msg:"操作成功",
                 type:"success",
@@ -263,7 +263,7 @@
         let param = this.getParameter();
         Api.sk_activity_ticket_add(param)
           .then(res => {
-            if (res.status == 1) {
+            if (res.status == true) {
               this.$refs.tipMsgRef.showTipMsg({
                 msg:"操作成功",
                 type:"success",
