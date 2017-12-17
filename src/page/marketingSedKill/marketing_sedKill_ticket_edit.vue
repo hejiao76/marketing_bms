@@ -5,20 +5,20 @@
       <el-form :model="sedKillFormItem" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm" label-position="left">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="秒杀券名称" prop="name">
-              <el-input v-model="sedKillFormItem.name"></el-input>
+            <el-form-item label="秒杀券名称:" prop="name" >
+              <el-input v-model="sedKillFormItem.name" placeholder="请输入秒杀券名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="秒杀券有效期" required>
-              <el-col :span="11">
-                <el-form-item prop="beginTime">
+            <el-form-item label="秒杀券有效期:" required>
+              <el-col :span="11" style="padding-left:0px;">
+                <el-form-item prop="beginTime" style="margin:0px;">
                   <el-date-picker style="width: 100%;" v-model="sedKillFormItem.beginTime" :picker-options="optionsActivityStart" :clearable="false" :editable="false" type="datetime" placeholder="选择开始日期"></el-date-picker>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
               <el-col :span="11">
-                <el-form-item prop="endTime">
+                <el-form-item prop="endTime" style="margin:0px;">
                   <el-date-picker style="width: 100%;" v-model="sedKillFormItem.endTime" :picker-options="optionsActivityEnd" :clearable="false" :editable="false" type="datetime" placeholder="请输入结束日期"></el-date-picker>
                 </el-form-item>
               </el-col>
@@ -27,9 +27,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="适用车系" prop="carTypeId">
+            <el-form-item label="适用车系:" prop="carTypeId">
               <!--<el-input v-model="sedKillFormItem.carTypeId"></el-input>-->
-              <el-select v-model="sedKillFormItem.carTypeId" placeholder="请选择">
+              <el-select v-model="sedKillFormItem.carTypeId" placeholder="请选择" style="width: 100%;">
                 <el-option
                   v-for="item in carSerialsList"
                   :key="item.id"
@@ -40,16 +40,16 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="秒杀券金额" prop="amount">
+            <el-form-item label="秒杀券金额:" prop="amount">
               <!--<el-input v-model="sedKillFormItem.amount"></el-input>-->
-              <el-input-number v-model="sedKillFormItem.amount" :max="99999999" :controls="false"></el-input-number>
+              <el-input-number v-model="sedKillFormItem.amount" :max="99999999" :controls="false"></el-input-number><span style="margin-left: 15px;">元</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="秒杀券说明：" prop="description">
-              <el-input type="textarea" v-model="sedKillFormItem.description"></el-input>
+            <el-form-item label="秒杀券说明:" prop="description">
+              <el-input type="textarea" v-model="sedKillFormItem.description" placeholder="请输入秒杀券说明"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -58,18 +58,18 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="秒杀券详情：" prop="description">
+            <el-form-item label="秒杀券详情:" prop="description">
               <UE :defaultMsg=sedKillFormItem.details :config=config :id=ue1 ref="ue"></UE>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item>
+            <div style="text-align: center">
               <el-button v-if="isEdit" type="primary" @click="submitForm('ruleForm')">保存</el-button>
               <el-button v-else="isEdit" type="primary" @click="submitForm('ruleForm')">创建</el-button>
               <el-button @click="returnList('ruleForm')">取消</el-button>
-            </el-form-item>
+            </div>
           </el-col>
         </el-row>
 
