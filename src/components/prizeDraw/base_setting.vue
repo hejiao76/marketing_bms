@@ -24,6 +24,10 @@
              </el-col>
            </el-form-item>
          </el-col>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
           <el-form-item prop="isShowJoinSize" label="参与人数:">
             <el-col :span="24">
               <el-radio-group @change="previewCall($event,'isShowJoinSize')" v-model="baseItem.isShowJoinSize">
