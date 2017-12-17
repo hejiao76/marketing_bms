@@ -2,7 +2,7 @@
   <div>
     <el-dialog class="choose-hd" center title="订单详情" :visible.sync="dialogTableVisible" :before-close="handleClose">
       <div class="verify">
-        <p>用户信息</p>
+        <p style="color: #404C73;">用户信息</p>
       </div>
       <div class="verify-txt">
         <ul>
@@ -11,7 +11,7 @@
         </ul>
       </div>
       <div class="verify margin-top-20">
-        <p>订单信息</p>
+        <p style="color: #404C73;">订单信息</p>
       </div>
       <div class="verify-txt">
         <ul>

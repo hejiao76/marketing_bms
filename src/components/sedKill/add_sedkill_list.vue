@@ -110,7 +110,7 @@ export default {
                 res.result[i].couponId=res.result[i].id;
                 res.result[i].beginTime=util.dateObjToString(new Date(res.result[i].beginTime));
                 res.result[i].endTime=util.dateObjToString(new Date(res.result[i].endTime));
-                res.result[i].createTime=this.$moment(val).format('YYYY-MM-DD h:mm;ss');
+                res.result[i].createTime=this.$moment(res.result[i].endTime).format('YYYY-MM-DD h:mm:ss');
             }
             this.listObj = this.filterExceptId(res.result);
             console.log(this.listObj);

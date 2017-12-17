@@ -1,14 +1,14 @@
 <template>
   <header>
     <el-row  style="width: 100%;-moz-box-shadow: 0px 1px 8px #888888;box-shadow: 0px 1px 8px #888888;">
-        <el-col :span="6">
+        <el-col :span="8">
           <div class="logo">
             <img style="height: 60px;" class="vm" src="./../assets/img/yunyangLog.png"/>
             <span class="vm">经销商智能营销平台</span>
           </div>
         </el-col>
-        <el-col :span="12">
-          <el-menu style="border:none;" class="el-menu-demo" mode="horizontal" text-color="#404C73" hover-text-color="#55ACEE" active-text-color="#55ACEE">
+        <el-col :span="10">
+          <el-menu style="border:none;float: right" class="el-menu-demo" mode="horizontal" text-color="#404C73" hover-text-color="#55ACEE" active-text-color="#55ACEE" >
             <el-menu-item index="1">首页</el-menu-item>
             <el-submenu index="2">
               <template slot="title">应用</template>
@@ -16,20 +16,30 @@
               <el-menu-item index="2-2">秒杀活动</el-menu-item>
               <el-menu-item index="2-3">大转盘活动</el-menu-item>
             </el-submenu>
+            <el-submenu index="3">
+              <template slot="title">数据中心</template>
+              <el-menu-item index="3-1">数据中心</el-menu-item>
+
+            </el-submenu>
             <!--<el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
           </el-menu>
         </el-col>
-        <el-col :span="6" style="padding-right:30px;text-align: right;line-height:60px;">
+        <el-col :span="1" style="text-align: center;line-height: 60px;">
+            <span>|</span>
+        </el-col>
+        <el-col :span="5" style="text-align: left;line-height:60px;">
+          <el-badge :value="16" class="item" style="margin: 0px 20px;">
+            <img src="../assets/img/infor.png" style="float:left;">
+          </el-badge>
             <img src="../assets/images/jia.png" alt="" style="width: 30px;height: 30px;border-radius: 15px;background: #62d84c;margin-right: 20px;">
-            <el-dropdown @command="handleCommand">
+            <el-dropdown @command="handleCommand" style="padding-right: 20px;">
               <span class="el-dropdown-link" style="color: #404c73">
                 我是超级用户<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
-              <el-dropdown-menu slot="dropdown" style="width: 100px;">
+              <el-dropdown-menu slot="dropdown" style="width: 100px;top:40px;">
                 <el-dropdown-item  command="loginout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-
         </el-col>
     </el-row>
   </header>
@@ -38,8 +48,10 @@
 <script>
   import Api from "./../fetch/api"
   import Final from "./../util/Final"
+  import ElCol from "element-ui/packages/col/src/col";
 export default {
   components: {
+    ElCol,
     name: 'header',
   },
   data () {
