@@ -166,8 +166,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped="">
  .choose-hd .el-dialog--center .el-dialog__header {
    padding-top:10px;
  }
+  .el-dialog__title{
+    line-height: 50px;
+    padding: 0px;
+  }
 </style>

@@ -109,6 +109,9 @@
           label="秒杀支付金额"
           width="120"
         >
+          <template slot-scope="scope">
+            <span style="color: #F16767;">{{scope.row.amount}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"

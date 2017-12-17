@@ -122,7 +122,7 @@
             </div>
 
             <div class="saleticket-list newlist cur" @click="openAddList()">
-              <div class="saleticket-list_header" style="border-bottom: 1px dashed #ccc;">
+              <div class="saleticket-list_header" style="border-bottom: 1px dashed #ccc;border-radius: 8px;">
                 <div class="headericon" >
                   <img src="../../assets/images/saleticketsleft.png" class="iconleft" alt="">
                   <img src="../../assets/images/saleticketsright.png" class="iconright" alt="">

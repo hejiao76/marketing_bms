@@ -19,16 +19,11 @@
               <el-row>
                 <el-form-item label="活动时间：" required>
                   <el-col :span="11">
-                    <el-form-item prop="beginTime">
                       <el-date-picker  :editable="false" style="width: 100%;" v-model="activityInfo.beginTime" :picker-options="optionsActivityStart" type="date" placeholder="选择开始日期"></el-date-picker>
-
-                    </el-form-item>
                   </el-col>
                   <el-col class="line" :span="2" style="text-align: center">-</el-col>
                   <el-col :span="11">
-                    <el-form-item prop="endTime">
                       <el-date-picker :editable="false"  style="width: 100%;" v-model="activityInfo.endTime" :picker-options="optionsActivityEnd" type="date" placeholder="请输入结束日期"></el-date-picker>
-                    </el-form-item>
                   </el-col>
                 </el-form-item>
               </el-row>
@@ -36,7 +31,7 @@
             </el-col>
 
             <el-col :span="8">
-              <el-form-item label="分享图片：" prop="shareImg">
+              <el-form-item label="分享图片：" prop="shareImg" style="margin-bottom: 0px;">
                 <el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                   <img v-if="activityInfo.shareImg" :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg : Final.IMG_PATH+activityInfo.shareImg" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -56,13 +51,16 @@
           <!--</el-row>-->
 
         </el-form>
+        <el-row style="margin-bottom:15px;">
+            <span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>秒杀券绑定:</span>
+        </el-row>
         <el-row>
           <div class="newhd">
             <div v-for="(checkedTicketItem,index) in activityInfo.itemList">
                 <v-sedkill-select-ticket-item :key="checkedTicketItem.couponId" @call="syncTickItem" :activityStratTime="activityInfo.beginTime" :ticketItem="checkedTicketItem" :index="index"></v-sedkill-select-ticket-item>
             </div>
             <div class="newhds-list new-list cur" @click="openAddList">
-              <div class="newhd-header">
+              <div class="newhd-header" style="border-radius: 8px;">
                 <div class="icon-left">
                   <img src="../../assets/images/zsks_o_l.png" alt="">
                 </div>
@@ -85,16 +83,16 @@
               </div>
             </div>
           </div>
-
+        </el-row>
+        <el-row>
+          <el-col :span="24" style="text-align: center">
+            <el-button v-if="isEdit" type="primary" @click="submitActivityInfo('ruleForm')">保存</el-button>
+            <el-button v-if="!isEdit" type="primary" @click="submitActivityInfo('ruleForm')">创建</el-button>
+            <el-button @click="cancelSubmit('ruleForm')">取消</el-button>
+          </el-col>
         </el-row>
       </div>
-      <el-row>
-        <el-col :span="24" style="text-align: center">
-          <el-button v-if="isEdit" type="primary" @click="submitActivityInfo('ruleForm')">保存</el-button>
-          <el-button v-if="!isEdit" type="primary" @click="submitActivityInfo('ruleForm')">创建</el-button>
-          <el-button @click="cancelSubmit('ruleForm')">取消</el-button>
-        </el-col>
-      </el-row>
+
       <v-add-sedkill-list @call="addSedKillCallBack" ref="ticketDialog"></v-add-sedkill-list>
       <v-tip-msg ref="tipMsgRef"></v-tip-msg>
     </div>
@@ -481,14 +479,14 @@
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
     text-align: center;
   }
   .avatar {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     display: block;
   }
 

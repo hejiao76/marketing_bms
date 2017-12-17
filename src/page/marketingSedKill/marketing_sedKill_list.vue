@@ -118,7 +118,7 @@
       </el-table>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
-                     :current-page="currentPage" :page-size="1" layout="total, prev, pager, next, jumper"
+                     :current-page="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
                      :total="totalRow"></el-pagination>
 
       <!-- 中奖用户弹出层 -->
@@ -143,8 +143,8 @@
                 <li>
                   <p><em>秒杀券名称:</em><span>{{winArr.couponName}}</span></p>
                 </li>
-                <li><p><em>秒杀成功时间:</em><span>{{winArr.seckillTime}}</span></p></li>
-                <li><p><em>有效时间:</em><span>{{winArr.beginTime}}至{{winArr.beginTime}}</span></p></li>
+                <li><p><em>秒杀成功时间:</em><span>{{getMoment(winArr.seckillTime)}}</span></p></li>
+                <li><p><em>有效时间:</em><span>{{getMoment(winArr.beginTime)}}至{{getMoment(winArr.beginTime)}}</span></p></li>
                 <li><p><em>订单编号:</em><span>{{winArr.orderNum}}</span></p></li>
                 <li><p><em>适应于:</em><span>{{winArr.carTypeName}}</span></p></li>
               </ul>
