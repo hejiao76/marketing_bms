@@ -6,7 +6,7 @@
         <el-row>
           <el-col :span="13">
             <el-form-item label="秒杀券名称:" prop="activityName">
-              <el-input   v-model="filterForm.ticketName" placeholder="请输入商品名称" style="width: 92%;"></el-input>
+              <el-input   v-model="filterForm.ticketName" placeholder="请输入商品名称" style="width: 100%;"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -15,11 +15,11 @@
             <el-col :span="5">
               <el-date-picker v-model="filterForm.activityStartDate" :editable="false" :picker-options="optionsActivityStart" type="date" style="width: 100%;" placeholder="选择开始日期"></el-date-picker>
             </el-col>
-            <el-col  :span="1" style="text-align: center;">-</el-col>
+            <el-col  :span="1" style="text-align: center;margin:0 5px;">-</el-col>
             <el-col :span="5">
               <el-date-picker v-model="filterForm.activityEndDate" :editable="false" :picker-options="optionsActivityEnd" type="date" placeholder="选择结束日期" style="width: 100%;"></el-date-picker>
             </el-col>
-            <el-col :span="13" style="text-align: right">
+            <el-col :span="12" style="text-align: right">
               <el-form-item class="fr">
                 <el-button type="primary" @click="searchFn">查 询</el-button>
                 <el-button @click="resetForm('filterForm')">重 置</el-button>
