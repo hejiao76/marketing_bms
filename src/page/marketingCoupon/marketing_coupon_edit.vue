@@ -12,14 +12,14 @@
             <el-row>
               <el-form-item label="活动时间：" required>
                 <el-col :span="11">
-                  <el-form-item prop="beginTime">
+                  <el-form-item prop="beginTime" style="margin-bottom:0px;">
                     <el-date-picker style="width: 100%;" v-model="activityInfo.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始时间"></el-date-picker>
 
                   </el-form-item>
                 </el-col>
                 <el-col class="line" :span="2" style="text-align: center">-</el-col>
                 <el-col :span="11">
-                  <el-form-item prop="endTime">
+                  <el-form-item prop="endTime" style="margin-bottom:0px;">
                     <el-date-picker style="width: 100%;" v-model="activityInfo.endTime" :picker-options="optionsActivityEnd" type="datetime" placeholder="请输入结束时间"></el-date-picker>
                   </el-form-item>
                 </el-col>
@@ -29,7 +29,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="分享图片：" prop="shareImg">
+            <el-form-item label="分享图片：" prop="shareImg" style="margin-bottom:0px;">
               <el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                 <img v-if="activityInfo.shareImg" :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg : Final.IMG_PATH+activityInfo.shareImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -42,9 +42,13 @@
           </el-col>
         </el-row>
         <el-row>
-            <el-form-item label="活动地区:">
+          <el-col :span="3">
+              <span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>活动地区:</span>
+          </el-col>
+          <el-col :span="19" style="padding-left: 10px;">
               <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
-            </el-form-item>
+          </el-col>
+
         </el-row>
 
         <!--<el-row>-->
@@ -54,7 +58,10 @@
         <!--</el-row>-->
         <el-row>
           <div class="newhd">
-            <el-form-item label="抵扣券:" prop="coupons">
+            <el-row style="margin-bottom: 20px;">
+              <span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>抵扣券:</span>
+            </el-row>
+            <!--<el-form-item label="抵扣券:" prop="coupons">-->
              <div class="saleticket-list" v-for="item in activityInfo.coupons">
               <div class="saleticket-list_header" style="border-radius: 8px;">
                 <p>{{item.name}}</p>
@@ -143,7 +150,6 @@
                 </table>
               </div>
             </div>
-            </el-form-item>
           </div>
 
         </el-row>
@@ -540,14 +546,14 @@
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
     text-align: center;
   }
   .avatar {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     display: block;
   }
 
