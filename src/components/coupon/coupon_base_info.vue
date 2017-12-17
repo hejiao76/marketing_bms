@@ -5,12 +5,12 @@
       <div class="filter_div mb20">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="抵扣券名称" prop="name">
-              <el-input v-model="baseSettingForm.name"></el-input>
+            <el-form-item label="抵扣券名称:" prop="name">
+              <el-input v-model="baseSettingForm.name" placeholder="请输入抵扣券名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="抵扣券有效期"  prop="validity">
+            <el-form-item label="抵扣券有效期:"  prop="validity">
               <el-date-picker style="width: 100%;" v-model="baseSettingForm.validity" :editable="false" :clearable="false"  :picker-options="optionsValidity" type="datetime" placeholder="选择有效期日期"></el-date-picker>
               <!--<el-col :span="11">-->
                 <!--<el-form-item prop="activityStartDate">-->
@@ -28,9 +28,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="抵扣券金额" prop="amount">
+            <el-form-item label="抵扣券金额:" prop="amount">
               <!--<el-input v-model="baseSettingForm.amount"></el-input>-->
-              <el-input-number v-model="baseSettingForm.amount" :max="99999999" :controls="false"></el-input-number>
+              <el-input-number style="width: 100%;" v-model="baseSettingForm.amount" :max="99999999" :controls="false" placeholder="请输入抵扣券金额"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -38,8 +38,8 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="简介：" prop="description">
-              <el-input type="textarea" v-model="baseSettingForm.description"></el-input>
+            <el-form-item label="简介:" prop="description">
+              <el-input type="textarea" v-model="baseSettingForm.description" placeholder="请输入简介"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -48,8 +48,9 @@
         </el-row>
         <el-row>
           <el-col :span="24">
-            <el-form-item label="抵扣券说明：" prop="remarks">
-              <UE ref="ueRef" :defaultMsg=baseSettingForm.details :config=config :id=ue1></UE>
+            <span style="color: #fa5555;margin-right: 4px;margin-top:10px;float:left;">*</span>
+            <el-form-item label="抵扣券说明:" prop="remarks">
+              <UE ref="ueRef" :defaultMsg=baseSettingForm.details :config=config :id=ue1 ></UE>
             </el-form-item>
           </el-col>
         </el-row>

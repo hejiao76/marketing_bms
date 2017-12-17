@@ -122,8 +122,8 @@
                      :total="totalRow"></el-pagination>
 
       <!-- 中奖用户弹出层 -->
-      <div class="mask" style="z-index: 12000;"></div>
-      <div class="prize-pop">
+      <div class="mask" style="z-index: 99;"></div>
+      <div class="prize-pop" style="z-index: 100;">
         <!-- 关闭按钮 -->
         <div class="pop-close" @click="hidePrizeUser">
           <img src="./../../assets/images/pop-close.png" alt="">
@@ -146,7 +146,21 @@
                 <li><p><em>秒杀成功时间:</em><span>{{getMoment(winArr.seckillTime)}}</span></p></li>
                 <li><p><em>有效时间:</em><span>{{getMoment(winArr.beginTime)}}至{{getMoment(winArr.beginTime)}}</span></p></li>
                 <li><p><em>订单编号:</em><span>{{winArr.orderNum}}</span></p></li>
-                <li><p><em>适应于:</em><span>{{winArr.carTypeName}}</span></p></li>
+                <li><p><em>适用于:</em><span>{{winArr.carTypeName}}</span></p></li>
+                <li v-if="!dealerListIsShow"><p><em>经销商名称:</em><span>{{winArr.ownerName}}</span><i @click="selectOwnerName(winArr.id)" class="el-icon-edit" style="margin-left:10px;cursor: pointer;"></i></p></li>
+                <li v-if="dealerListIsShow"><em>修改经销商名称:</em>
+                  <template>
+                  <el-select v-model="winArr.activeDealerId" placeholder="请选择经销商" size="small" style="width: 175px;">
+                    <el-option
+                      v-for="dealer in dealerList"
+                      :key="dealer.dealerId"
+                      :label="dealer.dealerFullName"
+                      :value="dealer.dealerId">
+                    </el-option>
+                  </el-select>
+                </template>
+                  <el-button size="mini" @click="updateDealer(winArr.id,winArr.activeDealerId)">保存</el-button>
+                </li>
               </ul>
             </div>
           </div>
@@ -229,11 +243,13 @@
         resData : [],
         currentPage: 1,
         totalRow: 0,
-        pageRecorders: 1,
+        pageRecorders: 10,
         Final: Final,
         cityArr:[],
         cityVmList:[],
         winningArr:[],
+        dealerList:[],
+        dealerListIsShow:false,
       }
     },
     components: {
@@ -249,6 +265,52 @@
     watch: {
     },
     methods: {
+      /**
+       * 修改经销商
+       * @param params
+       * @returns {*}
+       */
+      updateDealer(activeOwnerId,activeDealerId){
+        Api.sk_activity_update_dealer({id:activeOwnerId,dealerId:activeDealerId})
+          .then(res => {
+            if (res.status) {
+              this.$message({
+                showClose: true,
+                message: "修改成功",
+                type: 'success'
+              });
+            }else {
+
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
+      /**
+       * 获取经销商列表
+       * @returns {}
+       */
+      selectOwnerName(id){
+        this.dealerListIsShow = true;
+        Api.sk_activity_dealer_list({id:id})
+          .then(res => {
+            if (res.status) {
+              this.dealerList = res.result;
+            }else {
+              this.dealerList = [];
+            }
+          }).catch(err => {
+          this.$message({
+            showClose: true,
+            message: '数据请求失败！',
+            type: 'error'
+          });
+        });
+      },
       /**
        * 格式化时间
        * @returns {}
@@ -370,6 +432,9 @@
         Api.sk_activity_winning_list({id:id}).then(res => {
           if (res.status) {
             this.winningArr = res.result;
+            for(var i = 0 ;i < this.winningArr.length; i++){
+              this.winningArr[i].activeDealerId = '';
+            }
             $('.prize-pop,.mask').show();
           }else {
             this.winningArr= []
@@ -388,6 +453,7 @@
        * @returns {}
        */
       hidePrizeUser () {
+        this.dealerListIsShow = false;
         $('.prize-pop,.mask').hide();
         return;
       },

@@ -114,5 +114,21 @@ export default {
   sk_activity_winning_list(params) {
     return fetch.fetch('seckill/getWinningList', params,"get");
   },
+  /**
+   * 获取经销商列表
+   * @param params
+   * @returns {*}
+   */
+  sk_activity_dealer_list(params) {
+    return fetch.fetch('seckill/dealerList', params,"get");
+  },
+  /**
+   * 修改经销商
+   * @param params
+   * @returns {*}
+   */
+  sk_activity_update_dealer(params) {
+    return fetch.fetch('seckill/updateDealer', params,"post");
+  },
 
 }

@@ -3,8 +3,8 @@
     <el-row  style="width: 100%;-moz-box-shadow: 0px 1px 8px #888888;box-shadow: 0px 1px 8px #888888;">
         <el-col :span="6">
           <div class="logo">
-            <!--<img class="vm" src="./../assets/img/small_logo.png"/>-->
-            <span class="vm">吉利经销商系统</span>
+            <img style="height: 60px;" class="vm" src="./../assets/img/yunyangLog.png"/>
+            <span class="vm">经销商智能营销平台</span>
           </div>
         </el-col>
         <el-col :span="12">
@@ -25,7 +25,7 @@
               <span class="el-dropdown-link" style="color: #404c73">
                 我是超级用户<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
-              <el-dropdown-menu slot="dropdown">
+              <el-dropdown-menu slot="dropdown" style="width: 100px;">
                 <el-dropdown-item  command="loginout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>

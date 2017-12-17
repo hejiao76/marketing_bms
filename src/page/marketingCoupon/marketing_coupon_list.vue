@@ -5,8 +5,8 @@
         <el-form :model="filterForm" ref="filterForm"  size="small" label-width="80px" class="demo-ruleForm" :label-position="labelPosition">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="活动名称">
-                  <el-input v-model="filterForm.name"></el-input>
+                <el-form-item label="活动名称:">
+                  <el-input v-model="filterForm.name" placeholder="请输入活动名称"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -47,9 +47,9 @@
             <el-col :span="12">
               <el-row :gutter="20">
                 <el-form-item label="活动区域:" class="ml10"  label-width="80px">
-                  <el-col :span="12">
+                  <el-col :span="11" style="padding-right: 5px;padding-left:0;">
                     <template>
-                      <el-select v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
+                      <el-select style="width: 100%;" v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
                         <el-option
                           key=""
                           label="全国"
@@ -64,9 +64,10 @@
                       </el-select>
                     </template>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col class="line" :span="1" style="text-align: center;padding-right: 23px;">-</el-col>
+                  <el-col :span="11" style="padding-left: 0;padding-right: 5px;">
                     <template>
-                      <el-select v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
+                      <el-select style="width: 100%;" v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
                         <el-option
                           v-for="item in cityVmList"
                           :key="item.cityId"

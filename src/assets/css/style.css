@@ -17,10 +17,8 @@ body,div,p{
 }
 header .logo{
   margin-left: 29px;
-  line-height: 56px;
-  width:190px;
-  /*flex:1;!*这里设置为占比1，填充满剩余空间*!*/
-  float: left\0;/* ie9 */ ;
+  /*line-height: 56px;*/
+  /*width:190px;*/
 }
 header .logo span{
   font-size:20px;
