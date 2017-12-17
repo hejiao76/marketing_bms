@@ -13,7 +13,7 @@
             <el-col :span="16">
               <el-row>
                 <el-form-item label="活动名称：" prop="name">
-                  <el-input v-model="activityInfo.name"></el-input>
+                  <el-input v-model="activityInfo.name" placeholder="请输入活动名称"></el-input>
                 </el-form-item>
               </el-row>
               <el-row>
@@ -45,7 +45,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="活动地区">
+            <el-form-item label="活动地区:" required>
               <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
             </el-form-item>
           </el-row>

@@ -1,12 +1,12 @@
 <template>
   <div class="con_list">
     <!--过滤条件-->
-    <div class="filter_div mb20">
+    <div class="filter_div mb20" style="padding-bottom: 0px;">
       <el-form :model="filterForm"   size="small" label-width="100px" class="demo-ruleForm" :label-position="labelPosition">
         <el-row :gutter="20">
           <el-col :span="12">
           <el-form-item label="抵扣券名称：">
-            <el-input v-model="filterForm.name"></el-input>
+            <el-input v-model="filterForm.name" placeholder="请输入抵扣券名称"></el-input>
           </el-form-item>
         </el-col>
           <el-col :span="12">
@@ -43,24 +43,24 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="参与名称：">
-              <el-input v-model="filterForm.activityName"></el-input>
+              <el-input v-model="filterForm.activityName" placeholder="参与名称"></el-input>
             </el-form-item>
           </el-col>
 
         </el-row>
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="12">
             <el-form-item label="有效期:">
               <el-col :span="11">
                   <el-date-picker style="width: 100%;" v-model="filterForm.validity" :editable="false" :picker-options="optionsActivityStart" type="datetime"  placeholder="选择开始日期"></el-date-picker>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
-              <el-col :span="11">
+              <el-col :span="11" style="padding-right: 10px;">
                   <el-date-picker style="width: 100%;" v-model="filterForm.validity2" :editable="false" :picker-options="optionsActivityEnd"  type="datetime" placeholder="选择结束日期"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="12" style="padding-left: 10px;">
             <el-form-item label="创建日期:">
               <el-col :span="11">
                   <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
@@ -72,19 +72,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="12">
-            <el-form-item label="抵扣金额：">
+            <el-form-item label="抵扣金额：" style="margin:0;">
               <el-col :span="11">
-                <el-form-item >
-                  <el-input-number v-model="filterForm.amount" :controls="false"></el-input-number>
-                </el-form-item>
+                  <el-input-number style="width: 100%;"  v-model="filterForm.amount" :controls="false"></el-input-number>
               </el-col>
               <el-col class="line" :span="2" style="text-align: center">-</el-col>
-              <el-col :span="11">
-                <el-form-item>
-                  <el-input-number v-model="filterForm.amount2" :controls="false"></el-input-number>
-                </el-form-item>
+              <el-col :span="11" style="padding-right: 10px;">
+                  <el-input-number style="width: 100%;"  v-model="filterForm.amount2" :controls="false"></el-input-number>
               </el-col>
 
             </el-form-item>
@@ -236,7 +232,7 @@
                     </div>
                   </li>
                   <li>
-                    <el-button type="text" @click="toDetail(item.id)">此抵扣券参与{{item.activityCount}}个活动</el-button>
+                    <el-button type="text" style="color: #A0A6B4;font-size: 10px;" @click="toDetail(item.id)">(此活动包含{{item.activityCount}}个抵扣券)</el-button>
                   </li>
                   <li>
                     <div class="sal-con-tit">

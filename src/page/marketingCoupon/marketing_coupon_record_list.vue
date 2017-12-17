@@ -39,48 +39,40 @@
               <el-input v-model="filterForm.couponCode" placeholder="请输入抵扣券码"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="14">
             <el-form-item label="抵扣金额：">
-              <el-col :span="11">
-                <el-form-item >
-                  <el-input-number v-model="filterForm.couponAmount" :controls="false"></el-input-number>
-                </el-form-item>
+              <el-col :span="11" style="padding: 0;">
+                  <el-input-number style="width: 100%;" v-model="filterForm.couponAmount" :controls="false"></el-input-number>
               </el-col>
-              <el-col class="line" :span="2" style="text-align: center">-</el-col>
+              <el-col class="line" :span="2" style="text-align: center;padding-left: 15px;">-</el-col>
               <el-col :span="11">
-                <el-form-item>
-                  <el-input-number v-model="filterForm.couponAmount2" :controls="false"></el-input-number>
-                </el-form-item>
+                  <el-input-number style="width: 100%;" v-model="filterForm.couponAmount2" :controls="false"></el-input-number>
               </el-col>
-
             </el-form-item>
           </el-col>
 
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="领取日期:">
-              <el-col :span="11">
+              <el-col :span="6" style="padding-right: 10px;">
                   <el-date-picker style="width: 100%;" v-model="filterForm.getTime" :editable="false" :picker-options="optionsGetStartTIme" type="datetime" placeholder="选择开始日期"></el-date-picker>
               </el-col>
-              <el-col class="line" :span="2" style="text-align: center">-</el-col>
-              <el-col :span="11">
+              <el-col class="line" :span="1" style="text-align: center">-</el-col>
+              <el-col :span="6" style="padding-left: 10px;">
                   <el-date-picker style="width: 100%;" v-model="filterForm.getTime2" :editable="false" :picker-options="optionsGetEndTime" type="datetime" placeholder="选择结束日期"></el-date-picker>
               </el-col>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-
-          </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="核销日期:">
-              <el-col :span="11">
+              <el-col :span="6" style="padding-right: 10px;">
                   <el-date-picker style="width: 100%;" v-model="filterForm.useTime" :editable="false" :picker-options="optionsUsedStartTime" type="datetime" placeholder="选择开始日期"></el-date-picker>
               </el-col>
-              <el-col class="line" :span="2" style="text-align: center">-</el-col>
-              <el-col :span="11">
+              <el-col class="line" :span="1" style="text-align: center;">-</el-col>
+              <el-col :span="6" style="padding-left: 10px;">
                   <el-date-picker style="width: 100%;" v-model="filterForm.useTime2" :editable="false" :picker-options="optionsUsedEndTime" type="datetime" placeholder="选择结束日期"></el-date-picker>
               </el-col>
             </el-form-item>
@@ -113,11 +105,17 @@
           label="抵扣券名称"
           width="120"
            >
+          <template slot-scope="scope">
+            <span style="color:#5883FF">{{scope.row.couponName}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="activityName"
           label="参与活动"
         >
+          <template slot-scope="scope">
+            <span style="color:#5883FF">{{scope.row.activityName}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="carName"
@@ -135,6 +133,9 @@
           prop="userName"
           label="用户姓名"
            >
+          <template slot-scope="scope">
+            <span style="color:#5883FF">{{scope.row.userName}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="userPhone"
