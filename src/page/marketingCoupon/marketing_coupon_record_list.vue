@@ -126,7 +126,7 @@
         <el-table-column
           prop="couponAmount"
           label="抵扣金额(元)"
-          width="120"
+          min-width="130"
           sortable="custom">
         </el-table-column>
         <el-table-column
@@ -164,7 +164,7 @@
           label="经销商"
            >
           <template slot-scope="scope">
-            <el-button type="text">{{scope.row.dealersName}}</el-button>
+            <span style="color:#5883FF">{{scope.row.dealersName}}</span>
           </template>
         </el-table-column>
       </el-table >
