@@ -105,7 +105,7 @@ export default {
       let param = {status:1,sortType:2,beginTime:this.beginTime,endTime:this.endTime,pageIndex:1,pageSize:1000};
       Api.sk_activity_ticket_list(param)
         .then(res => {
-          if (res.status == 1) {
+          if (res.status == true) {
             for(let i=0;i<res.result.length;i++){
                 res.result[i].couponId=res.result[i].id;
                 res.result[i].beginTime=util.dateObjToString(new Date(res.result[i].beginTime));
@@ -113,6 +113,7 @@ export default {
                 res.result[i].createTime=util.dateObjToString(new Date(res.result[i].createTime));
             }
             this.listObj = this.filterExceptId(res.result);
+            console.log(this.listObj);
           }else {
             this.$refs.tipMsgRef.showTipMsg({
               msg:res.message,
