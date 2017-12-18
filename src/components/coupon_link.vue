@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import Final from "./../util/Final"
+  import Final from "../../static/baseSetting/Final"
   import Clipboard from 'clipboard';
   export default {
     name:'app',

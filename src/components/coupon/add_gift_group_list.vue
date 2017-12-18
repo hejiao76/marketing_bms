@@ -74,7 +74,7 @@
 
 <script>
 import Api from "./../../fetch/api"
-import Final from "./../../util/Final"
+import Final from "../../../static/baseSetting/Final"
 import VTipMsg from "./../tipMsg.vue";
 import TestData from "./../../util/TestData"
 export default {

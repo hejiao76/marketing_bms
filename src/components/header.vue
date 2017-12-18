@@ -47,7 +47,7 @@
 
 <script>
   import Api from "./../fetch/api"
-  import Final from "./../util/Final"
+  import Final from "../../static/baseSetting/Final"
   import ElCol from "element-ui/packages/col/src/col";
 export default {
   components: {

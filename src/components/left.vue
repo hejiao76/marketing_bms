@@ -98,7 +98,7 @@
 </template>
 
 <script>
-  import Final from "./../util/Final"
+  import Final from "../../static/baseSetting/Final"
   import Api from "./../fetch/api"
   import VTipMsg from "./tipMsg.vue";
   import TestData from "./../util/TestData"
@@ -186,6 +186,9 @@
           this.isCollapse ==true ? this.isCollapse = false : this.isCollapse = true;
         },
         getCurrentMenuNode (path,node) {
+            if(node.resourceUrl && node.resourceUrl.includes("edit")){
+                node.keepLive=false;
+            }
             if(node.resourceUrl==path){
                 this.currentNode= node;
                 console.log("--------",this.currentNode.resourceUrl);

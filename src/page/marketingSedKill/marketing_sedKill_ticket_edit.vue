@@ -85,7 +85,7 @@
   import VHeader from "./../../components/header";
   import VLeft from "./../../components/left";
   import VConNav from "./../../components/con_nav";
-  import Final from "./../../util/Final";
+  import Final from "../../../static/baseSetting/Final";
   import * as util from "./../../util/util"
   import Api from "./../../fetch/api";
   import VTipMsg from "./../../components/tipMsg.vue";

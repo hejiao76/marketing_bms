@@ -13,43 +13,32 @@ import axios from 'axios'
 
 import api from "./fetch/api"
 import * as util from "./util/util"
-import Final from "./util/Final"
+import Final from "../static/baseSetting/Final"
 
-let ticket=util.getUrlParam(window.location.href,"ticket");
+let ticket=util.getUrlParam(window.location.href,Final.TICKET_NAME);
 if(ticket){
   api.base_checkLogin({ticket:ticket})
       .then(res =>{
       if(res.status==true && res.code==200){
         window.location.href=window.location.href.split("?")[0]+"#"+window.location.href.split("#")[1];
-        // loadVue();
       }else if(res.status==true && res.code==999){
-        debugger;
         window.location.href=res.result;
       }
-      console.log("res--------",res);
     }).catch(error => {
-
-      console.log("error-------",error);
-  });
+    });
 }else {
   api.base_checkLogin({ticket:ticket})
     .then(res =>{
       if(res.status==true && res.code==200){
-        // window.location.href=window.location.href.split("?")[0]+"#"+window.location.href.split("#")[1];
         loadVue();
       }else if(res.status==true && res.code==999){
-        debugger;
         window.location.href=res.result;
       }
       console.log("res--------",res);
     }).catch(error => {
-
     console.log("error-------",error);
   });
-  // loadVue();
 }
-
-// loadVue();
 /**
  * 用户权限验证成功后----初始化VUE
  */

@@ -31,7 +31,7 @@
 </template>
 <script>
   import * as util from "./../util/util"
-  import Final from "./../util/Final"
+  import Final from "../../static/baseSetting/Final"
   import api from "./../fetch/api"
   import md5 from "js-md5"
   export default {

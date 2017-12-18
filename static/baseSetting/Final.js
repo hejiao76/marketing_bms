@@ -1,14 +1,16 @@
 /**
- * Created by jsb-cpyy on 2017/8/30.
+ * Created by jsb-cpyy on 2017/11/30.
  */
+let proxy='/action' //代理请求目标声明
 const OBJ ={
-  TICKET_NAME:"ticket",  //登录Ticket字段配置
+  PROXY:proxy, //代理请求目标
+  TICKET_NAME:"ticket",  //登录Ticket字段配置  换COOKIE
   LOGIN_PAGE_URL:"http://www.baidu.com", //登录页面地址配置
   IMG_PATH:"http://img.familyku.com",  //图片访问地址配置
-  UPLOAD_PATH:"/action/sys/upload",  //上传配置
+  UPLOAD_PATH:proxy+"/sys/upload",  //图片上传配置
 
   DEFAULT_IMG:{ //默认图片配置
-    prizeDraw:{
+    prizeDraw:{ //抽奖
       default_title:"http://img.familyku.com/data/att/defaultImg/prize_draw_title.png", //标题图片
       default_bg:"http://img.familyku.com/data/att/defaultImg/prize_draw_bg.png", //背景图片
       default_share:"http://img.familyku.com/data/att/defaultImg/prize_draw_share.png"  //分享图片

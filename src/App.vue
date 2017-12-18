@@ -13,7 +13,7 @@
 <script>
   import api from "./fetch/api"
   import * as util from "./util/util"
-  import Final from "./util/Final"
+  import Final from "../static/baseSetting/Final"
   import TestData from "./util/TestData"
 //  import VHeader from ".components/header";
 //  import VLeft from "./components/left";

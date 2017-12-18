@@ -7,7 +7,7 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/',   //修改打包时 生成静态文件引用地址 根目录 相对路径 等
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -30,6 +30,7 @@ module.exports = {
     proxyTable: {
       '/action' : {
         target: 'http://sem.familyku.com/',
+        // target:'10.16.23.134:8080/provider-sem/',
         // target:'https://audit.zhidianlife.com/',
         changeOrigin: true,
         pathRewrite: {

@@ -54,7 +54,7 @@
 
 <script>
   import Api from "./../fetch/api"
-  import Final from "./../util/Final"
+  import Final from "../../static/baseSetting/Final"
 export default {
   name: 'header',
   props: ['message','callback'],
