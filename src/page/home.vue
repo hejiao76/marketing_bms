@@ -1,8 +1,8 @@
 <template>
-  	<div>
-     <v-header></v-header>
-      <div class="con_main">
-        <v-left></v-left>
+  	<!--<div>-->
+     <!--<v-header></v-header>-->
+      <!--<div class="con_main">-->
+        <!--<v-left></v-left>-->
         <section class="con_main_r">
           <v-con-nav></v-con-nav>
           <section class="con_tab">
@@ -10,8 +10,8 @@
 
           </section>
         </section>
-      </div>
-    </div>
+      <!--</div>-->
+    <!--</div>-->
 </template>
 <script>
 //  import api from "./../fetch/api"
