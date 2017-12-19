@@ -5,7 +5,7 @@ const login = r => require.ensure([], () => r(require('../page/login')), 'login'
 
 const routerConfig = [{
   path: '',
-  redirect:"/login"
+  redirect:"/home"
 }, {
   path: '/home',
   component: home
