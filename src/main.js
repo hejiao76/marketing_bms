@@ -29,9 +29,14 @@ if(ticket){
       console.log("error-------",error);
     });
 }else {
-  api.base_checkLogin({ticket:ticket})
+  api.base_checkLogin({})
     .then(res =>{
       if(res.status==true && res.code==200){
+        if(res.result.ownerType){
+            localStorage.setItem("ownerType",res.result.ownerType)
+        }else{
+            localStorage.removeItem("ownerType");
+        }
         initApp();
       }else if(res.status==true && res.code==999){
         window.location.href=res.result;

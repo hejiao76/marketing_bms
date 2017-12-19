@@ -41,14 +41,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="Final.SYS_TYPE==1">
           <el-col :span="3">
               <span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>活动地区:</span>
           </el-col>
           <el-col :span="19" style="padding-left: 10px;">
               <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
           </el-col>
-
         </el-row>
 
         <!--<el-row>-->
@@ -225,10 +224,7 @@
           ],
           shareImg:[
             { required: true, message: '请上传图片', trigger: 'change' }
-          ],
-          activityCity: [
-            { type: 'array', required: true, message: '请至少选择一个地区', trigger: 'change' }
-          ],
+          ]
 //          coupons: [
 //            { type: 'array', required: true, message: '请至少选择一个抵扣券', trigger: 'change' }
 //          ],

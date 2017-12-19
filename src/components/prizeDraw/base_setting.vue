@@ -134,7 +134,7 @@
           <!--</el-col>-->
         <!--</el-col>-->
       </el-row>
-      <el-row class="margin-bottom-20" style="margin-top:20px;">
+      <el-row v-if="Final.SYS_TYPE==1" class="margin-bottom-20" style="margin-top:20px;">
         <el-form-item label="活动地区:" required >
           <V-Treeview  @call="syncArea" :code="baseItem.areaIds" :name="baseItem.areaNames"></V-Treeview>
         </el-form-item>

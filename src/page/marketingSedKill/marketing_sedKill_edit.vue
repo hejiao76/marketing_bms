@@ -40,7 +40,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="活动地区:" required>
+            <el-form-item v-if="Final.SYS_TYPE==1" label="活动地区:" required>
               <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
             </el-form-item>
           </el-row>
@@ -113,6 +113,7 @@
   export default {
     data() {
       return {
+        Final:Final,
         isEdit:false,
         testData:'',
         uploadParam:{module:"sedKill"},
@@ -160,6 +161,7 @@
           ]
         },
         activityId:'', //秒杀活动ID
+        ownerType:2, //默认系统类型 经销商系统---2  厂商系统------1
 //        activityInfo:{},
       }
     },
@@ -199,8 +201,7 @@
       initPage () {
           this.activityId = this.$route.params.sedKillId;
           if(this.activityId=="new"){
-              this.isEdit=false;
-//              this.requestData()
+            this.isEdit=false;
           }else if(this.activityId){
             this.isEdit=true;
             this.requestData()
@@ -229,7 +230,7 @@
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             if(!this.validPostCheckedTicketParam()){
-                msg="请添加或完善抵扣券信息"
+                msg="请添加或完善秒杀券信息"
             }
           } else {
             msg="活动基本信息填写有误";
@@ -302,10 +303,6 @@
       },
       cancelSubmit (){
           this.$router.push("/sedkill/list")
-//        this.$refs.tipMsgRef.showTipMsg({
-//          msg:"取消操作",
-//          type:"error"
-//        });
       },
       /**
        * 请求秒杀活动详情
@@ -369,7 +366,7 @@
           }
       },
       /**
-       *  同步秒杀券信息1111111111s
+       *  同步秒杀券信息
        * @param object
        */
       syncTickItem(param){

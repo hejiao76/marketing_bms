@@ -70,13 +70,9 @@
     props:["code"],
     data () {
       return{
-//        showContent:"",
         ifShow:false,
         dialogFormVisible: false,
 
-//        allMenuCodeArray:[], //所有可选权限数组
-//        checkedMenuCodeArray:[], //已选择权限数组
-//        newCityArr :[],
         cityTree:[],
         parentCheckedMenuCode:[],
         childCheckedMenuCode:[],
@@ -88,11 +84,8 @@
     },
     watch : {
       code (val, oldval) {
-          console.log("11111111");
           if(val  && val!="0"){
-              let valArray = val.split(",");
-              console.log(valArray);
-              console.log("看看有没有CityTree",this.cityTree);
+            let valArray = val.split(",");
             for(let i =0 ;i <valArray.length;i++){
                 if(valArray[i]<100){
                     this.parentCheckedMenuCode.push(Number(valArray[i]));
@@ -116,44 +109,14 @@
     created () {
       console.log('>>>>>>>>>>>>>>>树形模板')
       this.initPage();
-//      this.cityTree=res.result;
-
-//      this.parentCheckedMenuCode[]
-//   this.userData = res.result;
-//      this.initTreeData(res.result.optionalMenus);
-//      this.initCheckedMenuCodeArray(res.result.optionalMenus);
-//      this.initAllMenuCodeArray(res.result.optionalMenus);
-
     },
     mounted(){
 
-
-//      let _self=this;
-//      document.getElementById('box').onblur = function(){
-//        if(document.getElementById('box').contains(window.event.srcElement)){
-//            console.log(window.event.srcElement)
-//        }else{
-//          _self.ifShow=false;
-//        }
-//
-//      };
     },
     methods:{
         initPage () {
           this.requestLocationList();
-//            this.requestLocationList();
-//          this.initCityTree(res.result);
         },
-      initCityTree (cityTree){
-//        for(let i = 0 ;i <cityTree.length;i++){
-//          let item = cityTree[i];
-//            for(let j = 0 ; j < item.cityVmList.length; j ++ ){
-//              let childItem = item.cityVmList[j];
-//
-//            }
-//        }
-//        this.cityTree= cityTree;
-      },
       requestLocationList(){
         Api.base_sys_location({})
           .then(res => {
@@ -211,7 +174,6 @@
         let provinceId= parentNode.provinceId;
         let provinceName=parentNode.provinceName;
         if(provinceId){
-          console.log("parent-----start--------->");
           let checked=event;
           let parentCheckedMenuCodeSet = new Set (this.parentCheckedMenuCode);
           let childCheckedMenuCodeSet = new Set (this.childCheckedMenuCode);
@@ -219,13 +181,11 @@
           let childCheckedMenuNameSet = new Set (this.childCheckedMenuName);
           checked==true ? parentCheckedMenuCodeSet.add(provinceId) : parentCheckedMenuCodeSet.delete(provinceId);
           checked==true ? parentCheckedMenuNameSet.add(provinceName) : parentCheckedMenuNameSet.delete(provinceName);
-          console.log("parent-----start-----checked---->",checked);
           for(let i = 0 ; i<this.cityTree.length;i++){
             let item=this.cityTree[i];
             if(item.provinceId==provinceId){
                 for(let j = 0; j<item.cityVmList.length;j++){
                     let childItem = item.cityVmList[j];
-                  console.log("parent-----start-----childItem---->",childItem);
                   if(checked){
                     childCheckedMenuCodeSet.add(childItem.cityId);
                     childCheckedMenuNameSet.add(childItem.cityName);
@@ -240,22 +200,12 @@
 
             }
           }
-//          let parentCheckedMenuCodeSet = new Set (this.parentCheckedMenuCode);
 
           this.childCheckedMenuCode=Array.from(childCheckedMenuCodeSet);
           this.parentCheckedMenuCode=Array.from(parentCheckedMenuCodeSet);
-
           this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
           this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
-//          this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
-//          this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
           this.showTxtFn();
-//          console.log('1111111',this.checkedMenuCodeArray);
-          console.log("checkParent---parentCode--11111111111--",JSON.stringify(this.parentCheckedMenuCode));
-          console.log("checkParent---childCode----",JSON.stringify(this.childCheckedMenuCode));
-          console.log("checkParent---parentName----",JSON.stringify(this.parentCheckedMenuName));
-          console.log("checkParent---childName----",JSON.stringify(this.childCheckedMenuName))
-//          console.log("checkParent---treeObj----",this.cityTree)
         }
       },
       getParentByChildId (cityId){
@@ -274,7 +224,6 @@
       },
       handleCheckedChildChange(event,childNode) {
         let cityId =childNode.cityId
-        console.log("checkChild---treeObj-----start-",this.childCheckedMenuCode);
         if(cityId){
           let checked = event;
           let menuCodeArray=[];
@@ -293,20 +242,13 @@
               for(let i = 0 ; i<parentItem.cityVmList.length;i++){
                   if(parentItem.cityVmList[i].cityId == cityId){
                     parentItem.cityVmList[i].selected=event;
-                    console.log("checkChild---treeObj----child---item",parentItem.cityVmList[i]);
                   }
                   menuCodeArray.push(parentItem.cityVmList[i].cityId);
                   menuCodeNameArray.push(parentItem.cityVmList[i].cityName);
               }
-             console.log("checkChild---treeObj-----parentItem-",parentItem);
             let menuCodeArraySet = new Set (menuCodeArray);
-
-            console.log("checkChild---treeObj-----menuCodeArray-",menuCodeArray);
-
             let hasChildArraySet = new Set([...menuCodeArraySet].filter(x => childCheckedMenuCodeSet.has(x))); //获取当前一级权限下所有子权限 和 已选择权限 交集
-            console.log("checkChild---treeObj---hasChild---Size-",hasChildArraySet.size);
             if(hasChildArraySet.size>0){
-              console.log("checkChild---treeObj---hasChild-",hasChildArraySet);
               parentCheckedMenuCodeSet.add(parentItem.provinceId);
               parentCheckedMenuNameSet.add(parentItem.provinceName);
               parentItem.selected=true;
@@ -320,34 +262,24 @@
             this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
             this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
             this.showTxtFn();
-            console.log("checkChild---treeObj----",this.cityTree);
-            console.log("checkChild---parentCode----",JSON.stringify(this.parentCheckedMenuCode));
-            console.log("checkChild---childCode----",JSON.stringify(this.childCheckedMenuCode))
-            console.log("checkChild---parentName----",JSON.stringify(this.parentCheckedMenuName));
-            console.log("checkChild---childName----",JSON.stringify(this.childCheckedMenuName))
-//            console.log('22222222',this.checkedMenuCodeArray);
-
           }
 
         }
       },
       allChecked(event){
 
-          console.log("all-----start--------->");
           let checked=event;
           let parentCheckedMenuCodeSet = new Set (this.parentCheckedMenuCode);
           let childCheckedMenuCodeSet = new Set (this.childCheckedMenuCode);
           let parentCheckedMenuNameSet = new Set (this.parentCheckedMenuName);
           let childCheckedMenuNameSet = new Set (this.childCheckedMenuName);
 
-          console.log("all-----start-----checked---->",checked);
           for(let i = 0 ; i<this.cityTree.length;i++){
             let item=this.cityTree[i];
             checked==true ? parentCheckedMenuCodeSet.add(item.provinceId) : parentCheckedMenuCodeSet.delete(item.provinceId);
             checked==true ? parentCheckedMenuNameSet.add(item.provinceName) : parentCheckedMenuNameSet.delete(item.provinceName);
             for(let j = 0; j<item.cityVmList.length;j++){
               let childItem = item.cityVmList[j];
-              console.log("all-----start-----childItem---->",childItem);
               checked==true ? childCheckedMenuCodeSet.add(childItem.cityId) : childCheckedMenuCodeSet.delete(childItem.cityId);
               checked==true ? childCheckedMenuNameSet.add(childItem.cityName) : childCheckedMenuNameSet.delete(childItem.cityName);
 
@@ -357,36 +289,9 @@
           this.parentCheckedMenuCode=Array.from(parentCheckedMenuCodeSet);
           this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
           this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
-//          this.parentCheckedMenuName=Array.from(parentCheckedMenuNameSet);
-//          this.childCheckedMenuName=Array.from(childCheckedMenuNameSet);
+
           this.showTxtFn();
 
-//        let checked=event;
-//        let checkedMenuCodeArraySet = new Set (this.checkedMenuCodeArray);
-//        if(checked){
-//          for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
-//            let item=this.userData.optionalMenusTree[i];
-//            checkedMenuCodeArraySet.add(item.menucode);
-//            for(let x = 0 ; x<this.userData.optionalMenus.length;x++){
-//              let val=this.userData.optionalMenus[x];
-//              if(val.parentMenuCode==item.menucode){
-//                checkedMenuCodeArraySet.add(val.menucode);
-//              }
-//            }
-//          }
-//        }else{
-//          for(let i = 0 ; i< this.userData.optionalMenusTree.length;i++){
-//            let item=this.userData.optionalMenusTree[i];
-//            checkedMenuCodeArraySet.delete(item.menucode)
-//            for(let x = 0 ; x<this.userData.optionalMenus.length;x++){
-//              let val=this.userData.optionalMenus[x];
-//              if(val.parentMenuCode==item.menucode){
-//                checkedMenuCodeArraySet.delete(val.menucode);
-//              }
-//            }
-//          }
-//        }
-//        this.checkedMenuCodeArray=Array.from(checkedMenuCodeArraySet);
       },
       checkedCity(){
         let allCodeArray = this.parentCheckedMenuCode.concat(this.childCheckedMenuCode);

@@ -8,6 +8,7 @@ const OBJ ={
   LOGIN_PAGE_URL:"http://www.baidu.com", //登录页面地址配置
   IMG_PATH:"http://img.familyku.com",  //图片访问地址配置
   UPLOAD_PATH:proxy+"/sys/upload",  //图片上传配置
+  SYS_TYPE:localStorage.getItem("ownerType"),//系统类型
 
   DEFAULT_IMG:{ //默认图片配置
     prizeDraw:{ //抽奖
