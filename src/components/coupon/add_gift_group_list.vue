@@ -136,7 +136,7 @@ export default {
         let param = {
           giftGroupName:this.giftGroupName || '',
           type:this.tmpSeriesData.serialType,
-          serialId: this.tmpSeriesData.serialIds ? this.tmpSeriesData.serialIds.join(",") : '',
+          serialId: this.tmpSeriesData.serialIds,
           pageIndex:1,
           pageSize:10000
         }

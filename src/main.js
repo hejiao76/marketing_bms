@@ -21,10 +21,12 @@ if(ticket){
       .then(res =>{
       if(res.status==true && res.code==200){
         window.location.href=window.location.href.split("?")[0]+"#"+window.location.href.split("#")[1];
+
       }else if(res.status==true && res.code==999){
         window.location.href=res.result;
       }
     }).catch(error => {
+      console.log("error-------",error);
     });
 }else {
   api.base_checkLogin({ticket:ticket})
@@ -34,10 +36,9 @@ if(ticket){
       }else if(res.status==true && res.code==999){
         window.location.href=res.result;
       }
-      console.log("res--------",res);
     }).catch(error => {
-    console.log("error-------",error);
-  });
+      console.log("error-------",error);
+  });w哦
 }
 /**
  * 用户权限验证成功后----初始化VUE

@@ -24,7 +24,7 @@
         <el-col :span="24">
           <div style="text-align: center">
             <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
-            <el-button v-if="!isEdit" type="primary" @click="saveSeriesItem">上一步</el-button>
+            <el-button v-if="!isEdit" type="primary" @click="preFn">上一步</el-button>
             <el-button v-if="!isEdit" type="primary" @click="saveSeriesItem">下一步</el-button>
             <el-button @click="resetForm('ruleForm')">取消</el-button>
           </div>
@@ -70,7 +70,7 @@ export default {
     },
     seriesItemForm :{
         handler(val,oldval){
-          this.$emit("getTmpSeriesData",Object.assign({},this.seriesItemForm));
+          this.$emit("getTmpSeriesData",Object.assign({},this.getSeriesItem()));
         },
         deep:true
     }
@@ -167,6 +167,9 @@ export default {
         }
         return newSeriesItem;
     },
+    preFn () {
+      this.$emit("call", {op: "edit", tag: "series",pre:true});
+    },
     /**
      *  下一步
      */
@@ -177,6 +180,7 @@ export default {
 //                newSeriesItem.serialIds=this.carIdsArrayToObject();
 //              }
               this.$emit("call",{op:"edit",tag:"series",callData:this.getSeriesItem()});
+              this.$emit("getTmpSeriesData",Object.assign({},this.getSeriesItem()));
         }
     },
     /**

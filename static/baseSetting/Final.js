@@ -1,7 +1,7 @@
 /**
  * Created by jsb-cpyy on 2017/11/30.
  */
-let proxy='/action' //代理请求目标声明
+const proxy='/action' //代理请求目标声明
 const OBJ ={
   PROXY:proxy, //代理请求目标
   TICKET_NAME:"ticket",  //登录Ticket字段配置  换COOKIE

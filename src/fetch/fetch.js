@@ -10,7 +10,7 @@ axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.headers.post['X-REQUESTED-WITH']='XMLHttpRequest';
 // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-axios.defaults.baseURL = Final.proxy || '/action'; // '/action';
+axios.defaults.baseURL = Final.PROXY || '/action'; // '/action';
 
 //POST传参序列化
 axios.interceptors.request.use((config) => {

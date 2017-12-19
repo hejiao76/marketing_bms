@@ -128,12 +128,14 @@ export default {
   watch : {
     couponDetail (val, oldval) {
       this.cloneTypeInfo();
+    },
+    tmpSeriesData(val,oldval){
+//        this.tmpSeriesData=val;
     }
   },
   created () {
   },
   mounted () {
-      console.log("加载抵扣类型");
 //    this.cloneTypeInfo();
   },
   methods:{
@@ -163,7 +165,6 @@ export default {
         Api.base_sys_gift_info({giftGroupId:this.typeItemForm.giftId})
           .then(res => {
             if (res.status == true) {
-              console.log(res);
               this.typeItemForm.gift_obj=res.result;
             }else {
               this.$refs.tipMsgRef.showTipMsg({
@@ -206,7 +207,6 @@ export default {
      * 同步已选择的礼品包ID
      */
     syncGiftIds (data) {
-        console.log("选择礼品-----回到父级",JSON.stringify(data));
         if(data && data.giftGroupId){
             this.typeItemForm.giftId =data.giftGroupId;
             this.requestGiftItemInfo();
