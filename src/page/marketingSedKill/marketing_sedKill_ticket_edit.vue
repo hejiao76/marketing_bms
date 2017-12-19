@@ -95,7 +95,7 @@
   export default {
     data() {
       return {
-        isEdit:true,
+        isEdit:false,
         isCopy:false,
         carSerialsList:[],
         optionsActivityStart :{
@@ -162,6 +162,26 @@
       VTipMsg,
       UE,
 
+    },
+    watch : {
+      "$route": function (to, from) {
+        /*-----------适配编辑跳转新增 初始化数据----开始-----*/
+        this.sedKillFormItem=Object.assign({},{
+          name: '', //秒杀券名称
+          beginTime:'',//有效期开始时间
+          endTime:'', //有效期结束时间
+          carTypeId:'',
+          carTypeName:'',//车系名称
+          amount:'',
+          description:'',
+          details:""
+        });
+        this.defaultMsg='';
+        this.carSerialsList=[];
+        this.isCopy=false;
+        /*-----------适配编辑跳转新增 初始化数据----结束-----*/
+        this.initPage();
+      }
     },
     created (){
 

@@ -254,7 +254,21 @@
     },
     watch : {
       "$route": function (to, from) {
-        this.resetForm();
+        /*-----------适配编辑跳转新增 初始化数据----开始-----*/
+        this.activityInfo= Object.assign({},{
+            id:'',
+            name:'',
+            beginTime:'',
+            endTime:'',
+            coupons:[],
+            shareImg:"",
+            areaIds:"",
+            areaNames:""
+        })
+        this.coupons=[];
+        this.isEdit=false;
+        /*-----------适配编辑跳转新增 初始化数据----结束-----*/
+        this.initPage();
       }
     },
     methods : {

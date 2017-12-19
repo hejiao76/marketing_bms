@@ -55,6 +55,20 @@
       VCouponType
 
     },
+    watch : {
+      "$route": function (to, from) {
+        /*-----------适配编辑跳转新增 初始化数据----开始-----*/
+        this.tmpSeriesData={}//车系缓存数据----查询礼包时使用
+        this.disabledTab=false
+        this.isEdit=true
+        this.isCopy=false
+        this.couponSettingTab='base',//选项卡默认选中项
+        this.couponDetail = {}
+        this.couponCode=''
+        /*-----------适配编辑跳转新增 初始化数据----结束-----*/
+        this.initPage();
+      }
+    },
     created (){
 
     },

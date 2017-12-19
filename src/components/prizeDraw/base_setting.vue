@@ -259,6 +259,23 @@ export default {
   },
   watch : {
     prizeDrawDetail (val, oldval) {
+      /*-----------适配编辑跳转新增 初始化数据----开始-----*/
+      this.name='' //活动名称
+      this.beginTime=new Date(new Date().setHours(new Date().getHours()+1))//活动开始时间
+      this.endTime=new Date(new Date().setDate(new Date().getDate()+7))//活动结束时间
+      this.isShowJoinSize=1 //是否显示参与人数
+      this.addJoinSize=0//添加参与人数
+      this.isShowWinningRecord=1 //是否显示中奖记录
+      this.bgImg=''//背景图片地址,
+      this.titleImg=''//标题图片地址,
+      this.shareImg=''//分享图片地址
+      this.areaIds=''//活动地区ID字符串
+      this.areaNames=''//活动地区名称字符串
+      this.carStyle=''// 车系车型JSON串
+      this.description=''//活动说明,
+      this.serialIds=[] //车系ID
+      /*-----------适配编辑跳转新增 初始化数据----结束-----*/
+
       this.cloneTicketInfo();
 
     }

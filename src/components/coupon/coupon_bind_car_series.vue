@@ -102,7 +102,7 @@ export default {
       if(this.couponDetail){
         this.seriesItemForm = {
           serialType:this.couponDetail.serialType || 1,
-          serialIds : this.couponDetail.serialIds.split(",") || []
+          serialIds : this.couponDetail.serialIds?this.couponDetail.serialIds.split(",") : []
         }
         if(this.seriesItemForm.serialIds){
             this.requestSeries();
@@ -165,6 +165,7 @@ export default {
         if(this.seriesItemForm.serialType==2){
           newSeriesItem.serialIds=this.seriesItemForm.serialIds.join(","); //this.carIdsArrayToObject();
         }
+
         return newSeriesItem;
     },
     preFn () {

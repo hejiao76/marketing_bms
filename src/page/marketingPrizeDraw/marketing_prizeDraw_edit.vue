@@ -93,7 +93,23 @@
     },
     watch: {
       '$route' (to, from) {
-        console.log("prize-----watch----router---------",to.path);
+        /*-----------适配编辑跳转新增 初始化数据----开始-----*/
+        this.disabledTab=false,
+        this.isEdit=true, //是否编辑状态
+        this.isHaveInHand=false, //活动是会否进行中
+        this.prizeDrawSettingTab='base', //选项卡默认选中项1111111111111111111111111111
+        this.prizeDrawDetail =Object.assign({},{}),
+        this.prizeDrawCode='',
+        this.previewProps ={
+          isShowJoinSize:true,
+          isShowWinningRecord:true,
+          bgImg:Final.DEFAULT_IMG.prizeDraw.default_bg,
+          titleImg:Final.DEFAULT_IMG.prizeDraw.default_title,
+          description:""
+        },
+        this.serialStr="", //透传车系ID字符串，查询可用礼包
+        /*-----------适配编辑跳转新增 初始化数据----结束-----*/
+
         this.initPage();
       }
     },

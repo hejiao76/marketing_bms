@@ -8,7 +8,7 @@
             <!--<span class="help is-danger" v-show="errors.has('email')" >{{ errors.first('email') }}</span>-->
           <!--</p>-->
         <!--</div>-->
-        <el-form :model="activityInfo" :rules="rules" size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" :label-position="labelPosition">
+        <el-form :model="activityInfo" :rules="rules" size="small" ref="ruleForm" label-width="120px" class="demo-ruleForm" label-position="left">
           <el-row :gutter="20">
             <el-col :span="16">
               <el-row>
@@ -113,7 +113,7 @@
   export default {
     data() {
       return {
-        isEdit:true,
+        isEdit:false,
         testData:'',
         uploadParam:{module:"sedKill"},
         Final:Final,
@@ -134,7 +134,6 @@
             }
           }
         },
-        labelPosition:'left',
         activityInfo: {
           name: '',
           beginTime:'',//活动1开始时间
@@ -181,7 +180,19 @@
     },
     watch : {
       "$route": function (to, from) {
-//        this.resetForm();
+        /*-----------适配编辑跳转新增 初始化数据----开始-----*/
+          this.activityInfo=Object.assign({},{
+            name: '',
+            beginTime:'',//活动1开始时间
+            endTime:'', //活动结束时间
+            shareImg: '',
+            areaIds:'',
+            areaNames:'',
+            itemList:[],
+          });
+          this.activityId='';
+        /*-----------适配编辑跳转新增 初始化数据----结束-----*/
+        this.initPage();
       }
     },
     methods : {

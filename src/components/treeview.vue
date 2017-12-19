@@ -70,39 +70,13 @@
     props:["code"],
     data () {
       return{
-        showContent:"",
+//        showContent:"",
         ifShow:false,
-//        currentPage: 1,
-//        tpageSize: 10,
-//        totalRow: 0,
-//        childItems　:[],
-//        showChild:false,
-//        settingSm:{
-//          set_smPhone:''
-//        },
-//        userData: {
-//          userNum: '',
-//          userName: '',
-//          roleName: '',
-//          menus: [],
-//          optionalMenus: []
-//        },
-//        defaultProps: {
-//          children: 'children',
-//          label: 'label'
-//        },
-//        treeDefaultCheck:[],
-//        checkedMenus: [],
         dialogFormVisible: false,
-//        ruleForm: {
-//          userNum: '',
-//          menus: ''
-//        },
-//        rules: {
-//        },
-        allMenuCodeArray:[], //所有可选权限数组
-        checkedMenuCodeArray:[], //已选择权限数组
-        newCityArr :[],
+
+//        allMenuCodeArray:[], //所有可选权限数组
+//        checkedMenuCodeArray:[], //已选择权限数组
+//        newCityArr :[],
         cityTree:[],
         parentCheckedMenuCode:[],
         childCheckedMenuCode:[],
@@ -127,8 +101,15 @@
                 }
             }
             console.log("child---->",this.childCheckedMenuCode);
+          }else {
+              this.isShow=false;
+              this.dialogFormVisible=false;
+              this.parentCheckedMenuCode=[];
+              this.childCheckedMenuCode=[];
+              this.parentCheckedMenuName=[];
+              this.childCheckedMenuName=[];
+              this.showTxt="";
           }
-
 
       },
     },
