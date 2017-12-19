@@ -126,16 +126,18 @@
       "$route": function(to,from) {
        console.log("watch----left---route",to.path);
         let currentPath=to.path;
-        currentPath=this.getCurrentMenuNode(to.path,from);
+        let roleMenus = JSON.parse(localStorage.getItem("roleMenus"));
+        this.roleMenusObj=roleMenus;
+        currentPath=this.$route.fullPath;
         this.getCurrentMenuNode(currentPath,this.roleMenusObj);
         console.log("left---created---change--路由地址",currentPath);
       }
     },
-    created () {
-        console.log(this.$route);
-      let currentPath=this.$route.path;
-      this.initPage(currentPath);
-      console.log("left---created-----路由地址",currentPath);
+    mounted () {
+//        console.log("route-----1111111--->",this.$route);
+//      let currentPath=this.$route.path;
+//      this.initPage(currentPath);
+//      console.log("left---created-----路由地址",currentPath);
       return;
 //      let currentPath=this.$route.path;
 //      currentPath=this.getCurrentPath(currentPath);
@@ -154,32 +156,25 @@
           this.requestMenuResource(currentPath);
         },
         requestMenuResource (currentPath){
-          let roleMenus = JSON.parse(localStorage.getItem("roleMenus"));
-          this.roleMenusObj=roleMenus;
-          console.log(JSON.stringify(this.roleMenusObj))
-          this.getCurrentMenuNode(currentPath,this.roleMenusObj);
-          this.childNodes=this.roleMenusObj.children;
-          console.log("current----path-------",currentPath);
-          console.log("build-----true----success",this.roleMenusObj);
-//          Api.base_menus_resource({})
-//            .then(res =>{
-//              if(res.status==true){
-//                  this.roleMenus=res.result;
-//                  this.roleMenus=TestData.left_menu_data;
-//                  let treeObj={parentId:-1,resourceId:0,resourceName:"根节点",children:[]};
-//                  this.buildRolesMenuTree(treeObj,this.roleMenus);
-//                  this.roleMenusObj=treeObj;
-//                  this.getCurrentMenuNode(currentPath,this.roleMenusObj);
-//                  console.log("build-----true----success",treeObj);
-//              }else{
-//                this.$refs.tipMsgRef.showTipMsg({
-//                  msg:res.message,
-//                  type:"error"
-//                });
-//              }
-//            }).catch(error =>{
-//
-//            });
+          Api.base_menus_resource({})
+            .then(res =>{
+              if(res.status==true){
+                  this.roleMenus=res.result;
+                  this.roleMenus=TestData.left_menu_data;
+                  let treeObj={parentId:-1,resourceId:0,resourceName:"根节点",children:[]};
+                  this.buildRolesMenuTree(treeObj,this.roleMenus);
+                  this.roleMenusObj=treeObj;
+                  this.getCurrentMenuNode(currentPath,this.roleMenusObj);
+                  console.log("build-----true----success",treeObj);
+              }else{
+                this.$refs.tipMsgRef.showTipMsg({
+                  msg:res.message,
+                  type:"error"
+                });
+              }
+            }).catch(error =>{
+
+            });
         },
         colClick () {
             console.log("click");
