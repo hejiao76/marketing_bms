@@ -130,7 +130,8 @@
         </div>
         <!-- 具体内容 -->
         <div class="prize-tit">中奖用户</div>
-        <div class="pricontent">
+        <div v-if="winningArrErr" style="font-size: 30px;line-height: 30px;font-weight: bold;margin-top:30px;text-align: center">该活动无中奖用户</div>
+        <div v-if="!winningArrErr" class="pricontent">
           <div class="pricontent-txt fl" v-for="winArr in winningArr">
             <div class="pricontent-body">
               <ul class="namepeople">
@@ -250,6 +251,7 @@
         winningArr:[],
         dealerList:[],
         dealerListIsShow:false,
+        winningArrErr:false,
       }
     },
     components: {
@@ -428,23 +430,24 @@
        * @returns {}
        */
       showPrizeUser (id) {
-
         Api.sk_activity_winning_list({id:id}).then(res => {
-          if (res.status) {
+          if (res.status && res.result) {
             this.winningArr = res.result;
             for(var i = 0 ;i < this.winningArr.length; i++){
               this.winningArr[i].activeDealerId = '';
             }
             $('.prize-pop,.mask').show();
           }else {
-            this.winningArr= []
+            this.winningArr= [];
+            $('.prize-pop,.mask').show();
+            this.winningArrErr = true;
           }
         }).catch(err => {
-          this.$message({
-            showClose: true,
-            message: '数据请求失败！',
-            type: 'error'
-          });
+            this.$message({
+              showClose: true,
+              message: '数据请求失败！',
+              type: 'error'
+            });
         });
 
       },
@@ -454,6 +457,7 @@
        */
       hidePrizeUser () {
         this.dealerListIsShow = false;
+        this.winningArrErr = false;
         $('.prize-pop,.mask').hide();
         return;
       },
