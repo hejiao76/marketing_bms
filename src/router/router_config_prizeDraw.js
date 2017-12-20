@@ -24,8 +24,8 @@ const routerConfig = [{
     {
       path:'prize_list',//中奖列表
       name:"marketing_prizeDraw_prize_list",
-      component:marketing_prizeDraw_prize_list,
-      meta: { keepAlive: true }
+      component:marketing_prizeDraw_prize_list
+      // meta: { keepAlive: true }
     }
   ]
 }];

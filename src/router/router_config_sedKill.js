@@ -42,8 +42,8 @@ const routerConfig = [{
     {
       path:'order_list',//秒杀订单列表
       name:"marketing_sedKill_order_list",
-      component:marketing_sedKill_order_list,
-      meta: { keepAlive: true }
+      component:marketing_sedKill_order_list
+      // meta: { keepAlive: true }
     },
   ]
 }];
