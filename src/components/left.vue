@@ -1,6 +1,6 @@
 <template>
 
-  <aside class="left_bgColor">
+  <aside :style="{'width':menuWidth}" class="left_bgColor">
     <el-row class="tac left_bgColor">
       <el-col :span="24">
         <div style="width:100%;text-align: right;line-height: 36px;border-bottom: solid 1px #676C81;">
@@ -111,6 +111,7 @@
       return {
         bcolor:"#555A6E",
         tcolor:"#FFFFFF",
+        menuWidth:"200px",
         isCollapse : false,
         mainMenuCode:'',
         childNodes:[],
@@ -130,6 +131,11 @@
         this.roleMenusObj=roleMenus;
         currentPath=this.$route.fullPath;
         this.getCurrentMenuNode(currentPath,this.roleMenusObj);
+        let _self=this;
+        window.setTimeout(function (){
+          _self.menuWidth="auto";
+          console.log("setTimeOut");
+        },10)
         console.log("left---created---change--路由地址",currentPath);
       }
     },
@@ -165,6 +171,7 @@
                   this.buildRolesMenuTree(treeObj,this.roleMenus);
                   this.roleMenusObj=treeObj;
                   this.getCurrentMenuNode(currentPath,this.roleMenusObj);
+
                   console.log("build-----true----success",treeObj);
               }else{
                 this.$refs.tipMsgRef.showTipMsg({
