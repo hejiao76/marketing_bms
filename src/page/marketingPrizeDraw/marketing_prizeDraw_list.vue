@@ -195,9 +195,15 @@
       VPldetail,
     },
     mounted () {
-      this.requestData();
+//      this.requestData();
     },
     watch: {
+    },
+    beforeRouteEnter (to,from,next){
+      // 列表使用Keep-alive 保持状态... 通过next 来初始化请求数据
+      next(vm => {
+        vm.requestData();
+      })
     },
     methods: {
       checkCity(provinceId){

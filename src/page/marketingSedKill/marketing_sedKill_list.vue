@@ -261,10 +261,17 @@
       VTipMsg,
     },
     mounted () {
-      this.requestData();
-      this.getCity();
+//      this.requestData();
+//      this.getCity();
     },
     watch: {
+    },
+    beforeRouteEnter (to,from,next){
+      // 列表使用Keep-alive 保持状态... 通过next 来初始化请求数据
+      next(vm => {
+        vm.requestData();
+        vm.getCity();
+      })
     },
     methods: {
       /**
