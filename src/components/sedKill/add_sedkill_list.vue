@@ -64,8 +64,8 @@ export default {
      */
     showDialog (exceptIdArray,beginTime,endTime) {
         this.exceptIdArray=exceptIdArray;
-        this.beginTime=beginTime;
-        this.endTime=endTime;
+        this.beginTime=beginTime ? util.dateObjToString(new Date(beginTime)) : '';
+        this.endTime=endTime?util.dateObjToString( new Date(endTime)):'';
         this.requestAddTicketList();
         this.dialogTableVisible=true;
     },
@@ -102,7 +102,7 @@ export default {
      * 请求可选秒杀券列表
      */
     requestAddTicketList () {
-      let param = {status:1,sortType:2,beginTime:this.beginTime,endTime:this.endTime,pageIndex:1,pageSize:1000};
+      let param = {status:1,sortType:2,itemTime:this.beginTime,pageIndex:1,pageSize:1000};
       Api.sk_activity_ticket_list(param)
         .then(res => {
           if (res.status == true) {
