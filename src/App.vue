@@ -1,11 +1,31 @@
 <template>
   <div id="app">
     <!--<img src="./assets/logo.png">-->
-    <v-header></v-header>
-    <div class="con_main">
-      <v-left></v-left>
-      <router-view></router-view>
-    </div>
+    <!--<v-header></v-header>-->
+    <!--<div class="con_main">-->
+      <!--<v-left></v-left>-->
+      <!--<router-view></router-view>-->
+    <!--</div>-->
+    <!--<el-container>-->
+        <!--<v-header></v-header>-->
+      <!--<el-container>-->
+          <!--<v-left></v-left>-->
+          <!--<router-view></router-view>-->
+      <!--</el-container>-->
+    <!--</el-container>-->
+    <el-container class="con_main">
+      <el-header style="padding:0px;">
+        <v-header></v-header>
+      </el-header>
+      <el-container>
+        <el-aside class="left_bgColor"  width="auto">
+          <v-left></v-left>
+        </el-aside>
+        <el-main  style="padding:0px;">
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
     <!--<v-tip-msg></v-tip-msg>-->
   </div>
 </template>
