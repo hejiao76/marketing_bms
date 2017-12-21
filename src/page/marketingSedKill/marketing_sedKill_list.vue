@@ -132,7 +132,7 @@
         <div class="prize-tit">中奖用户</div>
         <div v-if="winningArrErr" style="font-size: 30px;line-height: 30px;font-weight: bold;margin-top:30px;text-align: center">该活动无中奖用户</div>
         <div v-if="!winningArrErr" class="pricontent">
-          <div class="pricontent-txt fl" v-for="winArr in winningArr">
+          <div class="pricontent-txt fl" v-for="(winArr,index) in winningArr">
             <div class="pricontent-body">
               <ul class="namepeople">
                 <li>
@@ -145,13 +145,13 @@
                   <p><em>秒杀券名称:</em><span>{{winArr.couponName}}</span></p>
                 </li>
                 <li><p><em>秒杀成功时间:</em><span>{{getMoment(winArr.seckillTime)}}</span></p></li>
-                <li><p><em>有效时间:</em><span>{{getMoment(winArr.beginTime)}}至{{getMoment(winArr.beginTime)}}</span></p></li>
+                <li><p><em>有效时间:</em><span>{{getMoment(winArr.beginTime)}}至{{getMoment(winArr.endTime)}}</span></p></li>
                 <li><p><em>订单编号:</em><span>{{winArr.orderNum}}</span></p></li>
                 <li><p><em>适用于:</em><span>{{winArr.carTypeName}}</span></p></li>
                 <li v-if="!dealerListIsShow"><p><em>经销商名称:</em><span>{{winArr.ownerName}}</span><i @click="selectOwnerName(winArr.id)" class="el-icon-edit" style="margin-left:10px;cursor: pointer;"></i></p></li>
                 <li v-if="dealerListIsShow"><em>修改经销商名称:</em>
                   <template>
-                  <el-select v-model="winArr.activeDealerId" placeholder="请选择经销商" size="small" style="width: 175px;">
+                  <el-select v-model="dealerList.dealerId" placeholder="请选择经销商" @change="checkActiveDealerId(index,dealerList.dealerId)" size="small" style="width: 175px;">
                     <el-option
                       v-for="dealer in dealerList"
                       :key="dealer.dealerId"
@@ -274,6 +274,9 @@
       })
     },
     methods: {
+      checkActiveDealerId(idx,dealerId){
+        this.winningArr[idx].activeDealerId = dealerId;
+      },
       /**
        * 修改经销商
        * @param params
@@ -288,6 +291,7 @@
                 message: "修改成功",
                 type: 'success'
               });
+              this.hidePrizeUser();
             }else {
 
             }
