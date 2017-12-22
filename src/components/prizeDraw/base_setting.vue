@@ -134,7 +134,7 @@
           <!--</el-col>-->
         <!--</el-col>-->
       </el-row>
-      <el-row v-if="Final.SYS_TYPE==1" class="margin-bottom-20" style="margin-top:20px;">
+      <el-row v-if="ownerType==1" class="margin-bottom-20" style="margin-top:20px;">
         <el-form-item label="活动地区:" required >
           <V-Treeview  @call="syncArea" :code="baseItem.areaIds" :name="baseItem.areaNames"></V-Treeview>
         </el-form-item>
@@ -250,6 +250,7 @@ export default {
       },
       seriesList:[],
       labelPosition:'left',
+      ownerType:2
     }
   },
   components :{
@@ -275,7 +276,7 @@ export default {
       this.description=''//活动说明,
       this.serialIds=[] //车系ID
       /*-----------适配编辑跳转新增 初始化数据----结束-----*/
-
+      this.ownerType=localStorage.getItem("ownerType") || 2;
       this.cloneTicketInfo();
 
     }

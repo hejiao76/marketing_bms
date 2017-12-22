@@ -41,7 +41,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="Final.SYS_TYPE==1">
+        <el-row v-if="ownerType==1">
           <el-col :span="3">
               <span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>活动地区:</span>
           </el-col>
@@ -182,6 +182,7 @@
         uploadParam:{module:"coupon"},
         serialTypeMapping:{1:"抵扣车款",2:"其他权益",3:"抵扣车款、其他权益"},
         testData:'',
+        ownerType:2,
         isEdit:true,
         Final:Final,
         optionsActivityStart :{
@@ -246,6 +247,7 @@
 
     },
     mounted (){
+      this.ownerType=localStorage.getItem("ownerType") || 2;
       this.initPage();
     },
     watch : {

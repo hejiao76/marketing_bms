@@ -42,17 +42,24 @@
             </el-dropdown>
         </el-col>
     </el-row>
+    <!--<remote-js src="http://mmc.cloudyoung.cn/resources/js/MFRAppHead.js"></remote-js>-->
   </header>
 </template>
 
 <script>
   import Api from "./../fetch/api"
   import Final from "../../static/baseSetting/Final"
-  import ElCol from "element-ui/packages/col/src/col";
+//  import remoteJs from "remote-js.vue"
 export default {
   components: {
-    ElCol,
-    name: 'header',
+//    'remote-js': {
+//      render(createElement) {
+//        return createElement('script', { attrs: { type: 'text/javascript', src: this.src }});
+//      },
+//      props: {
+//        src: { type: String, required: true },
+//      },
+//    },
   },
   data () {
     return {
@@ -62,6 +69,17 @@ export default {
     }
   },
   created () {
+  },
+  mounted(){
+//      window.setTimeout(function (){
+//        window.appHead.settings = {
+//          logoUrl: 'http://' + window.location.host + '/fweb/images/logo.png',
+//          opUrl: 'http://mmc.cloudyoung.cn',
+//          appKey: 'GIFTACTIVITY'
+//        };
+//        window.appHead.initHead();
+//      },1000)
+
   },
   methods:{
       handleCommand(command){

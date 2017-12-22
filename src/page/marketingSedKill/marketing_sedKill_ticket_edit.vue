@@ -176,6 +176,7 @@
           description:'',
           details:""
         });
+        this.$refs.ue.destroyed();
         this.defaultMsg='';
         this.carSerialsList=[];
         this.isCopy=false;

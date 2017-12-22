@@ -40,7 +40,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-form-item v-if="Final.SYS_TYPE==1" label="活动地区:" required>
+            <el-form-item v-if="ownerType==1" label="活动地区:" required>
               <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
             </el-form-item>
           </el-row>
@@ -179,6 +179,7 @@
     },
     mounted (){
       this.initPage();
+      this.ownerType=localStorage.getItem("ownerType") || 2;
     },
     watch : {
       "$route": function (to, from) {

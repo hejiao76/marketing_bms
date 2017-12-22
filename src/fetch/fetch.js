@@ -3,7 +3,7 @@
  */
 import axios from 'axios'
 import qs from 'qs'
-import Final from './../../static/baseSetting/Final'
+import Final from '../../static/baseSetting/Final'
 
 // axios 配置
 axios.defaults.timeout = 5000;

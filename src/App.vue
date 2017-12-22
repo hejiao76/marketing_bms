@@ -13,6 +13,7 @@
           <!--<router-view></router-view>-->
       <!--</el-container>-->
     <!--</el-container>-->
+
     <el-container class="con_main">
       <el-header style="padding:0px;">
         <v-header></v-header>
@@ -27,6 +28,11 @@
       </el-container>
     </el-container>
     <!--<v-tip-msg></v-tip-msg>-->
+
+
+    <!--<el-main  style="padding:0px;">-->
+      <!--<router-view></router-view>-->
+    <!--</el-main>-->
   </div>
 </template>
 
