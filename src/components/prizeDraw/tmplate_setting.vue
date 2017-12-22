@@ -33,12 +33,13 @@ export default {
   data () {
     return {
       templateIdTmp:1,
+      Final:Final,
       templateIdTmpObj:{
         templateId:''
       },
       templateTmp:[{
           id:1,
-          src:"../../../static/images/default/prizeTmplate1.jpg",
+          src:Final.BUILD_PATH+"images/default/prizeTmplate1.jpg",
       }],
     }
   },
