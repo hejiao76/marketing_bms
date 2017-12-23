@@ -64,7 +64,7 @@
                       </el-select>
                     </template>
                   </el-col>
-                  <el-col class="line" :span="1" style="text-align: center;padding-right: 23px;">-</el-col>
+                  <el-col class="line" :span="1" style="text-align: center;padding-right: 15px;">-</el-col>
                   <el-col :span="11" style="padding-left: 0;padding-right: 5px;">
                     <template>
                       <el-select style="width: 100%;" v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
