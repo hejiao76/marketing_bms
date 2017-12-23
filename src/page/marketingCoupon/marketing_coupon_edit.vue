@@ -287,6 +287,7 @@
           let img = new Image();
           let _self=this;
           img.src=Final.IMG_PATH+res.result.path;
+          this.activityInfo.shareImg=res.result.path;
           img.onload=function(){
 
             _self.activityInfo.shareImg=res.result.path;
