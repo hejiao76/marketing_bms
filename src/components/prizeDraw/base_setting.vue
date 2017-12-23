@@ -437,6 +437,7 @@ export default {
         let img = new Image();
         let _self=this;
         img.src=Final.IMG_PATH+res.result.path;
+        this.baseItem.shareImg=res.result.path;
         img.onload=function(){
           var imgwidth=img.offsetWidth;
           var imgheight=img.offsetHeight;
