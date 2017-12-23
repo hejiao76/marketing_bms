@@ -42,13 +42,18 @@
           </el-col>
         </el-row>
         <el-row v-if="ownerType==1">
-          <el-col :span="3">
-              <span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>活动地区:</span>
-          </el-col>
-          <el-col :span="19" style="padding-left: 10px;">
-              <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
-          </el-col>
+          <el-form-item v-if="ownerType==1" label="活动地区:" required>
+            <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
+          </el-form-item>
         </el-row>
+        <!--<el-row v-if="ownerType==1">-->
+          <!--<el-col :span="3">-->
+              <!--<span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>活动地区:</span>-->
+          <!--</el-col>-->
+          <!--<el-col :span="19" style="padding-left: 10px;">-->
+              <!--<v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
 
         <!--<el-row>-->
           <!--<el-form-item label="抵扣券">-->
