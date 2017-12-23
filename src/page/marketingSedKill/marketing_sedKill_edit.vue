@@ -39,8 +39,8 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-form-item v-if="ownerType==1" label="活动地区:" required>
+          <el-row v-if="ownerType==1">
+            <el-form-item  label="活动地区:" required>
               <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
             </el-form-item>
           </el-row>

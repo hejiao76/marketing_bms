@@ -284,6 +284,7 @@ export default {
   created () {
   },
   mounted () {
+      this.ownerType=localStorage.getItem("ownerType") || 2;
       this.requsetSeriesList();
       this.requsetLocation();
 //    this.cloneTicketInfo();
