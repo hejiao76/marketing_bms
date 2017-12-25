@@ -362,7 +362,7 @@
               this.totalRow = res.dataNumber;
             }else {
               this.resData = [];
-              this.currentPage = 1;
+//              this.currentPage = 1;
             }
           }).catch(err => {
           this.$message({

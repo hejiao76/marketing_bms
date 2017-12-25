@@ -438,9 +438,6 @@
               this.dataNumber = res.dataNumber;
             }else {
               this.resData = [];
-              this.currentPage = 0;
-              this.totalRow = 0;
-              this.dataNumber = 0;
             }
           }).catch(err => {
           this.$message({
@@ -606,9 +603,9 @@
                     type: 'error'
                   });
                   this.resData = [];
-                  this.currentPage = 0;
-                  this.totalRow = 0;
-                  this.dataNumber = 0;
+//                  this.currentPage = 0;
+//                  this.totalRow = 0;
+//                  this.dataNumber = 0;
                 }
               }).catch(err => {
               this.$message({
