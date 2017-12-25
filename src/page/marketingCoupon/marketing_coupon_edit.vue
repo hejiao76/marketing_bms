@@ -82,7 +82,7 @@
                       抵扣券类型：
                     </div>
                     <div class="sal-con_txt">
-                      <span>{{serialTypeMapping[item.serialType]}}</span>
+                      <span>{{serialTypeMapping[item.type]}}</span>
                     </div>
                   </li>
                   <li>
