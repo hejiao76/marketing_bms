@@ -100,7 +100,7 @@
       <el-table class="table_min_height mt10" :data="resData" ref="singleTable">
         <el-table-column prop="name" label="活动名称" align="center" min-width="90" ></el-table-column>
         <el-table-column  label="活动时间" align="center" min-width="80"> <template scope="scope">{{getMoment(scope.row.beginTime)}}至<br/>{{getMoment(scope.row.endTime)}}</template></el-table-column>
-        <el-table-column  align="center" label="创建时间"  min-width="100"><template scope="scope">{{getMoment(scope.row.createTime)}}</template></el-table-column>
+        <el-table-column  align="center" label="创建时间"  min-width="100"><template scope="scope"><span v-html="getMoment(scope.row.createTime,true)"></span></template></el-table-column>
         <el-table-column prop="enrollCount" align="center" label="报名数"></el-table-column>
         <el-table-column prop="pvCount" align="center" label="活动pv"></el-table-column>
         <el-table-column prop="shareUrl" align="center" min-width="140" label="活动链接"></el-table-column>
@@ -328,8 +328,18 @@
        * 格式化时间
        * @returns {}
        */
-      getMoment(val){
-        return this.$moment(val).format('YYYY-MM-DD');
+      formatterBr(cellValue){
+        let arr = cellValue.split(" ");
+        return arr[0]+'<br/>'+arr[1];
+      },
+      getMoment(val,isCreate){
+        if(isCreate){
+          var cresteTime = this.$moment(val).format('YYYY-MM-DD h:ss:mm');
+          return this.formatterBr(cresteTime)
+        }else{
+          return this.$moment(val).format('YYYY-MM-DD');
+        }
+
       },
       /**
        * 获取省市

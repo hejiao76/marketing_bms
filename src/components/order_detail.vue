@@ -23,7 +23,7 @@
           <li>核销码：{{result.verifyCode}}</li>
           <li>支付完成时间：{{getMoment(result.payTime)}}</li>
           <li>取消时间：{{getMoment(result.cancelTime)}}</li>
-          <li>退款完成时间：{{getMoment(result.refundTime)}}</li>
+          <li v-if="result.refundTime">退款完成时间：{{getMoment(result.refundTime)}}</li>
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">

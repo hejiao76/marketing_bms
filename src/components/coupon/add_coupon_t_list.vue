@@ -35,7 +35,7 @@
                               抵扣券类型：
                             </div>
                             <div class="sal-con_txt">
-                              <span>抵扣车款  其他权益</span>
+                              <span>{{Final.COUPON_TYPE[item.type]}}</span>
                             </div>
                           </li>
                           <li>
@@ -50,12 +50,8 @@
                             <div class="sal-con-tit">
                               绑定车系：
                             </div>
-                            <div v-if="item.type!=1" class="sal-con_txt" style="white-space: nowrap;width:160px;overflow: hidden;text-overflow: ellipsis;" >
+                            <div  class="sal-con_txt" style="white-space: nowrap;width:160px;overflow: hidden;text-overflow: ellipsis;" >
                               <span >{{item.serialName}}</span>
-                              <span></span>
-                            </div>
-                            <div v-else class="sal-con_txt">
-                              <span>全系</span>
                             </div>
                           </li>
                           <li>
@@ -114,7 +110,8 @@ export default {
         labelPosition:'left',
         testData:[{ischecked:false,id:12},{ischecked:false,id:23},{ischecked:false,id:34}],
         tmpSeriesIds:{}, //已选择车系ID
-        maxTicketCount:10 //最大可选抵扣券数量
+        maxTicketCount:10 ,//最大可选抵扣券数量
+        Final:Final,
     }
   },
   components :{

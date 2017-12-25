@@ -163,6 +163,7 @@
         <el-table-column
           prop="status"
           label="状态"
+          v-if="activityType==0"
            min-width="100">
           <template slot-scope="scope">
             {{Final.COUPON_STATUS[scope.row.status]}}

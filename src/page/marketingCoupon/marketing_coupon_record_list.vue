@@ -66,23 +66,25 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="24">
             <el-form-item label="核销日期:">
-              <el-col :span="8" style="padding-right: 0px;">
+              <el-col :span="6" style="padding-right: 10px;">
                   <el-date-picker style="width: 100%;" v-model="filterForm.useTime" :editable="false" :picker-options="optionsUsedStartTime" type="datetime" placeholder="选择开始日期"></el-date-picker>
               </el-col>
-              <el-col class="line" :span="2" style="text-align: center;">-</el-col>
-              <el-col :span="8" style="padding-left: 0px;">
+              <el-col class="line" :span="1" style="text-align: center">-</el-col>
+              <el-col :span="6" style="padding-left: 10px;">
                   <el-date-picker style="width: 100%;" v-model="filterForm.useTime2" :editable="false" :picker-options="optionsUsedEndTime" type="datetime" placeholder="选择结束日期"></el-date-picker>
               </el-col>
+              <el-col :span="11">
+                <div style="text-align: right">
+                  <el-button type="primary" @click="searchFn">查 询</el-button>
+                  <el-button @click="resetForm('filterForm')">重 置</el-button>
+                </div>
+              </el-col>
             </el-form-item>
+
           </el-col>
-          <el-col :span="6">
-            <el-form-item class="fr">
-              <el-button type="primary" @click="searchFn">查 询</el-button>
-              <el-button @click="resetForm('filterForm')">重 置</el-button>
-            </el-form-item>
-          </el-col>
+
         </el-row>
       </el-form>
     </div>
@@ -280,8 +282,12 @@
        * @returns
        */
        formatterBr(cellValue){
-            let arr = cellValue.split(" ");
-             return arr[0]+'<br/>'+arr[1];
+         if(cellValue){
+           let arr = cellValue.split(" ");
+           return arr[0]+'<br/>'+arr[1];
+         }else{
+           return "";
+         }
         },
       /**
        * table排序
