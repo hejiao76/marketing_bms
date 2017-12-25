@@ -449,6 +449,9 @@
           let _self=this;
           img.src=Final.IMG_PATH+res.result.path;
           this.activityInfo.shareImg=res.result.path;
+          this.$refs["activityInfo"].validate((value)=>{
+
+          });
           img.onload=function(){
             _self.activityInfo.shareImg=res.result.path;
           };
@@ -490,14 +493,14 @@
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
     text-align: center;
   }
   .avatar {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     display: block;
   }
 

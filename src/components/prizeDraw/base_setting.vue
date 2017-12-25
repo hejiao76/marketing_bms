@@ -424,12 +424,14 @@ export default {
     bgImgUploadSuccess (res, file, fileList) {
         if(res.status==true){
           this.baseItem.bgImg=res.result.path;
+          this.$refs['baseItem'].validate((valid) => {});
           this.previewCall("bgImgUpload","bgImg")
         }
     },
     titleImgUploadSuccess (res, file, fileList) {
       if(res.status==true){
         this.baseItem.titleImg=res.result.path;
+        this.$refs['baseItem'].validate((valid) => {});
         this.previewCall("titleUpload","titleImg")
       }
     },
@@ -439,6 +441,7 @@ export default {
         let _self=this;
         img.src=Final.IMG_PATH+res.result.path;
         this.baseItem.shareImg=res.result.path;
+        this.$refs['baseItem'].validate((valid) => {});
         img.onload=function(){
           var imgwidth=img.offsetWidth;
           var imgheight=img.offsetHeight;
