@@ -93,7 +93,7 @@ const OBJ ={
       "parentId": 3,
       "resourceId": 303,
       "resourceKey": "303",
-      "resourceName": "抵扣券消费记录",
+      "resourceName": "抵扣券消耗记录",
       "resourceUrl": "/coupon/record_list"
     },
 
