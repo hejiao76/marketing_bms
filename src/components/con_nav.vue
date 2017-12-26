@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import TestData from "./../util/TestData"
 export default {
   data () {
     return {
@@ -50,13 +51,42 @@ export default {
   },
   methods: {
       initNav (currentPath) {
-        let roleMenusTree = JSON.parse(localStorage.getItem("roleMenus"));
+        this.roleMenus=TestData.left_menu_data;
+        let treeObj={parentId:-1,resourceId:0,resourceName:"根节点",children:[]};
+        let roleMenusTree = treeObj;
+        this.buildRolesMenuTree(treeObj,this.roleMenus);
         this.getCurrentMenuNode(currentPath,roleMenusTree);
 //        this.mainNode=this.getMainNode(this.currentNode,roleMenusTree);
         this.roleMenusTreeObj = roleMenusTree;
         this.navList.push(this.currentNode);
         this.getParentNode(this.currentNode,this.roleMenusTreeObj);
         this.navList.reverse();
+      },
+    buildRolesMenuTree  (pnode,roleMenus) {
+        if(pnode && roleMenus.length>0) {
+          for (let i = 0; i < roleMenus.length; i++) {
+            if (roleMenus[i].parentId == pnode.resourceId) {
+              if(roleMenus[i].resourceUrl){
+                if (pnode.children) {
+                  pnode.children.push(roleMenus[i]);
+                } else {
+                  pnode.children = [];
+                  pnode.children.push(roleMenus[i]);
+                  if (roleMenus[i].path) {
+                    pnode.resourceUrl = roleMenus[i].path;  //为父级节点 重新配置path
+                    console.log(pnode.resourceUrl);
+                  }
+                }
+                this.buildRolesMenuTree(roleMenus[i], roleMenus, this);
+              }
+            }
+          }
+          if (pnode.children) {
+            pnode.children.sort(function (a, b) {
+              return a["orderNum"] - b["orderNum"];
+            });
+          }
+        }
       },
     getParentNode (node,pnode) {
         if( pnode.children){

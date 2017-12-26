@@ -229,7 +229,7 @@
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
           shareImg:[
-            { required: true, message: '请上传图片', trigger: 'change' }
+            { required:true, message: '请上传图片', trigger: 'change'}
           ]
 //          coupons: [
 //            { type: 'array', required: true, message: '请至少选择一个抵扣券', trigger: 'change' }
@@ -293,6 +293,9 @@
           let _self=this;
           img.src=Final.IMG_PATH+res.result.path;
           this.activityInfo.shareImg=res.result.path;
+          this.$refs["activityInfo"].validate((value)=>{
+
+          });
           img.onload=function(){
 
             _self.activityInfo.shareImg=res.result.path;
@@ -564,14 +567,14 @@
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
     text-align: center;
   }
   .avatar {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     display: block;
   }
 
