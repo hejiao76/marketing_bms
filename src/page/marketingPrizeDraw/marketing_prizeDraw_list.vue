@@ -95,7 +95,7 @@
             <div class="active-content">
               <p class="ah-title" style="overflow: hidden;text-overflow: ellipsis;width: 80%;white-space: nowrap;">已发放/剩余总数量：{{item.winningQuantity}}/{{item.surplusQuantity}}</p>
               <p class="ah-title">参与人数：<span>{{item.joinSize}}</span></p>
-              <p class="ah-title">创建日期：<span>{{item.beginTime}}</span></p>
+              <p class="ah-title">创建日期：<span>{{item.createTime}}</span></p>
               <a  class="more-txt"  style="cursor: pointer;font-size: 12px;color: #527EFE;" @click="openDetail(item.code)">查看详情&gt;</a>
             </div>
             <div class="active-footer">
