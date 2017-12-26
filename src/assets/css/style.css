@@ -469,6 +469,7 @@ html,body{
   border-right: 1px solid #dfe4ed;
   border-top: 3px solid #527EFE;
   background: #fff;
+  color: #527EFE;
 }
 .el-tabs--card>.el-tabs__header .el-tabs__nav{
   border:none;
