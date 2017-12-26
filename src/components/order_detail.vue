@@ -22,7 +22,7 @@
           <li>活动支付金额：{{result.amount}}</li>
           <li>核销码：{{result.verifyCode}}</li>
           <li>支付完成时间：{{getMoment(result.payTime)}}</li>
-          <li>取消时间：{{getMoment(result.cancelTime)}}</li>
+          <li v-if="result.status==3">取消时间：{{getMoment(result.cancelTime)}}</li>
           <li v-if="result.refundTime">退款完成时间：{{getMoment(result.refundTime)}}</li>
         </ul>
       </div>
@@ -58,7 +58,7 @@ export default {
      */
     getMoment(val){
       if(val){
-        return this.$moment(val).format('YYYY-MM-DD');
+        return this.$moment(val).format('YYYY-MM-DD HH:mm:ss');
       }else{
         return "";
       }
