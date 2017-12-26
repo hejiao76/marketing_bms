@@ -333,12 +333,17 @@
         return arr[0]+'<br/>'+arr[1];
       },
       getMoment(val,isCreate){
-        if(isCreate){
-          var cresteTime = this.$moment(val).format('YYYY-MM-DD HH:mm:ss');
-          return this.formatterBr(cresteTime)
+        if(val){
+          if(isCreate){
+            var cresteTime = this.$moment(val).format('YYYY-MM-DD HH:mm:ss');
+            return this.formatterBr(cresteTime)
+          }else{
+            return this.$moment(val).format('YYYY-MM-DD');
+          }
         }else{
-          return this.$moment(val).format('YYYY-MM-DD');
+          return "";
         }
+
 
       },
       /**
