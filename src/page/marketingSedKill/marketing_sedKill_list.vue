@@ -334,7 +334,7 @@
       },
       getMoment(val,isCreate){
         if(isCreate){
-          var cresteTime = this.$moment(val).format('YYYY-MM-DD h:ss:mm');
+          var cresteTime = this.$moment(val).format('YYYY-MM-DD HH:mm:ss');
           return this.formatterBr(cresteTime)
         }else{
           return this.$moment(val).format('YYYY-MM-DD');
