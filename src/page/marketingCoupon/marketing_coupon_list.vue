@@ -92,13 +92,17 @@
     <!--------------搜索结果------------>
     <div class="list_div">
       <el-row>
-        <el-col :span="20">
+        <el-col :span="20" style="position: relative;">
           <el-tabs type="card" @tab-click="changeActivityType">
             <el-tab-pane name="0" label="全部活动"></el-tab-pane>
             <el-tab-pane name="1" label=" 待上线 "></el-tab-pane>
             <el-tab-pane name="2" label=" 进行中 "></el-tab-pane>
             <el-tab-pane name="3" label=" 已结束 "></el-tab-pane>
           </el-tabs>
+          <div v-if="isCar" style="width: 280px;height: 38px;position: absolute; top: 0;right: 0;">
+              <div class="coupon-char-rder" @click="sortCar('pv')">活动pv <i class="el-icon-d-caret"></i></div>
+              <div class="coupon-char-rder" @click="sortCar('couponGet')">领取数量 <i class="el-icon-d-caret"></i></div>
+          </div>
         </el-col>
         <el-col :span="4">
           <el-button type="primary" size="small" @click="addActivity()" class="fr mr20 ">新建抵扣券活动</el-button>
@@ -370,6 +374,10 @@
         let arr = cellValue.split(" ");
         return arr[0]+'<br/>'+arr[1];
       },
+      /**
+       * table排序
+       * @returns {}
+       */
       sortTable(obj){
        if(obj.prop == 'beginTime'){
          this.sortType = 1
@@ -389,6 +397,20 @@
        }
        this.requestData();
       },
+      /**
+       * 卡片排序
+       * @returns {}
+       */
+      sortCar(val){
+        (this.sortStatus == 1) ? this.sortStatus = 2 : this.sortStatus = 1;
+        if(val == 'couponGet'){
+          this.sortType = 3;
+        }else if(val == 'pv') {
+          this.sortType = 4
+        }
+        this.requestData();
+      },
+
       /**
        * 获取省市
        * @returns {}
@@ -665,5 +687,18 @@
 </style>
 
 <style scoped="scope">
-
+.coupon-char-rder{
+  float: right;
+  width: 128px;
+  line-height:38px;
+  text-align: center;
+  color: #404c73;
+  background: #EFF0F6;
+  margin-left:10px;
+  border-radius: 3px;
+}
+.coupon-char-rder i{
+  color: #b4bccc;
+  font-size: 15px;
+}
 </style>
