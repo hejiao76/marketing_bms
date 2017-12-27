@@ -99,9 +99,17 @@
             <el-tab-pane name="2" label=" 进行中 "></el-tab-pane>
             <el-tab-pane name="3" label=" 已结束 "></el-tab-pane>
           </el-tabs>
-          <div v-if="isCar" style="width: 280px;height: 38px;position: absolute; top: 0;right: 0;">
-              <div class="coupon-char-rder" @click="sortCar('pv')">活动pv <i class="el-icon-d-caret"></i></div>
-              <div class="coupon-char-rder" @click="sortCar('couponGet')">领取数量 <i class="el-icon-d-caret"></i></div>
+          <div v-if="isCar" style="width: 280px;height: 38px;position: absolute; top: -1px;right: 0;">
+              <div class="coupon-char-rder" @click="sortCar('pv')">活动pv <span class="caret-wrapper">
+                <i :class="['sort-caret', 'ascending', 'el-icon-caret-top','sort-top-coupon',{'sort-coupon-cl':this.sortStatus==1&&this.sortType==4}]"></i>
+                <i :class="['sort-caret', 'descending','el-icon-caret-bottom', 'sort-bottom-coupon',{'sort-coupon-cl':this.sortStatus==2&&this.sortType==4}]"></i>
+              </span></div>
+              <div class="coupon-char-rder" @click="sortCar('couponGet')">领取数量
+                <span class="caret-wrapper">
+                  <i :class="['sort-caret', 'ascending', 'el-icon-caret-top','sort-top-coupon',{'sort-coupon-cl':this.sortStatus==1&&this.sortType==3}]"></i>
+                <i :class="['sort-caret', 'descending','el-icon-caret-bottom', 'sort-bottom-coupon',{'sort-coupon-cl':this.sortStatus==2&&this.sortType==3}]"></i>
+              </span>
+              </div>
           </div>
         </el-col>
         <el-col :span="4">
@@ -674,8 +682,8 @@
 }
 }
 </script>
-<style>
-  .list_div {}
+
+<style scoped="scope">
   .list_div el-tabs--top {
     display : none;
   }
@@ -684,21 +692,45 @@
     color: #8C94AC;
     letter-spacing: 0;
   }
-</style>
-
-<style scoped="scope">
 .coupon-char-rder{
   float: right;
-  width: 128px;
+  width: 110px;
   line-height:38px;
   text-align: center;
   color: #404c73;
   background: #EFF0F6;
   margin-left:10px;
-  border-radius: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 .coupon-char-rder i{
   color: #b4bccc;
   font-size: 15px;
 }
+.caret-wrapper {
+  position: absolute;
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  cursor: pointer;
+  overflow: initial;
+}
+.sort-caret {
+  color: #b4bccc;
+  width: 14px;
+  overflow: hidden;
+  font-size: 15px;
+  position: absolute;
+  left: 4px;
+}
+  .sort-top-coupon{
+    top:9px;
+  }
+  .sort-bottom-coupon{
+    bottom:8px;
+  }
+  .sort-coupon-cl{
+    color: #409EFF !important;
+  }
+
 </style>
