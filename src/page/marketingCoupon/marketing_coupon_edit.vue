@@ -30,7 +30,7 @@
 
           <el-col :span="8">
             <el-form-item label="分享图片：" prop="shareImg" style="margin-bottom:0px;">
-              <el-upload class="avatar-uploader" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
+              <el-upload class="avatar-uploader" name="files" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                 <img v-if="activityInfo.shareImg" :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg : Final.IMG_PATH+activityInfo.shareImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -289,26 +289,26 @@
       },
       shareImgUploadSuccess (res, file, fileList) {
         if(res.status==true){
-          let img = new Image();
-          let _self=this;
-          img.src=Final.IMG_PATH+res.result.path;
-          this.activityInfo.shareImg=res.result.path;
+//          let img = new Image();
+//          let _self=this;
+//          img.src=Final.IMG_PATH+res.result;
+          this.activityInfo.shareImg=res.result;
           this.$refs["activityInfo"].validate((value)=>{
 
           });
-          img.onload=function(){
-
-            _self.activityInfo.shareImg=res.result.path;
-//            var imgwidth=img.offsetWidth;
-//            var imgheight=img.offsetHeight;
-//            if(imgwidth!=50 || imgheight!=50){
-//              _self.$message.error('分享图片尺寸必须是50px*50px');
-//            }else{
-//              _self.baseItem.shareImg=res.result.path;
-//              console.log(_self.baseItem.shareImg);
-//            }
-
-          };
+//          img.onload=function(){
+//
+//            _self.activityInfo.shareImg=res.result;
+////            var imgwidth=img.offsetWidth;
+////            var imgheight=img.offsetHeight;
+////            if(imgwidth!=50 || imgheight!=50){
+////              _self.$message.error('分享图片尺寸必须是50px*50px');
+////            }else{
+////              _self.baseItem.shareImg=res.result;
+////              console.log(_self.baseItem.shareImg);
+////            }
+//
+//          };
 
         }
       },
