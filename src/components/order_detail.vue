@@ -20,8 +20,8 @@
           <li>订单创建时间：{{getMoment(result.createTime)}}</li>
           <li>订单状态：{{Final.seckill_order[result.status]}}</li>
           <li>活动支付金额：{{result.amount}}</li>
-          <li>核销码：{{result.verifyCode}}</li>
-          <li>支付完成时间：{{getMoment(result.payTime)}}</li>
+          <li v-if="result.verifyCode">核销码：{{result.verifyCode}}</li>
+          <li v-if="result.payTime">支付完成时间：{{getMoment(result.payTime)}}</li>
           <li v-if="result.status==3">取消时间：{{getMoment(result.cancelTime)}}</li>
           <li v-if="result.refundTime">退款完成时间：{{getMoment(result.refundTime)}}</li>
         </ul>
