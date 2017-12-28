@@ -85,7 +85,7 @@
           <div style="text-align: center">
             <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
             <el-button v-if="!isEdit" type="primary" @click="saveBaseItem()">创建</el-button>
-            <el-button @click="resetForm('ruleForm')">取消</el-button>
+            <el-button @click="cancelFn('ruleForm')">取消</el-button>
           </div>
         </el-col>
       </el-row>
@@ -139,6 +139,9 @@ export default {
 //    this.cloneTypeInfo();
   },
   methods:{
+    cancelFn (){
+      this.$router.push("/coupon/ticket_list");
+    },
     editSave (){
       this.$emit("editSaveCall");
     },

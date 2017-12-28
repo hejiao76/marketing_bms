@@ -28,9 +28,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="抵扣券金额:" prop="amount">
+            <el-form-item label="抵扣金额:" prop="amount">
               <!--<el-input v-model="baseSettingForm.amount"></el-input>-->
-              <el-input-number style="width: 100%;" v-model="baseSettingForm.amount" :max="99999999" :controls="false" placeholder="请输入抵扣券金额"></el-input-number>
+              <el-input class="coupon_number" value="" style="width: 100%;" v-model="baseSettingForm.amount" :maxlength="8" :controls="false" placeholder="请输入抵扣金额"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -59,7 +59,7 @@
             <el-form-item style="text-align: center">
               <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
               <el-button v-if="!isEdit" type="primary" @click="saveBaseItem">下一步</el-button>
-              <el-button @click="resetForm('ruleForm')">取消</el-button>
+              <el-button @click="cancelFn('ruleForm')">取消</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -111,7 +111,7 @@
           name:'', //活动名称
           validity:'', //有效期时间
 //        endTime:new Date(new Date().setDate(new Date().getDate()+7)), //活动结束时间
-          amount:0, //抵扣金额
+          amount:'', //抵扣金额
           description:'', //简介
           details:'',//秒杀
 
@@ -131,7 +131,18 @@
             { required: true, type:"date", message: '请填写有效期时间', trigger: 'change' }
           ],
           amount: [
-            { required: true, type:"number", message: '请输入抵扣金额', trigger: 'blur' },
+            { required: true,  message: '请输入抵扣金额', trigger: 'blur' },
+            { trigger: 'blur' ,validator:function (rule, value, callback){
+              if(value==""){
+                return callback(new Error('请输入抵扣金额'));
+              } else if(!Number.isInteger(Number(value))){
+                return callback(new Error('抵扣金额须是数字'));
+              }else if(value>99999999 || value<0){
+                return callback(new Error('抵扣金额须大于等于0并且小于8位数值'));
+              }else {
+                callback();
+              }
+            }},
           ],
           description: [
             { required: true, message: '请输入简介', trigger: 'blur' },
@@ -154,6 +165,9 @@
     mounted () {
     },
     methods:{
+      cancelFn (){
+        this.$router.push("/coupon/ticket_list");
+      },
       editSave (){
         this.$emit("editSaveCall");
       },
@@ -236,6 +250,9 @@
 
 <!-- Add1111 "scoped" attribute to limit CSS to this component only -->
 <style >
+  .coupon_number input{
+    text-algin:left !important;
+  }
   /*.avatar-uploader .el-upload {*/
   /*border: 1px dashed #d9d9d9;*/
   /*border-radius: 6px;*/

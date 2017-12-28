@@ -13,7 +13,7 @@
               <el-form-item label="活动时间：" required>
                 <el-col :span="11">
                   <el-form-item prop="beginTime" style="margin-bottom:0px;">
-                    <el-date-picker style="width: 100%;" v-model="activityInfo.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始时间"></el-date-picker>
+                    <el-date-picker :disabled="isEdit" style="width: 100%;" v-model="activityInfo.beginTime" :picker-options="optionsActivityStart" type="datetime" placeholder="选择开始时间"></el-date-picker>
 
                   </el-form-item>
                 </el-col>
@@ -29,7 +29,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="分享图片：" prop="shareImg" style="margin-bottom:0px;">
+            <el-form-item ref="shareImgFormItem" label="分享图片：" :validateStatus="shareImageValidStatus" prop="shareImg" style="margin-bottom:0px;">
               <el-upload class="avatar-uploader" name="files" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                 <img v-if="activityInfo.shareImg" :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg : Final.IMG_PATH+activityInfo.shareImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -184,6 +184,7 @@
   export default {
     data() {
       return {
+        shareImageValidStatus:'',
         uploadParam:{module:"coupon"},
         serialTypeMapping:{1:"抵扣车款",2:"其他权益",3:"抵扣车款、其他权益"},
         testData:'',
@@ -194,7 +195,9 @@
           disabledDate:(time) => {
             if(this.activityInfo.endTime){
               let d = new Date (this.activityInfo.endTime)
-              return time.getTime() >d.getTime();
+              return time.getTime() >d.getTime() ||  time.getTime() < new Date().getTime();
+            }else {
+              return  time.getTime() < new Date().getTime()
             }
           }
         },
@@ -202,7 +205,9 @@
           disabledDate:(time) => {
             if(this.activityInfo.beginTime){
               let d = new Date (this.activityInfo.beginTime)
-              return time.getTime() <d.getTime();
+              return time.getTime() <d.getTime() ||  time.getTime() < new Date().getTime();
+            }else{
+              return time.getTime() < new Date().getTime();
             }
           }
         },
@@ -223,10 +228,18 @@
             {  max: 10, message: '活动名称需要小于10个字符', trigger: 'blur' }
           ],
           beginTime: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+            { type: 'date', required: true, message: '请选择日期', trigger: 'change' },
+            {  trigger: 'change',validator:this.userValidate(this).startDateValid}
           ],
           endTime: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+            { type: 'date', required: true, message: '请选择日期', trigger: 'change' },
+            {  trigger: 'change',validator:function (rule, value, callback){
+              if(value.getTime() < new Date().getTime()-1000){
+                return callback(new Error('日期不能小于当前日期'));
+              }else{
+                callback();
+              }
+            }},
           ],
           shareImg:[
             { required:true, message: '请上传图片', trigger: 'change'}
@@ -293,9 +306,12 @@
 //          let _self=this;
 //          img.src=Final.IMG_PATH+res.result;
           this.activityInfo.shareImg=res.result;
-          this.$refs["activityInfo"].validate((value)=>{
-
-          });
+//          this.$refs.shareImgFormItem.setError('');
+          this.shareImageValidStatus='success';
+//          console.log("查看表单Item对象-------------",this.$refs.shareImgFormItem); //validateStatus
+//          this.$refs["activityInfo"].validate((value)=>{
+//
+//          });
 //          img.onload=function(){
 //
 //            _self.activityInfo.shareImg=res.result;
@@ -532,6 +548,25 @@
             return false;
           }
         });
+      },
+      /**
+       * 自定义验证规则
+       * @returns
+       */
+      userValidate (scope){
+        return {
+            startDateValid:function (rule, value, callback){
+              if(value.getTime() < new Date().getTime()-1000){
+                if(scope.isEdit){
+                  callback();
+                }else{
+                  return callback(new Error('日期不能小于当前日期'));
+                }
+              }else {
+                callback();
+              }
+            }
+        }
       },
       returnList (){
           this.$router.push("/coupon/list");

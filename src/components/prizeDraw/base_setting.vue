@@ -54,7 +54,7 @@
       <el-row>
         <el-col :span="8">
             <span >背景图片：</span>
-            <el-form-item prop="bgImg" label-width="0px;"  class="prizeDrawUpload">
+            <el-form-item prop="bgImg" :validateStatus="bgImgValidStatus" label-width="0px;"  class="prizeDrawUpload">
               <el-upload class="avatar-uploader" name="files" style="min-width:100px;max-width:60%" :on-success="bgImgUploadSuccess" :before-upload="bgImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                 <img v-if="baseItem.bgImg" :src="baseItem.bgImg.includes('http://') ? baseItem.bgImg : Final.IMG_PATH+baseItem.bgImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -67,7 +67,7 @@
         </el-col>
         <el-col :span="8">
           <span >标题图片：</span>
-          <el-form-item prop="titleImg" label-width="0px;"  class="prizeDrawUpload">
+          <el-form-item prop="titleImg" :validateStatus="titleImgValidStatus" label-width="0px;"  class="prizeDrawUpload">
             <el-upload class="avatar-uploader" name="files" style="min-width:100px;max-width:60%" :on-success="titleImgUploadSuccess" :before-upload="titleImgBeforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
               <img v-if="baseItem.titleImg" :src="baseItem.titleImg.includes('http://') ? baseItem.titleImg : Final.IMG_PATH+baseItem.titleImg" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -99,7 +99,7 @@
         <!--</el-col>-->
         <el-col :span="8">
           <span >活动图片：</span>
-          <el-form-item prop="shareImg" label-width="0px;"  class="prizeDrawUpload">
+          <el-form-item prop="shareImg" :validateStatus="shareImgValidStatus" label-width="0px;"  class="prizeDrawUpload">
             <el-upload class="avatar-uploader" name="files" style="min-width:100px;max-width:60%" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
               <img v-if="baseItem.shareImg" :src="baseItem.shareImg.includes('http://') ? baseItem.shareImg : Final.IMG_PATH+baseItem.shareImg" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -187,6 +187,9 @@ export default {
   props:['prizeDrawDetail',"isEdit","isHaveInHand"],
   data () {
     return {
+      bgImgValidStatus:'',  //控制上传图片后的表单验证状态
+      titleImgValidStatus:'',//控制上传图片后的表单验证状态
+      shareImgValidStatus:'',//控制上传图片后的表单验证状态
       Final:Final,
       uploadParam:{module:"lottery"},
       optionsActivityStart :{
@@ -424,14 +427,16 @@ export default {
     bgImgUploadSuccess (res, file, fileList) {
         if(res.status==true){
           this.baseItem.bgImg=res.result;
-          this.$refs['baseItem'].validate((valid) => {});
+          this.bgImgValidStatus="success";
+//          this.$refs['baseItem'].validate((valid) => {});
           this.previewCall("bgImgUpload","bgImg")
         }
     },
     titleImgUploadSuccess (res, file, fileList) {
       if(res.status==true){
         this.baseItem.titleImg=res.result;
-        this.$refs['baseItem'].validate((valid) => {});
+//        this.$refs['baseItem'].validate((valid) => {});
+        this.titleImgValidStatus="success";
         this.previewCall("titleUpload","titleImg")
       }
     },
@@ -441,7 +446,8 @@ export default {
         let _self=this;
         img.src=res.result;
         this.baseItem.shareImg=res.result;
-        this.$refs['baseItem'].validate((valid) => {});
+        this.shareImgValidStatus="success";
+//        this.$refs['baseItem'].validate((valid) => {});
 //        img.onload=function(){
 //          var imgwidth=img.offsetWidth;
 //          var imgheight=img.offsetHeight;

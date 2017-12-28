@@ -26,7 +26,7 @@
             <el-button v-if="isEdit" type="primary" @click="editSave">保存</el-button>
             <el-button v-if="!isEdit" type="primary" @click="preFn">上一步</el-button>
             <el-button v-if="!isEdit" type="primary" @click="saveSeriesItem">下一步</el-button>
-            <el-button @click="resetForm('ruleForm')">取消</el-button>
+            <el-button @click="cancelFn('ruleForm')">取消</el-button>
           </div>
         </el-col>
       </el-row>
@@ -80,6 +80,9 @@ export default {
   mounted () {
   },
   methods:{
+    cancelFn (){
+      this.$router.push("/coupon/ticket_list");
+    },
     editSave (){
       this.$emit("editSaveCall");
     },

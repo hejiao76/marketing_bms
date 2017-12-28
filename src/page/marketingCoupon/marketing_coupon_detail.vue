@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="分享图片：">
-              <img :src="activityInfo.shareImg.includes('http://') ? previewProps.bgImg:Final.IMG_PATH+activityInfo.shareImg" alt="" style="width: 130px;height: 130px; border: 1px solid #e6e6e6;">
+              <img :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg:Final.IMG_PATH+activityInfo.shareImg" alt="" style="width: 130px;height: 130px; border: 1px solid #e6e6e6;">
             </el-form-item>
           </el-col>
         </el-row>

@@ -31,7 +31,7 @@
             </el-col>
 
             <el-col :span="8">
-              <el-form-item label="分享图片：" prop="shareImg" style="margin-bottom: 0px;">
+              <el-form-item label="分享图片：" prop="shareImg" :validateStatus="shareImgValidStatus" style="margin-bottom: 0px;">
                 <el-upload class="avatar-uploader" name="files" :on-success="shareImgUploadSuccess" :before-upload="beforeUpload" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">
                   <img v-if="activityInfo.shareImg" :src="activityInfo.shareImg.includes('http://') ? activityInfo.shareImg : Final.IMG_PATH+activityInfo.shareImg" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -113,6 +113,7 @@
   export default {
     data() {
       return {
+        shareImgValidStatus:'', //控制上传图片表单验证状态
         Final:Final,
         isEdit:false,
         testData:'',
@@ -449,9 +450,10 @@
 //          let _self=this;
 //          img.src=res.result;
           this.activityInfo.shareImg=res.result;
-          this.$refs["activityInfo"].validate((value)=>{
-
-          });
+          this.shareImgValidStatus='success';
+//          this.$refs["activityInfo"].validate((value)=>{
+//
+//          });
 //          img.onload=function(){
 //            _self.activityInfo.shareImg=res.result;
 //          };

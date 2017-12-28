@@ -232,7 +232,7 @@
                     </div>
                   </li>
                   <li>
-                    <el-button type="text" style="color: #A0A6B4;font-size: 10px;" @click="toDetail(item.id)">(此活动包含{{item.activityCount}}个抵扣券)</el-button>
+                    <el-button type="text" style="color: #A0A6B4;font-size: 10px;" @click="toDetail(item.id)">(此抵扣券参与{{item.activityCount}}个活动)</el-button>
                   </li>
                   <li>
                     <div class="sal-con-tit">
