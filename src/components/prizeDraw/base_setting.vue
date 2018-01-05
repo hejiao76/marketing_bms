@@ -1,6 +1,6 @@
 //基础设置模块
 <template>
-  <div>
+  <div style="padding:15px;">
     <el-form :model="baseItem"  :rules="rules" ref="baseItem" label-width="120px" size="small" :label-position="labelPosition">
       <el-row>
         <el-col :span="24">
@@ -135,9 +135,11 @@
         <!--</el-col>-->
       </el-row>
       <el-row v-if="ownerType==1" class="margin-bottom-20" style="margin-top:20px;">
+        <el-col :span="24">
         <el-form-item label="活动地区:" required >
           <V-Treeview  @call="syncArea" :code="baseItem.areaIds" :name="baseItem.areaNames"></V-Treeview>
         </el-form-item>
+        </el-col>
       </el-row>
       <el-row class="margin-bottom-20">
         <el-col :span="24">

@@ -1,6 +1,6 @@
 //模板设置模块
 <template>
-  <div>
+  <div style="padding:15px;">
     <el-row :gutter="20">
     <el-col v-for="(tmpItem,index) in templateTmp" :lg="8" :xl="6" :span="8" class="mb20 ">
       <div style="width:100%;position: relative;">

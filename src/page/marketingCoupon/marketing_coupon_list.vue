@@ -22,32 +22,22 @@
                     </el-col>
                   </el-form-item>
                 </el-col>
-                <el-col :span="12">
-
+                <el-col :span="12" style="padding-left:20px;">
+                  <el-form-item label="创建日期:">
+                    <el-col :span="11">
+                      <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
+                    </el-col>
+                    <el-col class="line" :span="2" style="text-align: center">-</el-col>
+                    <el-col :span="11">
+                      <el-date-picker style="width: 100%;" v-model="filterForm.createTime2" :editable="false" :picker-options="optionsCreateEnd" type="datetime" placeholder="请输入结束日期"></el-date-picker>
+                    </el-col>
+                  </el-form-item>
                 </el-col>
               </el-row>
           <el-row>
             <el-col :span="12">
-              <!--<el-form-item label="活动地区:">-->
-              <!--<V-Treeview @call="addSedKillCallBack"></V-Treeview>-->
-              <!--</el-form-item>-->
-              <el-form-item label="创建日期:">
-                <el-col :span="11">
-                    <el-date-picker style="width: 100%;" v-model="filterForm.createTime" :editable="false" :picker-options="optionsCreateStart" type="datetime" placeholder="选择开始日期"></el-date-picker>
-                </el-col>
-                <el-col class="line" :span="2" style="text-align: center">-</el-col>
-                <el-col :span="11">
-                    <el-date-picker style="width: 100%;" v-model="filterForm.createTime2" :editable="false" :picker-options="optionsCreateEnd" type="datetime" placeholder="请输入结束日期"></el-date-picker>
-                </el-col>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-
-            <el-col :span="12">
-              <el-row :gutter="20">
-                <el-form-item label="活动区域:" class="ml10"  label-width="80px">
-                  <el-col :span="11" style="padding-right: 5px;padding-left:0;">
+                <el-form-item label="活动区域:">
+                  <el-col :span="11">
                     <template>
                       <el-select style="width: 100%;" v-model="filterForm.provinceObj.provinceId" placeholder="请选择省份" @change="checkProvince(filterForm.provinceObj.provinceId)">
                         <el-option
@@ -64,8 +54,8 @@
                       </el-select>
                     </template>
                   </el-col>
-                  <el-col class="line" :span="1" style="text-align: center;padding-right: 15px;">-</el-col>
-                  <el-col :span="11" style="padding-left: 0;padding-right: 5px;">
+                  <el-col class="line" :span="2" style="text-align: center">-</el-col>
+                  <el-col :span="11">
                     <template>
                       <el-select style="width: 100%;" v-model="filterForm.provinceObj.cityId" placeholder="请选择城市" @change="checkCity(filterForm.provinceObj.cityId)">
                         <el-option
@@ -78,7 +68,6 @@
                     </template>
                   </el-col>
                 </el-form-item>
-              </el-row>
             </el-col>
             <el-col :span="12">
               <el-form-item class="fr">
@@ -223,7 +212,7 @@
                 <p class="ah-title">剩余数量：<span>{{item.couponTotal-item.couponGet}}</span></p>
                 <p class="ah-title">创建日期：<span>{{item.createTime}}</span></p>
                 <p class="ah-notes">（此活动包含{{item.couponCount}}个抵扣券）</p>
-                <a  class="more-txt" @click="openDetail(item.id)">查看详情&gt;</a>
+                <a  class="more-txt" @click="openDetail(item.id)" style="font-size: 12px;">查看详情&gt;</a>
               </div>
               <div class="active-footer">
                 <table>

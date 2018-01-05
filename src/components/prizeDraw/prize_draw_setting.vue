@@ -1,6 +1,6 @@
 //抽奖设置模块
 <template>
-  <div>
+  <div style="padding:15px;">
     <el-form :model="prizeItem"   :rules="rules" ref="prizeItem"  size="small" >
       <!--<el-row>-->
         <!--<el-col :span="24">-->

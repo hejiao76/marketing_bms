@@ -41,10 +41,12 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="ownerType==1">
+        <el-row v-if="ownerType==1" :gutter="20">
+          <el-col :span="16">
           <el-form-item label="活动地区:" required>
             <v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>
           </el-form-item>
+          </el-col>
         </el-row>
         <!--<el-row v-if="ownerType==1">-->
         <!--<el-col :span="3">-->

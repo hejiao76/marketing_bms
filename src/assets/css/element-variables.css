@@ -120,3 +120,15 @@ color: #8C94AC;
 .el-tabs--card>.el-tabs__header .el-tabs__nav{
   border:none !important;
 }
+.el-tabs__content{
+  background: #fff;
+}
+.el-tabs__header{
+  margin-bottom: 0px;
+}
+.el-table thead{
+  background: #F6F7FB;
+}
+.el-input__inner:focus{
+  border-color:#d8dce5;
+}

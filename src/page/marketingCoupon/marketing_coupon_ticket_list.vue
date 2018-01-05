@@ -190,10 +190,8 @@
         </el-table-column>
       </el-table >
       <!--------------卡片------------>
-      <div v-if="isCar">
-        <el-row :gutter="10" >
-          <el-col  :xs="12" :sm="12" :md="8" :lg="8" :xl="6" v-for="item in resData" style="margin-bottom:20px;">
-            <div class="saleticket-list" v-bind:class="{ graysaletickstyle: item.status==0 }">
+      <div v-if="isCar" style="display: block;overflow: hidden;padding-left: 15px;">
+            <div class="saleticket-list" v-for="item in resData" v-bind:class="{ graysaletickstyle: item.status==0 }">
               <div class="saleticket-list_header" style="border-radius: 8px;" >
                 <p>{{item.name}}</p>
                 <span>有效日期：{{item.validity}}</span>
@@ -257,8 +255,6 @@
                 </table>
               </div>
             </div>
-          </el-col>
-        </el-row>
       </div>
       <!--<span class="demonstration">完整功能</span>-->
       <el-pagination class="ds_oq_pageF" @current-change="handleCurrentChange"
@@ -643,5 +639,4 @@
 </style>
 
 <style scoped="scope">
-
 </style>

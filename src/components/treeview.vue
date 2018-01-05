@@ -1,6 +1,12 @@
 <template>
   <div  id="box">
-    <el-input v-model="showTxt" :readonly="true" @click.native="boxIsShow" placeholder="请选择活动区域"></el-input>
+
+    <el-input v-model="showTxt" :readonly="true" @click.native="boxIsShow" placeholder="请选择活动区域" >
+
+    </el-input>
+    <span class="el-input__suffix-inner" style="position: absolute;top:-2px;right: 1%;">
+      <i :class="['el-select__caret','el-input__icon','el-icon-arrow-down',{'el-icon-arrow-up':ifShow}]" style="color: #b4bccc;"></i>
+    </span>
     <!--<div class="city-box-wrop" @click="boxIsShow()">-->
       <!--<span v-if="!newCityArr">请选择活动区域</span>-->
       <!--<span v-if="newCityArr" v-for="item in newCityArr">{{item}},</span>-->
@@ -72,7 +78,6 @@
       return{
         ifShow:false,
         dialogFormVisible: false,
-
         cityTree:[],
         parentCheckedMenuCode:[],
         childCheckedMenuCode:[],
@@ -427,4 +432,5 @@
     float: left;
     border: 1px solid #E3E5E8;
   }
+
 </style>

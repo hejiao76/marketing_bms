@@ -1,6 +1,6 @@
 //奖品设置模块
 <template>
-  <div class="giftSetting">
+  <div class="giftSetting" style="padding:15px;">
     <el-form :model="giftSetting"  :rules="rules" ref="giftSetting" label-width="120px" size="small" >
       <el-row>
         <el-col :span="24" class="">

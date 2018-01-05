@@ -60,8 +60,8 @@
                       个
                     </el-col>
                     <el-col :span="6" style="text-align: right;">
-                      <el-button @click="addRuleItem" v-if="index==prizeItemForm.ruleList.length-1 && prizeItemForm.ruleList.length<5" type="primary">增加</el-button>
-                      <el-button @click="removeRuleItem(index)" v-if=" prizeItemForm.ruleList.length>1" >删除</el-button>
+                      <el-button @click="addRuleItem" v-if="index==prizeItemForm.ruleList.length-1 && prizeItemForm.ruleList.length<5" type="primary" style="background:#fff;color: #55ACEE">增加</el-button>
+                      <el-button @click="removeRuleItem(index)" v-if=" prizeItemForm.ruleList.length>1" style="background:#fff;color: #55ACEE;border-color: #55ACEE;">删除</el-button>
                     </el-col>
                   </el-row>
                   <!--<el-row>-->
