@@ -35,8 +35,8 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
               <!--<el-upload class="avatar-uploader" style="mIMG_PATHin-width:100px;max-width:60%" :on-success="shareImgUploadSuccess" :before-upload="shareImgUploadSuccess" :data="uploadParam" :action="Final.UPLOAD_PATH" :show-file-list="false">-->
-                <!--<img v-if="baseItem.shareImg" :src="baseItem.shareImg.includes('http://') ? baseItem.shareImg : Final.IMG_PATH+baseItem.shareImg" class="avatar">-->
-                <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+              <!--<img v-if="baseItem.shareImg" :src="baseItem.shareImg.includes('http://') ? baseItem.shareImg : Final.IMG_PATH+baseItem.shareImg" class="avatar">-->
+              <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
               <!--</el-upload>-->
             </el-form-item>
           </el-col>
@@ -47,18 +47,18 @@
           </el-form-item>
         </el-row>
         <!--<el-row v-if="ownerType==1">-->
-          <!--<el-col :span="3">-->
-              <!--<span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>活动地区:</span>-->
-          <!--</el-col>-->
-          <!--<el-col :span="19" style="padding-left: 10px;">-->
-              <!--<v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>-->
-          <!--</el-col>-->
+        <!--<el-col :span="3">-->
+        <!--<span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>活动地区:</span>-->
+        <!--</el-col>-->
+        <!--<el-col :span="19" style="padding-left: 10px;">-->
+        <!--<v-treeview @call="syncArea" :code="activityInfo.areaIds" :name="activityInfo.areaNames"></v-treeview>-->
+        <!--</el-col>-->
         <!--</el-row>-->
 
         <!--<el-row>-->
-          <!--<el-form-item label="抵扣券">-->
+        <!--<el-form-item label="抵扣券">-->
 
-          <!--</el-form-item>-->
+        <!--</el-form-item>-->
         <!--</el-row>-->
         <el-row>
           <div class="newhd">
@@ -66,7 +66,7 @@
               <span style="content: '*';color: #fa5555;margin-right: 4px;">*</span><span>抵扣券:</span>
             </el-row>
             <!--<el-form-item label="抵扣券:" prop="coupons">-->
-             <div class="saleticket-list" v-for="item in activityInfo.coupons">
+            <div class="saleticket-list" v-for="item in activityInfo.coupons">
               <div class="saleticket-list_header" style="border-radius: 8px;">
                 <p>{{item.name}}</p>
                 <span>有效日期：{{item.validity}}</span>
@@ -195,9 +195,9 @@
           disabledDate:(time) => {
             if(this.activityInfo.endTime){
               let d = new Date (this.activityInfo.endTime)
-              return time.getTime() >d.getTime() ||  time.getTime() < new Date().getTime();
+              return time.getTime() >d.getTime() ||  time.getTime() < (new Date().getTime()-3600*24*1000);
             }else {
-              return  time.getTime() < new Date().getTime()
+              return  time.getTime() < (new Date().getTime()-3600*24*1000)
             }
           }
         },
@@ -205,9 +205,9 @@
           disabledDate:(time) => {
             if(this.activityInfo.beginTime){
               let d = new Date (this.activityInfo.beginTime)
-              return time.getTime() <d.getTime() ||  time.getTime() < new Date().getTime();
+              return time.getTime() <d.getTime() ||  time.getTime() < (new Date().getTime()-3600*24*1000);
             }else{
-              return time.getTime() < new Date().getTime();
+              return time.getTime() <(new Date().getTime()-3600*24*1000);
             }
           }
         },
@@ -272,14 +272,14 @@
       "$route": function (to, from) {
         /*-----------适配编辑跳转新增 初始化数据----开始-----*/
         this.activityInfo= Object.assign({},{
-            id:'',
-            name:'',
-            beginTime:'',
-            endTime:'',
-            coupons:[],
-            shareImg:"",
-            areaIds:"",
-            areaNames:""
+          id:'',
+          name:'',
+          beginTime:'',
+          endTime:'',
+          coupons:[],
+          shareImg:"",
+          areaIds:"",
+          areaNames:""
         })
         this.coupons=[];
         this.isEdit=false;
@@ -374,13 +374,13 @@
         }
       },
       formartInitCoupons (coupons){
-          let newCoupons=[]
-          for(let i = 0;i<coupons.length;i++){
-              newCoupons.push(Object.assign({},coupons[i],{
-                num:coupons[i].maxCount
-              }))
-          }
-          return newCoupons
+        let newCoupons=[]
+        for(let i = 0;i<coupons.length;i++){
+          newCoupons.push(Object.assign({},coupons[i],{
+            num:coupons[i].maxCount
+          }))
+        }
+        return newCoupons
       },
       getTicketItemByTicketId (id) {
 
@@ -535,9 +535,9 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-              if(this.validTicketItems()){
-                this.saveActivity();
-              }
+            if(this.validTicketItems()){
+              this.saveActivity();
+            }
 //            alert('submit!');
           } else {
             this.$message({
@@ -555,21 +555,21 @@
        */
       userValidate (scope){
         return {
-            startDateValid:function (rule, value, callback){
-              if(value.getTime() < new Date().getTime()-1000){
-                if(scope.isEdit){
-                  callback();
-                }else{
-                  return callback(new Error('日期不能小于当前日期'));
-                }
-              }else {
+          startDateValid:function (rule, value, callback){
+            if(value.getTime() < new Date().getTime()-1000){
+              if(scope.isEdit){
                 callback();
+              }else{
+                return callback(new Error('日期不能小于当前日期'));
               }
+            }else {
+              callback();
             }
+          }
         }
       },
       returnList (){
-          this.$router.push("/coupon/list");
+        this.$router.push("/coupon/list");
       }
     }
   }
