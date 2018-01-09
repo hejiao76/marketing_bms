@@ -306,7 +306,16 @@
         return;
       },
       cancelSubmit (){
-          this.$router.push("/sedkill/list")
+        this.$confirm('确认要取消吗？','提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(()=> {
+          this.$router.push("/sedkill/list");
+        }).catch(()=>{
+
+        });
       },
       /**
        * 请求秒杀活动详情
