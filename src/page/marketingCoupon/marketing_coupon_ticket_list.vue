@@ -97,11 +97,23 @@
     <!--------------搜索结果------------>
     <div class="list_div">
       <el-row>
-        <el-col :span="20">
+        <el-col :span="20"  style="position: relative;">
           <el-tabs type="card" @tab-click="changeActivityType">
             <el-tab-pane name="0" val="1" label="有效"></el-tab-pane>
             <el-tab-pane name="1" val="0" label="失效"></el-tab-pane>
           </el-tabs>
+          <div v-if="isCar" style="width: 280px;height: 38px;position: absolute; top: -1px;right: 0;">
+            <div class="coupon-char-rder" @click="sortCar('amount')">抵扣金额 <span class="caret-wrapper">
+                <i :class="['sort-caret', 'ascending', 'el-icon-caret-top','sort-top-coupon',{'sort-coupon-cl':this.sortStatus==1&&this.sortType==1}]"></i>
+                <i :class="['sort-caret', 'descending','el-icon-caret-bottom', 'sort-bottom-coupon',{'sort-coupon-cl':this.sortStatus==2&&this.sortType==1}]"></i>
+              </span></div>
+            <div class="coupon-char-rder" @click="sortCar('validity')">有效期
+              <span class="caret-wrapper">
+                  <i :class="['sort-caret', 'ascending', 'el-icon-caret-top','sort-top-coupon',{'sort-coupon-cl':this.sortStatus==1&&this.sortType==2}]"></i>
+                <i :class="['sort-caret', 'descending','el-icon-caret-bottom', 'sort-bottom-coupon',{'sort-coupon-cl':this.sortStatus==2&&this.sortType==2}]"></i>
+              </span>
+            </div>
+          </div>
         </el-col>
         <el-col :span="4">
           <el-button type="primary" size="small" @click="addActivity" class="fr mr20 ">添加抵扣券</el-button>
@@ -366,6 +378,19 @@
       })
     },
     methods: {
+      /**
+       * 卡片排序
+       * @returns {}
+       */
+      sortCar(val){
+        (this.sortStatus == 1) ? this.sortStatus = 2 : this.sortStatus = 1;
+        if(val == 'amount'){
+          this.sortType = 1;
+        }else if(val == 'validity') {
+          this.sortType = 2
+        }
+        this.requestData();
+      },
       /**
        * 日期转1字符串
        * @param date
@@ -639,4 +664,44 @@
 </style>
 
 <style scoped="scope">
+  .coupon-char-rder{
+    float: right;
+    width: 110px;
+    line-height:38px;
+    text-align: center;
+    color: #404c73;
+    background: #EFF0F6;
+    margin-left:10px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+  .coupon-char-rder i{
+    color: #b4bccc;
+    font-size: 15px;
+  }
+  .caret-wrapper {
+    position: absolute;
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    cursor: pointer;
+    overflow: initial;
+  }
+  .sort-caret {
+    color: #b4bccc;
+    width: 14px;
+    overflow: hidden;
+    font-size: 15px;
+    position: absolute;
+    left: 4px;
+  }
+  .sort-top-coupon{
+    top:9px;
+  }
+  .sort-bottom-coupon{
+    bottom:8px;
+  }
+  .sort-coupon-cl{
+    color: #409EFF !important;
+  }
 </style>
