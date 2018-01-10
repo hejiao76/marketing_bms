@@ -198,7 +198,7 @@ export default {
         disabledDate:(time) => {
           if(this.baseItem.beginTime){
             let d = new Date (this.baseItem.endTime)
-            return time.getTime() >d.getTime() ||  time.getTime() < new Date().getTime();
+            return time.getTime() >d.getTime() ||  time.getTime() < (new Date().getTime()-3600*24*1000);
           }
         }
       },
@@ -206,7 +206,7 @@ export default {
         disabledDate:(time) => {
           if(this.baseItem.endTime){
             let d = new Date (this.baseItem.beginTime)
-            return time.getTime() <d.getTime() ||  time.getTime() < new Date().getTime();
+            return time.getTime() <d.getTime() ||  time.getTime() < (new Date().getTime()-3600*24*1000);
           }
         }
       },

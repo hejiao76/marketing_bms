@@ -140,7 +140,16 @@ export default {
   },
   methods:{
     cancelFn (){
-      this.$router.push("/coupon/ticket_list");
+      this.$confirm('确认要取消吗？','提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(()=> {
+        this.$router.push("/coupon/ticket_list");
+      }).catch(()=>{
+
+      });
     },
     editSave (){
       this.$emit("editSaveCall");
