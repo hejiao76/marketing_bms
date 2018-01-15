@@ -125,6 +125,7 @@ export default {
         prizeId:'', //奖品ID
         giftGroupId:'', // 礼包ID
         giftGroupName:'', //礼包名称
+        bgImg:'',
         details:[],//礼包详情
         quantity:0, //数量
         level:'', //奖项等级
@@ -180,6 +181,7 @@ export default {
               if(this.giftList[i].giftGroupId == this.prizeItemForm.giftGroupId){
                 this.prizeItemForm.giftGroupName = this.giftList[i].giftGroupName;
                 this.prizeItemForm.giftGroupPrice = this.giftList[i].groupPrice || 0;
+                this.prizeItemForm.bgImg=this.giftList[i].imagePath || '';
                 this.prizeItemForm.details=this.formatDetails(this.giftList[i].giftInfoList);
               }
           }
@@ -210,6 +212,7 @@ export default {
           prizeId:this.prizeItem.prizeId, //奖品ID
           giftGroupId:this.prizeItem.giftGroupId, // 礼包ID
           giftGroupName:this.prizeItem.giftGroupName, //礼包名称
+          bgImg:this.prizeItem.bgImg, //礼包图片
           quantity:this.prizeItem.quantity, //数量
           giftGroupPrice:this.prizeItem.giftGroupPrice,//礼包价格
           details:this.prizeItem.details ? this.prizeItem.details.split("||") : [], //礼品项明细
