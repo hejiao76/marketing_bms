@@ -134,7 +134,7 @@
         rules: {
           name: [
             { required: true, message: '请输入秒杀券名称', trigger: 'blur' },
-            { min: 1, max: 10, message: '秒杀券名称不能超过10个字符', trigger: 'blur' }
+            { min: 1, max: 40, message: '秒杀券名称不能超过40个字符', trigger: 'blur' }
           ],
           beginTime: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }

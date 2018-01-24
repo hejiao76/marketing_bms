@@ -181,7 +181,7 @@
         currentPage: 1,
         totalRow: 10,
         activityType:0,
-        sortType:1,
+        sortType:2,
       }
     },
     components: {

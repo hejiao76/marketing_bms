@@ -175,4 +175,9 @@ export default {
     line-height: 50px;
     padding: 0px;
   }
+  .newhd-tit {
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+  }
 </style>

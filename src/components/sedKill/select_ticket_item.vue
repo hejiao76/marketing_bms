@@ -1,10 +1,12 @@
 <template>
   <div>
-    <el-form :model="checkedTicketItemForm" :rules="ticketRules" size="small" ref="checkedTicketItemForm" label-width="0px" class="demo-ruleForm">
+    <el-form ref="checkedTicketItemForm" :model="checkedTicketItemForm" :rules="ticketRules" size="small" label-width="0px" class="demo-ruleForm">
       <!--编辑模块--->
       <div v-if="checkedTicketItemForm.editStatus==1" class="newhds-list">
         <div class="newhd-header">
-          <p class="newhd-tit">{{checkedTicketItemForm.name}}</p>
+          <!--<el-tooltip class="item" effect="light" :content="checkedTicketItemForm.name" placement="top-start"></el-tooltip>-->
+            <p class="newhd-tit">{{checkedTicketItemForm.name}}</p>
+
           <div class="newhd-time">
             <p>有效时间：{{checkedTicketItemForm.beginTime}}至{{checkedTicketItemForm.endTime}}</p>
             <p>创建时间：{{checkedTicketItemForm.createTime}}</p>
@@ -364,6 +366,12 @@
               }else if (value.getTime() < (new Date(this.checkedTicketItemForm.beginTime).getTime())){
                 callback(new Error('秒杀开始时间须大于有效期开始日期'));
               }else{
+                if(this.checkedTicketItemForm.enrollEndTime){
+                  this.$refs.checkedTicketItemForm.validateField('enrollEndTime');
+                }
+                if(this.checkedTicketItemForm.enrollStartTime){
+                  this.$refs.checkedTicketItemForm.validateField('enrollStartTime');
+                }
                 callback();
               }
             }
@@ -444,5 +452,10 @@
   }
   .edit-txt .el-input__suffix .el-input__icon {
     line-height:22px;
+  }
+  .newhd-tit {
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
   }
 </style>
